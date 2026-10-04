@@ -377,6 +377,16 @@
         <span>Finanzas & Contabilidad</span>
         <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">CFO</span>
       </button>
+
+      <button 
+        id="tabHqBtn" 
+        onclick="switchDashboardTab('hq')" 
+        class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2"
+      >
+        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        <span>Roadmap Servicer (HQ)</span>
+        <span class="px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[10px] font-black uppercase font-mono">ISAPromoRD</span>
+      </button>
     </div>
 
     <!-- ========================================================
@@ -1101,6 +1111,82 @@
 
     </div>
 
+    <!-- ========================================================
+         PESTAÑA 5: ROADMAP SERVICER & AGENCIA (ISAPROMORD HQ)
+         ======================================================== -->
+    <div id="hqTabContent" class="space-y-6 hidden">
+      <!-- HEADER BANNER DE HQ SERVICER -->
+      <div class="bg-gradient-to-r from-[#121824] via-[#1a1528] to-[#121824] rounded-3xl p-6 sm:p-8 text-white border border-purple-900/40 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold font-mono">
+              <span>🏢 Centro de Mando de la Firma</span>
+              <span class="w-1 h-1 rounded-full bg-purple-400"></span>
+              <span>ISAPromoRD Headquarters (Servicer)</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Roadmap Operativo & Expansión de la Agencia</h2>
+            <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
+              ISAPromoRD es la firma proveedora y servicer oficial. Aquí gestionas los activos centrales de la agencia: indexación en Google, dominancia en Google Maps, reputación, telemetría y conversión.
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row items-center gap-3">
+            <span class="px-3.5 py-2 rounded-xl bg-purple-950/60 border border-purple-700/60 text-purple-300 text-xs font-mono font-bold flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Audit Score: 100/100</span>
+            </span>
+            <a href="https://isapromord.github.io/" target="_blank" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition-all flex items-center gap-1.5">
+              <span>Ver Web de la Agencia</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATRIZ DE ESTADO Y PROGRESO DEL SERVICER -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">1. Google Search</span>
+          <div class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Verificado & Indexando</div>
+          <span class="text-[11px] text-slate-400">Token GSC activo en vivo</span>
+        </div>
+        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">2. Googlebot Sitemap</span>
+          <div class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Enviado (En Cola)</div>
+          <span class="text-[11px] text-slate-400">sitemap.xml sincronizado</span>
+        </div>
+        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">3. Motores de IA (GEO)</span>
+          <div class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">100% Optimizado</div>
+          <span class="text-[11px] text-slate-400">llms.txt + robots.txt autorizados</span>
+        </div>
+        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">4. Google Maps Pack-3</span>
+          <div class="text-base sm:text-lg font-black text-amber-400 font-mono mt-1">Acción Pendiente ◄</div>
+          <span class="text-[11px] text-amber-300">Crear perfil de negocio</span>
+        </div>
+      </div>
+
+      <!-- LISTA DE TAREAS OPERATIVAS DEL SERVICER (HQ) -->
+      <div class="bg-[#101726] p-6 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+          <div>
+            <h3 class="text-lg font-black text-white">Plan Maestro del Servicer — Pasos de Ejecución</h3>
+            <p class="text-xs text-slate-400">Checklist interactivo de tareas que faltan para completar la dominancia de ISAPromoRD.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="hqProgressBadge" class="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold">
+              3 / 6 Completados (50%)
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-3" id="hqTasksContainer">
+          <!-- Inyectado dinámicamente con guías, checkboxes y botones de copiado -->
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- ========================================================
@@ -1645,7 +1731,7 @@
     // 1. CONSTANTES & ESTADO INICIAL
     // ==========================================
     const DEFAULT_PIN = "3690";
-    const STORAGE_KEY_CLIENTS = "isapromo_agency_clients_v1";
+    const STORAGE_KEY_CLIENTS = "isapromo_agency_clients_v2";
     const STORAGE_KEY_PIN = "isapromo_agency_pin_v1";
     const STORAGE_KEY_AUTH = "isapromo_agency_session_auth";
     const STORAGE_KEY_BANK = "isapromo_agency_bank_details_v1";
@@ -1867,6 +1953,7 @@
     window.addEventListener("DOMContentLoaded", () => {
       initAuth();
       loadClients();
+      loadHqTasks();
       startClock();
       renderClients();
       updateKpis();
@@ -2993,17 +3080,238 @@ https://isapromord.github.io`;
     }
 
     // ==========================================
-    // 12. PESTAÑAS: CLIENTES VS PROPUESTAS
+    // 12. PESTAÑAS: CLIENTES VS PROPUESTAS VS HQ
     // ==========================================
+    const STORAGE_KEY_HQ_TASKS = "isapromo_hq_tasks_v2";
+
+    const DEFAULT_HQ_TASKS = [
+      {
+        id: 1,
+        title: "Despliegue de web principal y Edge Hosting (GitHub Pages / Vercel)",
+        done: true,
+        category: "Infraestructura",
+        guide: {
+          summary: "Alojamiento global con arquitectura JAMstack ultrarrápida (<500ms) y CDN de alta disponibilidad.",
+          details: "Web corporativa en línea en https://isapromord.github.io con certificado SSL automático y respuesta HTTP 200 OK.",
+          link: "https://isapromord.github.io/",
+          linkLabel: "Visitar Web de ISAPromoRD",
+          copyText: "https://isapromord.github.io/",
+          copyLabel: "Copiar Enlace Web"
+        }
+      },
+      {
+        id: 2,
+        title: "Verificación técnica de propiedad en Google Search Console",
+        done: true,
+        category: "Google Search",
+        guide: {
+          summary: "Propiedad verificada mediante archivo oficial HTML google3f4f1a1b04896181.html.",
+          details: "Google Search Console confirmó la titularidad técnica de la firma con código de respuesta HTTP 200 OK.",
+          link: "https://search.google.com/search-console",
+          linkLabel: "Abrir Search Console"
+        }
+      },
+      {
+        id: 3,
+        title: "Solicitud de indexación prioritaria de la URL principal en Googlebot",
+        done: true,
+        category: "Google Search",
+        guide: {
+          summary: "URL ingresada en la cola de rastreo prioritario de Googlebot.",
+          details: "Rastreo solicitado exitosamente desde URL Inspection de Search Console para incorporación al índice orgánico en 24-48 horas."
+        }
+      },
+      {
+        id: 4,
+        title: "Envío y programación del sitemap.xml oficial en Google Search Console",
+        done: true,
+        category: "Google Search",
+        guide: {
+          summary: "Sitemap oficial enviado a Googlebot conteniendo las páginas clave e imágenes corporativas.",
+          details: "Dirección enviada: https://isapromord.github.io/sitemap.xml. En proceso de lectura y descubrimiento por Google.",
+          link: "https://isapromord.github.io/sitemap.xml",
+          linkLabel: "Ver sitemap.xml en Vivo",
+          copyText: "https://isapromord.github.io/sitemap.xml",
+          copyLabel: "Copiar URL Sitemap"
+        }
+      },
+      {
+        id: 5,
+        title: "Creación y optimización de ficha en Google Business Profile (Google Maps Pack-3)",
+        done: false,
+        isNext: true,
+        category: "Google Maps",
+        guide: {
+          summary: "Ficha oficial de la agencia indispensable para aparecer en el mapa y en las búsquedas locales de República Dominicana.",
+          details: "<b>1. Nombre Comercial:</b> ISAPromoRD - Posicionamiento SEO & Diseño Web<br><b>2. Categoría Principal:</b> Agencia de marketing digital (Secundarias: Diseñador de sitios web, Empresa de software)<br><b>3. Ubicación:</b> Santo Domingo, República Dominicana (Área de servicio: Todo el país)<br><b>4. Teléfono:</b> 829-455-4783<br><b>5. Web:</b> https://isapromord.github.io",
+          link: "https://google.com/business",
+          linkLabel: "Abrir Google Business Profile",
+          copyText: "ISAPromoRD es una firma boutique de ingeniería digital y aceleración comercial especializada en posicionamiento orgánico SEO Local en Google Search y conquista del Google Local 3-Pack en Google Maps en Santo Domingo y República Dominicana. Desarrollamos páginas web de ultra-alta velocidad (<0.5s) con arquitectura JAMstack, plataformas CRM a la medida para gestión comercial sin costo por usuario, y agentes de Inteligencia Artificial para atención y ventas 24/7. Ayudamos a empresas inmobiliarias, clínicas, agropecuarias y negocios de servicios a dominar su sector y captar prospectos calificados todos los días.",
+          copyLabel: "Copiar Descripción SEO (750 caracteres)"
+        }
+      },
+      {
+        id: 6,
+        title: "Campaña de primeras 5 a 10 reseñas de 5 estrellas con keywords locales",
+        done: false,
+        category: "Reputación & SEO",
+        guide: {
+          summary: "El factor #1 del algoritmo de Google Maps para subir al puesto #1 son las opiniones con términos del sector.",
+          details: "Envía el enlace corto de 'Solicitar opiniones' de tu ficha a colaboradores, clientes (Torre Apex, Pasión Pecuaria) y aliados pidiéndoles mencionar palabras como: <i>'Excelente agencia de diseño web en Santo Domingo'</i> o <i>'Gran servicio de SEO y páginas web rápidas'</i>.",
+          copyText: "¡Hola! ¿Podrías apoyarnos con una reseña de 5 estrellas en Google para ISAPromoRD? Solo toma 1 minuto: [Pega aquí tu enlace de Google Maps]. Si puedes mencionar que hacemos páginas web rápidas o SEO en Santo Domingo, ¡te lo agradecería de corazón!",
+          copyLabel: "Copiar Plantilla de WhatsApp para Reseñas"
+        }
+      },
+      {
+        id: 7,
+        title: "Conexión de dominio propio isapromord.com en GitHub Pages DNS",
+        done: false,
+        category: "Dominio & Branding",
+        guide: {
+          summary: "Configurar los 4 registros A de GitHub Pages y el CNAME para apuntar isapromord.com directamente a la plataforma.",
+          details: "<b>Registros A para @:</b><br>185.199.108.153<br>185.199.109.153<br>185.199.110.153<br>185.199.111.153<br><br><b>CNAME para www:</b> isapromord.github.io",
+          copyText: "185.199.108.153\n185.199.109.153\n185.199.110.153\n185.199.111.153",
+          copyLabel: "Copiar IPs de GitHub Pages"
+        }
+      }
+    ];
+
+    let hqTasks = [];
+
+    function loadHqTasks() {
+      const stored = localStorage.getItem(STORAGE_KEY_HQ_TASKS);
+      if (stored) {
+        try {
+          hqTasks = JSON.parse(stored);
+        } catch (e) {
+          hqTasks = [...DEFAULT_HQ_TASKS];
+        }
+      } else {
+        hqTasks = [...DEFAULT_HQ_TASKS];
+      }
+      renderHqTasks();
+    }
+
+    function toggleHqTask(taskId) {
+      const task = hqTasks.find(t => t.id === taskId);
+      if (!task) return;
+      task.done = !task.done;
+      localStorage.setItem(STORAGE_KEY_HQ_TASKS, JSON.stringify(hqTasks));
+      renderHqTasks();
+    }
+
+    function toggleHqGuide(guideId) {
+      const el = document.getElementById(guideId);
+      if (!el) return;
+      el.classList.toggle('hidden');
+    }
+
+    function renderHqTasks() {
+      const container = document.getElementById("hqTasksContainer");
+      if (!container) return;
+
+      const total = hqTasks.length;
+      const completed = hqTasks.filter(t => t.done).length;
+      const percent = Math.round((completed / total) * 100);
+
+      const badge = document.getElementById("hqProgressBadge");
+      if (badge) {
+        badge.textContent = `${completed} / ${total} Completados (${percent}%)`;
+      }
+
+      let firstPendingFound = false;
+
+      container.innerHTML = hqTasks.map(task => {
+        let isNext = false;
+        if (!task.done && !firstPendingFound) {
+          isNext = true;
+          firstPendingFound = true;
+        }
+
+        const guideId = `hq_guide_${task.id}`;
+
+        return `
+          <div class="p-4 rounded-2xl bg-[#0c1322] border ${task.done ? 'border-slate-800' : (isNext ? 'border-purple-500/70 shadow-lg shadow-purple-500/10' : 'border-slate-800')} transition-all">
+            <div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row">
+              <label class="flex items-center gap-3 cursor-pointer flex-1">
+                <input 
+                  type="checkbox" 
+                  ${task.done ? 'checked' : ''} 
+                  onchange="toggleHqTask(${task.id})" 
+                  class="rounded-lg text-purple-600 focus:ring-purple-500 w-5 h-5 border-slate-700 bg-slate-900 cursor-pointer" 
+                />
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-bold ${task.done ? 'line-through text-slate-500' : 'text-white'}">
+                    ${task.title}
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-slate-800 text-slate-400">
+                    ${task.category || 'HQ'}
+                  </span>
+                  ${task.done ? `
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Completado ✓
+                    </span>
+                  ` : (isNext ? `
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse">
+                      PRÓXIMO PASO ◄
+                    </span>
+                  ` : '')}
+                </div>
+              </label>
+
+              <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                ${task.guide ? `
+                  <button onclick="toggleHqGuide('${guideId}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-purple-300 text-xs font-bold border border-slate-700 flex items-center gap-1.5 transition-colors">
+                    <span>Instrucciones & Datos</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            ${task.guide ? `
+              <div id="${guideId}" class="${isNext ? '' : 'hidden'} mt-3 pt-3 border-t border-slate-800/80 space-y-2.5 text-xs text-slate-300">
+                ${task.guide.summary ? `
+                  <p class="text-slate-200 font-medium">${task.guide.summary}</p>
+                ` : ''}
+                ${task.guide.details ? `
+                  <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 text-xs leading-relaxed">
+                    ${task.guide.details}
+                  </div>
+                ` : ''}
+
+                <div class="flex flex-wrap items-center gap-2 pt-1">
+                  ${task.guide.copyText ? `
+                    <button onclick="copyToClipboard('${encodeURIComponent(task.guide.copyText)}', '${task.guide.copyLabel || 'Texto copiado'}')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold border border-slate-700 flex items-center gap-1.5 transition-colors shadow-sm">
+                      <span>📋 ${task.guide.copyLabel || 'Copiar Datos'}</span>
+                    </button>
+                  ` : ''}
+
+                  ${task.guide.link ? `
+                    <a href="${task.guide.link}" target="_blank" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 text-xs font-bold border border-purple-500/40 flex items-center gap-1.5 transition-colors">
+                      <span>↗ ${task.guide.linkLabel || 'Abrir Herramienta'}</span>
+                    </a>
+                  ` : ''}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
     function switchDashboardTab(tab) {
       const clientsContent = document.getElementById("clientsTabContent");
       const proposalsContent = document.getElementById("proposalsTabContent");
       const referralsContent = document.getElementById("referralsTabContent");
       const accountingContent = document.getElementById("accountingTabContent");
+      const hqContent = document.getElementById("hqTabContent");
+
       const tabClientsBtn = document.getElementById("tabClientsBtn");
       const tabProposalsBtn = document.getElementById("tabProposalsBtn");
       const tabReferralsBtn = document.getElementById("tabReferralsBtn");
       const tabAccountingBtn = document.getElementById("tabAccountingBtn");
+      const tabHqBtn = document.getElementById("tabHqBtn");
 
       const inactiveClass = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2";
       const activeClass = "px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 shadow-glow-cyan transition-all flex items-center gap-2";
@@ -3012,11 +3320,13 @@ https://isapromord.github.io`;
       tabProposalsBtn.className = inactiveClass;
       tabReferralsBtn.className = inactiveClass;
       if (tabAccountingBtn) tabAccountingBtn.className = inactiveClass;
+      if (tabHqBtn) tabHqBtn.className = inactiveClass;
 
       clientsContent.classList.add("hidden");
       proposalsContent.classList.add("hidden");
       referralsContent.classList.add("hidden");
       if (accountingContent) accountingContent.classList.add("hidden");
+      if (hqContent) hqContent.classList.add("hidden");
 
       if (tab === 'clients') {
         clientsContent.classList.remove("hidden");
@@ -3033,6 +3343,10 @@ https://isapromord.github.io`;
         if (accountingContent) accountingContent.classList.remove("hidden");
         if (tabAccountingBtn) tabAccountingBtn.className = activeClass;
         loadAccountingData();
+      } else if (tab === 'hq') {
+        if (hqContent) hqContent.classList.remove("hidden");
+        if (tabHqBtn) tabHqBtn.className = activeClass;
+        loadHqTasks();
       }
     }
 

@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://isapromord.com/</loc>
+    <loc>https://isapromord.github.io/</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://isapromord.github.io/assets/logo.png</image:loc>
-      <image:title>ISAPromoRD - Conversión Máxima & Dominancia SEO en República Dominicana</image:title>
+      <image:title>ISAPromoRD - Posicionamiento SEO &amp; Desarrollo Web en República Dominicana</image:title>
       <image:caption>Logotipo oficial de ISAPromoRD Soluciones Digitales</image:caption>
     </image:image>
   </url>

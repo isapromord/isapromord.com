@@ -426,10 +426,15 @@
         <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] uppercase font-mono font-bold tracking-wider">Referido Oficial</span>
         <span id="referralBannerText">Visitando desde la web oficial de un cliente aliado de ISAPromoRD.</span>
       </div>
-      <a id="referralBannerCta" href="https://wa.me/18294554783" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors shrink-0 text-xs shadow-glow-emerald">
-        <span>Cotizar con Descuento Referido</span>
-        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-      </a>
+      <div class="flex items-center gap-3">
+        <a id="referralBannerCta" href="https://wa.me/18294554783" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors shrink-0 text-xs shadow-glow-emerald">
+          <span>Cotizar con Descuento Referido</span>
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        </a>
+        <button id="closeReferralBannerBtn" onclick="dismissReferralBanner()" type="button" aria-label="Cerrar aviso" class="p-1 rounded-md text-emerald-400/80 hover:text-white hover:bg-emerald-900/60 transition-colors cursor-pointer" title="Cerrar aviso">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1683,6 +1688,8 @@
         activeRef = rawRef.toLowerCase().trim();
         localStorage.setItem('isapromo_ref', activeRef);
         localStorage.setItem('isapromo_ref_timestamp', Date.now().toString());
+        // Fresh referral click: clear prior dismissal so welcome banner appears
+        localStorage.removeItem('isapromo_ref_banner_dismissed');
 
         try {
           fetch(`${SUPABASE_URL}/rest/v1/isapromo_referral_clicks`, {
@@ -1712,13 +1719,22 @@
         }
       }
 
+      window.dismissReferralBanner = function() {
+        const banner = document.getElementById("referralWelcomeBanner");
+        if (banner) {
+          banner.classList.add("hidden");
+        }
+        localStorage.setItem("isapromo_ref_banner_dismissed", "1");
+      };
+
       if (activeRef) {
         const partnerName = KNOWN_PARTNERS[activeRef] || activeRef.toUpperCase();
+        const isDismissed = localStorage.getItem("isapromo_ref_banner_dismissed") === "1";
         
         const banner = document.getElementById("referralWelcomeBanner");
         const bannerText = document.getElementById("referralBannerText");
         const bannerCta = document.getElementById("referralBannerCta");
-        if (banner && bannerText) {
+        if (banner && bannerText && !isDismissed) {
           bannerText.innerHTML = `Visitando desde la web oficial de <strong>${partnerName}</strong>. ¿Deseas una plataforma con esta misma tecnología para tu negocio?`;
           banner.classList.remove("hidden");
         }

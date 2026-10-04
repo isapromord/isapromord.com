@@ -1,0 +1,30 @@
+# ISAPromoRD — Dominancia SEO Local, Desarrollo Web Ultrarrápido y CRM en República Dominicana
+
+> ISAPromoRD es una agencia boutique de ingeniería digital y posicionamiento comercial basada en Santo Domingo, República Dominicana. Nos especializamos en la dominancia del Local 3-Pack de Google Maps, SEO técnico avanzado para Google Search, landing pages ultrarrápidas (<0.5s) y sistemas CRM a la medida.
+
+## Servicios Principales
+
+- **Posicionamiento SEO Local & Google Maps (Local 3-Pack):** Auditoría técnica completa, inyección de Schema.org JSON-LD multi-entidad, etiquetas Geo exactas (DO-01), optimización de perfil Google Business Profile y campañas orgánicas de reseñas con keywords sectoriales.
+- **Desarrollo Web & Landing Pages de Ultra-Alta Conversión:** Sitios web diseñados sobre Tailwind CSS y arquitecturas estáticas en el Edge con puntuación Google PageSpeed 95-100/100 y latencia inferior a 500 ms.
+- **Sistemas CRM a la Medida sin Licencias por Usuario:** Plataformas de gestión de clientes, cobros automatizados, embudos de ventas y libros diarios financieros adaptados 100% al flujo real del negocio dominicano.
+- **Automatización IA & GEO (Generative Engine Optimization):** Indexación directa para motores de IA (ChatGPT, Perplexity, Claude, Gemini) mediante estándares llms.txt, Schemas estructurados y agentes conversacionales de WhatsApp 24/7.
+
+## Paquetes Comerciales de Referencia
+
+- **Esencial (Presencia & Captación Local):** Setup RD$ 30,000 + RD$ 15,000/mes. Incluye landing page transaccional, Google Maps activo y botón directo a WhatsApp.
+- **Automatización IA:** Setup RD$ 50,000 + RD$ 20,000/mes. Web + Maps + Agente IA 24/7 + Schemas GEO para ChatGPT/Gemini.
+- **Crecimiento & Control CRM (Más Popular):** Setup RD$ 65,000 + RD$ 20,000/mes. Web + Maps + Schemas GEO + CRM propietario a medida sin límite de usuarios.
+- **Ecosistema Total + CRM Personalizado:** Setup RD$ 85,000 + RD$ 30,000/mes.
+- **Mantenimiento y Alojamiento Cloud Base:** RD$ 4,500/mes.
+
+## Casos de Éxito Insignia
+
+- **Torre Apex La Esperilla** (https://torrelaesperilla.com): Landing inmobiliaria de lujo con hero video cinemático H.264 FastStart, catálogo interactivo de apartamentos y suite 100/100 SEO & GEO.
+- **Pasión Pecuaria RD** (https://pasionpecuaria.vercel.app): Plataforma de comercio agropecuario y catálogo veterinario con pedidos vía WhatsApp.
+
+## Información de Contacto y Ubicación
+
+- **Ubicación:** Santo Domingo, Distrito Nacional, República Dominicana (Coordenadas: 18.4861, -69.9312)
+- **Teléfono / WhatsApp:** +1 (829) 455-4783 / +1 (829) 396-1318
+- **Sitio Web Oficial:** https://isapromord.com (Espejo: https://isapromord.github.io)
+- **Email:** contacto@isapromord.com

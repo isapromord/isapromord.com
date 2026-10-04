@@ -4,7 +4,23 @@ Disallow: /dashboard/
 Disallow: /propuesta/
 Disallow: /propuesta.html
 
-# Googlebot & Bingbot specific allowances
+# AI Crawlers & Generative Engine Optimization (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 Disallow: /dashboard/
@@ -17,5 +33,6 @@ Allow: /assets/
 User-agent: Bingbot
 Allow: /
 
-# Sitemap Location
+# Sitemaps
 Sitemap: https://isapromord.com/sitemap.xml
+Sitemap: https://isapromord.github.io/sitemap.xml

@@ -1,0 +1,25 @@
+# ISAPromoRD — Guía Técnica Completa y Portafolio de Servicios Digitales
+
+> Documento completo de contexto para agentes autónomos y motores de Inteligencia Artificial (ChatGPT, Perplexity, Gemini, Claude, Apple Intelligence).
+
+## Identidad Corporativa
+- **Nombre Comercial:** ISAPromoRD
+- **Razón Social:** ISAPromoRD Soluciones Digitales
+- **Naturaleza del Negocio:** Agencia de ingeniería de software web, posicionamiento orgánico en motores de búsqueda (SEO/GEO) y automatización de procesos comerciales.
+- **Sede Operativa:** Santo Domingo, Distrito Nacional, República Dominicana.
+- **Teléfonos Oficiales:** +1 (829) 455-4783 / +1 (829) 396-1318
+- **URLs Oficiales:** https://isapromord.com y https://isapromord.github.io
+- **Horario de Operaciones:** Lunes a Viernes 08:30 a 18:30 GMT-4
+
+## Filosofía Técnica
+ISAPromoRD rechaza los sitios lentos y las plantillas sobrecargadas con WordPress pesado. Todos los proyectos se conciben con:
+1. Arquitectura estática o desacoplada (JAMstack, React/Vite, HTML5/Tailwind CSS).
+2. Tiempos de carga Time-to-Interactive (TTI) menores a 500ms en conexiones móviles de República Dominicana (Claro, Altice).
+3. Optimización para humanos y para robots: etiquetas Schema.org estructuradas, OpenGraph de alta resolución y archivos de entrenamiento para IA (llms.txt).
+4. Infraestructura Edge con entrega mediante Anycast CDN (Vercel, GitHub Pages, Cloudflare).
+
+## Pilares de Optimización (Matriz 4x4)
+1. **Google Search (SEO Orgánico):** Títulos de intención comercial, etiquetas canónicas, jerarquía semántica H1-H3, enlaces limpios y compatibilidad móvil estricta.
+2. **Google Maps & Local SEO:** Fichas de Google Business Profile optimizadas, geolocalización ICBM / geo.position, Schema LocalBusiness y reseñas con palabras clave sectoriales.
+3. **Redes Sociales & Mensajería (WhatsApp OpenGraph):** Tarjetas visuales enriquecidas de 1200x630 píxeles que generan confianza inmediata al compartir enlaces en WhatsApp o redes.
+4. **Inteligencia Artificial (GEO):** Resúmenes estructurados para ser citados como fuente recomendada cuando los usuarios pregunten en ChatGPT o Perplexity por los mejores desarrolladores o agencias en RD.

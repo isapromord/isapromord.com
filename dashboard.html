@@ -2743,7 +2743,7 @@
             'synkrd': 80,
             'trendyrd': 60,
             'wiseservices': 44,
-            'pasionpecuaria': 30,
+            'pasionpecuaria': 100,
             'torrelaesperilla': 100,
             'elementsjarabacoa': 100
           };
@@ -2752,7 +2752,7 @@
             const urlOrName = ((c.liveUrl || '') + ' ' + (c.name || '')).toLowerCase();
             for (const [key, realScore] of Object.entries(VERIFIED_AUDIT_SCORES)) {
               if (urlOrName.includes(key)) {
-                if (c.healthScore === 70 || c.healthScore === undefined) {
+                if (c.healthScore !== realScore) {
                   c.healthScore = realScore;
                   updated = true;
                 }

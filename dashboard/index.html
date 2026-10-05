@@ -2736,6 +2736,31 @@
             }
           });
 
+          // Sincronización automática de Madurez Digital real verificada por auditoría de red
+          const VERIFIED_AUDIT_SCORES = {
+            'granjatracker': 100,
+            'isatranslogic': 100,
+            'synkrd': 80,
+            'trendyrd': 60,
+            'wiseservices': 44,
+            'pasionpecuaria': 30,
+            'torrelaesperilla': 100,
+            'elementsjarabacoa': 100
+          };
+
+          clients.forEach(c => {
+            const urlOrName = ((c.liveUrl || '') + ' ' + (c.name || '')).toLowerCase();
+            for (const [key, realScore] of Object.entries(VERIFIED_AUDIT_SCORES)) {
+              if (urlOrName.includes(key)) {
+                if (c.healthScore === 70 || c.healthScore === undefined) {
+                  c.healthScore = realScore;
+                  updated = true;
+                }
+                break;
+              }
+            }
+          });
+
           if (updated) saveClientsToStorage(false);
         } catch (e) {
           clients = INITIAL_CLIENTS;

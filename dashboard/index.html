@@ -4393,7 +4393,7 @@ https://isapromord.github.io`;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 12000);
         
-        const resp = await fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}&headers=true`, {
+        const resp = await fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}`, {
           signal: controller.signal
         });
         clearTimeout(timeoutId);

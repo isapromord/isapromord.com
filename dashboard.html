@@ -17,6 +17,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
@@ -211,6 +214,11 @@
             En Vivo
           </span>
           <span id="rdClock" class="font-mono text-xs text-slate-400 font-medium">--:--:-- RD</span>
+          <!-- Cloud Sync Status Badge -->
+          <button id="cloudSyncBtn" onclick="manualTriggerCloudSync()" title="Estado de Sincronización en la Nube (Supabase) - Clic para sincronizar" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all cursor-pointer">
+            <span id="cloudSyncDot" class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span id="cloudSyncText" class="font-mono">☁️ Supabase Conectado</span>
+          </button>
         </div>
       </div>
 
@@ -2063,6 +2071,19 @@
     const STORAGE_KEY_AUTH = "isapromo_agency_session_auth";
     const STORAGE_KEY_BANK = "isapromo_agency_bank_details_v1";
 
+    // SUPABASE CLOUD DATABASE CONFIGURATION
+    const SUPABASE_URL = "https://lldhpidjcjyjldhpbjql.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsZGhwaWRqY2p5amxkaHBianFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTAxNTAsImV4cCI6MjA4MTQ2NjE1MH0.cVFJs-zehhJ_FHQUInusLazoIW3_DONVcPAlEmRqflY";
+    const SUPABASE_TABLE_CLIENTS = "isapromo_crm_clients";
+    let supabaseClient = null;
+    try {
+      if (window.supabase && typeof window.supabase.createClient === "function") {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch (err) {
+      console.warn("Supabase SDK initialization warning:", err);
+    }
+
     const DEFAULT_BANK_DETAILS = `🏦 *Datos Bancarios para Transferencia:*
 • *Banco:* Banco Popular Dominicano
 • *Tipo:* Cuenta de Ahorros en Pesos (RD$)
@@ -2285,6 +2306,9 @@
       renderClients();
       updateKpis();
 
+      // Iniciar Sincronización en la Nube (Supabase) en background
+      initCloudSync();
+
       // Chequeo de Uptime al inicio
       setTimeout(() => {
         pingAllClients();
@@ -2362,8 +2386,213 @@
     }
 
     // ==========================================
-    // 4. GESTIÓN DE CLIENTES (STORAGE)
+    // 4. GESTIÓN DE CLIENTES & CLOUD SYNC (SUPABASE + LOCALSTORAGE)
     // ==========================================
+    let isCloudSyncing = false;
+    let isCloudOnline = true;
+
+    function updateCloudSyncBadge(status, text) {
+      const badge = document.getElementById("cloudSyncBtn");
+      const dot = document.getElementById("cloudSyncDot");
+      const label = document.getElementById("cloudSyncText");
+      if (!badge || !dot || !label) return;
+
+      if (status === "syncing") {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all cursor-pointer";
+        dot.className = "w-1.5 h-1.5 rounded-full bg-cyan-400 animate-spin";
+        label.textContent = text || "☁️ Sincronizando...";
+      } else if (status === "synced") {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all cursor-pointer";
+        dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-400";
+        label.textContent = text || "☁️ Nube al Día";
+      } else if (status === "offline") {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20 transition-all cursor-pointer";
+        dot.className = "w-1.5 h-1.5 rounded-full bg-amber-400";
+        label.textContent = text || "☁️ Local (Offline)";
+      } else if (status === "error") {
+        badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500/10 text-rose-300 border border-rose-500/30 hover:bg-rose-500/20 transition-all cursor-pointer";
+        dot.className = "w-1.5 h-1.5 rounded-full bg-rose-400";
+        label.textContent = text || "☁️ Error Nube";
+      }
+    }
+
+    function clientToDbRow(client) {
+      return {
+        id: client.id,
+        name: client.name || "Sin nombre",
+        category: client.category || "General",
+        live_url: client.liveUrl || "",
+        platform: client.platform || "",
+        contact_person: client.contactPerson || "",
+        phone: client.phone || "",
+        email: client.email || "",
+        status: client.status || "active",
+        fee: client.fee || "",
+        renewal_date: client.renewalDate || null,
+        last_payment_date: client.lastPaymentDate || null,
+        joined_date: client.joinedDate || null,
+        repo_url: client.repoUrl || "",
+        notes: client.notes || "",
+        health_score: typeof client.healthScore === "number" ? client.healthScore : 100,
+        optimization_matrix: client.optimizationMatrix || {},
+        tasks: client.tasks || [],
+        payment_history: client.paymentHistory || [],
+        uptime_status: client.uptimeStatus || "online",
+        latency_ms: typeof client.latencyMs === "number" ? client.latencyMs : null,
+        updated_at: new Date().toISOString()
+      };
+    }
+
+    function dbRowToClient(row) {
+      return {
+        id: row.id,
+        name: row.name,
+        category: row.category,
+        liveUrl: row.live_url,
+        platform: row.platform,
+        contactPerson: row.contact_person,
+        phone: row.phone,
+        email: row.email,
+        status: row.status,
+        fee: row.fee,
+        renewalDate: row.renewal_date,
+        lastPaymentDate: row.last_payment_date,
+        joinedDate: row.joined_date,
+        repoUrl: row.repo_url,
+        notes: row.notes,
+        healthScore: row.health_score,
+        optimizationMatrix: row.optimization_matrix || {},
+        tasks: row.tasks || [],
+        paymentHistory: row.payment_history || [],
+        uptimeStatus: row.uptime_status || "online",
+        latencyMs: row.latency_ms
+      };
+    }
+
+    // Sincronizar un único cliente a Supabase en background
+    async function syncClientToCloud(client) {
+      if (!supabaseClient) {
+        updateCloudSyncBadge("offline", "☁️ Local (Sin SDK)");
+        return;
+      }
+      try {
+        updateCloudSyncBadge("syncing", "☁️ Guardando en Nube...");
+        const row = clientToDbRow(client);
+        const { error } = await supabaseClient
+          .from(SUPABASE_TABLE_CLIENTS)
+          .upsert(row, { onConflict: "id" });
+
+        if (error) {
+          console.error("Supabase upsert error:", error);
+          updateCloudSyncBadge("error", "☁️ Error Sync");
+        } else {
+          updateCloudSyncBadge("synced", "☁️ Nube al Día");
+        }
+      } catch (err) {
+        console.warn("syncClientToCloud exception:", err);
+        updateCloudSyncBadge("offline", "☁️ Local (Offline)");
+      }
+    }
+
+    // Eliminar un cliente de Supabase en background
+    async function deleteClientFromCloud(clientId) {
+      if (!supabaseClient) return;
+      try {
+        updateCloudSyncBadge("syncing", "☁️ Eliminando en Nube...");
+        const { error } = await supabaseClient
+          .from(SUPABASE_TABLE_CLIENTS)
+          .delete()
+          .eq("id", clientId);
+
+        if (error) {
+          console.error("Supabase delete error:", error);
+          updateCloudSyncBadge("error", "☁️ Error Sync");
+        } else {
+          updateCloudSyncBadge("synced", "☁️ Nube al Día");
+        }
+      } catch (err) {
+        console.warn("deleteClientFromCloud exception:", err);
+      }
+    }
+
+    // Sincronizar todos los clientes locales a Supabase
+    async function syncAllClientsToCloud() {
+      if (!supabaseClient || clients.length === 0) return;
+      try {
+        updateCloudSyncBadge("syncing", "☁️ Respaldando en Nube...");
+        const rows = clients.map(clientToDbRow);
+        const { error } = await supabaseClient
+          .from(SUPABASE_TABLE_CLIENTS)
+          .upsert(rows, { onConflict: "id" });
+
+        if (error) {
+          console.error("Supabase batch upsert error:", error);
+          updateCloudSyncBadge("error", "☁️ Error Sync");
+        } else {
+          updateCloudSyncBadge("synced", "☁️ Nube al Día");
+        }
+      } catch (err) {
+        console.warn("syncAllClientsToCloud exception:", err);
+      }
+    }
+
+    // Inicializar sincronización en la nube al cargar
+    async function initCloudSync() {
+      if (!supabaseClient) {
+        updateCloudSyncBadge("offline", "☁️ Local (Offline)");
+        return;
+      }
+
+      try {
+        updateCloudSyncBadge("syncing", "☁️ Conectando Nube...");
+        const { data, error } = await supabaseClient
+          .from(SUPABASE_TABLE_CLIENTS)
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          console.warn("Supabase fetch error:", error);
+          updateCloudSyncBadge("offline", "☁️ Local (Offline)");
+          return;
+        }
+
+        if (data && data.length > 0) {
+          // Tenemos datos en Supabase: fusionamos con los locales
+          const remoteClients = data.map(dbRowToClient);
+          
+          // Preservar clientes remotos y añadir cualquier local que no esté en la nube aún
+          const merged = [...remoteClients];
+          clients.forEach(localC => {
+            if (!merged.some(m => m.id === localC.id)) {
+              merged.push(localC);
+            }
+          });
+
+          clients = merged;
+          saveClientsToStorage(false); // Guardar en localStorage sin re-disparar cloud sync redundante
+          renderClients();
+          updateKpis();
+          updateCloudSyncBadge("synced", `☁️ ${clients.length} Clientes en Nube`);
+        } else {
+          // La base de datos en la nube está vacía: sembrar los clientes actuales en Supabase
+          updateCloudSyncBadge("syncing", "☁️ Sembrando Nube...");
+          await syncAllClientsToCloud();
+          updateCloudSyncBadge("synced", `☁️ ${clients.length} Clientes en Nube`);
+        }
+      } catch (err) {
+        console.warn("initCloudSync exception:", err);
+        updateCloudSyncBadge("offline", "☁️ Local (Offline)");
+      }
+    }
+
+    // Botón manual de sincronización en el top header
+    async function manualTriggerCloudSync() {
+      showToast("🔄 Sincronizando con Supabase Cloud...");
+      updateCloudSyncBadge("syncing", "☁️ Sincronizando...");
+      await syncAllClientsToCloud();
+      showToast("✅ Sincronización en la Nube completada.");
+    }
+
     function loadClients() {
       const stored = localStorage.getItem(STORAGE_KEY_CLIENTS);
       if (stored) {
@@ -2416,18 +2645,21 @@
             }
           });
 
-          if (updated) saveClientsToStorage();
+          if (updated) saveClientsToStorage(false);
         } catch (e) {
           clients = INITIAL_CLIENTS;
         }
       } else {
         clients = INITIAL_CLIENTS;
-        saveClientsToStorage();
+        saveClientsToStorage(false);
       }
     }
 
-    function saveClientsToStorage() {
+    function saveClientsToStorage(shouldSyncCloud = true) {
       localStorage.setItem(STORAGE_KEY_CLIENTS, JSON.stringify(clients));
+      if (shouldSyncCloud) {
+        syncAllClientsToCloud();
+      }
     }
 
     function updateKpis() {
@@ -3756,7 +3988,8 @@
 
       if (confirm(`¿Estás seguro de que deseas eliminar el registro de "${client.name}"?`)) {
         clients = clients.filter(c => c.id !== id);
-        saveClientsToStorage();
+        saveClientsToStorage(false);
+        deleteClientFromCloud(id);
         renderClients();
         updateKpis();
       }

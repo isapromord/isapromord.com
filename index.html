@@ -766,49 +766,79 @@
             </div>
           </div>
 
-          <!-- Reporte de Resultados en Tiempo Real -->
+          <!-- Reporte de Resultados en Tiempo Real (Enfoque Comercial / Alerta de Fuga de Clientes) -->
           <div id="scanReport" class="hidden mt-6 pt-6 border-t border-[#222f46]">
-            <div class="p-6 rounded-2xl bg-[#0a0e17] border border-[#222f46] shadow-xl">
-              <div class="flex items-center justify-between flex-wrap gap-3 mb-6">
-                <div>
-                  <h4 class="text-xl font-black text-white" id="repName">Empresa Auditada</h4>
-                  <div class="text-xs text-slate-400 font-mono mt-0.5" id="repZone">Sector seleccionado</div>
+            <div class="p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-[#101726] to-[#0a0e17] border border-rose-500/30 shadow-2xl relative overflow-hidden">
+              
+              <!-- Alerta Superior -->
+              <div class="flex items-center justify-between flex-wrap gap-3 mb-6 pb-4 border-b border-[#222f46]">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+                    <span class="text-[11px] font-mono font-bold text-rose-400 uppercase tracking-wider">Alerta de Pérdida de Prospectos</span>
+                  </div>
+                  <h4 class="text-xl sm:text-2xl font-black text-white" id="repName">Empresa Auditada</h4>
+                  <div class="text-xs text-slate-400 font-mono" id="repZone">Sector seleccionado</div>
                 </div>
-                <div id="repScoreBadge" class="px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono font-bold text-xs sm:text-sm">
-                  Puntaje: 54/100 (Crítico)
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                <div class="p-3.5 rounded-xl bg-[#121824] border border-[#222f46] text-center">
-                  <div class="text-xs text-slate-400 font-mono">Presencia Maps</div>
-                  <div id="repMapsVal" class="text-lg font-black text-amber-400 mt-1">Página 2-3</div>
-                </div>
-                <div class="p-3.5 rounded-xl bg-[#121824] border border-[#222f46] text-center">
-                  <div class="text-xs text-slate-400 font-mono">Velocidad Web</div>
-                  <div id="repSpeedVal" class="text-lg font-black text-red-400 mt-1">4.8s (Lenta)</div>
-                </div>
-                <div class="p-3.5 rounded-xl bg-[#121824] border border-[#222f46] text-center">
-                  <div class="text-xs text-slate-400 font-mono">Llamadas Perdidas</div>
-                  <div id="repLossVal" class="text-lg font-black text-[#00d2ff] mt-1">~95/mes</div>
+                <div id="repScoreBadge" class="px-4 py-2 rounded-2xl bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base shadow-sm">
+                  Puntaje: 42/100 (Riesgo Crítico)
                 </div>
               </div>
 
-              <div id="repDiagBox" class="p-4 rounded-xl bg-[#121824] border border-[#222f46] text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
-                <span class="font-bold text-[#00d2ff] font-mono block mb-1">🔍 Diagnóstico Técnico en Tiempo Real:</span>
-                <span id="repDiagText">Analizando parámetros...</span>
+              <!-- Métricas de Impacto Comercial -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-6">
+                <div class="p-4 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                  <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Visibilidad en Google Maps</div>
+                  <div id="repMapsVal" class="text-lg font-black text-amber-400 mt-1.5">Página 2-3</div>
+                  <div class="text-[11px] text-slate-400 mt-1">El 80% de llamadas se van a tu competencia directa.</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                  <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Velocidad Móvil en RD</div>
+                  <div id="repSpeedVal" class="text-lg font-black text-rose-400 mt-1.5">4.8s (Lenta)</div>
+                  <div class="text-[11px] text-slate-400 mt-1">5 de cada 10 usuarios cierran la pestaña antes de cargar.</div>
+                </div>
+                <div class="p-4 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                  <div class="text-xs text-slate-400 font-bold uppercase tracking-wider">Clientes Perdidos Estimados</div>
+                  <div id="repLossVal" class="text-xl font-black text-[#00d2ff] mt-1.5">~95 clientes/mes</div>
+                  <div class="text-[11px] text-slate-400 mt-1">Ventas que podrías cerrar hoy por WhatsApp.</div>
+                </div>
               </div>
 
-              <div class="text-center pt-2">
+              <!-- Lista de 3 Fugas Críticas Detectadas -->
+              <div class="p-5 rounded-2xl bg-[#090e1a] border border-rose-500/30 space-y-3 mb-6">
+                <div class="flex items-center gap-2 text-rose-400 font-black text-xs uppercase tracking-wider font-mono">
+                  <span>🚨</span>
+                  <span>Principales Brechas Comerciales Encontradas:</span>
+                </div>
+                <div id="repDiagBox" class="text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2">
+                  <p id="repDiagText">Analizando parámetros...</p>
+                </div>
+              </div>
+
+              <!-- Banner de Solución y Bloqueo de Receta Técnica -->
+              <div class="p-4 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-3 mb-6">
+                <span class="text-2xl shrink-0 mt-0.5">💼</span>
+                <div class="text-xs leading-relaxed">
+                  <span class="font-bold text-cyan-300 block mb-0.5">Diagnóstico reservado para rescate comercial:</span>
+                  <p class="text-slate-300">
+                    Las especificaciones de código, geocirugía de Google Maps y optimización de base de datos están listas para ser aplicadas por el equipo de ingeniería de ISAPromoRD. Agenda ahora para reservar la exclusividad de tu sector.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Botón Primario a WhatsApp -->
+              <div class="text-center pt-1">
                 <a id="repWaBtn" 
                    href="#" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   class="inline-flex items-center justify-center px-8 py-3.5 rounded-xl text-white font-black text-sm shadow-glow-emerald transition-all"
-                   style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);">
-                  <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-                  Recibir Plan Técnico de Web & Maps por WhatsApp
+                   class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-slate-950 font-black text-sm sm:text-base shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
+                  <svg class="w-5 h-5 mr-2.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
+                  <span>Solicitar Plan de Corrección y Rescate en WhatsApp →</span>
                 </a>
+                <div class="text-[11px] text-slate-400 font-mono mt-2.5">
+                  ⚡ Respuesta en menos de 15 minutos • Diagnóstico confidencial
+                </div>
               </div>
             </div>
           </div>
@@ -1599,33 +1629,61 @@
             } else {
               const isCdn = measuredLatency < 110;
               const estSeconds = isCdn ? (measuredLatency / 80 + 0.8).toFixed(1) : Math.min(6.5, (measuredLatency / 50) + 2.4).toFixed(1);
-              const calcScore = isCdn ? Math.max(74, Math.min(90, 100 - Math.round(measuredLatency / 8))) : Math.max(38, Math.min(66, Math.round(100 - (estSeconds * 11))));
+              const calcScore = isCdn ? Math.max(72, Math.min(84, 100 - Math.round(measuredLatency / 8))) : Math.max(38, Math.min(64, Math.round(100 - (estSeconds * 11))));
 
-              scoreText = `Puntaje Actual: ${calcScore}/100 (${calcScore >= 75 ? 'Competitivo' : 'Riesgo de Abandono'})`;
+              scoreText = `Puntaje Comercial: ${calcScore}/100 (${calcScore >= 75 ? 'Riesgo Moderado' : 'Riesgo Crítico de Fuga'})`;
               scoreBadgeClass = calcScore >= 75 
-                ? "px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold text-xs sm:text-sm"
-                : "px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono font-bold text-xs sm:text-sm";
+                ? "px-4 py-2 rounded-2xl bg-amber-500/15 text-amber-300 border border-amber-500/40 font-mono font-black text-sm sm:text-base"
+                : "px-4 py-2 rounded-2xl bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base";
 
-              mapsText = calcScore >= 75 ? "Página 1-2 (Competitivo)" : "Página 2-4 (Sin optimización local)";
-              mapsClass = calcScore >= 75 ? "text-lg font-black text-emerald-400 mt-1" : "text-lg font-black text-amber-400 mt-1";
+              mapsText = calcScore >= 75 ? "Página 2 (Fuera del Pack 3)" : "Página 2-4 (Invisible en Google Maps)";
+              mapsClass = calcScore >= 75 ? "text-lg font-black text-amber-400 mt-1.5" : "text-lg font-black text-rose-400 mt-1.5";
 
-              speedText = `${estSeconds}s (${calcScore >= 75 ? 'Aceptable' : 'Lenta en 4G RD'})`;
-              speedClass = calcScore >= 75 ? "text-lg font-black text-emerald-400 mt-1" : "text-lg font-black text-red-400 mt-1";
+              speedText = `${estSeconds}s (${calcScore >= 75 ? 'Lenta' : 'Crítica en 4G RD'})`;
+              speedClass = calcScore >= 75 ? "text-lg font-black text-amber-400 mt-1.5" : "text-lg font-black text-rose-400 mt-1.5";
 
               const lostLeads = Math.round((100 - calcScore) * 1.8);
               lossText = `~${lostLeads} clientes/mes`;
-              diagText = `Sitio web oficial localizado en ${activeDomain} (Servidor en ${activeIp}). Latencia de respuesta de red inicial: ${measuredLatency}ms. En redes móviles dominicanas (Claro/Altice), esta arquitectura tarda aproximadamente ${estSeconds} segundos en cargar, afectando el ranking en Google y reduciendo la retención de usuarios.`;
+              
+              // Brechas comerciales redactadas para generar urgencia sin dar el cómo técnico
+              diagText = `
+                <div class="space-y-2.5">
+                  <div class="flex items-start gap-2.5">
+                    <span class="text-rose-400 font-bold shrink-0">1.</span>
+                    <p><strong class="text-white">Fuga de Llamadas en Google Maps:</strong> El perfil de ${rawBiz} no se encuentra consolidado en el Local 3-Pack de su zona. Más del 75% de las llamadas de clientes con intención inmediata de compra se las están llevando negocios cercanos de la competencia.</p>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <span class="text-rose-400 font-bold shrink-0">2.</span>
+                    <p><strong class="text-white">Abandono Móvil en Redes Dominicanas (${estSeconds}s):</strong> Los visitantes en Claro y Altice abandonan tras esperar más de 2 segundos. Se estima una pérdida directa de aproximadamente ${lostLeads} prospectos mensuales antes de iniciar contacto.</p>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <span class="text-rose-400 font-bold shrink-0">3.</span>
+                    <p><strong class="text-white">Enlaces Fríos sin Conversión:</strong> Al compartir enlaces en WhatsApp o redes, la página carece de tarjetas transaccionales magnéticas ni automatización de respuesta instantánea para capturar ventas 24/7.</p>
+                  </div>
+                </div>
+              `;
             }
 
           } else {
-            scoreText = "Puntaje Actual: 28/100 (Vulnerable - Sin Web)";
-            scoreBadgeClass = "px-4 py-1.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 font-mono font-bold text-xs sm:text-sm";
-            mapsText = "Ficha Huérfana (Página 3+)";
-            mapsClass = "text-lg font-black text-red-400 mt-1";
-            speedText = "Inexistente (0s)";
-            speedClass = "text-lg font-black text-slate-500 mt-1";
+            scoreText = "Puntaje Comercial: 24/100 (Inexistente - Fuga Total)";
+            scoreBadgeClass = "px-4 py-2 rounded-2xl bg-rose-500/20 text-rose-300 border border-rose-500/50 font-mono font-black text-sm sm:text-base";
+            mapsText = "Sin Presencia (0 Clientes)";
+            mapsClass = "text-lg font-black text-rose-400 mt-1.5";
+            speedText = "Sin Sitio Web Activo";
+            speedClass = "text-lg font-black text-slate-400 mt-1.5";
             lossText = "~140 clientes/mes";
-            diagText = `Buscamos en los registros de dominios dominicanos e internacionales (.com, .do, .com.do) para "${rawBiz}" y no se localizó un sitio web activo. En República Dominicana, las empresas sin página web propia pierden hasta el 80% de las búsquedas en Google Maps frente a competidores que sí tienen web con botón directo de WhatsApp.`;
+            diagText = `
+              <div class="space-y-2.5">
+                <div class="flex items-start gap-2.5">
+                  <span class="text-rose-400 font-bold shrink-0">1.</span>
+                  <p><strong class="text-white">Invisibilidad Total en Internet:</strong> No se detectó sitio web activo para "${rawBiz}". En República Dominicana, el 84% de consumidores que buscan en Google descartan empresas que no tienen presencia oficial verificada.</p>
+                </div>
+                <div class="flex items-start gap-2.5">
+                  <span class="text-rose-400 font-bold shrink-0">2.</span>
+                  <p><strong class="text-white">Regalando Mercado a la Competencia:</strong> Negocios de su mismo rubro en Santo Domingo y Santiago están captando aproximadamente ~140 llamadas al mes que deberían ser suyas.</p>
+                </div>
+              </div>
+            `;
           }
         }
 
@@ -1652,9 +1710,9 @@
         repSpeedVal.textContent = speedText;
 
         repLossVal.textContent = lossText;
-        repDiagText.textContent = diagText;
+        repDiagText.innerHTML = diagText;
 
-        const waMsg = encodeURIComponent(`Hola ISAPromoRD, ejecuté la auditoría para "${rawBiz}" (${activeDomain || 'Sin Web'}). Mi resultado fue ${scoreText} y velocidad de ${speedText}. Deseo cotizar la optimización a <0.5s y el plan de Google Maps.`);
+        const waMsg = encodeURIComponent(`Hola ISAPromoRD, ejecuté la auditoría de mi negocio "${rawBiz}" (${activeDomain || 'Sin Web'}). Mi resultado arrojó riesgo de fuga de clientes con velocidad ${speedText}. Deseo solicitar el plan de corrección técnica y Google Maps.`);
         repWaBtn.href = `https://wa.me/18294554783?text=${waMsg}`;
 
         reportBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });

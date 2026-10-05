@@ -4479,22 +4479,40 @@ https://isapromord.github.io`;
       const startTime = performance.now();
       let meta = null;
       let latencyMs = 0;
+      let rawHtml = "";
+      let hasRobots = false;
+      let hasSitemap = false;
+      let hasLlms = false;
 
+      // 1. Ejecutar análisis en paralelo: Microlink + HTML crudo + Endpoints clave
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
-        
-        const resp = await fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}`, {
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
+        const originUrl = new URL(currentAuditUrl).origin;
+        const [microResp, htmlResp, robResp, smResp, llmsResp] = await Promise.allSettled([
+          fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}`, { signal: AbortSignal.timeout(10000) }),
+          fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(currentAuditUrl)}`, { signal: AbortSignal.timeout(8000) }),
+          fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(originUrl + '/robots.txt')}`, { signal: AbortSignal.timeout(5000) }),
+          fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(originUrl + '/sitemap.xml')}`, { signal: AbortSignal.timeout(5000) }),
+          fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(originUrl + '/llms.txt')}`, { signal: AbortSignal.timeout(5000) })
+        ]);
+
         latencyMs = Math.round(performance.now() - startTime);
 
-        const data = await resp.json();
-        if (data.status === "success" && data.data) {
-          meta = data.data;
-          meta.responseHeaders = data.headers || {};
+        if (microResp.status === 'fulfilled' && microResp.value.ok) {
+          const d = await microResp.value.json();
+          if (d.status === "success" && d.data) {
+            meta = d.data;
+            meta.responseHeaders = d.headers || {};
+          }
         }
+
+        if (htmlResp.status === 'fulfilled' && htmlResp.value.ok) {
+          rawHtml = await htmlResp.value.text();
+        }
+
+        if (robResp.status === 'fulfilled' && robResp.value.ok) hasRobots = true;
+        if (smResp.status === 'fulfilled' && smResp.value.ok) hasSitemap = true;
+        if (llmsResp.status === 'fulfilled' && llmsResp.value.ok) hasLlms = true;
+
       } catch (err) {
         latencyMs = Math.round(performance.now() - startTime);
       } finally {
@@ -4503,8 +4521,17 @@ https://isapromord.github.io`;
         clearTimeout(t3);
       }
 
-      // Procesar evaluación multidimensional de los 7 servicios
-      currentAuditResults = evaluateServicesHealth(currentAuditUrl, meta, latencyMs, currentAuditClient);
+      // Procesar evaluación técnica real
+      const signals = { rawHtml, hasRobots, hasSitemap, hasLlms };
+      currentAuditResults = evaluateServicesHealth(currentAuditUrl, meta, latencyMs, currentAuditClient, signals);
+
+      // Si pertenece a un cliente registrado, actualizar su Health Score automáticamente
+      if (currentAuditClient) {
+        currentAuditClient.healthScore = currentAuditResults.score;
+        saveClientsToStorage(false);
+        renderClients();
+        updateKpis();
+      }
 
       // Actualizar vista con los resultados
       displayAuditResults(currentAuditResults);
@@ -4516,84 +4543,103 @@ https://isapromord.github.io`;
       document.getElementById("auditResultsContainer").classList.remove("hidden");
     }
 
-    function evaluateServicesHealth(url, meta, latencyMs, client) {
-      // Si Microlink u otro scraper de terceros falló o fue bloqueado, usar los metadatos verificados del cliente registrado
-      const title = (meta?.title || 
-        (client?.id === "client-torre-apex-esperilla" ? "Torre en La Esperilla | Apartamentos en Preventa | Alveare" : 
-        (client?.id === "client-elements-jarabacoa" ? "Elements Jarabacoa | Apartamentos Eco-Luxury en la Montaña | Alveare" : ""))
-      ).trim();
+    function evaluateServicesHealth(url, meta, latencyMs, client, signals = {}) {
+      const rawHtml = signals.rawHtml || "";
+      
+      // Extraer datos reales del HTML o de Microlink
+      let title = (meta?.title || "").trim();
+      if (!title && rawHtml) {
+        const tm = rawHtml.match(/<title[^>]*>(.*?)<\/title>/i);
+        if (tm) title = tm[1].trim();
+      }
 
-      const desc = (meta?.description || 
-        (client?.id === "client-torre-apex-esperilla" ? "Exclusiva torre residencial en La Esperilla, Santo Domingo. 2 y 3 habitaciones desde US$195,000 con amenidades de lujo y entrega en Marzo 2030." : 
-        (client?.id === "client-elements-jarabacoa" ? "Apartamentos exclusivos de 1, 2 y 3 habitaciones en preventa en Jamaca de Dios, Jarabacoa, RD. Alta rentabilidad, vistas a la montaña y lujo. Contacta a Alveare Realty." : ""))
-      ).trim();
+      let desc = (meta?.description || "").trim();
+      if (!desc && rawHtml) {
+        const dm = rawHtml.match(/<meta[^>]*name=["']description["'][^>]*content=["'](.*?)["']/i) ||
+                   rawHtml.match(/<meta[^>]*content=["'](.*?)["'][^>]*name=["']description["']/i);
+        if (dm) desc = dm[1].trim();
+      }
 
       const ogImage = meta?.image?.url || meta?.image || 
-        (client?.id === "client-torre-apex-esperilla" ? "https://torrelaesperilla.com/images/Apex%20V1.webp" : 
-        (client?.id === "client-elements-jarabacoa" ? "https://elementsjarabacoa.com.do/images/elements-og.jpg" : ""));
+        (rawHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["'](.*?)["']/i)?.[1] || "");
 
       const serverHeader = (meta?.responseHeaders?.server || "").toLowerCase();
       const isHttps = url.toLowerCase().startsWith("https://");
 
-      const combinedText = (title + " " + desc + " " + url).toLowerCase();
+      const combinedText = (title + " " + desc + " " + url + " " + (rawHtml ? rawHtml.substring(0, 3000) : "")).toLowerCase();
+
+      // Detección profunda de Schemas JSON-LD en el HTML
+      const hasJsonLd = rawHtml.includes('application/ld+json');
+      const hasLocalSchema = hasJsonLd && (/localbusiness|transportationservice|realestateagent|store|organization|medicalbusiness/i.test(rawHtml));
+      const hasFaqSchema = hasJsonLd && (/faqpage/i.test(rawHtml));
+
+      // Detección de Geo Meta Tags
+      const hasGeoRegion = rawHtml.includes('geo.region') || rawHtml.includes('geo.position') || rawHtml.includes('ICBM');
+
+      // Detección de WhatsApp transaccional
+      const hasWaLink = rawHtml.includes('wa.me') || rawHtml.includes('whatsapp') || combinedText.includes('wa.me');
+
+      // Detección de Canónica y H1
+      const hasCanonical = rawHtml.includes('rel="canonical"') || rawHtml.includes("rel='canonical'");
+      const hasH1 = /<h1[^>]*>/i.test(rawHtml);
 
       // Heurísticas de plataforma
-      const isVercel = serverHeader.includes("vercel") || url.includes("vercel.app") || (client && (client.platform || "").includes("Vercel"));
+      const isVercel = serverHeader.includes("vercel") || url.includes("vercel.app");
       const isCloudflare = serverHeader.includes("cloudflare");
+      const isNetlify = serverHeader.includes("netlify") || url.includes("netlify.app");
       const isGithub = serverHeader.includes("github") || url.includes("github.io");
-      const isEdgePlatform = isVercel || isCloudflare || isGithub;
+      const isEdgePlatform = isVercel || isCloudflare || isNetlify || isGithub;
 
-      // 1. Web Transaccional (<0.5s & Core Web Vitals)
+      // 1. Web Transaccional (<0.5s & Core Web Vitals) - Max 15 pts
       let s1_status = "failed";
       let s1_findings = "";
       let s1_needed = "";
       let s1_score = 0;
 
-      if (latencyMs > 0 && latencyMs <= 550 && (isEdgePlatform || isHttps)) {
+      if (latencyMs > 0 && latencyMs <= 650 && isHttps) {
         s1_status = "passed";
         s1_score = 15;
-        s1_findings = `Respuesta ultra-rápida de ${latencyMs}ms sobre arquitectura Anycast Edge. Certificado SSL HTTPS activo.`;
-        s1_needed = "Cumple con el estándar de rendimiento Core Web Vitals (<0.5s). No requiere cambios en infraestructura base.";
-      } else if (latencyMs <= 1400 || isEdgePlatform) {
+        s1_findings = `Respuesta ultra-rápida de ${latencyMs}ms. Certificado SSL HTTPS activo.`;
+        s1_needed = "Cumple con el estándar de rendimiento Core Web Vitals (<0.7s).";
+      } else if (latencyMs <= 1500 || isEdgePlatform) {
         s1_status = "warning";
         s1_score = 9;
-        s1_findings = `Latencia media de ${latencyMs}ms. El servidor responde aceptablemente pero no aprovecha compresión WebP y Edge Caching total.`;
-        s1_needed = "Migración de componentes pesados a Vite/React e implementación de compresión en Vercel Edge CDN para garantizar tiempos menores a 400ms.";
+        s1_findings = `Latencia de ${latencyMs}ms. El servidor responde pero no aprovecha compresión WebP y Edge Caching total.`;
+        s1_needed = "Implementar optimización Anycast CDN y compresión WebP para reducir tiempos a <500ms.";
       } else {
         s1_status = "failed";
         s1_score = 3;
-        s1_findings = `Latencia elevada (${latencyMs || '1800+'}ms) o servidor compartido lento. Alto riesgo de abandono móvil en República Dominicana.`;
-        s1_needed = "Implementar Web Transaccional (<0.5s) de ISAPromoRD: rediseño en React 18/Vite con despliegue Anycast Global y 100/100 Core Web Vitals.";
+        s1_findings = `Latencia elevada (${latencyMs || '1800+'}ms). Servidor compartido lento con riesgo de abandono móvil.`;
+        s1_needed = "Migración a arquitectura Cloud Anycast Global de ISAPromoRD.";
       }
 
-      // 2. Google Maps GBP & SEO Local (Pack 3 Dominicano)
+      // 2. Google Maps GBP & SEO Local - Max 15 pts
       let s2_status = "failed";
       let s2_findings = "";
       let s2_needed = "";
       let s2_score = 0;
 
-      const hasLocalMatrix = client?.optimizationMatrix?.geo && client.optimizationMatrix.geo !== "0%";
       const mentionsRd = /rep[uú]blica dominicana|santo domingo|santiago|piantini|naco|bella vista|punta cana|\brd\b/i.test(combinedText);
-      const hasRdPhone = !!(client?.phone || combinedText.match(/(809|829|849)/));
+      const hasRdPhone = !!(combinedText.match(/(809|829|849)/));
 
-      if (hasLocalMatrix || (mentionsRd && hasRdPhone && client?.tasks?.some(t => t.title.toLowerCase().includes("maps") && t.done))) {
+      if (hasLocalSchema && hasGeoRegion) {
         s2_status = "passed";
         s2_score = 15;
-        s2_findings = "Metadatos de localización dominicana detectados, consistencia de teléfono y ficha de Google Business Profile en proceso o verificada.";
-        s2_needed = "Mantener estrategia de captación de reseñas con palabras clave locales cada semana.";
-      } else if (mentionsRd || hasRdPhone) {
+        s2_findings = "Schema LocalBusiness JSON-LD activo y Geo Meta Tags de georreferenciación dominicana verificados.";
+        s2_needed = "Mantener campaña de reseñas locales con palabras clave de la zona en Google Maps.";
+      } else if (hasLocalSchema || hasGeoRegion || (mentionsRd && hasRdPhone)) {
         s2_status = "warning";
         s2_score = 8;
-        s2_findings = "Menciona República Dominicana o teléfono local, pero carece de Geo Meta Tags (geo.region DO-01, coordenadas GPS) y Schema LocalBusiness.";
-        s2_needed = "Inyectar Geo Meta Tags DO-01, Schema JSON-LD LocalBusiness georreferenciado y optimización de palabras clave en la ficha de Google Maps.";
+        s2_findings = "Menciona ubicación o teléfono dominicano, pero faltan Geo Meta Tags completos o Schema LocalBusiness en JSON-LD.";
+        s2_needed = "Inyectar Geo Meta Tags DO y Schema JSON-LD LocalBusiness georreferenciado para el Local Pack de Maps.";
       } else {
         s2_status = "failed";
         s2_score = 0;
-        s2_findings = "Sin rastro de geolocalización técnica ni vinculación con Google Maps. Invisible en búsquedas de zona comercial.";
-        s2_needed = "Contratar Módulo: Google Maps GBP & SEO Local. Reclamación, verificación técnica y geocirugía para posicionar en el Local 3-Pack.";
+        s2_findings = "Sin rastro de geolocalización técnica ni Schema LocalBusiness. Invisible en búsquedas locales de Google Maps.";
+        s2_needed = "Configurar Módulo Google Maps GBP: Schema LocalBusiness y Geo Tags técnicos.";
       }
 
-      // 3. WhatsApp Cards & OpenGraph 1200x630
+      // 3. WhatsApp Cards & OpenGraph 1200x630 - Max 15 pts
       let s3_status = "failed";
       let s3_findings = "";
       let s3_needed = "";
@@ -4605,68 +4651,67 @@ https://isapromord.github.io`;
       if (isOgImageValid && title && desc) {
         s3_status = "passed";
         s3_score = 15;
-        s3_findings = `Tarjeta OpenGraph activa con imagen destacada (${ogImage.substring(0, 45)}...), título y descripción persuasiva.`;
-        s3_needed = "Tarjeta enriquecida funcional. Al compartir en WhatsApp genera vista previa grande que maximiza el CTR.";
+        s3_findings = `Tarjeta OpenGraph activa con imagen destacada (${ogImage.substring(0, 45)}...), título y descripción.`;
+        s3_needed = "Tarjeta enriquecida funcional. Genera vista previa destacada al compartir en WhatsApp.";
       } else if (hasOgImage) {
         s3_status = "warning";
         s3_score = 7;
-        s3_findings = "Posee imagen OpenGraph pero es un ícono o carece de dimensiones óptimas (1200x630 px). En WhatsApp puede mostrarse cortada.";
-        s3_needed = "Generar diseño publicitario oficial en formato 1200x630 WebP optimizado para previsualización instantánea en WhatsApp y redes.";
+        s3_findings = "Posee imagen OpenGraph pero faltan metadatos completos o formato 1200x630.";
+        s3_needed = "Generar diseño en formato 1200x630 optimizado para previsualización en WhatsApp.";
       } else {
         s3_status = "failed";
         s3_score = 2;
-        s3_findings = "No tiene etiqueta og:image. Al compartir el enlace en chats de WhatsApp solo se visualiza un link azul plano sin imagen.";
-        s3_needed = "Inyectar bloque completo OpenGraph (og:title, og:description, og:image 1200x630, og:url, og:type=website).";
+        s3_findings = "Falta etiqueta og:image. Al compartir en WhatsApp solo se visualiza un enlace azul plano sin imagen.";
+        s3_needed = "Inyectar bloque completo OpenGraph (og:title, og:description, og:image 1200x630).";
       }
 
-      // 4. GEO Schemas para IA (ChatGPT, Perplexity & Gemini)
+      // 4. GEO Schemas para IA (ChatGPT, Perplexity & Gemini) - Max 15 pts
       let s4_status = "failed";
       let s4_findings = "";
       let s4_needed = "";
       let s4_score = 0;
 
-      const hasAiMatrix = client?.optimizationMatrix?.ai && client.optimizationMatrix.ai !== "0%";
-      const hasAiTaskDone = client?.tasks?.some(t => t.title.toLowerCase().includes("llms") && t.done);
-
-      if (hasAiMatrix || hasAiTaskDone) {
+      if (signals.hasLlms && hasFaqSchema) {
         s4_status = "passed";
         s4_score = 15;
-        s4_findings = "Protocolo GEO implementado con archivo llms.txt y autorización de bots (GPTBot, PerplexityBot, ClaudeBot) en robots.txt.";
-        s4_needed = "Actualizar periódicamente las preguntas frecuentes en Schema FAQPage para alimentar nuevos modelos de lenguaje.";
+        s4_findings = "Protocolo GEO activo: archivo /llms.txt verificado y Schema FAQPage estructurado para respuestas directas de IA.";
+        s4_needed = "Actualizar periódicamente las preguntas frecuentes en Schema FAQPage.";
+      } else if (signals.hasLlms || hasFaqSchema) {
+        s4_status = "warning";
+        s4_score = 8;
+        s4_findings = signals.hasLlms ? "Dispone de archivo /llms.txt pero falta Schema FAQPage estructurado." : "Tiene Schema FAQPage pero falta archivo /llms.txt en la raíz del dominio.";
+        s4_needed = "Completar la suite GEO con llms.txt y Schema FAQPage para máxima citación en ChatGPT y Perplexity.";
       } else {
         s4_status = "failed";
         s4_score = 0;
-        s4_findings = "Falta archivo llms.txt (estándar llmstxt.org) y Schema JSON-LD FAQPage. Los modelos de IA no indexan el catálogo de la empresa.";
-        s4_needed = "Implementar Módulo: GEO Schemas ChatGPT & Gemini. Creación de llms.txt, llms-full.txt, FAQPage estructurado y reglas en robots.txt.";
+        s4_findings = "Falta archivo /llms.txt (llmstxt.org) y Schema FAQPage. Los motores de IA no indexan el catálogo de la empresa.";
+        s4_needed = "Implementar archivo /llms.txt y Schema JSON-LD FAQPage para indexación en ChatGPT y Gemini.";
       }
 
-      // 5. Agente IA WhatsApp 24/7 & Automatización
+      // 5. Agente IA WhatsApp 24/7 & Conversión - Max 15 pts
       let s5_status = "failed";
       let s5_findings = "";
       let s5_needed = "";
       let s5_score = 0;
 
-      const hasDirectWa = combinedText.includes("wa.me") || combinedText.includes("whatsapp") || !!client?.phone;
-      const hasAgentDone = client?.tasks?.some(t => (t.title.toLowerCase().includes("agente") || t.title.toLowerCase().includes("automatiz")) && t.done);
-
-      if (hasAgentDone) {
+      if (hasWaLink && hasRdPhone) {
         s5_status = "passed";
         s5_score = 15;
-        s5_findings = "Canal WhatsApp transaccional configurado con automatización y respuesta inmediata.";
-        s5_needed = "Revisar logs mensuales de conversaciones para afinar respuestas del agente inteligente.";
-      } else if (hasDirectWa) {
+        s5_findings = "Canal directo WhatsApp detectado en el sitio con número dominicano verificado.";
+        s5_needed = "Conectar automatización o respuestas pre-cargadas para respuesta inmediata en <3 segundos.";
+      } else if (hasWaLink || hasRdPhone) {
         s5_status = "warning";
         s5_score = 8;
-        s5_findings = "Dispone de enlace o número de WhatsApp, pero opera como chat manual sin calificador automático ni respuestas en <3s.";
-        s5_needed = "Conectar Agente IA WhatsApp 24/7 de ISAPromoRD: atención nocturna, envío instantáneo de catálogo y captura de datos de clientes.";
+        s5_findings = "Dispone de teléfono o mención de WhatsApp pero sin botón interactivo de alta visibilidad.";
+        s5_needed = "Instalar botón interactivo flotante con pre-mensaje transaccional a WhatsApp.";
       } else {
         s5_status = "failed";
         s5_score = 0;
-        s5_findings = "Sin integración visible de WhatsApp. En el mercado dominicano, no tener botón directo a WhatsApp reduce drásticamente las ventas.";
-        s5_needed = "Instalar botón interactivo flotante con pre-mensaje transaccional y webhook de IA conversacional.";
+        s5_findings = "Sin botón ni integración visible de WhatsApp. Reduce drásticamente la tasa de conversión.";
+        s5_needed = "Integrar botón directo de WhatsApp de alta conversión.";
       }
 
-      // 6. SEO On-Page Transaccional & Google Search Console
+      // 6. SEO On-Page Transaccional - Max 15 pts
       let s6_status = "failed";
       let s6_findings = "";
       let s6_needed = "";
@@ -4677,46 +4722,44 @@ https://isapromord.github.io`;
       const hasGoodTitle = titleLen >= 30 && titleLen <= 70;
       const hasGoodDesc = descLen >= 90 && descLen <= 175;
 
-      if (hasGoodTitle && hasGoodDesc) {
+      if (hasGoodTitle && hasGoodDesc && (hasH1 || hasCanonical)) {
         s6_status = "passed";
         s6_score = 15;
-        s6_findings = `Title Tag óptimo (${titleLen} carácteres: "${title}") y Meta Description persuasiva (${descLen} carácteres).`;
-        s6_needed = "Verificar indexación activa y estado del sitemap.xml en Google Search Console.";
+        s6_findings = `Title Tag óptimo (${titleLen} carácteres: "${title}"), Meta Description (${descLen} carácteres) y estructura verificada.`;
+        s6_needed = "Verificar estado del sitemap.xml en Google Search Console.";
       } else if (titleLen > 0 || descLen > 0) {
         s6_status = "warning";
-        s6_score = 7;
-        s6_findings = `Metadatos incompletos: Título tiene ${titleLen} carácteres (recomendado 35-65), Descripción tiene ${descLen} carácteres (recomendado 120-165).`;
-        s6_needed = "Reescribir Title y Meta Description orientados a palabras clave de compra en República Dominicana, y verificar URL canónica.";
+        s6_score = 8;
+        s6_findings = `Metadatos incompletos: Título tiene ${titleLen} carácteres (recomendado 35-70), Descripción tiene ${descLen} carácteres (recomendado 100-170).`;
+        s6_needed = "Ajustar longitud de Title y Meta Description orientados a palabras clave de compra.";
       } else {
         s6_status = "failed";
         s6_score = 0;
-        s6_findings = "Falta etiqueta <title> y <meta name='description'>. Penalización directa en Google Search orgánico.";
-        s6_needed = "Optimización integral de etiquetas On-Page, Canonical Tag, mapa sitemap.xml y envío prioritario a Googlebot.";
+        s6_findings = "Falta etiqueta <title> o <meta name='description'>. Penalización directa en Google Search.";
+        s6_needed = "Optimización integral de etiquetas On-Page y Canonical Tag.";
       }
 
-      // 7. Cloud Anycast & Mantenimiento Proactivo (Retainer)
+      // 7. Cloud Hosting, SSL & Robots.txt - Max 10 pts
       let s7_status = "failed";
       let s7_findings = "";
       let s7_needed = "";
       let s7_score = 0;
 
-      const hasFeeConfigured = client?.fee && client.fee !== "No especificado";
-
-      if (isHttps && hasFeeConfigured && client?.status === "active") {
+      if (isHttps && (signals.hasRobots || isEdgePlatform)) {
         s7_status = "passed";
         s7_score = 10;
-        s7_findings = `Certificado SSL activo (HTTPS), hosting moderno y cobertura de retainer mensual asignada (${client.fee}).`;
-        s7_needed = "Monitoreo de caídas 24/7 y respaldos periódicos activos.";
+        s7_findings = `Certificado SSL activo (HTTPS), hosting moderno (${serverHeader || 'Cloud Edge'}) y robots.txt verificado.`;
+        s7_needed = "Monitoreo continuo de disponibilidad y respaldos periódicos.";
       } else if (isHttps) {
         s7_status = "warning";
         s7_score = 5;
-        s7_findings = "Certificado SSL HTTPS funcional, pero sin plan de mantenimiento ni monitoreo continuo de caídas registrado en la agencia.";
-        s7_needed = "Contratar Retainer de Mantenimiento Mensual: soporte técnico prioritario, prevención de caídas y copias de seguridad.";
+        s7_findings = "Conexión segura HTTPS activa, pero sin archivo robots.txt para guiar a los rastreadores.";
+        s7_needed = "Crear archivo robots.txt y configurar monitoreo de caídas.";
       } else {
         s7_status = "failed";
         s7_score = 0;
-        s7_findings = "Conexión HTTP no segura. Los navegadores modernos muestran advertencia de 'Sitio No Seguro' a los visitantes.";
-        s7_needed = "Instalación de SSL corporativo y migración a hosting Cloud Anycast de alta disponibilidad.";
+        s7_findings = "Conexión HTTP no segura. Los navegadores modernos muestran advertencia de 'Sitio No Seguro'.";
+        s7_needed = "Instalación urgente de certificado SSL y migración a hosting seguro.";
       }
 
       // Puntuación Total Escalada a 100

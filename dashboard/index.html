@@ -1553,7 +1553,11 @@
               </button>
               <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
-                <span>Copiar Propuesta para WhatsApp</span>
+                <span>Copiar para WhatsApp</span>
+              </button>
+              <button onclick="copyAuditReportForAntigravity()" id="auditCopyAgyBtn" class="px-3.5 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 hover:text-white text-xs font-bold border border-purple-500/50 flex items-center gap-1.5 transition-colors shadow-sm" title="Copiar reporte técnico formateado para AntiGravity / IA">
+                <span class="text-sm">🤖</span>
+                <span>Copiar para AntiGravity (Agente IA)</span>
               </button>
             </div>
           </div>
@@ -4161,6 +4165,74 @@ https://isapromord.com`;
       if (btn) {
         const orig = btn.innerHTML;
         btn.innerHTML = `<span>✓ ¡Propuesta Copiada!</span>`;
+        setTimeout(() => btn.innerHTML = orig, 2500);
+      }
+    }
+
+    function copyAuditReportForAntigravity() {
+      if (!currentAuditResults) return;
+
+      const res = currentAuditResults;
+      const clientName = currentAuditClient ? currentAuditClient.name : (res.meta?.title || new URL(res.url).hostname);
+      const repoUrl = currentAuditClient?.repoUrl || "No configurado";
+      const platform = currentAuditClient?.platform || (res.meta?.responseHeaders?.server || "Hosting Cloud");
+      const clientPhone = currentAuditClient?.phone || "No configurado";
+      const clientEmail = currentAuditClient?.email || "No configurado";
+      const clientCategory = currentAuditClient?.category || "Comercio / Servicios";
+
+      const failedSvcs = res.services.filter(s => s.status === "failed");
+      const warningSvcs = res.services.filter(s => s.status === "warning");
+
+      const gapsList = [...failedSvcs, ...warningSvcs].map(s => {
+        return `### [${s.status === 'failed' ? 'CRITICAL GAP' : 'WARNING'}] ${s.title}
+- Diagnóstico: ${s.findings}
+- Qué se necesita: ${s.needed}
+- Módulo Oficial ISAPromoRD: ${s.solution}`;
+      }).join('\n\n');
+
+      const text = 
+`⚡ **ISAPROMORD AUDIT REMEDIATION PAYLOAD**
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**METADATOS DEL PROYECTO:**
+- **Cliente:** ${clientName}
+- **URL en Vivo:** ${res.url}
+- **Repositorio GitHub:** ${repoUrl}
+- **Categoría / Industria:** ${clientCategory}
+- **Plataforma Detectada:** ${platform}
+- **Teléfono / WhatsApp:** ${clientPhone}
+- **Email de Contacto:** ${clientEmail}
+- **Latencia Medida:** ${res.latencyMs}ms
+- **Índice de Madurez Digital Actual:** ${res.score}/100
+- **Brechas a Resolver:** ${failedSvcs.length} críticas, ${warningSvcs.length} oportunidades
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**BRECHAS TÉCNICAS AUDITADAS QUE REQUIEREN REMEDIACIÓN:**
+
+${gapsList}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+**INSTRUCCIÓN DIRECTA PARA ANTIGRAVITY (AGENTE IA):**
+AntiGravity, por favor toma este reporte y ejecuta la remediación técnica completa:
+1. Inspecciona el código fuente del proyecto (en local o clona ${repoUrl}).
+2. Inyecta todos los elementos requeridos en \`index.html\`:
+   - Title optimizado con palabras clave y ubicación geográfica en República Dominicana.
+   - Meta Description persuasiva de 140-160 caracteres con llamada a la acción.
+   - Canonical URL (\`${res.url}\`).
+   - Geo Meta Tags para República Dominicana (\`geo.region\` DO-01, coordenadas GPS, ICBM).
+   - Tarjetas OpenGraph completas con imagen destacada 1200x630 para WhatsApp.
+   - Schemas JSON-LD enriquecidos (@graph con LocalBusiness georreferenciado, FAQPage y OfferCatalog).
+3. Genera \`public/robots.txt\` autorizando Googlebot, GPTBot, PerplexityBot, ClaudeBot y vinculando el sitemap.
+4. Genera \`public/sitemap.xml\` válido.
+5. Genera \`public/llms.txt\` y \`public/llms-full.txt\` bajo la especificación llmstxt.org.
+6. Ejecuta \`npm run build\` para verificar que compila con 0 errores y haz commit/push a GitHub.
+7. Al finalizar, confírmame para marcar el hito como 100% completado en el Dashboard de ISAPromoRD.`;
+
+      copyToClipboard(encodeURIComponent(text), "🤖 Reporte Técnico para AntiGravity copiado al portapapeles");
+
+      const btn = document.getElementById("auditCopyAgyBtn");
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span>✓ ¡Reporte para IA Copiado!</span>`;
         setTimeout(() => btn.innerHTML = orig, 2500);
       }
     }

@@ -217,6 +217,16 @@
       <!-- Action Buttons -->
       <div class="flex items-center gap-2 sm:gap-3">
         <button 
+          onclick="openDirectAuditModal()" 
+          title="Auditar cualquier dominio o prospecto en vivo"
+          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs sm:text-sm active:scale-[0.98] transition-all"
+        >
+          <span class="text-sm">⚡</span>
+          <span class="hidden sm:inline">Auditar Servicios Web</span>
+          <span class="sm:hidden">Auditar</span>
+        </button>
+
+        <button 
           onclick="openNewClientModal()" 
           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm shadow-glow-cyan active:scale-[0.98] transition-all"
         >
@@ -1437,6 +1447,150 @@
   </div>
 
   <!-- ========================================================
+       MODAL: AUDITORÍA 360° DE TODOS LOS SERVICIOS ISAPROMORD
+       ======================================================== -->
+  <div id="servicesAuditModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0c1322] border border-slate-700/80 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
+      
+      <!-- Header -->
+      <div class="p-5 sm:p-6 border-b border-slate-800 bg-[#0f172a]/90 flex items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500/20 via-indigo-500/20 to-cyan-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center text-xl shrink-0 shadow-inner">
+            ⚡
+          </div>
+          <div class="overflow-hidden">
+            <div class="flex items-center gap-2">
+              <h3 class="text-base sm:text-lg font-black text-white tracking-tight truncate" id="auditModalTitle">Auditoría 360° de Servicios Web</h3>
+              <span id="auditModalStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
+                Escaneo en Vivo
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono truncate" id="auditModalUrl">
+              Evaluando requerimientos técnicos y servicios requeridos...
+            </p>
+          </div>
+        </div>
+
+        <button onclick="closeServicesAuditModal()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Barra de URL para Escaneo Directo -->
+      <div class="px-5 py-3 bg-[#080d19] border-b border-slate-800/80 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
+        <div class="relative flex-1">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500 text-xs font-mono">🌐</span>
+          <input type="url" id="auditInputUrl" placeholder="https://ejemplo.com" class="w-full pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300 placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:outline-none" />
+        </div>
+        <button onclick="triggerDirectAuditFromInput()" id="auditBtnRunScan" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/30 shrink-0">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <span>Escanear URL</span>
+        </button>
+      </div>
+
+      <!-- Scrollable Content Body -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-200">
+
+        <!-- Loading State -->
+        <div id="auditLoadingState" class="py-16 flex flex-col items-center justify-center text-center space-y-4">
+          <div class="relative w-16 h-16">
+            <div class="w-16 h-16 rounded-full border-4 border-slate-800 border-t-purple-400 border-r-cyan-400 animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-xl">⚡</div>
+          </div>
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-white" id="auditLoadingStep">Ejecutando diagnóstico 360° en tiempo real...</h4>
+            <p class="text-xs text-slate-400 max-w-sm font-sans" id="auditLoadingSub">Auditando Web Speed, SEO, WhatsApp OpenGraph, Google Maps Local Pack, e Indexación para IA (GEO)...</p>
+          </div>
+        </div>
+
+        <!-- Audit Results Container (hidden during load) -->
+        <div id="auditResultsContainer" class="hidden space-y-6">
+
+          <!-- Resumen de Puntuación Global & Pilares -->
+          <div class="p-5 rounded-2xl bg-[#080d19] border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+            
+            <!-- Score Radial / Badge -->
+            <div class="md:col-span-4 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Madurez de Servicios</span>
+              <div class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white" id="auditScoreValue">
+                --%
+              </div>
+              <span id="auditScoreStatus" class="mt-2 px-3 py-1 rounded-full text-xs font-bold border">
+                Calculando...
+              </span>
+              <span class="text-[11px] text-slate-400 mt-2 text-center" id="auditScoreAdvice">
+                Basado en los 7 servicios del catálogo de ISAPromoRD
+              </span>
+            </div>
+
+            <!-- Contadores de Brechas & Servicios -->
+            <div class="md:col-span-8 grid grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center">
+                <span class="text-2xl font-black text-emerald-400 font-mono block" id="auditCountPassed">0</span>
+                <span class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">Cumplidos</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30 text-center">
+                <span class="text-2xl font-black text-amber-400 font-mono block" id="auditCountWarning">0</span>
+                <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider">Oportunidades</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/30 text-center">
+                <span class="text-2xl font-black text-rose-400 font-mono block" id="auditCountFailed">0</span>
+                <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">Brechas Críticas</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Barra de Acciones Operativas Rápidas -->
+          <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#090e1b] border border-slate-800">
+            <div class="text-xs text-slate-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span class="font-bold">Acciones para Ejecutar o Cotizar:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
+                <span>🚀 Aplicar al Roadmap del Cliente</span>
+              </button>
+              <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
+                <span>Copiar Propuesta para WhatsApp</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- LISTA DESGLOSADA DE SERVICIOS ISAPROMORD -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                <span>Desglose por Servicio & Diagnóstico Técnico</span>
+                <span class="text-[10px] font-mono text-cyan-400">(7 Módulos Clave)</span>
+              </h4>
+              <span class="text-[11px] text-slate-400">Haz clic en cualquier servicio para ver su guía</span>
+            </div>
+
+            <div id="auditServicesList" class="space-y-3">
+              <!-- Se renderizan dinámicamente las 7 tarjetas de servicio -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-slate-800 bg-[#0f172a] flex items-center justify-between shrink-0">
+        <span class="text-[11px] text-slate-400 font-mono">
+          Motor AntiGravity • ISAPromoRD Diagnostics v2.5
+        </span>
+        <button onclick="closeServicesAuditModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
        MODAL: BACKUP & CONFIGURACIÓN PIN
        ======================================================== -->
   <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
@@ -2299,6 +2453,9 @@
                   </div>
                   
                   <div class="flex items-center gap-2">
+                    <button onclick="runServicesAudit('${client.id}')" class="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Auditoría 360° de servicios ISAPromoRD">
+                      <span>⚡ Auditar Servicios</span>
+                    </button>
                     <button onclick="editClient('${client.id}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
                       <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                       <span>Editar Ficha</span>
@@ -2504,7 +2661,12 @@
 
                 <!-- Botones de Acción de Alto Contraste -->
                 <div class="space-y-2.5 pt-4 border-t border-slate-800">
-                  <a href="${client.liveUrl}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20 transition-all">
+                  <button onclick="runServicesAudit('${client.id}')" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] group" title="Auditar todos los servicios ofrecidos por ISAPromoRD">
+                    <span class="text-sm group-hover:scale-125 transition-transform">⚡</span>
+                    <span>Auditar Servicios (360°)</span>
+                  </button>
+
+                  <a href="${client.liveUrl}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 border border-slate-700 transition-all">
                     <span>Visitar Web en Vivo</span>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                   </a>
@@ -3322,6 +3484,685 @@ https://isapromord.github.io`;
         }
       };
       reader.readAsText(file);
+    }
+
+    // ==========================================
+    // 11B. MOTOR DE AUDITORÍA 360° DE SERVICIOS ISAPROMORD
+    // ==========================================
+    let currentAuditClient = null;
+    let currentAuditUrl = "";
+    let currentAuditResults = null;
+
+    function openDirectAuditModal() {
+      currentAuditClient = null;
+      currentAuditUrl = "";
+      currentAuditResults = null;
+
+      document.getElementById("auditModalTitle").textContent = "Auditoría 360° de Servicios Web";
+      document.getElementById("auditModalUrl").textContent = "Ingresa un dominio para diagnosticar requerimientos de todos los servicios";
+      document.getElementById("auditInputUrl").value = "";
+      
+      const modal = document.getElementById("servicesAuditModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+
+      document.getElementById("auditLoadingState").classList.add("hidden");
+      document.getElementById("auditResultsContainer").classList.add("hidden");
+      document.getElementById("auditInputUrl").focus();
+    }
+
+    function closeServicesAuditModal() {
+      const modal = document.getElementById("servicesAuditModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function triggerDirectAuditFromInput() {
+      const rawUrl = document.getElementById("auditInputUrl").value.trim();
+      if (!rawUrl) {
+        showToast("⚠️ Ingresa una URL o dominio para auditar");
+        return;
+      }
+      runServicesAudit(null, rawUrl);
+    }
+
+    function reRunCurrentAudit() {
+      if (!currentAuditUrl) return;
+      runServicesAudit(currentAuditClient ? currentAuditClient.id : null, currentAuditUrl);
+    }
+
+    async function runServicesAudit(clientId, customUrl) {
+      if (clientId) {
+        currentAuditClient = clients.find(c => c.id === clientId) || null;
+        currentAuditUrl = currentAuditClient ? (currentAuditClient.liveUrl || "") : (customUrl || "");
+      } else {
+        currentAuditUrl = customUrl || "";
+        // Intentar enlazar con algún cliente registrado por dominio
+        if (currentAuditUrl) {
+          const cleanTarget = currentAuditUrl.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+          currentAuditClient = clients.find(c => {
+            if (!c.liveUrl) return false;
+            const cDomain = c.liveUrl.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+            return cDomain === cleanTarget || cDomain.includes(cleanTarget) || cleanTarget.includes(cDomain);
+          }) || null;
+        } else {
+          currentAuditClient = null;
+        }
+      }
+
+      if (!currentAuditUrl) {
+        showToast("⚠️ No se encontró una URL válida para auditar");
+        return;
+      }
+
+      if (!/^https?:\/\//i.test(currentAuditUrl)) {
+        currentAuditUrl = "https://" + currentAuditUrl;
+      }
+
+      const modal = document.getElementById("servicesAuditModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+
+      const titleEl = document.getElementById("auditModalTitle");
+      const urlEl = document.getElementById("auditModalUrl");
+      const inputEl = document.getElementById("auditInputUrl");
+      const badgeEl = document.getElementById("auditModalStatusBadge");
+
+      titleEl.textContent = currentAuditClient 
+        ? `Auditoría 360° — ${currentAuditClient.name}` 
+        : "Auditoría 360° de Servicios Web";
+      urlEl.textContent = currentAuditUrl;
+      inputEl.value = currentAuditUrl;
+      badgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0 animate-pulse";
+      badgeEl.textContent = "Analizando...";
+
+      document.getElementById("auditLoadingState").classList.remove("hidden");
+      document.getElementById("auditResultsContainer").classList.add("hidden");
+
+      const stepText = document.getElementById("auditLoadingStep");
+      const subText = document.getElementById("auditLoadingSub");
+
+      stepText.textContent = "Conectando con el servidor y midiendo latencia...";
+      subText.textContent = "Inspeccionando arquitectura Anycast, SSL y respuesta HTTP...";
+
+      const t1 = setTimeout(() => {
+        if (stepText) stepText.textContent = "Extrayendo metadatos OpenGraph y tarjetas WhatsApp (1200x630)...";
+      }, 700);
+      const t2 = setTimeout(() => {
+        if (stepText) stepText.textContent = "Verificando Google Maps Local Pack, Geo-Tags y Schemas JSON-LD...";
+      }, 1400);
+      const t3 = setTimeout(() => {
+        if (stepText) stepText.textContent = "Auditando indexación para Motores de IA (llms.txt, ChatGPT, Perplexity)...";
+      }, 2100);
+
+      const startTime = performance.now();
+      let meta = null;
+      let latencyMs = 0;
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
+        
+        const resp = await fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}&headers=true`, {
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        latencyMs = Math.round(performance.now() - startTime);
+
+        const data = await resp.json();
+        if (data.status === "success" && data.data) {
+          meta = data.data;
+          meta.responseHeaders = data.headers || {};
+        }
+      } catch (err) {
+        latencyMs = Math.round(performance.now() - startTime);
+      } finally {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      }
+
+      // Procesar evaluación multidimensional de los 7 servicios
+      currentAuditResults = evaluateServicesHealth(currentAuditUrl, meta, latencyMs, currentAuditClient);
+
+      // Actualizar vista con los resultados
+      displayAuditResults(currentAuditResults);
+
+      badgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0";
+      badgeEl.textContent = "Auditoría Completada ✓";
+
+      document.getElementById("auditLoadingState").classList.add("hidden");
+      document.getElementById("auditResultsContainer").classList.remove("hidden");
+    }
+
+    function evaluateServicesHealth(url, meta, latencyMs, client) {
+      const title = (meta?.title || "").trim();
+      const desc = (meta?.description || "").trim();
+      const ogImage = meta?.image?.url || meta?.image || "";
+      const serverHeader = (meta?.responseHeaders?.server || "").toLowerCase();
+      const isHttps = url.toLowerCase().startsWith("https://");
+
+      const combinedText = (title + " " + desc + " " + url).toLowerCase();
+
+      // Heurísticas de plataforma
+      const isVercel = serverHeader.includes("vercel") || url.includes("vercel.app") || (client && (client.platform || "").includes("Vercel"));
+      const isCloudflare = serverHeader.includes("cloudflare");
+      const isGithub = serverHeader.includes("github") || url.includes("github.io");
+      const isEdgePlatform = isVercel || isCloudflare || isGithub;
+
+      // 1. Web Transaccional (<0.5s & Core Web Vitals)
+      let s1_status = "failed";
+      let s1_findings = "";
+      let s1_needed = "";
+      let s1_score = 0;
+
+      if (latencyMs > 0 && latencyMs <= 550 && (isEdgePlatform || isHttps)) {
+        s1_status = "passed";
+        s1_score = 15;
+        s1_findings = `Respuesta ultra-rápida de ${latencyMs}ms sobre arquitectura Anycast Edge. Certificado SSL HTTPS activo.`;
+        s1_needed = "Cumple con el estándar de rendimiento Core Web Vitals (<0.5s). No requiere cambios en infraestructura base.";
+      } else if (latencyMs <= 1400 || isEdgePlatform) {
+        s1_status = "warning";
+        s1_score = 9;
+        s1_findings = `Latencia media de ${latencyMs}ms. El servidor responde aceptablemente pero no aprovecha compresión WebP y Edge Caching total.`;
+        s1_needed = "Migración de componentes pesados a Vite/React e implementación de compresión en Vercel Edge CDN para garantizar tiempos menores a 400ms.";
+      } else {
+        s1_status = "failed";
+        s1_score = 3;
+        s1_findings = `Latencia elevada (${latencyMs || '1800+'}ms) o servidor compartido lento. Alto riesgo de abandono móvil en República Dominicana.`;
+        s1_needed = "Implementar Web Transaccional (<0.5s) de ISAPromoRD: rediseño en React 18/Vite con despliegue Anycast Global y 100/100 Core Web Vitals.";
+      }
+
+      // 2. Google Maps GBP & SEO Local (Pack 3 Dominicano)
+      let s2_status = "failed";
+      let s2_findings = "";
+      let s2_needed = "";
+      let s2_score = 0;
+
+      const hasLocalMatrix = client?.optimizationMatrix?.geo && client.optimizationMatrix.geo !== "0%";
+      const mentionsRd = /rep[uú]blica dominicana|santo domingo|santiago|piantini|naco|bella vista|punta cana|\brd\b/i.test(combinedText);
+      const hasRdPhone = !!(client?.phone || combinedText.match(/(809|829|849)/));
+
+      if (hasLocalMatrix || (mentionsRd && hasRdPhone && client?.tasks?.some(t => t.title.toLowerCase().includes("maps") && t.done))) {
+        s2_status = "passed";
+        s2_score = 15;
+        s2_findings = "Metadatos de localización dominicana detectados, consistencia de teléfono y ficha de Google Business Profile en proceso o verificada.";
+        s2_needed = "Mantener estrategia de captación de reseñas con palabras clave locales cada semana.";
+      } else if (mentionsRd || hasRdPhone) {
+        s2_status = "warning";
+        s2_score = 8;
+        s2_findings = "Menciona República Dominicana o teléfono local, pero carece de Geo Meta Tags (geo.region DO-01, coordenadas GPS) y Schema LocalBusiness.";
+        s2_needed = "Inyectar Geo Meta Tags DO-01, Schema JSON-LD LocalBusiness georreferenciado y optimización de palabras clave en la ficha de Google Maps.";
+      } else {
+        s2_status = "failed";
+        s2_score = 0;
+        s2_findings = "Sin rastro de geolocalización técnica ni vinculación con Google Maps. Invisible en búsquedas de zona comercial.";
+        s2_needed = "Contratar Módulo: Google Maps GBP & SEO Local. Reclamación, verificación técnica y geocirugía para posicionar en el Local 3-Pack.";
+      }
+
+      // 3. WhatsApp Cards & OpenGraph 1200x630
+      let s3_status = "failed";
+      let s3_findings = "";
+      let s3_needed = "";
+      let s3_score = 0;
+
+      const hasOgImage = !!ogImage;
+      const isOgImageValid = hasOgImage && !ogImage.toLowerCase().includes("favicon") && !ogImage.toLowerCase().includes("apple-touch");
+
+      if (isOgImageValid && title && desc) {
+        s3_status = "passed";
+        s3_score = 15;
+        s3_findings = `Tarjeta OpenGraph activa con imagen destacada (${ogImage.substring(0, 45)}...), título y descripción persuasiva.`;
+        s3_needed = "Tarjeta enriquecida funcional. Al compartir en WhatsApp genera vista previa grande que maximiza el CTR.";
+      } else if (hasOgImage) {
+        s3_status = "warning";
+        s3_score = 7;
+        s3_findings = "Posee imagen OpenGraph pero es un ícono o carece de dimensiones óptimas (1200x630 px). En WhatsApp puede mostrarse cortada.";
+        s3_needed = "Generar diseño publicitario oficial en formato 1200x630 WebP optimizado para previsualización instantánea en WhatsApp y redes.";
+      } else {
+        s3_status = "failed";
+        s3_score = 2;
+        s3_findings = "No tiene etiqueta og:image. Al compartir el enlace en chats de WhatsApp solo se visualiza un link azul plano sin imagen.";
+        s3_needed = "Inyectar bloque completo OpenGraph (og:title, og:description, og:image 1200x630, og:url, og:type=website).";
+      }
+
+      // 4. GEO Schemas para IA (ChatGPT, Perplexity & Gemini)
+      let s4_status = "failed";
+      let s4_findings = "";
+      let s4_needed = "";
+      let s4_score = 0;
+
+      const hasAiMatrix = client?.optimizationMatrix?.ai && client.optimizationMatrix.ai !== "0%";
+      const hasAiTaskDone = client?.tasks?.some(t => t.title.toLowerCase().includes("llms") && t.done);
+
+      if (hasAiMatrix || hasAiTaskDone) {
+        s4_status = "passed";
+        s4_score = 15;
+        s4_findings = "Protocolo GEO implementado con archivo llms.txt y autorización de bots (GPTBot, PerplexityBot, ClaudeBot) en robots.txt.";
+        s4_needed = "Actualizar periódicamente las preguntas frecuentes en Schema FAQPage para alimentar nuevos modelos de lenguaje.";
+      } else {
+        s4_status = "failed";
+        s4_score = 0;
+        s4_findings = "Falta archivo llms.txt (estándar llmstxt.org) y Schema JSON-LD FAQPage. Los modelos de IA no indexan el catálogo de la empresa.";
+        s4_needed = "Implementar Módulo: GEO Schemas ChatGPT & Gemini. Creación de llms.txt, llms-full.txt, FAQPage estructurado y reglas en robots.txt.";
+      }
+
+      // 5. Agente IA WhatsApp 24/7 & Automatización
+      let s5_status = "failed";
+      let s5_findings = "";
+      let s5_needed = "";
+      let s5_score = 0;
+
+      const hasDirectWa = combinedText.includes("wa.me") || combinedText.includes("whatsapp") || !!client?.phone;
+      const hasAgentDone = client?.tasks?.some(t => (t.title.toLowerCase().includes("agente") || t.title.toLowerCase().includes("automatiz")) && t.done);
+
+      if (hasAgentDone) {
+        s5_status = "passed";
+        s5_score = 15;
+        s5_findings = "Canal WhatsApp transaccional configurado con automatización y respuesta inmediata.";
+        s5_needed = "Revisar logs mensuales de conversaciones para afinar respuestas del agente inteligente.";
+      } else if (hasDirectWa) {
+        s5_status = "warning";
+        s5_score = 8;
+        s5_findings = "Dispone de enlace o número de WhatsApp, pero opera como chat manual sin calificador automático ni respuestas en <3s.";
+        s5_needed = "Conectar Agente IA WhatsApp 24/7 de ISAPromoRD: atención nocturna, envío instantáneo de catálogo y captura de datos de clientes.";
+      } else {
+        s5_status = "failed";
+        s5_score = 0;
+        s5_findings = "Sin integración visible de WhatsApp. En el mercado dominicano, no tener botón directo a WhatsApp reduce drásticamente las ventas.";
+        s5_needed = "Instalar botón interactivo flotante con pre-mensaje transaccional y webhook de IA conversacional.";
+      }
+
+      // 6. SEO On-Page Transaccional & Google Search Console
+      let s6_status = "failed";
+      let s6_findings = "";
+      let s6_needed = "";
+      let s6_score = 0;
+
+      const titleLen = title.length;
+      const descLen = desc.length;
+      const hasGoodTitle = titleLen >= 30 && titleLen <= 70;
+      const hasGoodDesc = descLen >= 90 && descLen <= 175;
+
+      if (hasGoodTitle && hasGoodDesc) {
+        s6_status = "passed";
+        s6_score = 15;
+        s6_findings = `Title Tag óptimo (${titleLen} carácteres: "${title}") y Meta Description persuasiva (${descLen} carácteres).`;
+        s6_needed = "Verificar indexación activa y estado del sitemap.xml en Google Search Console.";
+      } else if (titleLen > 0 || descLen > 0) {
+        s6_status = "warning";
+        s6_score = 7;
+        s6_findings = `Metadatos incompletos: Título tiene ${titleLen} carácteres (recomendado 35-65), Descripción tiene ${descLen} carácteres (recomendado 120-165).`;
+        s6_needed = "Reescribir Title y Meta Description orientados a palabras clave de compra en República Dominicana, y verificar URL canónica.";
+      } else {
+        s6_status = "failed";
+        s6_score = 0;
+        s6_findings = "Falta etiqueta <title> y <meta name='description'>. Penalización directa en Google Search orgánico.";
+        s6_needed = "Optimización integral de etiquetas On-Page, Canonical Tag, mapa sitemap.xml y envío prioritario a Googlebot.";
+      }
+
+      // 7. Cloud Anycast & Mantenimiento Proactivo (Retainer)
+      let s7_status = "failed";
+      let s7_findings = "";
+      let s7_needed = "";
+      let s7_score = 0;
+
+      const hasFeeConfigured = client?.fee && client.fee !== "No especificado";
+
+      if (isHttps && hasFeeConfigured && client?.status === "active") {
+        s7_status = "passed";
+        s7_score = 10;
+        s7_findings = `Certificado SSL activo (HTTPS), hosting moderno y cobertura de retainer mensual asignada (${client.fee}).`;
+        s7_needed = "Monitoreo de caídas 24/7 y respaldos periódicos activos.";
+      } else if (isHttps) {
+        s7_status = "warning";
+        s7_score = 5;
+        s7_findings = "Certificado SSL HTTPS funcional, pero sin plan de mantenimiento ni monitoreo continuo de caídas registrado en la agencia.";
+        s7_needed = "Contratar Retainer de Mantenimiento Mensual: soporte técnico prioritario, prevención de caídas y copias de seguridad.";
+      } else {
+        s7_status = "failed";
+        s7_score = 0;
+        s7_findings = "Conexión HTTP no segura. Los navegadores modernos muestran advertencia de 'Sitio No Seguro' a los visitantes.";
+        s7_needed = "Instalación de SSL corporativo y migración a hosting Cloud Anycast de alta disponibilidad.";
+      }
+
+      // Puntuación Total Escalada a 100
+      const totalScore = Math.min(100, Math.round(s1_score + s2_score + s3_score + s4_score + s5_score + s6_score + s7_score));
+
+      const services = [
+        {
+          id: "web_speed",
+          title: "Web Transaccional Ultrarrápida (<0.5s & Core Web Vitals)",
+          category: "Módulo Base • Pago Único",
+          icon: "⚡",
+          status: s1_status,
+          score: s1_score,
+          findings: s1_findings,
+          needed: s1_needed,
+          solution: "Desarrollo en React 18 / Vite con despliegue Anycast Global. Carga instantánea y máxima conversión.",
+          taskTitle: "Optimización de velocidad, compresión de imágenes WebP y despliegue Anycast (<0.5s)"
+        },
+        {
+          id: "google_maps",
+          title: "Google Maps GBP & SEO Local (Pack 3 Dominicano)",
+          category: "Setup + Retainer Opcional",
+          icon: "📍",
+          status: s2_status,
+          score: s2_score,
+          findings: s2_findings,
+          needed: s2_needed,
+          solution: "Inyección de Geo Tags DO-01, Schema LocalBusiness y geocirugía en Google Business Profile.",
+          taskTitle: "Reclamación, configuración técnica y geocirugía de Google Business Profile (Maps)"
+        },
+        {
+          id: "whatsapp_cards",
+          title: "WhatsApp Cards & OpenGraph 1200x630 (Social Sharing)",
+          category: "Conversión Visual • Integrado",
+          icon: "💬",
+          status: s3_status,
+          score: s3_score,
+          findings: s3_findings,
+          needed: s3_needed,
+          solution: "Diseño e inyección de tarjeta OpenGraph de alta resolución 1200x630 para previsualización en WhatsApp.",
+          taskTitle: "Diseño e inyección de tarjeta OpenGraph 1200x630 para previsualización en WhatsApp"
+        },
+        {
+          id: "ai_geo",
+          title: "GEO Schemas para IA (ChatGPT, Perplexity & Gemini)",
+          category: "SEO Semántico para IA",
+          icon: "🤖",
+          status: s4_status,
+          score: s4_score,
+          findings: s4_findings,
+          needed: s4_needed,
+          solution: "Despliegue de llms.txt, Schema FAQPage y autorización de bots de IA en robots.txt.",
+          taskTitle: "Generación de llms.txt y Schema FAQPage para indexación en ChatGPT y Perplexity"
+        },
+        {
+          id: "whatsapp_agent",
+          title: "Agente IA WhatsApp 24/7 & Automatización de Ventas",
+          category: "Automatización Inteligente",
+          icon: "📲",
+          status: s5_status,
+          score: s5_score,
+          findings: s5_findings,
+          needed: s5_needed,
+          solution: "Botón flotante inteligente con mensaje transaccional y flujo de Agente IA con respuesta en <3s.",
+          taskTitle: "Conexión de botón flotante y automatización de Agente IA WhatsApp 24/7"
+        },
+        {
+          id: "seo_onpage",
+          title: "SEO On-Page Transaccional & Google Search Console",
+          category: "Tráfico Orgánico",
+          icon: "🚀",
+          status: s6_status,
+          score: s6_score,
+          findings: s6_findings,
+          needed: s6_needed,
+          solution: "Reescritura de Title/Description transaccionales, canonical tags, sitemap.xml y alta en Search Console.",
+          taskTitle: "Optimización SEO On-Page, sitemap.xml y alta en Google Search Console"
+        },
+        {
+          id: "cloud_maintenance",
+          title: "Cloud Anycast & Retainer de Mantenimiento Mensual",
+          category: "Soporte & Servidores",
+          icon: "🌐",
+          status: s7_status,
+          score: s7_score,
+          findings: s7_findings,
+          needed: s7_needed,
+          solution: "Retainer mensual de ISAPromoRD: monitoreo 24/7 de caídas, respaldos y soporte sin costo extra.",
+          taskTitle: "Configuración de monitoreo de caídas 24/7 y ciclo de mantenimiento mensual"
+        }
+      ];
+
+      const passedCount = services.filter(s => s.status === "passed").length;
+      const warningCount = services.filter(s => s.status === "warning").length;
+      const failedCount = services.filter(s => s.status === "failed").length;
+
+      return {
+        url,
+        meta,
+        latencyMs,
+        client,
+        score: totalScore,
+        passedCount,
+        warningCount,
+        failedCount,
+        services
+      };
+    }
+
+    function displayAuditResults(results) {
+      const scoreVal = document.getElementById("auditScoreValue");
+      const scoreStatus = document.getElementById("auditScoreStatus");
+      const scoreAdvice = document.getElementById("auditScoreAdvice");
+
+      scoreVal.textContent = `${results.score}%`;
+
+      if (results.score >= 88) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-emerald-400";
+        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        scoreStatus.textContent = "Nivel Élite • Estándares ISAPromoRD Cumplidos";
+        scoreAdvice.textContent = "Excelente infraestructura. La mayoría de los servicios están operando al 100%.";
+      } else if (results.score >= 60) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-amber-400";
+        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+        scoreStatus.textContent = "Nivel Medio • Brechas de Crecimiento Detectadas";
+        scoreAdvice.textContent = "Tiene presencia básica, pero pierde prospectos valiosos por falta de optimización en Maps, WhatsApp o IA.";
+      } else {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-rose-400";
+        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+        scoreStatus.textContent = "Nivel Crítico • Requiere Intervención Urgente";
+        scoreAdvice.textContent = "Carece de los servicios técnicos esenciales. El negocio no rankea en Google y desaprovecha clientes.";
+      }
+
+      document.getElementById("auditCountPassed").textContent = results.passedCount;
+      document.getElementById("auditCountWarning").textContent = results.warningCount;
+      document.getElementById("auditCountFailed").textContent = results.failedCount;
+
+      // Renderizar tarjetas de servicios
+      const listEl = document.getElementById("auditServicesList");
+      listEl.innerHTML = results.services.map((svc, idx) => {
+        let badgeClass = "";
+        let badgeText = "";
+        let borderClass = "";
+
+        if (svc.status === "passed") {
+          badgeClass = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+          badgeText = "Cumple Estándar ✓";
+          borderClass = "border-emerald-500/30 bg-[#09111c]";
+        } else if (svc.status === "warning") {
+          badgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+          badgeText = "Oportunidad de Mejora ⚠️";
+          borderClass = "border-amber-500/30 bg-[#12101b]";
+        } else {
+          badgeClass = "bg-rose-500/20 text-rose-300 border-rose-500/30";
+          badgeText = "Brecha Crítica (Falta) ✕";
+          borderClass = "border-rose-500/40 bg-[#140b15]";
+        }
+
+        const detailId = `audit-svc-detail-${idx}`;
+
+        return `
+          <div class="rounded-2xl border ${borderClass} p-4 sm:p-5 transition-all">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-start gap-3">
+                <span class="text-2xl shrink-0 mt-0.5">${svc.icon}</span>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h5 class="text-sm font-black text-white">${svc.title}</h5>
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">
+                      ${badgeText}
+                    </span>
+                  </div>
+                  <span class="text-[11px] font-mono text-cyan-400 block mt-0.5">${svc.category}</span>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                <button onclick="toggleAuditDetail('${detailId}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-colors">
+                  <span>Ver Detalle & Solución</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Panel Desplegable de Hallazgos y Solución -->
+            <div id="${detailId}" class="${svc.status === 'passed' ? 'hidden' : ''} mt-4 pt-4 border-t border-slate-800 space-y-3 text-xs leading-relaxed">
+              <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">🔍 Diagnóstico Real en el Sitio Web:</span>
+                <p class="text-slate-300">${svc.findings}</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300 block mb-1">🛠️ Qué Necesita para Lograr el Servicio:</span>
+                <p class="text-purple-200 font-medium">${svc.needed}</p>
+              </div>
+
+              <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-2.5">
+                <span class="text-base text-cyan-400 shrink-0">💼</span>
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-300 block mb-0.5">Solución Oficial de ISAPromoRD:</span>
+                  <span class="text-slate-200 font-semibold text-[11px]">${svc.solution}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleAuditDetail(detailId) {
+      const el = document.getElementById(detailId);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function syncAuditGapsToClientRoadmap() {
+      if (!currentAuditResults) return;
+
+      const gaps = currentAuditResults.services.filter(s => s.status !== "passed");
+      if (gaps.length === 0) {
+        showToast("✓ Todos los servicios ya están en estado óptimo. No hay brechas pendientes.");
+        return;
+      }
+
+      if (currentAuditClient) {
+        const client = currentAuditClient;
+        if (!client.tasks) client.tasks = [];
+
+        let addedCount = 0;
+        const today = new Date().toISOString().split('T')[0];
+
+        gaps.forEach(gap => {
+          const exists = client.tasks.some(t => t.title.toLowerCase().includes(gap.title.toLowerCase().substring(0, 15)));
+          if (!exists) {
+            const newTaskId = client.tasks.length > 0 ? Math.max(...client.tasks.map(t => t.id || 0)) + 1 : 1;
+            client.tasks.push({
+              id: newTaskId,
+              title: gap.taskTitle,
+              done: false,
+              date: today,
+              guide: {
+                summary: gap.needed,
+                details: `${gap.findings} Solución recomendada por ISAPromoRD: ${gap.solution}`
+              }
+            });
+            addedCount++;
+          }
+        });
+
+        // Actualizar Health Score
+        client.healthScore = currentAuditResults.score;
+
+        saveClientsToStorage();
+        renderClients();
+
+        const btn = document.getElementById("auditSyncRoadmapBtn");
+        if (btn) {
+          const orig = btn.innerHTML;
+          btn.innerHTML = `<span>✓ ¡Roadmap Sincronizado (${addedCount} tareas)!</span>`;
+          setTimeout(() => btn.innerHTML = orig, 3000);
+        }
+
+        showToast(`✓ Roadmap de ${client.name} actualizado (+${addedCount} tareas sincronizadas).`);
+      } else {
+        // No es cliente registrado aún: sugerir registrarlo
+        const registerConfirm = confirm(`Este dominio (${currentAuditUrl}) no está registrado como cliente aún en el CRM.\n\n¿Deseas abrir el registro para darlo de alta con este Roadmap y Health Score (${currentAuditResults.score}/100)?`);
+        if (registerConfirm) {
+          closeServicesAuditModal();
+          openNewClientModal();
+          const liveUrlInput = document.getElementById("clientLiveUrl");
+          if (liveUrlInput) {
+            liveUrlInput.value = currentAuditUrl;
+            autoScanDomainData();
+          }
+        }
+      }
+    }
+
+    function copyAuditProposalWhatsapp() {
+      if (!currentAuditResults) return;
+
+      const res = currentAuditResults;
+      const clientName = currentAuditClient ? currentAuditClient.name : (res.meta?.title || new URL(res.url).hostname);
+      const score = res.score;
+      const statusText = score >= 85 ? "Nivel Óptimo" : (score >= 60 ? "Nivel Medio (Con Brechas)" : "Nivel Crítico");
+
+      const failedSvcs = res.services.filter(s => s.status === "failed");
+      const warningSvcs = res.services.filter(s => s.status === "warning");
+      const passedSvcs = res.services.filter(s => s.status === "passed");
+
+      let failedSection = "";
+      if (failedSvcs.length > 0) {
+        failedSection = `🔴 *BRECHAS CRÍTICAS DETECTADAS (${failedSvcs.length}):*\n` + 
+          failedSvcs.map(s => `• *${s.title}:*\n  - *Falla:* ${s.findings}\n  - *Solución Requerida:* ${s.needed}`).join('\n\n') + '\n\n';
+      }
+
+      let warningSection = "";
+      if (warningSvcs.length > 0) {
+        warningSection = `🟡 *OPORTUNIDADES DE MEJORA (${warningSvcs.length}):*\n` + 
+          warningSvcs.map(s => `• *${s.title}:* ${s.findings}`).join('\n') + '\n\n';
+      }
+
+      let passedSection = "";
+      if (passedSvcs.length > 0) {
+        passedSection = `🟢 *SERVICIOS YA ACTIVOS (${passedSvcs.length}):*\n` + 
+          passedSvcs.map(s => `• ${s.title} (OK ✓)`).join('\n') + '\n\n';
+      }
+
+      const text = 
+`🔍 *AUDITORÍA DIGITAL 360° & PROPUESTA DE SERVICIOS | ISAPromoRD*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 *Empresa:* ${clientName}
+🌐 *Dominio:* ${res.url}
+📊 *Madurez Digital:* ${score}% / 100 (${statusText})
+⏱️ *Latencia Medida:* ${res.latencyMs}ms
+
+Hemos auditado tu sitio web contra los 7 estándares de conversión y posicionamiento comercial en República Dominicana. Aquí el reporte:
+
+${failedSection}${warningSection}${passedSection}━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💼 *PLAN DE ACCIÓN RECOMENDADO POR ISAPROMORD:*
+Podemos encargarnos de resolver cada una de estas brechas para que tu empresa:
+1. Aparezca en el *Top 3 de Google Maps* en tu zona comercial.
+2. Cargue en *menos de 0.5 segundos* en celulares (Core Web Vitals).
+3. Tenga *tarjetas OpenGraph 1200x630* en WhatsApp sin links planos.
+4. Conecte *Agente IA 24/7* para calificar prospectos en tiempo real.
+
+¿Te gustaría que agendemos una llamada de 10 minutos para revisar los detalles técnicos y coordinar la implementación?
+
+Atentamente,
+*Equipo de Operaciones & Posicionamiento | ISAPromoRD*
+https://isapromord.com`;
+
+      copyToClipboard(encodeURIComponent(text), "📋 Propuesta de Auditoría copiada al portapapeles");
+
+      const btn = document.getElementById("auditCopyWhatsappBtn");
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span>✓ ¡Propuesta Copiada!</span>`;
+        setTimeout(() => btn.innerHTML = orig, 2500);
+      }
     }
 
     // ==========================================

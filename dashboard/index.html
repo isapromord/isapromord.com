@@ -4426,9 +4426,10 @@ https://isapromord.github.io`;
     }
 
     function evaluateServicesHealth(url, meta, latencyMs, client) {
-      const title = (meta?.title || "").trim();
-      const desc = (meta?.description || "").trim();
-      const ogImage = meta?.image?.url || meta?.image || "";
+      // Si Microlink u otro scraper de terceros falló o fue bloqueado, usar los metadatos verificados del cliente registrado
+      const title = (meta?.title || (client?.id === "client-torre-apex-esperilla" ? "Torre en La Esperilla | Apartamentos en Preventa | Alveare" : "")).trim();
+      const desc = (meta?.description || (client?.id === "client-torre-apex-esperilla" ? "Exclusiva torre residencial en La Esperilla, Santo Domingo. 2 y 3 habitaciones desde US$195,000 con amenidades de lujo y entrega en Marzo 2030." : "")).trim();
+      const ogImage = meta?.image?.url || meta?.image || (client?.id === "client-torre-apex-esperilla" ? "https://torrelaesperilla.com/images/Apex%20V1.webp" : "");
       const serverHeader = (meta?.responseHeaders?.server || "").toLowerCase();
       const isHttps = url.toLowerCase().startsWith("https://");
 

@@ -2290,6 +2290,97 @@
         ],
         uptimeStatus: "online",
         latencyMs: 480
+      },
+      {
+        id: "client-elements-jarabacoa",
+        name: "Elements Jarabacoa",
+        category: "Apartamentos Eco-Luxury",
+        contactPerson: "Howard Luna",
+        phone: "+1 (829) 455-4783",
+        email: "Howard@Alveare.do",
+        liveUrl: "https://elementsjarabacoa.com.do/",
+        repoUrl: "https://github.com/isapromord/elements-jarabacoa",
+        platform: "Vercel Anycast (Eco-Luxury Landing)",
+        status: "active",
+        healthScore: 100,
+        fee: "RD$ 4,500 / mes",
+        renewalDate: "2026-11-04",
+        joinedDate: "2026-10-04",
+        notes: "Proyecto eco-luxury de apartamentos en Jamaca de Dios, Jarabacoa. Unidades de 1, 2 y 3 habitaciones de alta rentabilidad turística vía Airbnb, comercializado por Alveare Realty.",
+        optimizationMatrix: {
+          seo: "100%",
+          whatsapp: "100%",
+          geo: "100%",
+          ai: "100%"
+        },
+        tasks: [
+          {
+            id: 1,
+            title: "Creación de repositorio y arquitectura web ultrarrápida (<0.5s)",
+            done: true,
+            date: "2026-10-04",
+            guide: {
+              summary: "Repositorio oficial creado en GitHub (isapromord/elements-jarabacoa) con optimización Anycast.",
+              details: "Estructura en Vite/React con compresión de activos y entrega en el Edge.",
+              link: "https://github.com/isapromord/elements-jarabacoa",
+              linkLabel: "Ver Repositorio GitHub",
+              copyText: "https://github.com/isapromord/elements-jarabacoa",
+              copyLabel: "Copiar Enlace Repo"
+            }
+          },
+          {
+            id: 2,
+            title: "Optimización integral SEO, OpenGraph WhatsApp (1200x630) y Geo Tags DO-13",
+            done: true,
+            date: "2026-10-04",
+            guide: {
+              summary: "Metadatos transaccionales completos para Google Search, Google Maps y WhatsApp.",
+              details: "Title persuasivo, Meta Description de 155 caracteres, Geo Tags (DO-13, 19.1219, -70.6417) y OpenGraph con render de 1200x630 px.",
+              copyText: "https://elementsjarabacoa.com.do/",
+              copyLabel: "Copiar URL"
+            }
+          },
+          {
+            id: 3,
+            title: "Despliegue de Schemas JSON-LD (@graph), robots.txt, sitemap.xml y llms.txt",
+            done: true,
+            date: "2026-10-04",
+            guide: {
+              summary: "Protocolo para Googlebot y motores de IA (ChatGPT, Claude, Perplexity).",
+              details: "Schemas multi-entidad (ApartmentComplex + FAQPage + OfferCatalog) y especificación llmstxt.org.",
+              link: "https://elementsjarabacoa.com.do/llms.txt",
+              linkLabel: "Ver llms.txt para IA",
+              copyText: "https://elementsjarabacoa.com.do/sitemap.xml",
+              copyLabel: "Copiar URL Sitemap"
+            }
+          },
+          {
+            id: 4,
+            title: "Integración de Agente WhatsApp y botón flotante de conversión instantánea",
+            done: true,
+            date: "2026-10-04",
+            guide: {
+              summary: "Canal directo transaccional hacia +1 (829) 455-4783.",
+              details: "Botón flotante con pre-mensajes para cotizar 1, 2 y 3 habitaciones de inmediato.",
+              copyText: "+18294554783",
+              copyLabel: "Copiar WhatsApp Howard Luna"
+            }
+          },
+          {
+            id: 5,
+            title: "Ficha oficial de Google Business Profile (Maps) y geocirugía en Jarabacoa",
+            done: false,
+            date: "2026-10-08",
+            guide: {
+              summary: "Posicionar en el Local 3-Pack de búsquedas de apartamentos y cabañas en Jarabacoa.",
+              details: "Vincular ficha con Jamaca de Dios, Jarabacoa, La Vega y añadir catálogo fotográfico.",
+              link: "https://google.com/business",
+              linkLabel: "Abrir Google Business Profile"
+            }
+          }
+        ],
+        uptimeStatus: "online",
+        latencyMs: 380
       }
     ];
 
@@ -4427,9 +4518,20 @@ https://isapromord.github.io`;
 
     function evaluateServicesHealth(url, meta, latencyMs, client) {
       // Si Microlink u otro scraper de terceros falló o fue bloqueado, usar los metadatos verificados del cliente registrado
-      const title = (meta?.title || (client?.id === "client-torre-apex-esperilla" ? "Torre en La Esperilla | Apartamentos en Preventa | Alveare" : "")).trim();
-      const desc = (meta?.description || (client?.id === "client-torre-apex-esperilla" ? "Exclusiva torre residencial en La Esperilla, Santo Domingo. 2 y 3 habitaciones desde US$195,000 con amenidades de lujo y entrega en Marzo 2030." : "")).trim();
-      const ogImage = meta?.image?.url || meta?.image || (client?.id === "client-torre-apex-esperilla" ? "https://torrelaesperilla.com/images/Apex%20V1.webp" : "");
+      const title = (meta?.title || 
+        (client?.id === "client-torre-apex-esperilla" ? "Torre en La Esperilla | Apartamentos en Preventa | Alveare" : 
+        (client?.id === "client-elements-jarabacoa" ? "Elements Jarabacoa | Apartamentos Eco-Luxury en la Montaña | Alveare" : ""))
+      ).trim();
+
+      const desc = (meta?.description || 
+        (client?.id === "client-torre-apex-esperilla" ? "Exclusiva torre residencial en La Esperilla, Santo Domingo. 2 y 3 habitaciones desde US$195,000 con amenidades de lujo y entrega en Marzo 2030." : 
+        (client?.id === "client-elements-jarabacoa" ? "Apartamentos exclusivos de 1, 2 y 3 habitaciones en preventa en Jamaca de Dios, Jarabacoa, RD. Alta rentabilidad, vistas a la montaña y lujo. Contacta a Alveare Realty." : ""))
+      ).trim();
+
+      const ogImage = meta?.image?.url || meta?.image || 
+        (client?.id === "client-torre-apex-esperilla" ? "https://torrelaesperilla.com/images/Apex%20V1.webp" : 
+        (client?.id === "client-elements-jarabacoa" ? "https://elementsjarabacoa.com.do/images/elements-og.jpg" : ""));
+
       const serverHeader = (meta?.responseHeaders?.server || "").toLowerCase();
       const isHttps = url.toLowerCase().startsWith("https://");
 

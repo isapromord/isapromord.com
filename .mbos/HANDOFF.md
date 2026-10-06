@@ -10,7 +10,8 @@
 > - 💼 **Suite Contable & CFO:** [https://isapromord.github.io/dashboard/](https://isapromord.github.io/dashboard/) (Tab 4: "Finanzas & Contabilidad")  
 > - 📄 **Propuesta Pasión Pecuaria (Ruta Limpia):** [https://isapromord.github.io/propuestas/pasionpecuaria/](https://isapromord.github.io/propuestas/pasionpecuaria/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
-> **Estado del Sistema:** En línea, HTTPS activo, 100% operativo sin costo mensual.
+> - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_leads` y `agency_clients`.  
+> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, sincronización bidireccional activa y verificado en producción sin costo mensual.
 
 ---
 

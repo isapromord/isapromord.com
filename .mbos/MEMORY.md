@@ -841,3 +841,23 @@
 
 
 
+
+## [2026-10-05] - Arquitectura Multi-Tenant Definitiva para Agencia y Clientes (Supabase Hub biomfntvqbhjmmmggxzj)
+- **Problema de Escalabilidad Resuelto:**
+  - Supabase limita las cuentas a un máximo de 2 proyectos gratuitos activos entre todas las organizaciones. Intentar crear bases de datos individuales para cada cliente en planes gratuitos provocaba bloqueos o riesgos de suspensión/exceso de cuotas (ej. `nexus-crm` con error 402/403 de egress).
+- **Estándar de la Industria Implementado (Multi-Tenant Hub con client_id):**
+  - **Proyecto Central Oficial:** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en la organización oficial `isapromo-cloud`.
+  - **Tabla `public.agency_leads`:**
+    - Particionada por `client_id` (ej. `'pasion-pecuaria'`, `'elements-jarabacoa'`, `'isapromord'`).
+    - Capacidad estimada de 500 MB en PostgreSQL: más de 1,500,000 leads en texto sin costo mensual.
+    - Soporte de campos de negocio: nombre, teléfono, email, empresa, servicio/producto, monto, detalles (JSONB), notas y atribución.
+    - Políticas RLS configuradas para permitir inserción y lectura anónima segura desde las landing pages de clientes.
+  - **Tabla `public.agency_clients`:**
+    - Almacena el directorio maestro de clientes de la agencia para `/dashboard/`: nombre, categoría, URLs en vivo, repositorios, personas de contacto, estados de cobranza, matrices de madurez digital (JSONB), tareas (JSONB) e historial de pagos.
+    - Sincronización bidireccional automática: al abrir el dashboard se sincroniza con `agency_clients` (`☁️ Nube al Día`), con respaldo y tolerancia a fallos garantizada en `localStorage` (Local-First).
+- **Tratamiento de Clientes y la Propia Agencia:**
+  - Incluso los clientes que contraten solo landing pages o no soliciten CRM registran sus eventos y leads en `agency_leads`. Esto permite a ISAPromoRD demostrar ROI tangible con datos reales y habilitar ventas cruzadas (upselling) de dashboards CRM en cualquier momento.
+  - ISAPromoRD se registra con `client_id = 'isapromord'` para capturar auditorías web, cotizaciones y contactos del sitio corporativo en la misma infraestructura.
+- **Despliegues Verificados:**
+  - `pasion-pecuaria-rd`: Formulario conectado al hub `biomfntvqbhjmmmggxzj`, probado en vivo y desplegado en Vercel.
+  - `isapromord.com`: Dashboard conectado al hub `biomfntvqbhjmmmggxzj`, tabla `agency_clients` inicializada y sincronizada, desplegado en GitHub Pages (`main` y `gh-pages`).

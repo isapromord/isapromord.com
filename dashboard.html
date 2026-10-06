@@ -2071,10 +2071,10 @@
     const STORAGE_KEY_AUTH = "isapromo_agency_session_auth";
     const STORAGE_KEY_BANK = "isapromo_agency_bank_details_v1";
 
-    // SUPABASE CLOUD DATABASE CONFIGURATION
-    const SUPABASE_URL = "https://lldhpidjcjyjldhpbjql.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsZGhwaWRqY2p5amxkaHBianFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTAxNTAsImV4cCI6MjA4MTQ2NjE1MH0.cVFJs-zehhJ_FHQUInusLazoIW3_DONVcPAlEmRqflY";
-    const SUPABASE_TABLE_CLIENTS = "isapromo_crm_clients";
+    // SUPABASE CLOUD DATABASE CONFIGURATION (ISAPROMORD OFFICIAL HUB)
+    const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+    const SUPABASE_TABLE_CLIENTS = "agency_clients";
     let supabaseClient = null;
     try {
       if (window.supabase && typeof window.supabase.createClient === "function") {

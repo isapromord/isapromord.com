@@ -15,7 +15,12 @@
 
 ---
 
-## 1. RESUMEN EJECUTIVO & ÚLTIMOS CAMBIOS
+- **Optimización Integral Mobile-First (Responsive Overhaul para Smartphones):**
+  - Barra de pestañas principal (`Directorio`, `Cotizador`, `Referidos`, `Finanzas`, `HQ`) con scroll táctil horizontal suave (`no-scrollbar`) que erradica el colapso visual o textos cortados en pantallas estrechas.
+  - Barra de herramientas y filtros por semáforo (`Todos`, `Cobro Pendiente`, `Optimización <80%`, `100% Al Día`) convertidos en chips táctiles con desplazamiento horizontal fluido.
+  - Tarjetas KPI compactadas para pantallas móviles (`text-2xl font-mono`, padding `p-3.5` y espaciado de 12px) sin desbordamientos de caja.
+  - Fichas compactas de clientes rediseñadas con grilla responsive de 3 columnas para métricas (`Madurez`, `Roadmap`, `Mantenimiento`) y botones de acción táctiles full-width.
+  - Header superior adaptativo con botones de acción compactos (`⚡ Auditar`, `+ Nuevo`).
 - **Selección Oficial Definitiva: Marcas Tipográficas Corporativas (Opción 2 - Estilo Stripe / Apple):**
   - Cero cajas, fondos ni apariencia de botones.
   - Cada una de las 9 empresas cuenta con su propia identidad tipográfica personalizada (serif de lujo para bienes raíces, tech grotesque para SaaS, bio-tech monospace, editorial boutique para lifestyle, industrial para logística).

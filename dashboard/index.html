@@ -2806,18 +2806,26 @@
         }
 
         if (data && data.length > 0) {
-          // Tenemos datos en Supabase: fusionamos con los locales
+          // Tenemos datos en Supabase: convertimos y purgamos duplicados estrictamente
           const remoteClients = data.map(dbRowToClient);
           
-          // Preservar clientes remotos y añadir cualquier local que no esté en la nube aún
-          const merged = [...remoteClients];
-          clients.forEach(localC => {
-            if (!merged.some(m => m.id === localC.id)) {
-              merged.push(localC);
+          // Deduplicación estricta por ID y por URL normalizada
+          const deduplicatedMap = new Map();
+
+          // Priorizar clientes de la base de datos oficial
+          remoteClients.forEach(c => {
+            const normUrl = (c.liveUrl || "").toLowerCase().replace(/\/$/, "");
+            const normKey = normUrl || c.id;
+            if (!deduplicatedMap.has(c.id) && !deduplicatedMap.has(normKey)) {
+              deduplicatedMap.set(c.id, c);
+              if (normKey) deduplicatedMap.set(normKey, c);
             }
           });
 
-          clients = merged;
+          // Consolidar lista única de clientes
+          const uniqueClients = Array.from(new Set(deduplicatedMap.values()));
+
+          clients = uniqueClients;
           saveClientsToStorage(false); // Guardar en localStorage sin re-disparar cloud sync redundante
           renderClients();
           updateKpis();
@@ -2899,16 +2907,20 @@
           const VERIFIED_AUDIT_SCORES = {
             'granjatracker': 100,
             'isatranslogic': 100,
+            'highlandbridge': 100,
             'synkrd': 80,
             'trendyrd': 60,
             'wiseservices': 44,
+            'nextcrm': 50,
+            'vetmetropolitana': 65,
+            'pasion-pecuaria': 100,
             'pasionpecuaria': 100,
             'torrelaesperilla': 100,
-            'elementsjarabacoa': 100
+            'elementsjarabacoa': 75
           };
 
           clients.forEach(c => {
-            const urlOrName = ((c.liveUrl || '') + ' ' + (c.name || '')).toLowerCase();
+            const urlOrName = ((c.liveUrl || '') + ' ' + (c.name || '') + ' ' + (c.id || '')).toLowerCase();
             for (const [key, realScore] of Object.entries(VERIFIED_AUDIT_SCORES)) {
               if (urlOrName.includes(key)) {
                 if (c.healthScore !== realScore) {
@@ -2919,6 +2931,20 @@
               }
             }
           });
+
+          // Purgar duplicados acumulados en localStorage por ID o URL
+          const localDedupMap = new Map();
+          clients.forEach(c => {
+            const normUrl = (c.liveUrl || "").toLowerCase().replace(/\/$/, "");
+            const normKey = normUrl || c.id;
+            if (!localDedupMap.has(c.id) && !localDedupMap.has(normKey)) {
+              localDedupMap.set(c.id, c);
+              if (normKey) localDedupMap.set(normKey, c);
+            } else {
+              updated = true;
+            }
+          });
+          clients = Array.from(new Set(localDedupMap.values()));
 
           if (updated) saveClientsToStorage(false);
         } catch (e) {

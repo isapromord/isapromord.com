@@ -2116,11 +2116,11 @@
         contactPerson: "Dr. Veterinario / Dirección",
         phone: "+1 (829) 396-1318",
         email: "pasionpecuariard@gmail.com",
-        liveUrl: "https://pasionpecuaria.vercel.app",
+        liveUrl: "https://pasion-pecuaria-rd.vercel.app",
         repoUrl: "https://github.com/isapromord/pasion-pecuaria-rd",
         platform: "Vercel Anycast (React 18 + Vite)",
         status: "active",
-        healthScore: 98,
+        healthScore: 100,
         fee: "RD$ 4,500 / mes",
         renewalDate: "2026-10-28",
         joinedDate: "2026-09-28",
@@ -2729,7 +2729,8 @@
               c.repoUrl = "https://github.com/isapromord/pasion-pecuaria-rd";
               updated = true;
             }
-            if (c.id === "client-pasion-pecuaria" && (c.phone === "+1 (829) 455-4783" || !c.phone || c.phone.includes("455-4783"))) {
+            if (c.id === "client-pasion-pecuaria" || (c.liveUrl && c.liveUrl.includes("pasionpecuaria.vercel.app"))) {
+              c.liveUrl = "https://pasion-pecuaria-rd.vercel.app";
               c.phone = "+1 (829) 396-1318";
               if (!c.email) c.email = "pasionpecuariard@gmail.com";
               updated = true;
@@ -4534,9 +4535,33 @@ https://isapromord.github.io`;
           rawHtml = await htmlResp.value.text();
         }
 
-        if (robResp.status === 'fulfilled' && robResp.value.ok) hasRobots = true;
-        if (smResp.status === 'fulfilled' && smResp.value.ok) hasSitemap = true;
-        if (llmsResp.status === 'fulfilled' && llmsResp.value.ok) hasLlms = true;
+        if (robResp.status === 'fulfilled' && robResp.value.ok) {
+          hasRobots = true;
+        } else {
+          // Fallback via Microlink
+          try {
+            const m = await fetch(`https://api.microlink.io?url=${encodeURIComponent(originUrl + '/robots.txt')}`, { signal: AbortSignal.timeout(4000) });
+            if (m.ok) { const j = await m.json(); if (j.statusCode === 200) hasRobots = true; }
+          } catch(e) {}
+        }
+
+        if (smResp.status === 'fulfilled' && smResp.value.ok) {
+          hasSitemap = true;
+        } else {
+          try {
+            const m = await fetch(`https://api.microlink.io?url=${encodeURIComponent(originUrl + '/sitemap.xml')}`, { signal: AbortSignal.timeout(4000) });
+            if (m.ok) { const j = await m.json(); if (j.statusCode === 200) hasSitemap = true; }
+          } catch(e) {}
+        }
+
+        if (llmsResp.status === 'fulfilled' && llmsResp.value.ok) {
+          hasLlms = true;
+        } else {
+          try {
+            const m = await fetch(`https://api.microlink.io?url=${encodeURIComponent(originUrl + '/llms.txt')}`, { signal: AbortSignal.timeout(4000) });
+            if (m.ok) { const j = await m.json(); if (j.statusCode === 200) hasLlms = true; }
+          } catch(e) {}
+        }
 
       } catch (err) {
         latencyMs = Math.round(performance.now() - startTime);

@@ -143,6 +143,16 @@
     ::-webkit-scrollbar-track { background: #0a0e17; }
     ::-webkit-scrollbar-thumb { background: #222f46; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #00d2ff; }
+
+    /* Mobile scroll helpers */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Touch smooth scrolling */
+    .touch-scroll {
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
   </style>
 </head>
 <body class="bg-[#0a0e17] font-sans text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#00d2ff] selection:text-black">
@@ -223,40 +233,40 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
         <button 
           onclick="openDirectAuditModal()" 
           title="Auditar cualquier dominio o prospecto en vivo"
-          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs sm:text-sm active:scale-[0.98] transition-all"
+          class="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs sm:text-sm active:scale-[0.98] transition-all"
         >
-          <span class="text-sm">⚡</span>
+          <span class="text-xs sm:text-sm">⚡</span>
           <span class="hidden sm:inline">Auditar Servicios Web</span>
-          <span class="sm:hidden">Auditar</span>
+          <span class="sm:hidden text-[11px]">Auditar</span>
         </button>
 
         <button 
           onclick="openNewClientModal()" 
-          class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm shadow-glow-cyan active:scale-[0.98] transition-all"
+          class="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm shadow-glow-cyan active:scale-[0.98] transition-all"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
           <span class="hidden sm:inline">Nuevo Cliente</span>
-          <span class="sm:hidden">Nuevo</span>
+          <span class="sm:hidden text-[11px]">Nuevo</span>
         </button>
 
         <button 
           onclick="openBackupModal()" 
           title="Copia de seguridad y configuración"
-          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-[#161f30] border border-[#222f46] transition-colors"
+          class="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-[#161f30] border border-[#222f46] transition-colors"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
         </button>
 
         <button 
           onclick="lockDashboard()" 
           title="Bloquear sesión"
-          class="p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 border border-[#222f46] transition-colors"
+          class="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 border border-[#222f46] transition-colors"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
         </button>
       </div>
     </div>
@@ -265,10 +275,10 @@
   <!-- ========================================================
        CONTENIDO PRINCIPAL
        ======================================================== -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+  <main class="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-8 flex-1 w-full space-y-5 sm:space-y-8">
 
     <!-- BANNER DE BIENVENIDA / HITO -->
-    <div class="bg-gradient-to-r from-[#121824] via-[#161f30] to-[#0f1725] rounded-3xl p-6 sm:p-8 text-white border border-[#222f46] shadow-xl relative overflow-hidden">
+    <div class="bg-gradient-to-r from-[#121824] via-[#161f30] to-[#0f1725] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white border border-[#222f46] shadow-xl relative overflow-hidden">
       <!-- Glow decorativo -->
       <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#00d2ff]/10 blur-3xl pointer-events-none"></div>
       <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -293,61 +303,61 @@
     </div>
 
     <!-- TARJETAS KPI / MÉTRICAS CLAVE -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
       
       <!-- Total Clientes -->
-      <div class="bg-[#121824] rounded-2xl p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
+      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider">Clientes Activos</span>
-          <div class="w-8 h-8 rounded-lg bg-blue-500/10 text-[#00d2ff] flex items-center justify-center border border-blue-500/20">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Clientes Activos</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 text-[#00d2ff] flex items-center justify-center border border-blue-500/20">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
           </div>
         </div>
-        <div class="flex items-baseline gap-2">
-          <span id="kpiTotalClients" class="text-3xl font-black text-white font-mono">1</span>
-          <span class="text-xs font-semibold text-emerald-400 font-mono">+100% este mes</span>
+        <div class="flex items-baseline gap-1.5 sm:gap-2">
+          <span id="kpiTotalClients" class="text-2xl sm:text-3xl font-black text-white font-mono">1</span>
+          <span class="text-[10px] sm:text-xs font-semibold text-emerald-400 font-mono">+100% mes</span>
         </div>
       </div>
 
       <!-- Proyectos en Producción -->
-      <div class="bg-[#121824] rounded-2xl p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
+      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider">En Producción</span>
-          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">En Producción</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
           </div>
         </div>
-        <div class="flex items-baseline gap-2">
-          <span id="kpiProductionSites" class="text-3xl font-black text-white font-mono">1</span>
-          <span id="kpiProductionSubtitle" class="text-xs font-semibold text-slate-400 font-mono truncate max-w-[140px]">pasionpecuaria.vercel.app</span>
+        <div class="flex items-baseline gap-1.5 sm:gap-2">
+          <span id="kpiProductionSites" class="text-2xl sm:text-3xl font-black text-white font-mono">1</span>
+          <span id="kpiProductionSubtitle" class="text-[10px] sm:text-xs font-semibold text-slate-400 font-mono truncate max-w-[90px] sm:max-w-[140px]">pasionpecuaria.vercel.app</span>
         </div>
       </div>
 
       <!-- Ingresos Recurrentes Estimados -->
-      <div class="bg-[#121824] rounded-2xl p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
+      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider">MRR Mantenimiento</span>
-          <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">MRR Mantenimiento</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           </div>
         </div>
-        <div class="flex items-baseline gap-2">
-          <span id="kpiMrr" class="text-3xl font-black text-white font-mono">RD$ 4,500</span>
-          <span class="text-xs font-semibold text-slate-400 font-mono">/ mes</span>
+        <div class="flex items-baseline gap-1.5 sm:gap-2">
+          <span id="kpiMrr" class="text-xl sm:text-3xl font-black text-white font-mono truncate">RD$ 4,500</span>
+          <span class="text-[10px] sm:text-xs font-semibold text-slate-400 font-mono">/ mes</span>
         </div>
       </div>
 
       <!-- Salud Infraestructura -->
-      <div class="bg-[#121824] rounded-2xl p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
+      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider">Salud de Red</span>
-          <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-[#00d2ff] flex items-center justify-center border border-cyan-500/20">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Salud de Red</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 text-[#00d2ff] flex items-center justify-center border border-cyan-500/20">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
           </div>
         </div>
-        <div class="flex items-baseline gap-2">
-          <span class="text-3xl font-black text-white font-mono">100%</span>
-          <span class="text-xs font-semibold text-emerald-400 font-mono">0 Caídas</span>
+        <div class="flex items-baseline gap-1.5 sm:gap-2">
+          <span class="text-2xl sm:text-3xl font-black text-white font-mono">100%</span>
+          <span class="text-[10px] sm:text-xs font-semibold text-emerald-400 font-mono">0 Caídas</span>
         </div>
       </div>
 
@@ -356,55 +366,57 @@
     <!-- ========================================================
          NAVEGACIÓN POR PESTAÑAS (CLIENTES VS COTIZADOR PROPUESTAS)
          ======================================================== -->
-    <div class="flex items-center gap-2 border-b border-[#222f46] pb-3">
-      <button 
-        id="tabClientsBtn" 
-        onclick="switchDashboardTab('clients')" 
-        class="px-4 py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 shadow-glow-cyan transition-all flex items-center gap-2"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-        <span>Directorio de Clientes</span>
-      </button>
+    <div class="overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0 border-b border-[#222f46] pb-3">
+      <div class="flex items-center gap-2 min-w-max">
+        <button 
+          id="tabClientsBtn" 
+          onclick="switchDashboardTab('clients')" 
+          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 shadow-glow-cyan transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          <span>Directorio de Clientes</span>
+        </button>
 
-      <button 
-        id="tabProposalsBtn" 
-        onclick="switchDashboardTab('proposals')" 
-        class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <span>Cotizador & Propuestas</span>
-        <span class="px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase font-mono">A la Carte</span>
-      </button>
+        <button 
+          id="tabProposalsBtn" 
+          onclick="switchDashboardTab('proposals')" 
+          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Cotizador & Propuestas</span>
+          <span class="px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase font-mono">A la Carte</span>
+        </button>
 
-      <button 
-        id="tabReferralsBtn" 
-        onclick="switchDashboardTab('referrals')" 
-        class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        <span>Sistema de Referidos</span>
-        <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">Telemetría</span>
-      </button>
+        <button 
+          id="tabReferralsBtn" 
+          onclick="switchDashboardTab('referrals')" 
+          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span>Sistema de Referidos</span>
+          <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">Telemetría</span>
+        </button>
 
-      <button 
-        id="tabAccountingBtn" 
-        onclick="switchDashboardTab('accounting')" 
-        class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2"
-      >
-        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>Finanzas & Contabilidad</span>
-        <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">CFO</span>
-      </button>
+        <button 
+          id="tabAccountingBtn" 
+          onclick="switchDashboardTab('accounting')" 
+          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+        >
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Finanzas & Contabilidad</span>
+          <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">CFO</span>
+        </button>
 
-      <button 
-        id="tabHqBtn" 
-        onclick="switchDashboardTab('hq')" 
-        class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2"
-      >
-        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-        <span>Roadmap Servicer (HQ)</span>
-        <span class="px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[10px] font-black uppercase font-mono">ISAPromoRD</span>
-      </button>
+        <button 
+          id="tabHqBtn" 
+          onclick="switchDashboardTab('hq')" 
+          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+        >
+          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+          <span>Roadmap Servicer (HQ)</span>
+          <span class="px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[10px] font-black uppercase font-mono">ISAPromoRD</span>
+        </button>
+      </div>
     </div>
 
     <!-- ========================================================
@@ -430,26 +442,26 @@
           </div>
 
           <!-- Selectores y Controles de Vista -->
-          <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0">
             <!-- Selector de Vista: Compacta vs Detallada -->
-            <div class="flex items-center p-1 bg-slate-900 border border-slate-700 rounded-xl">
+            <div class="flex items-center p-0.5 sm:p-1 bg-slate-900 border border-slate-700 rounded-xl shrink-0">
               <button 
                 id="btnViewCompact"
                 onclick="setClientViewMode('compact')" 
-                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm"
+                class="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm"
                 title="Vista Compacta HQ (Alta densidad)"
               >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                <span>Compacta</span>
+                <span class="text-[11px] sm:text-xs">Compacta</span>
               </button>
               <button 
                 id="btnViewExpanded"
                 onclick="setClientViewMode('expanded')" 
-                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
+                class="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
                 title="Vista Detallada (Tarjetas grandes)"
               >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                <span>Detallada</span>
+                <span class="text-[11px] sm:text-xs">Detalle</span>
               </button>
             </div>
 
@@ -457,57 +469,59 @@
             <button 
               id="btnPresentationMode"
               onclick="togglePresentationMode()" 
-              class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 transition-colors"
+              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1 transition-colors shrink-0"
               title="Modo Presentación: Oculta montos de facturación y datos privados al compartir pantalla con prospectos"
             >
               <span>👔</span>
-              <span class="hidden sm:inline">Modo Cliente</span>
+              <span class="text-[11px] sm:text-xs">Cliente</span>
             </button>
 
             <!-- Filtro por Estado (Select) -->
             <select 
               id="statusFilter" 
               onchange="filterClients()" 
-              class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer"
+              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer shrink-0"
             >
-              <option value="all">Todos los Estados</option>
+              <option value="all">Todos Estados</option>
               <option value="active">🟢 Activos</option>
               <option value="maintenance">🟡 Mantenimiento</option>
-              <option value="pending_payment">🔴 Cobro Pendiente</option>
+              <option value="pending_payment">🔴 Cobro</option>
               <option value="lead">⚪ Prospecto</option>
             </select>
 
             <!-- Chequear Uptime -->
             <button 
               onclick="pingAllClients()" 
-              class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors"
+              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold flex items-center gap-1 transition-colors shrink-0"
               title="Verificar Uptime de todas las webs ahora"
             >
               <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-              <span class="hidden sm:inline">Uptime</span>
+              <span class="text-[11px] sm:text-xs">Uptime</span>
             </button>
           </div>
         </div>
 
         <!-- Filtros Rápidos por Semáforo Operativo -->
-        <div class="flex flex-wrap items-center gap-2 pt-2.5 border-t border-slate-800 text-xs">
-          <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">Filtrar por Semáforo:</span>
-          
-          <button onclick="setQuickFilter('all')" id="qf-all" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-            Todos (<span id="qf-count-all">0</span>)
-          </button>
-          
-          <button onclick="setQuickFilter('pending_billing')" id="qf-pending_billing" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-rose-300 border border-slate-800 hover:border-rose-500/40">
-            🔴 Cobro Pendiente / Vencido (<span id="qf-count-billing">0</span>)
-          </button>
+        <div class="overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0 pt-2.5 border-t border-slate-800 text-xs">
+          <div class="flex items-center gap-2 min-w-max">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 shrink-0">Semáforo:</span>
+            
+            <button onclick="setQuickFilter('all')" id="qf-all" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0 whitespace-nowrap">
+              Todos (<span id="qf-count-all">0</span>)
+            </button>
+            
+            <button onclick="setQuickFilter('pending_billing')" id="qf-pending_billing" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-rose-300 border border-slate-800 hover:border-rose-500/40 shrink-0 whitespace-nowrap">
+              🔴 Cobro Pendiente (<span id="qf-count-billing">0</span>)
+            </button>
 
-          <button onclick="setQuickFilter('low_health')" id="qf-low_health" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-amber-300 border border-slate-800 hover:border-amber-500/40">
-            ⚠️ Requieren Optimización (&lt;80%) (<span id="qf-count-health">0</span>)
-          </button>
+            <button onclick="setQuickFilter('low_health')" id="qf-low_health" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-amber-300 border border-slate-800 hover:border-amber-500/40 shrink-0 whitespace-nowrap">
+              ⚠️ Optimización (&lt;80%) (<span id="qf-count-health">0</span>)
+            </button>
 
-          <button onclick="setQuickFilter('optimized')" id="qf-optimized" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-emerald-300 border border-slate-800 hover:border-emerald-500/40">
-            🟢 100% Al Día (<span id="qf-count-optimized">0</span>)
-          </button>
+            <button onclick="setQuickFilter('optimized')" id="qf-optimized" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-emerald-300 border border-slate-800 hover:border-emerald-500/40 shrink-0 whitespace-nowrap">
+              🟢 100% Al Día (<span id="qf-count-optimized">0</span>)
+            </button>
+          </div>
         </div>
 
       </div>
@@ -3195,71 +3209,71 @@
                 : `<span class="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400"><span class="w-2 h-2 rounded-full bg-slate-400 animate-ping"></span>Chequeando</span>`);
 
           return `
-            <div class="bg-[#101726] rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-md hover:border-cyan-500/40 transition-all text-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 group">
+            <div class="bg-[#101726] rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-md hover:border-cyan-500/40 transition-all text-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4 group">
               
               <!-- Identidad & Dominio -->
-              <div class="flex items-center gap-3.5 min-w-0">
-                <div onclick="openClientDrawer('${client.id}')" class="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-sm font-black font-mono shrink-0 shadow-inner group-hover:scale-105 transition-transform cursor-pointer">
+              <div class="flex items-center gap-3 min-w-0">
+                <div onclick="openClientDrawer('${client.id}')" class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs sm:text-sm font-black font-mono shrink-0 shadow-inner group-hover:scale-105 transition-transform cursor-pointer">
                   ${client.name.substring(0, 2).toUpperCase()}
                 </div>
                 <div class="min-w-0 space-y-0.5">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h4 class="text-base font-black text-white hover:text-cyan-300 cursor-pointer transition-colors truncate" onclick="openClientDrawer('${client.id}')">
+                  <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <h4 class="text-sm sm:text-base font-black text-white hover:text-cyan-300 cursor-pointer transition-colors truncate max-w-[200px] sm:max-w-none" onclick="openClientDrawer('${client.id}')">
                       ${client.name}
                     </h4>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${currentBadge.bg} border shrink-0">
+                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-bold ${currentBadge.bg} border shrink-0">
                       ${currentBadge.text}
                     </span>
                     ${uptimeDot}
                   </div>
-                  <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate">
-                    <a href="${client.liveUrl}" target="_blank" class="text-cyan-400 hover:underline truncate">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin URL'}</a>
+                  <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono text-slate-400 truncate">
+                    <a href="${client.liveUrl}" target="_blank" class="text-cyan-400 hover:underline truncate max-w-[150px] sm:max-w-none">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin URL'}</a>
                     <span class="text-slate-600">•</span>
-                    <span class="text-slate-400 font-sans">${client.category || 'General'}</span>
+                    <span class="text-slate-400 font-sans truncate">${client.category || 'General'}</span>
                   </div>
                 </div>
               </div>
 
               <!-- Indicadores: Madurez Digital + Roadmap + Retainer -->
-              <div class="flex items-center gap-5 shrink-0">
+              <div class="grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-5 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
                 <!-- Madurez Digital -->
                 <div class="flex flex-col items-start sm:items-center">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Madurez Digital</span>
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-black font-mono ${healthBadgeClass} border mt-0.5" title="Índice de Madurez Digital verificado en vivo">
-                    ⚡ ${score}/100
+                  <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">Madurez</span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-black font-mono ${healthBadgeClass} border mt-0.5" title="Índice de Madurez Digital verificado en vivo">
+                    ⚡ ${score}
                   </span>
                 </div>
 
                 <!-- Roadmap Mini Progress -->
                 <div class="flex flex-col items-start sm:items-center">
-                  <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <div class="flex items-center gap-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     <span>Roadmap</span>
                     <span class="text-cyan-400 font-mono">${completedTasks}/${totalTasks}</span>
                   </div>
-                  <div class="w-24 h-2 bg-slate-800 rounded-full overflow-hidden mt-1.5">
+                  <div class="w-16 sm:w-24 h-1.5 sm:h-2 bg-slate-800 rounded-full overflow-hidden mt-1.5">
                     <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full" style="width: ${progressPct}%"></div>
                   </div>
                 </div>
 
                 <!-- Facturación (Soporta Modo Presentación) -->
-                <div class="flex flex-col items-start sm:items-end min-w-[100px]">
-                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Mantenimiento</span>
-                  <span class="text-sm font-black font-mono text-emerald-400 mt-0.5">
-                    ${presentationMode ? 'RD$ •••••' : (client.fee || 'No asignado')}
+                <div class="flex flex-col items-start sm:items-end">
+                  <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">Mantenimiento</span>
+                  <span class="text-xs sm:text-sm font-black font-mono text-emerald-400 mt-0.5 truncate">
+                    ${presentationMode ? '•••••' : (client.fee ? client.fee.replace(' / mes', '') : 'Sin fee')}
                   </span>
-                  <span class="text-[10px] font-mono text-slate-400">
+                  <span class="text-[9px] sm:text-[10px] font-mono text-slate-400 truncate">
                     ${client.renewalDate || 'Sin ciclo'}
                   </span>
                 </div>
               </div>
 
               <!-- Acciones Rápidas -->
-              <div class="flex items-center gap-2 shrink-0 self-end md:self-center pt-2 md:pt-0 border-t md:border-t-0 border-slate-800 w-full md:w-auto justify-end">
-                <button onclick="runServicesAudit('${client.id}')" class="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Auditoría 360° en vivo">
+              <div class="flex items-center gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/80 w-full lg:w-auto justify-end">
+                <button onclick="runServicesAudit('${client.id}')" class="flex-1 sm:flex-initial justify-center px-2.5 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1 transition-all shadow-sm" title="Auditoría 360° en vivo">
                   <span>⚡ Auditar</span>
                 </button>
-                <button onclick="openClientDrawer('${client.id}')" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-cyan-600/25 transition-all">
-                  <span>Mission Control</span>
+                <button onclick="openClientDrawer('${client.id}')" class="flex-1 sm:flex-initial justify-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-cyan-600/25 transition-all">
+                  <span>Control</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
               </div>

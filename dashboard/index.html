@@ -72,6 +72,188 @@
     /* ========================================================
        OBSIDIAN CYBER LUXE THEME FOR DASHBOARD
        ======================================================== */
+/* ========================================================
+       STITCH COMMAND CENTER (OBSIDIAN & LIGHT MODE)
+       ======================================================== */
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #0f172a;
+      --bg-card: #121824;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #64748b;
+      --accent-cyan: #00d2ff;
+      --accent-emerald: #10b981;
+    }
+
+    body.light-theme {
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-cyan: #0284c7;
+      --accent-emerald: #059669;
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+
+    body.light-theme .stitch-card {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+
+    body.light-theme .stitch-rail {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .stitch-header {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .stitch-subtext {
+      color: #64748b !important;
+    }
+
+    body.light-theme .stitch-title {
+      color: #0f172a !important;
+    }
+
+    body.light-theme .stitch-input {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+
+    /* Micro-Rail tooltips & active styling */
+    .rail-btn {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #94a3b8;
+    }
+    .rail-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+    }
+    body.light-theme .rail-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .rail-btn.active {
+      background: rgba(0, 210, 255, 0.12) !important;
+      color: #00d2ff !important;
+      border: 1px solid rgba(0, 210, 255, 0.35) !important;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+    }
+    body.light-theme .rail-btn.active {
+      background: rgba(2, 132, 199, 0.1) !important;
+      color: #0284c7 !important;
+      border: 1px solid rgba(2, 132, 199, 0.3) !important;
+    }
+
+    /* Tooltip */
+    .rail-btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.15s ease;
+      z-index: 50;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    body.light-theme .rail-btn::after {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #e2e8f0;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.1);
+    }
+    .rail-btn:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Radial Health Gauge */
+    .radial-health-gauge {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
+    }
+    .radial-health-gauge svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+    .radial-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.06);
+      stroke-width: 8;
+    }
+    body.light-theme .radial-bg {
+      stroke: #e2e8f0;
+    }
+    .radial-progress {
+      fill: none;
+      stroke: #00d2ff;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 380;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 1s ease;
+      filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.6));
+    }
+    body.light-theme .radial-progress {
+      stroke: #0284c7;
+      filter: drop-shadow(0 0 4px rgba(2, 132, 199, 0.4));
+    }
+
+    /* Client horizontal card */
+    .client-card-row {
+      background: #121824;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      transition: all 0.2s ease;
+    }
+    .client-card-row:hover {
+      border-color: rgba(0, 210, 255, 0.4);
+      background: #151d2c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+    }
+    body.light-theme .client-card-row {
+      background: #ffffff;
+      border-color: #e2e8f0;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    body.light-theme .client-card-row:hover {
+      border-color: #0284c7;
+      background: #ffffff;
+      box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+    }
     body {
       background-color: #0a0e17 !important;
       color: #dfe2ef !important;
@@ -224,432 +406,578 @@
   </div>
 
   <!-- ========================================================
-       BARRA DE NAVEGACIÓN SUPERIOR ESTILO STITCH AETHER
+       MICRO-RAIL LATERAL IZQUIERDO (STITCH COMMAND CENTER - 68px)
        ======================================================== -->
-  <header class="bg-[#0a0e17]/90 backdrop-blur-xl border-b border-[#222f46] sticky top-0 z-40">
-    <div class="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-      
-      <!-- Brand & Mobile Toggle -->
-      <div class="flex items-center gap-3">
-        <!-- Botón Hamburguesa para Mobile -->
-        <button 
-          id="stitchMobileMenuBtn" 
-          onclick="toggleStitchSidebar()" 
-          class="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition-colors"
-          title="Abrir Menú de Navegación"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </button>
-
-        <a href="../" class="flex items-center gap-2.5 group">
-          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
-          <div class="flex flex-col">
-            <span class="text-base sm:text-lg font-black tracking-tight leading-none text-white">
-              ISA<span class="text-slate-400">Promo</span><span class="text-[#00d2ff]">RD</span>
-            </span>
-            <span class="text-[9px] sm:text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-widest mt-0.5">Aether Command v3.0</span>
-          </div>
-        </a>
-
-        <div class="hidden md:flex items-center gap-2.5 pl-4 border-l border-[#222f46]">
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            En Vivo
-          </span>
-          <span id="rdClock" class="font-mono text-xs text-slate-400 font-medium">--:--:-- RD</span>
-          <!-- Cloud Sync Status Badge -->
-          <button id="cloudSyncBtn" onclick="manualTriggerCloudSync()" title="Estado de Sincronización en la Nube (Supabase) - Clic para sincronizar" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all cursor-pointer">
-            <span id="cloudSyncDot" class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span id="cloudSyncText" class="font-mono">☁️ Supabase Conectado</span>
-          </button>
+  <aside 
+    id="stitchSidebar" 
+    class="stitch-rail fixed top-0 left-0 h-screen w-16 lg:w-[68px] bg-[#090d16] border-r border-[#1e293b] flex flex-col justify-between py-4 items-center z-50 transition-colors"
+  >
+    <!-- Logo Avatar Badge -->
+    <div class="flex flex-col items-center gap-6">
+      <a href="../" title="ISAPromoRD - Ir al Inicio" class="group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#121824] to-[#1a2333] border border-cyan-500/30 text-white font-black text-sm flex items-center justify-center shadow-inner group-hover:border-cyan-400 group-hover:scale-105 transition-all">
+          <span class="text-cyan-400 font-mono">IS</span>
         </div>
-      </div>
+      </a>
 
-      <!-- Action Buttons -->
-      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <!-- Navegación por Módulos (Iconos Compactos con Tooltips) -->
+      <nav class="flex flex-col items-center space-y-2.5">
+        <!-- 1. Clientes / Command Center -->
         <button 
-          onclick="openDirectAuditModal()" 
-          title="Auditar cualquier dominio con Google PageSpeed API v5"
-          class="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/40 font-bold text-xs sm:text-sm active:scale-[0.98] transition-all shadow-sm"
+          id="tabClientsBtn" 
+          onclick="switchDashboardTab('clients')" 
+          data-tooltip="Directorio de Clientes"
+          class="rail-btn active"
         >
-          <span class="text-xs sm:text-sm">⚡</span>
-          <span class="hidden sm:inline">Auditar Servicios Web</span>
-          <span class="sm:hidden text-[11px]">Auditar</span>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
         </button>
 
+        <!-- 2. Cotizador A la Carte -->
         <button 
-          onclick="openNewClientModal()" 
-          class="inline-flex items-center gap-1 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm shadow-glow-cyan active:scale-[0.98] transition-all"
+          id="tabProposalsBtn" 
+          onclick="switchDashboardTab('proposals')" 
+          data-tooltip="Cotizador A la Carte"
+          class="rail-btn"
         >
-          <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-          <span class="hidden sm:inline">Nuevo Cliente</span>
-          <span class="sm:hidden text-[11px]">Nuevo</span>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
         </button>
 
+        <!-- 3. Referidos & Leads -->
         <button 
-          onclick="openBackupModal()" 
-          title="Copia de seguridad y configuración"
-          class="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-white hover:bg-[#161f30] border border-[#222f46] transition-colors"
+          id="tabReferralsBtn" 
+          onclick="switchDashboardTab('referrals')" 
+          data-tooltip="Referidos & Telemetría"
+          class="rail-btn"
         >
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
         </button>
 
+        <!-- 4. Finanzas CFO -->
         <button 
-          onclick="lockDashboard()" 
-          title="Bloquear sesión"
-          class="p-1.5 sm:p-2 rounded-xl text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 border border-[#222f46] transition-colors"
+          id="tabAccountingBtn" 
+          onclick="switchDashboardTab('accounting')" 
+          data-tooltip="Finanzas & Tesorería CFO"
+          class="rail-btn"
         >
-          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
         </button>
-      </div>
+
+        <!-- 5. Roadmap HQ -->
+        <button 
+          id="tabHqBtn" 
+          onclick="switchDashboardTab('hq')" 
+          data-tooltip="Roadmap HQ"
+          class="rail-btn"
+        >
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        </button>
+      </nav>
     </div>
-  </header>
+
+    <!-- Ajustes & Configuración al fondo -->
+    <div class="flex flex-col items-center space-y-2">
+      <button 
+        onclick="openBackupModal()" 
+        data-tooltip="Ajustes & Backups"
+        class="rail-btn"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+      </button>
+
+      <button 
+        onclick="lockDashboard()" 
+        data-tooltip="Bloquear Panel"
+        class="rail-btn hover:text-rose-400"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+      </button>
+    </div>
+  </aside>
 
   <!-- ========================================================
-       CONTENEDOR GLOBAL: SIDEBAR LATERAL (STITCH) + ÁREA DE CONTENIDO
+       CONTENIDO PRINCIPAL ADAPTADO AL MICRO-RAIL (pl-16 lg:pl-[68px])
        ======================================================== -->
-  <div class="flex-1 flex w-full relative">
-
-    <!-- BACKDROP PARA DRAWER MÓVIL -->
-    <div 
-      id="stitchSidebarBackdrop" 
-      onclick="toggleStitchSidebar(false)" 
-      class="fixed inset-0 bg-[#0a0e17]/80 backdrop-blur-md z-30 hidden lg:hidden transition-opacity"
-    ></div>
-
-    <!-- SIDEBAR DE NAVEGACIÓN ERGONÓMICA DE 240px (STITCH AETHER COMMAND) -->
-    <aside 
-      id="stitchSidebar" 
-      class="fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-60 bg-[#0c111c] border-r border-[#222f46] flex flex-col justify-between p-3.5 z-40 -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto shrink-0 shadow-2xl lg:shadow-none"
-    >
-      <div class="space-y-4">
-        <!-- Título de Sección -->
-        <div class="px-2 pt-1 flex items-center justify-between">
-          <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Módulos de Agencia</span>
-          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-        </div>
-
-        <!-- Lista de Navegación por Pestañas (IDs exactos del DOM) -->
-        <nav class="space-y-1">
-          <!-- 1. Clientes -->
-          <button 
-            id="tabClientsBtn" 
-            onclick="switchDashboardTab('clients'); toggleStitchSidebar(false);" 
-            class="stitch-nav-item active w-full px-3.5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white border transition-all flex items-center gap-2.5 text-left"
-          >
-            <svg class="w-4 h-4 shrink-0 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            <span class="truncate">Directorio Clientes</span>
-          </button>
-
-          <!-- 2. Cotizador -->
-          <button 
-            id="tabProposalsBtn" 
-            onclick="switchDashboardTab('proposals'); toggleStitchSidebar(false);" 
-            class="stitch-nav-item w-full px-3.5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-transparent hover:bg-white/[0.04] text-slate-300 hover:text-white border border-transparent transition-all flex items-center gap-2.5 text-left"
-          >
-            <svg class="w-4 h-4 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            <div class="flex items-center justify-between w-full">
-              <span class="truncate">Cotizador</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-black uppercase font-mono">A la Carte</span>
-            </div>
-          </button>
-
-          <!-- 3. Referidos -->
-          <button 
-            id="tabReferralsBtn" 
-            onclick="switchDashboardTab('referrals'); toggleStitchSidebar(false);" 
-            class="stitch-nav-item w-full px-3.5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-transparent hover:bg-white/[0.04] text-slate-300 hover:text-white border border-transparent transition-all flex items-center gap-2.5 text-left"
-          >
-            <svg class="w-4 h-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            <div class="flex items-center justify-between w-full">
-              <span class="truncate">Referidos</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase font-mono">Leads</span>
-            </div>
-          </button>
-
-          <!-- 4. Finanzas CFO -->
-          <button 
-            id="tabAccountingBtn" 
-            onclick="switchDashboardTab('accounting'); toggleStitchSidebar(false);" 
-            class="stitch-nav-item w-full px-3.5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-transparent hover:bg-white/[0.04] text-slate-300 hover:text-white border border-transparent transition-all flex items-center gap-2.5 text-left"
-          >
-            <svg class="w-4 h-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <div class="flex items-center justify-between w-full">
-              <span class="truncate">Finanzas & Tesorería</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase font-mono">CFO</span>
-            </div>
-          </button>
-
-          <!-- 5. Roadmap HQ -->
-          <button 
-            id="tabHqBtn" 
-            onclick="switchDashboardTab('hq'); toggleStitchSidebar(false);" 
-            class="stitch-nav-item w-full px-3.5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-transparent hover:bg-white/[0.04] text-slate-300 hover:text-white border border-transparent transition-all flex items-center gap-2.5 text-left"
-          >
-            <svg class="w-4 h-4 shrink-0 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-            <div class="flex items-center justify-between w-full">
-              <span class="truncate">Roadmap HQ</span>
-              <span class="px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[9px] font-black uppercase font-mono">HQ</span>
-            </div>
-          </button>
-        </nav>
-      </div>
-
-      <!-- Pie de Sidebar: Telemetría y Acceso Directo -->
-      <div class="pt-4 border-t border-[#222f46] space-y-2.5">
-        <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] font-mono space-y-1">
-          <div class="flex items-center justify-between text-slate-400">
-            <span>Motor:</span>
-            <span class="text-cyan-400 font-bold">AntiGravity 369</span>
-          </div>
-          <div class="flex items-center justify-between text-slate-400">
-            <span>Diagnósticos:</span>
-            <span class="text-emerald-400 font-bold">v3.0 Lighthouse</span>
-          </div>
-        </div>
-        <a href="../" target="_blank" class="w-full py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
-          <span>Ver Web Principal</span>
-          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+  <div class="flex-1 min-w-0 flex flex-col justify-between pl-16 lg:pl-[68px] min-h-screen">
+    
+    <!-- BARRA SUPERIOR (HEADER COMMAND CENTER STITCH) -->
+    <header class="stitch-header sticky top-0 z-40 bg-[#090d16]/90 backdrop-blur-xl border-b border-[#1e293b] px-4 sm:px-6 h-16 flex items-center justify-between gap-4 transition-colors">
+      
+      <!-- Brand & Status Pill -->
+      <div class="flex items-center gap-3">
+        <a href="../" class="flex items-center gap-2">
+          <span class="text-base font-black tracking-tight text-white stitch-title">
+            ISA<span class="text-slate-400">Promo</span><span class="text-[#00d2ff]">RD</span>
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Live
+          </span>
         </a>
       </div>
-    </aside>
 
-    <!-- ========================================================
-         ÁREA DE CONTENIDO PRINCIPAL (FLUIDA)
-         ======================================================== -->
-    <div class="flex-1 min-w-0 flex flex-col justify-between">
-      <main class="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-6 flex-1 space-y-5 sm:space-y-6">
-
-    <!-- BANNER DE BIENVENIDA / HITO -->
-    <div class="bg-gradient-to-r from-[#121824] via-[#161f30] to-[#0f1725] rounded-2xl sm:rounded-3xl p-5 sm:p-8 text-white border border-[#222f46] shadow-xl relative overflow-hidden">
-      <!-- Glow decorativo -->
-      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-[#00d2ff]/10 blur-3xl pointer-events-none"></div>
-      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00d2ff]/10 border border-[#00d2ff]/30 text-[#00d2ff] text-xs font-semibold font-mono">
-            <span>🎉 Hito de Crecimiento</span>
-            <span class="w-1 h-1 rounded-full bg-[#00d2ff]"></span>
-            <span>Agencia ISAPromoRD</span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Gestión Operativa de Clientes & Servicios</h1>
-          <p class="text-slate-300 text-sm max-w-2xl leading-relaxed">
-            Monitorea el estado en vivo, dominios, infraestructura Vercel/Anycast, ciclos de cobro y comunicaciones de tus clientes desde un solo lugar.
-          </p>
-        </div>
-        <div class="flex items-center gap-3">
-          <a href="../" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#161f30] hover:bg-[#222f46] text-white font-semibold text-xs sm:text-sm border border-[#222f46] hover:border-[#00d2ff]/40 transition-colors flex items-center gap-2">
-            <span>Ver Web Principal</span>
-            <svg class="w-3.5 h-3.5 text-[#00d2ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- TARJETAS KPI / MÉTRICAS CLAVE -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-      
-      <!-- Total Clientes -->
-      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Clientes Activos</span>
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 text-[#00d2ff] flex items-center justify-center border border-blue-500/20">
-            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          </div>
-        </div>
-        <div class="flex items-baseline gap-1.5 sm:gap-2">
-          <span id="kpiTotalClients" class="text-2xl sm:text-3xl font-black text-white font-mono">1</span>
-          <span class="text-[10px] sm:text-xs font-semibold text-emerald-400 font-mono">+100% mes</span>
+      <!-- Buscador Central con atajo ⌘K -->
+      <div class="hidden md:flex items-center flex-1 max-w-md mx-4">
+        <div class="relative w-full">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="filterClients()" 
+            placeholder="Search clients, deals, tasks..." 
+            class="stitch-input w-full pl-9 pr-10 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 font-sans transition-all"
+          />
+          <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+            <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">⌘K</kbd>
+          </span>
         </div>
       </div>
 
-      <!-- Proyectos en Producción -->
-      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">En Producción</span>
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
-            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
-          </div>
+      <!-- Telemetría & Acciones Rápidas del Header -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Fecha en Vivo -->
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-slate-300 font-mono stitch-card">
+          <span>📅</span>
+          <span id="rdClock">--:--:-- RD</span>
         </div>
-        <div class="flex items-baseline gap-1.5 sm:gap-2">
-          <span id="kpiProductionSites" class="text-2xl sm:text-3xl font-black text-white font-mono">1</span>
-          <span id="kpiProductionSubtitle" class="text-[10px] sm:text-xs font-semibold text-slate-400 font-mono truncate max-w-[90px] sm:max-w-[140px]">pasionpecuaria.vercel.app</span>
-        </div>
-      </div>
 
-      <!-- Ingresos Recurrentes Estimados -->
-      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">MRR Mantenimiento</span>
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
-            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </div>
+        <!-- Latency / Edge Ping -->
+        <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 font-bold">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Edge Ping</span>
+          <span id="edgePingHeader">19ms</span>
         </div>
-        <div class="flex items-baseline gap-1.5 sm:gap-2">
-          <span id="kpiMrr" class="text-xl sm:text-3xl font-black text-white font-mono truncate">RD$ 4,500</span>
-          <span class="text-[10px] sm:text-xs font-semibold text-slate-400 font-mono">/ mes</span>
-        </div>
-      </div>
 
-      <!-- Salud Infraestructura -->
-      <div class="bg-[#121824] rounded-2xl p-3.5 sm:p-5 border border-[#222f46] shadow-sm flex flex-col justify-between">
-        <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Salud de Red</span>
-          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-cyan-500/10 text-[#00d2ff] flex items-center justify-center border border-cyan-500/20">
-            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-          </div>
-        </div>
-        <div class="flex items-baseline gap-1.5 sm:gap-2">
-          <span class="text-2xl sm:text-3xl font-black text-white font-mono">100%</span>
-          <span class="text-[10px] sm:text-xs font-semibold text-emerald-400 font-mono">0 Caídas</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========================================================
-         BARRA CONTEXTUAL DE MÓDULOS (STITCH AETHER COMMAND)
-         ======================================================== -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#222f46]/60">
-      <div class="flex items-center gap-2 text-xs font-mono">
-        <span class="text-slate-400">MODO_OPERATIVO:</span>
-        <span class="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold">AETHER_v3.0</span>
-        <span class="text-slate-600">•</span>
-        <span class="text-slate-400">TELEMETRÍA_ACTIVA</span>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="toggleStitchSidebar(true)" class="lg:hidden px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors">
-          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-          <span>Cambiar Módulo</span>
+        <!-- Switcher de Tema (Dark / Light Mode) -->
+        <button 
+          id="themeSwitchBtn" 
+          onclick="toggleThemeMode()" 
+          title="Alternar Modo Claro / Oscuro (Stitch Precision)"
+          class="p-2 rounded-xl bg-[#121824] hover:bg-[#1a2333] border border-[#222f46] text-slate-300 hover:text-white transition-colors"
+        >
+          <span id="themeIcon">🌙</span>
         </button>
+
+        <!-- Sincronización Nube Supabase -->
+        <button 
+          id="cloudSyncBtn" 
+          onclick="manualTriggerCloudSync()" 
+          title="Sincronizar con Supabase Cloud (isapromord-hub) ahora"
+          class="p-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors"
+        >
+          <span id="cloudSyncDot" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        </button>
+
+        <!-- Avatar Usuario -->
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 border border-cyan-400/40 flex items-center justify-center text-xs font-black text-slate-950 font-mono shadow-sm">
+          HL
+        </div>
       </div>
-    </div>
+    </header>
+
+    <!-- CUERPO PRINCIPAL -->
+    <main class="w-full max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-5 flex-1 space-y-6">
+
+      <!-- SUB-HEADER: MISSION CONTROL RD (IDENTICO AL DISEÑO DE STITCH) -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#1e293b]/80">
+        <div>
+          <div class="text-[11px] font-mono font-bold text-cyan-400 tracking-wider flex items-center gap-2">
+            <span>MISSION CONTROL RD</span>
+            <span class="text-slate-500">v4.8.2 // edge-santo-domingo</span>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight mt-1 stitch-title">Centro de Control Operativo</h1>
+          <p class="text-xs text-slate-400 mt-0.5 stitch-subtext">Orquestación de infraestructura multicliente, telemetría perimetral y conciliación de cartera.</p>
+        </div>
+        
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button 
+            onclick="manualTriggerCloudSync()" 
+            class="px-3.5 py-2 rounded-xl bg-[#121824] hover:bg-[#1a2333] border border-[#222f46] text-xs font-bold text-slate-200 hover:text-white flex items-center gap-2 transition-all stitch-card"
+          >
+            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            <span>Sync Edge</span>
+          </button>
+
+          <button 
+            onclick="openNewClientModal()" 
+            class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs flex items-center gap-2 shadow-glow-cyan transition-all active:scale-95"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+            <span>Nuevo Cliente</span>
+          </button>
+        </div>
+      </div>
+
 
     <!-- ========================================================
-         PESTAÑA 1: DIRECTORIO DE CLIENTES
+         PESTAÑA 1: COMMAND CENTER (LAYOUT DE 2 COLUMNAS STITCH)
          ======================================================== -->
     <div id="clientsTabContent" class="space-y-6">
-      <!-- BARRA DE BÚSQUEDA Y FILTROS INTELIGENTES (HQ) -->
-      <div class="bg-[#101726] rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-xl space-y-3.5">
+
+      <!-- RETÍCULA DE 2 COLUMNAS: PRINCIPAL (70%) + WIDGETS DE TELEMETRÍA (30%) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         
-        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
-          <!-- Buscador -->
-          <div class="relative flex-1">
-            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            </span>
-            <input 
-              type="text" 
-              id="searchInput" 
-              oninput="filterClients()" 
-              placeholder="Buscar por cliente, dominio o categoría..." 
-              class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-            />
-          </div>
-
-          <!-- Selectores y Controles de Vista -->
-          <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-            <!-- Selector de Vista: Compacta vs Detallada -->
-            <div class="flex items-center p-0.5 sm:p-1 bg-slate-900 border border-slate-700 rounded-xl shrink-0">
-              <button 
-                id="btnViewCompact"
-                onclick="setClientViewMode('compact')" 
-                class="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm"
-                title="Vista Compacta HQ (Alta densidad)"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                <span class="text-[11px] sm:text-xs">Compacta</span>
-              </button>
-              <button 
-                id="btnViewExpanded"
-                onclick="setClientViewMode('expanded')" 
-                class="px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200"
-                title="Vista Detallada (Tarjetas grandes)"
-              >
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                <span class="text-[11px] sm:text-xs">Detalle</span>
-              </button>
-            </div>
-
-            <!-- Switch Modo Presentación (Client-Safe) -->
-            <button 
-              id="btnPresentationMode"
-              onclick="togglePresentationMode()" 
-              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1 transition-colors shrink-0"
-              title="Modo Presentación: Oculta montos de facturación y datos privados al compartir pantalla con prospectos"
-            >
-              <span>👔</span>
-              <span class="text-[11px] sm:text-xs">Cliente</span>
-            </button>
-
-            <!-- Filtro por Estado (Select) -->
-            <select 
-              id="statusFilter" 
-              onchange="filterClients()" 
-              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 cursor-pointer shrink-0"
-            >
-              <option value="all">Todos Estados</option>
-              <option value="active">🟢 Activos</option>
-              <option value="maintenance">🟡 Mantenimiento</option>
-              <option value="pending_payment">🔴 Cobro</option>
-              <option value="lead">⚪ Prospecto</option>
-            </select>
-
-            <!-- Chequear Uptime -->
-            <button 
-              onclick="pingAllClients()" 
-              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold flex items-center gap-1 transition-colors shrink-0"
-              title="Verificar Uptime de todas las webs ahora"
-            >
-              <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-              <span class="text-[11px] sm:text-xs">Uptime</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Filtros Rápidos por Semáforo Operativo -->
-        <div class="pt-2.5 border-t border-slate-800 text-xs">
-          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1.5">
-              <span>🚦</span>
-              <span>Semáforo:</span>
-            </span>
+        <!-- ==========================================
+             COLUMNA IZQUIERDA (8 COLS): KPIS, FILTROS Y CLIENTES
+             ========================================== -->
+        <div class="lg:col-span-8 space-y-4">
+          
+          <!-- 4 TARJETAS KPI SUPERIORES (STITCH COMMAND CENTER) -->
+          <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
             
-            <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 w-full">
-              <button onclick="setQuickFilter('all')" id="qf-all" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-center flex items-center justify-center gap-1">
-                <span>Todos</span> (<span id="qf-count-all">0</span>)
-              </button>
-              
-              <button onclick="setQuickFilter('pending_billing')" id="qf-pending_billing" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-rose-300 border border-slate-800 hover:border-rose-500/40 text-center flex items-center justify-center gap-1">
-                <span>🔴 Cobro</span> (<span id="qf-count-billing">0</span>)
+            <!-- 1. MRR Cartera Activa -->
+            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+              <div class="flex items-center justify-between text-slate-400 mb-1.5">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">MRR Cartera Activa</span>
+                <span class="text-cyan-400">💵</span>
+              </div>
+              <div>
+                <div class="flex items-baseline gap-1.5">
+                  <span id="kpiMrr" class="text-lg sm:text-xl font-black text-white font-mono stitch-title">RD$ 124,500</span>
+                  <span class="text-[10px] font-bold text-emerald-400 font-mono">+18.4%</span>
+                </div>
+                <div class="text-[10px] text-slate-400 font-mono mt-1 pt-1 border-t border-white/[0.05] truncate">
+                  Retainers: <span id="kpiTotalClients" class="text-slate-200 font-bold">9</span> Clientes • Meta: 150k
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Conciliación Bancaria RD -->
+            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+              <div class="flex items-center justify-between text-slate-400 mb-1.5">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Conciliación Bancaria RD</span>
+                <span class="text-emerald-400">🏛️</span>
+              </div>
+              <div>
+                <div class="text-[11px] font-mono space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400">POPULAR</span>
+                    <span class="text-white font-bold font-mono">RD$ 84,200</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400">RESERVAS</span>
+                    <span class="text-white font-bold font-mono">RD$ 40,300</span>
+                  </div>
+                </div>
+                <div class="text-[10px] text-emerald-400 font-mono mt-1 pt-1 border-t border-white/[0.05] flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>Sin facturas vencidas</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Entregables & Sprints -->
+            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+              <div class="flex items-center justify-between text-slate-400 mb-1.5">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Entregables & Sprints</span>
+                <span class="text-cyan-400">☑️</span>
+              </div>
+              <div>
+                <div class="flex items-baseline justify-between gap-1">
+                  <span id="kpiProductionSites" class="text-base sm:text-lg font-black text-white font-mono stitch-title">16 / 30</span>
+                  <span id="kpiProductionSubtitle" class="text-[10px] font-bold text-cyan-400 font-mono">53.3% Hecho</span>
+                </div>
+                <!-- Barra de Progreso -->
+                <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1.5">
+                  <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" style="width: 53.3%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Tráfico Referido Footers -->
+            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+              <div class="flex items-center justify-between text-slate-400 mb-1.5">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Tráfico Referido Footers</span>
+                <span class="text-purple-400">🌐</span>
+              </div>
+              <div>
+                <div class="flex items-baseline justify-between gap-1">
+                  <span class="text-base sm:text-lg font-black text-white font-mono stitch-title">428 Clics</span>
+                  <span class="text-[10px] font-bold text-emerald-400 font-mono">3.8% Conv</span>
+                </div>
+                <div class="text-[10px] text-slate-400 font-mono mt-1 pt-1 border-t border-white/[0.05] truncate">
+                  BackLinks Activos: 9 • 16 Leads
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BARRA DE FILTROS & BÚSQUEDA HORIZONTAL (STITCH COMMAND CENTER) -->
+          <div class="stitch-card bg-[#0f172a] rounded-2xl p-2.5 sm:p-3 border border-white/[0.08] shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+            
+            <!-- Pestañas de Filtrado Rápido -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+              <button 
+                onclick="setQuickFilter('all')" 
+                id="qf-all" 
+                class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0"
+              >
+                <span>Todos</span> (<span id="qf-count-all">9</span>)
               </button>
 
-              <button onclick="setQuickFilter('low_health')" id="qf-low_health" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-amber-300 border border-slate-800 hover:border-amber-500/40 text-center flex items-center justify-center gap-1">
-                <span>⚠️ &lt;80%</span> (<span id="qf-count-health">0</span>)
+              <button 
+                onclick="setQuickFilter('active')" 
+                id="qf-active" 
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+              >
+                <span>Activos</span> (<span id="qf-count-active">8</span>)
               </button>
 
-              <button onclick="setQuickFilter('optimized')" id="qf-optimized" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-emerald-300 border border-slate-800 hover:border-emerald-500/40 text-center flex items-center justify-center gap-1">
-                <span>🟢 100%</span> (<span id="qf-count-optimized">0</span>)
+              <button 
+                onclick="setQuickFilter('maintenance')" 
+                id="qf-maintenance" 
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+              >
+                <span>Mantenimiento</span> (<span id="qf-count-maintenance">1</span>)
+              </button>
+
+              <button 
+                onclick="setQuickFilter('pending_billing')" 
+                id="qf-pending_billing" 
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+              >
+                <span>Cobro</span> (<span id="qf-count-billing">0</span>)
+              </button>
+            </div>
+
+            <!-- Buscador Integrado y Select de Estado -->
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1 sm:w-60">
+                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-500">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input 
+                  type="text" 
+                  id="clientFilterSearchInput" 
+                  oninput="filterClients(this.value)" 
+                  placeholder="Buscar por cliente o nombre..." 
+                  class="stitch-input w-full pl-8 pr-3 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                />
+              </div>
+
+              <!-- Selector de Estado Oculto/Vinculado para compatibilidad -->
+              <select id="statusFilter" onchange="filterClients()" class="hidden">
+                <option value="all">all</option>
+                <option value="active">active</option>
+                <option value="maintenance">maintenance</option>
+                <option value="pending_payment">pending_payment</option>
+                <option value="lead">lead</option>
+              </select>
+
+              <!-- Botones Compact/Expanded de Vista -->
+              <div class="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5">
+                <button id="btnViewCompact" onclick="setClientViewMode('compact')" class="p-1 rounded-lg bg-cyan-600 text-white text-xs" title="Vista Lista Compacta">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <button id="btnViewExpanded" onclick="setClientViewMode('expanded')" class="p-1 rounded-lg text-slate-400 hover:text-white text-xs" title="Vista Expandida">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                </button>
+              </div>
+
+              <!-- Switch Modo Presentación -->
+              <button 
+                id="btnPresentationMode" 
+                onclick="togglePresentationMode()" 
+                title="Modo Presentación: Ocultar montos privados al compartir pantalla"
+                class="p-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs transition-colors shrink-0"
+              >
+                <span>👔</span>
               </button>
             </div>
           </div>
+
+          <!-- LISTA APILADA DE CLIENTES (CONTENEDOR DINÁMICO) -->
+          <div id="clientsContainer" class="space-y-3">
+            <!-- Se inyecta dinámicamente con JavaScript -->
+          </div>
+
+          <!-- ESTADO VACÍO -->
+          <div id="emptyState" class="hidden bg-[#0f172a] rounded-2xl p-10 text-center border border-dashed border-slate-700/80">
+            <div class="w-12 h-12 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">No se encontraron clientes</h3>
+            <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">Prueba modificando los filtros de búsqueda o agrega un nuevo cliente a la lista.</p>
+            <button onclick="openNewClientModal()" class="px-4 py-2 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 rounded-xl text-xs font-black shadow-glow-cyan">Agregar Cliente</button>
+          </div>
+
+        </div>
+
+        <!-- ==========================================
+             COLUMNA DERECHA (4 COLS): WIDGETS DE TELEMETRÍA (STITCH)
+             ========================================== -->
+        <div class="lg:col-span-4 space-y-4">
+          
+          <!-- WIDGET 1: ESTADO DE RED PERIMETRAL -->
+          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-cyan-400">❇️</span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Estado de Red Perimetral</h3>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">
+                99.98% SLA
+              </span>
+            </div>
+
+            <!-- Medidor Radial Circular -->
+            <div class="radial-health-gauge py-2">
+              <svg viewBox="0 0 140 140">
+                <circle class="radial-bg" cx="70" cy="70" r="55"></circle>
+                <circle class="radial-progress" cx="70" cy="70" r="55" stroke-dashoffset="35"></circle>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span class="text-2xl font-black text-white font-mono stitch-title">100%</span>
+                <span class="text-[9px] font-mono font-bold text-cyan-400 uppercase tracking-widest mt-0.5">SALUD NODOS</span>
+                <span class="text-[8px] font-mono text-slate-400">456 DÍAS LIVE</span>
+              </div>
+            </div>
+
+            <!-- Checklist Operativo de Nodos -->
+            <div class="space-y-2 pt-2 border-t border-white/[0.05] text-xs font-mono">
+              <div class="flex items-center justify-between text-slate-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="stitch-subtext text-slate-300">Vercel Edge Deployments</span>
+                </div>
+                <span class="text-emerald-400 font-bold">9/9 OK</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="stitch-subtext text-slate-300">Supabase PostgREST & Auth</span>
+                </div>
+                <span class="text-cyan-400 font-bold" id="telemetrySupabasePing">23ms</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-300">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="stitch-subtext text-slate-300">Cloudflare SSL & WAF Rules</span>
+                </div>
+                <span class="text-emerald-400 font-bold">0 Threat</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- WIDGET 2: VIRAL FOOTERS ISAPROMORD (EN VIVO) -->
+          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-cyan-400">🌐</span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Viral Footers ISAPromoRD</h3>
+              </div>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono font-bold">
+                <span class="w-1 h-1 rounded-full bg-cyan-400 animate-pulse"></span>
+                En vivo
+              </span>
+            </div>
+
+            <p class="text-[11px] text-slate-400 leading-relaxed stitch-subtext">
+              Desglose de clicks procedentes de sellos en footers de clientes.
+            </p>
+
+            <!-- Desglose por Dominio -->
+            <div class="space-y-2.5 pt-1 text-xs font-mono">
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-300 truncate max-w-[170px]">torrelaesperilla.com</span>
+                  <span class="text-cyan-400 font-bold">148 clics</span>
+                </div>
+                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-full" style="width: 82%"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-300 truncate max-w-[170px]">pasionpecuaria.vercel.app</span>
+                  <span class="text-cyan-400 font-bold">112 clics</span>
+                </div>
+                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-full" style="width: 65%"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-300 truncate max-w-[170px]">isatranslogic.com</span>
+                  <span class="text-cyan-400 font-bold">96 clics</span>
+                </div>
+                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-full" style="width: 52%"></div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-300 truncate max-w-[170px]">elementsjarabacoa.com</span>
+                  <span class="text-cyan-400 font-bold">72 clics</span>
+                </div>
+                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-full" style="width: 40%"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- WIDGET 3: HITOS & CALENDARIO -->
+          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-amber-400">🔔</span>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Hitos & Calendario</h3>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400" id="calendarMonthBadge">Oct 2026</span>
+            </div>
+
+            <div class="space-y-2.5 pt-1 text-xs">
+              <!-- Evento 1: Renovación Dominio -->
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+                <div class="min-w-0">
+                  <div class="font-bold text-slate-200 truncate stitch-title">Renovación Dominio .do</div>
+                  <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">torrelaesperilla.com • NIC.DO</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-mono font-bold shrink-0">
+                  4d
+                </span>
+              </div>
+
+              <!-- Evento 2: Facturación Ciclo -->
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+                <div class="min-w-0">
+                  <div class="font-bold text-slate-200 truncate stitch-title">Facturación Ciclo 30</div>
+                  <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">8 comprobantes con NCF B01</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold shrink-0">
+                  6d
+                </span>
+              </div>
+
+              <!-- Evento 3: Backup Postgres Snapshot -->
+              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+                <div class="min-w-0">
+                  <div class="font-bold text-slate-200 truncate stitch-title">Postgres Snapshot Dump</div>
+                  <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">isapromord-hub Cold Backup</div>
+                </div>
+                <span class="px-2 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold shrink-0">
+                  Auto
+                </span>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
 
-      <!-- LISTADO / DIRECTORIO DE CLIENTES -->
-      <div id="clientsContainer" class="space-y-6">
-        <!-- Se inyectan dinámicamente con JavaScript -->
-      </div>
-
-      <!-- ESTADO VACÍO (Si la búsqueda no coincide) -->
-      <div id="emptyState" class="hidden bg-white rounded-3xl p-12 text-center border border-dashed border-slate-200">
-        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        </div>
-        <h3 class="text-base font-bold text-slate-800 mb-1">No se encontraron clientes</h3>
-        <p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">Prueba modificando los filtros de búsqueda o agrega un nuevo cliente a la lista.</p>
-        <button onclick="openNewClientModal()" class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700">Agregar Cliente</button>
-      </div>
     </div>
 
     <!-- ========================================================
@@ -3315,84 +3643,87 @@
           const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
           const score = client.healthScore !== undefined ? client.healthScore : 100;
-          const healthBadgeClass = score >= 85 
-            ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" 
-            : (score >= 60 ? "bg-amber-500/15 text-amber-300 border-amber-500/30" : "bg-rose-500/15 text-rose-300 border-rose-500/30");
+          const healthColor = score >= 85 ? "text-emerald-400" : (score >= 60 ? "text-amber-400" : "text-rose-400");
 
           let uptimeDot = client.uptimeStatus === "online" 
-            ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>${client.latencyMs || '<1'}ms</span>`
+            ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '53'}ms</span>`
             : (client.uptimeStatus === "offline" 
-                ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono text-rose-400"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Offline</span>`
-                : `<span class="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400"><span class="w-2 h-2 rounded-full bg-slate-400 animate-ping"></span>Chequeando</span>`);
+                ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
+                : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`);
+
+          const initials = client.name.substring(0, 2).toUpperCase();
 
           return `
-            <div class="bg-[#101726] rounded-2xl p-4 sm:p-5 border border-slate-700/80 shadow-md hover:border-cyan-500/40 transition-all text-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4 group">
+            <div class="client-card-row p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 group">
               
-              <!-- Identidad & Dominio -->
+              <!-- Identidad & Enlace -->
               <div class="flex items-center gap-3 min-w-0">
-                <div onclick="openClientDrawer('${client.id}')" class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-300 flex items-center justify-center text-xs sm:text-sm font-black font-mono shrink-0 shadow-inner group-hover:scale-105 transition-transform cursor-pointer">
-                  ${client.name.substring(0, 2).toUpperCase()}
+                <div onclick="openClientDrawer('${client.id}')" class="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 text-slate-200 flex items-center justify-center text-xs font-black font-mono shrink-0 cursor-pointer shadow-inner group-hover:border-cyan-400 group-hover:text-cyan-300 transition-colors">
+                  ${initials}
                 </div>
                 <div class="min-w-0 space-y-0.5">
-                  <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                    <h4 class="text-sm sm:text-base font-black text-white hover:text-cyan-300 cursor-pointer transition-colors truncate max-w-[200px] sm:max-w-none" onclick="openClientDrawer('${client.id}')">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 onclick="openClientDrawer('${client.id}')" class="text-sm font-bold text-white group-hover:text-cyan-300 cursor-pointer transition-colors truncate max-w-[200px] sm:max-w-none stitch-title">
                       ${client.name}
                     </h4>
-                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] font-bold ${currentBadge.bg} border shrink-0">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${currentBadge.bg} border shrink-0">
                       ${currentBadge.text}
                     </span>
                     ${uptimeDot}
                   </div>
-                  <div class="flex items-center gap-2 text-[11px] sm:text-xs font-mono text-slate-400 truncate">
-                    <a href="${client.liveUrl}" target="_blank" class="text-cyan-400 hover:underline truncate max-w-[150px] sm:max-w-none">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin URL'}</a>
+                  <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate stitch-subtext">
+                    <a href="${client.liveUrl}" target="_blank" class="text-slate-400 hover:text-cyan-400 hover:underline truncate max-w-[170px] sm:max-w-none">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin Dominio'}</a>
                     <span class="text-slate-600">•</span>
-                    <span class="text-slate-400 font-sans truncate">${client.category || 'General'}</span>
+                    <span class="text-slate-500 font-sans truncate">${client.category || 'General'}</span>
                   </div>
                 </div>
               </div>
 
-              <!-- Indicadores: Madurez Digital + Roadmap + Retainer -->
-              <div class="grid grid-cols-3 sm:flex sm:items-center gap-2 sm:gap-5 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-800/80">
-                <!-- Madurez Digital -->
-                <div class="flex flex-col items-start sm:items-center">
-                  <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">Madurez</span>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[11px] sm:text-xs font-black font-mono ${healthBadgeClass} border mt-0.5" title="Índice de Madurez Digital verificado en vivo">
-                    ⚡ ${score}
+              <!-- Indicadores & Acciones -->
+              <div class="flex items-center justify-between md:justify-end gap-3 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-white/[0.05]">
+                
+                <!-- Health Score -->
+                <div class="flex flex-col items-start md:items-end">
+                  <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">HEALTH SCORE</span>
+                  <span class="text-xs sm:text-sm font-black font-mono ${healthColor} mt-0.5">
+                    ${score}/100
                   </span>
                 </div>
 
-                <!-- Roadmap Mini Progress -->
-                <div class="flex flex-col items-start sm:items-center">
-                  <div class="flex items-center gap-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    <span>Roadmap</span>
-                    <span class="text-cyan-400 font-mono">${completedTasks}/${totalTasks}</span>
-                  </div>
-                  <div class="w-16 sm:w-24 h-1.5 sm:h-2 bg-slate-800 rounded-full overflow-hidden mt-1.5">
-                    <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full" style="width: ${progressPct}%"></div>
-                  </div>
-                </div>
-
-                <!-- Facturación (Soporta Modo Presentación) -->
-                <div class="flex flex-col items-start sm:items-end">
-                  <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-400">Mantenimiento</span>
-                  <span class="text-xs sm:text-sm font-black font-mono text-emerald-400 mt-0.5 truncate">
-                    ${presentationMode ? '•••••' : (client.fee ? client.fee.replace(' / mes', '') : 'Sin fee')}
-                  </span>
-                  <span class="text-[9px] sm:text-[10px] font-mono text-slate-400 truncate">
-                    ${client.renewalDate || 'Sin ciclo'}
+                <!-- Retainer Mensual -->
+                <div class="flex flex-col items-start md:items-end">
+                  <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500">RETAINER MENSUAL</span>
+                  <span class="text-xs sm:text-sm font-black font-mono text-white mt-0.5 stitch-title">
+                    ${presentationMode ? '•••••' : (client.fee ? client.fee.replace(' / mes', '') : 'RD$ 0')}
                   </span>
                 </div>
-              </div>
 
-              <!-- Acciones Rápidas -->
-              <div class="flex items-center gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/80 w-full lg:w-auto justify-end">
-                <button onclick="runServicesAudit('${client.id}')" class="flex-1 sm:flex-initial justify-center px-2.5 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1 transition-all shadow-sm" title="Auditoría 360° en vivo">
-                  <span>⚡ Auditar</span>
-                </button>
-                <button onclick="openClientDrawer('${client.id}')" class="flex-1 sm:flex-initial justify-center px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-cyan-600/25 transition-all">
-                  <span>Control</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </button>
+                <!-- Acciones Rápidas -->
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button 
+                    onclick="runServicesAudit('${client.id}')" 
+                    title="Auditoría 360° en vivo"
+                    class="p-2 rounded-xl text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
+                  >
+                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                  </button>
+
+                  <button 
+                    onclick="editClient('${client.id}')" 
+                    title="Editar Ficha"
+                    class="p-2 rounded-xl text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] transition-colors"
+                  >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  </button>
+
+                  <button 
+                    onclick="openClientDrawer('${client.id}')" 
+                    class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs shadow-glow-cyan transition-all active:scale-95"
+                  >
+                    <span>Control</span>
+                  </button>
+                </div>
+
               </div>
 
             </div>
@@ -6032,6 +6363,41 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       }
     }
 
+    // ==========================================
+    // THEME SWITCHER: DARK / LIGHT MODE (STITCH PRECISION)
+    // ==========================================
+    function initThemeMode() {
+      const savedTheme = localStorage.getItem("isapromo_theme") || "dark";
+      applyTheme(savedTheme);
+    }
+
+    function toggleThemeMode() {
+      const isLight = document.body.classList.contains("light-theme");
+      const nextTheme = isLight ? "dark" : "light";
+      applyTheme(nextTheme);
+      localStorage.setItem("isapromo_theme", nextTheme);
+      showToast(nextTheme === "light" ? "☀️ Modo Claro (Stitch Precision) activado" : "🌙 Modo Oscuro (Command Center) activado");
+    }
+
+    function applyTheme(theme) {
+      const icon = document.getElementById("themeIcon");
+      if (theme === "light") {
+        document.body.classList.add("light-theme");
+        if (icon) icon.textContent = "☀️";
+      } else {
+        document.body.classList.remove("light-theme");
+        if (icon) icon.textContent = "🌙";
+      }
+    }
+
+    function handleGlobalSearch(term) {
+      const input = document.getElementById("searchInput");
+      if (input) {
+        input.value = term;
+        filterClients();
+      }
+    }
+
     function switchDashboardTab(tab) {
       const clientsContent = document.getElementById("clientsTabContent");
       const proposalsContent = document.getElementById("proposalsTabContent");
@@ -6045,31 +6411,31 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       const tabAccountingBtn = document.getElementById("tabAccountingBtn");
       const tabHqBtn = document.getElementById("tabHqBtn");
 
-      const inactiveClass = "stitch-nav-item w-full px-3.5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-transparent hover:bg-white/[0.04] text-slate-300 hover:text-white border border-transparent transition-all flex items-center gap-2.5 text-left";
-      const activeClass = "stitch-nav-item active w-full px-3.5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white border transition-all flex items-center gap-2.5 text-left";
+      const inactiveClass = "rail-btn";
+      const activeClass = "rail-btn active";
 
-      tabClientsBtn.className = inactiveClass;
-      tabProposalsBtn.className = inactiveClass;
-      tabReferralsBtn.className = inactiveClass;
+      if (tabClientsBtn) tabClientsBtn.className = inactiveClass;
+      if (tabProposalsBtn) tabProposalsBtn.className = inactiveClass;
+      if (tabReferralsBtn) tabReferralsBtn.className = inactiveClass;
       if (tabAccountingBtn) tabAccountingBtn.className = inactiveClass;
       if (tabHqBtn) tabHqBtn.className = inactiveClass;
 
-      clientsContent.classList.add("hidden");
-      proposalsContent.classList.add("hidden");
-      referralsContent.classList.add("hidden");
+      if (clientsContent) clientsContent.classList.add("hidden");
+      if (proposalsContent) proposalsContent.classList.add("hidden");
+      if (referralsContent) referralsContent.classList.add("hidden");
       if (accountingContent) accountingContent.classList.add("hidden");
       if (hqContent) hqContent.classList.add("hidden");
 
       if (tab === 'clients') {
-        clientsContent.classList.remove("hidden");
-        tabClientsBtn.className = activeClass;
+        if (clientsContent) clientsContent.classList.remove("hidden");
+        if (tabClientsBtn) tabClientsBtn.className = activeClass;
       } else if (tab === 'proposals') {
-        proposalsContent.classList.remove("hidden");
-        tabProposalsBtn.className = activeClass;
+        if (proposalsContent) proposalsContent.classList.remove("hidden");
+        if (tabProposalsBtn) tabProposalsBtn.className = activeClass;
         initProposalBuilder();
       } else if (tab === 'referrals') {
-        referralsContent.classList.remove("hidden");
-        tabReferralsBtn.className = activeClass;
+        if (referralsContent) referralsContent.classList.remove("hidden");
+        if (tabReferralsBtn) tabReferralsBtn.className = activeClass;
         loadReferralsData();
       } else if (tab === 'accounting') {
         if (accountingContent) accountingContent.classList.remove("hidden");
@@ -6644,8 +7010,8 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     // ==========================================
     // 15. SISTEMA DE REFERIDOS & ATRIBUCIÓN (SUPABASE TELEMETRÍA)
     // ==========================================
-    const SUPABASE_REFERRALS_URL = "https://lldhpidjcjyjldhpbjql.supabase.co";
-    const SUPABASE_REFERRALS_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxsZGhwaWRqY2p5amxkaHBianFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTAxNTAsImV4cCI6MjA4MTQ2NjE1MH0.cVFJs-zehhJ_FHQUInusLazoIW3_DONVcPAlEmRqflY";
+    const SUPABASE_REFERRALS_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+    const SUPABASE_REFERRALS_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
     const STORAGE_KEY_REFERRAL_PARTNERS = "isapromo_agency_referral_partners_v1";
 
     const DEFAULT_REFERRAL_PARTNERS = [

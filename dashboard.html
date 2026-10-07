@@ -353,12 +353,202 @@
     }
 
     /* ========================================================
-       MODO CLARO (LIGHT THEME PRECISION - IMG 3 FIX)
+       REGLAS MAESTRAS DE ALTO CONTRASTE PARA MODO CLARO (LIGHT THEME)
+       (LETRAS SÓLIDAS Y LEGIBLES EN TODOS LOS BADGES, LABELS Y TABS)
+       PRESERVANDO 100% INTACTO EL MODO OSCURO (DARK LOOKS FINE)
        ======================================================== */
     body.light-theme {
       background-color: #f8fafc !important;
       color: #0f172a !important;
     }
+
+    /* 1. TEXTOS SÓLIDOS DE ALTO CONTRASTE (CERO LETRAS PASTEL ILEGIBLES) */
+    body.light-theme .text-emerald-400,
+    body.light-theme .text-emerald-300,
+    body.light-theme .text-emerald-500,
+    body.light-theme span[class*="text-emerald"],
+    body.light-theme [class*="text-emerald-400"],
+    body.light-theme [class*="text-emerald-300"] {
+      color: #15803d !important; /* Verde bosque sólido y profundo (WCAG AAA) */
+      font-weight: 700 !important;
+    }
+
+    body.light-theme .text-cyan-400,
+    body.light-theme .text-cyan-300,
+    body.light-theme .text-cyan-500,
+    body.light-theme .text-blue-400,
+    body.light-theme .text-blue-300,
+    body.light-theme span[class*="text-cyan"],
+    body.light-theme [class*="text-cyan-400"],
+    body.light-theme [class*="text-cyan-300"] {
+      color: #0369a1 !important; /* Azul cian corporativo sólido y nítido */
+      font-weight: 700 !important;
+    }
+
+    body.light-theme .text-amber-400,
+    body.light-theme .text-amber-300,
+    body.light-theme .text-amber-500,
+    body.light-theme .text-yellow-400,
+    body.light-theme .text-yellow-300,
+    body.light-theme span[class*="text-amber"],
+    body.light-theme [class*="text-amber-400"],
+    body.light-theme [class*="text-amber-300"] {
+      color: #b45309 !important; /* Ámbar/marrón dorado oscuro sólido */
+      font-weight: 700 !important;
+    }
+
+    body.light-theme .text-purple-400,
+    body.light-theme .text-purple-300,
+    body.light-theme .text-purple-500,
+    body.light-theme span[class*="text-purple"],
+    body.light-theme [class*="text-purple-400"],
+    body.light-theme [class*="text-purple-300"] {
+      color: #6b21a8 !important; /* Púrpura sólido profundo */
+      font-weight: 700 !important;
+    }
+
+    body.light-theme .text-rose-400,
+    body.light-theme .text-rose-300,
+    body.light-theme .text-rose-500,
+    body.light-theme .text-red-400,
+    body.light-theme .text-red-300,
+    body.light-theme span[class*="text-rose"],
+    body.light-theme [class*="text-rose-400"],
+    body.light-theme [class*="text-rose-300"] {
+      color: #be123c !important; /* Rojo rubí oscuro sólido */
+      font-weight: 700 !important;
+    }
+
+    /* 2. FONDOS Y BORDES NÍTIDOS DE BADGES / PILLS EN MODO CLARO */
+    body.light-theme [class*="bg-emerald-500/"],
+    body.light-theme .bg-emerald-50 {
+      background-color: #dcfce7 !important;
+      border-color: #86efac !important;
+      color: #15803d !important;
+    }
+
+    body.light-theme [class*="bg-cyan-500/"],
+    body.light-theme .bg-cyan-50,
+    body.light-theme .bg-blue-50 {
+      background-color: #e0f2fe !important;
+      border-color: #7dd3fc !important;
+      color: #0369a1 !important;
+    }
+
+    body.light-theme [class*="bg-amber-500/"],
+    body.light-theme .bg-amber-50 {
+      background-color: #fef3c7 !important;
+      border-color: #fcd34d !important;
+      color: #b45309 !important;
+    }
+
+    body.light-theme [class*="bg-purple-500/"],
+    body.light-theme [class*="bg-purple-600/"],
+    body.light-theme .bg-purple-50 {
+      background-color: #f3e8ff !important;
+      border-color: #d8b4fe !important;
+      color: #6b21a8 !important;
+    }
+
+    body.light-theme [class*="bg-rose-500/"],
+    body.light-theme .bg-rose-50 {
+      background-color: #ffe4e6 !important;
+      border-color: #fda4af !important;
+      color: #be123c !important;
+    }
+
+    /* 3. BOTÓN CREAR PROPUESTA EN HEADER MODO CLARO */
+    body.light-theme button[onclick*="switchDashboardTab('proposals')"] {
+      background-color: #f3e8ff !important;
+      border-color: #d8b4fe !important;
+      color: #6b21a8 !important;
+      box-shadow: 0 1px 3px rgba(107, 33, 168, 0.1) !important;
+    }
+    body.light-theme button[onclick*="switchDashboardTab('proposals')"]:hover {
+      background-color: #e9d5ff !important;
+      color: #581c87 !important;
+    }
+
+    /* 4. HERO BANNER DE CONTABILIDAD (IMG 1 FIX) */
+    body:not(.light-theme) .acct-hero-banner {
+      background: linear-gradient(135deg, #090d16 0%, #064e3b 50%, #090d16 100%) !important;
+      border: 1px solid rgba(16, 185, 129, 0.3) !important;
+      color: #ffffff !important;
+    }
+    body.light-theme .acct-hero-banner {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #f0fdf4 100%) !important;
+      border: 1.5px solid #6ee7b7 !important;
+      color: #064e3b !important;
+      box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.12) !important;
+    }
+    body.light-theme .acct-hero-banner h2 {
+      color: #064e3b !important;
+    }
+    body.light-theme .acct-hero-banner p {
+      color: #047857 !important;
+    }
+    body.light-theme .acct-hero-banner [class*="bg-emerald-500/"] {
+      background-color: #d1fae5 !important;
+      border-color: #6ee7b7 !important;
+      color: #065f46 !important;
+    }
+    body.light-theme .acct-hero-banner button[onclick*="exportAccountingReport"] {
+      background-color: #ffffff !important;
+      border-color: #a7f3d0 !important;
+      color: #065f46 !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+    }
+
+    /* 5. HERO BANNER DE HQ SERVICER (IMG 2 FIX) */
+    body:not(.light-theme) .hq-hero-banner {
+      background: linear-gradient(135deg, #121824 0%, #1a1528 50%, #121824 100%) !important;
+      border: 1px solid rgba(168, 85, 247, 0.4) !important;
+      color: #ffffff !important;
+    }
+    body.light-theme .hq-hero-banner {
+      background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #fdf4ff 100%) !important;
+      border: 1.5px solid #d8b4fe !important;
+      color: #581c87 !important;
+      box-shadow: 0 4px 20px -2px rgba(168, 85, 247, 0.12) !important;
+    }
+    body.light-theme .hq-hero-banner h2 {
+      color: #581c87 !important;
+    }
+    body.light-theme .hq-hero-banner p {
+      color: #6b21a8 !important;
+    }
+    body.light-theme .hq-hero-banner [class*="bg-purple-500/"] {
+      background-color: #e9d5ff !important;
+      border-color: #c084fc !important;
+      color: #581c87 !important;
+    }
+    body.light-theme .hq-hero-banner button[onclick*="checkHqLiveStatus"] {
+      background-color: #ffffff !important;
+      border-color: #d8b4fe !important;
+      color: #6b21a8 !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06) !important;
+    }
+
+    /* 6. CAJA DE INSTRUCCIONES Y GUÍAS DE CHECKLIST HQ (IMG 2 FIX) */
+    body.light-theme .hq-guide-box,
+    body.light-theme div[id^="guide-"] > div {
+      background-color: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    body.light-theme .bg-slate-800,
+    body.light-theme .bg-slate-900 {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      color: #1e293b !important;
+    }
+    body.light-theme button[onclick*="toggleHqGuide"] {
+      background-color: #f3e8ff !important;
+      border-color: #d8b4fe !important;
+      color: #6b21a8 !important;
+    }
+
+    /* 7. TARJETAS Y CONTENEDORES EN LIGHT MODE */
     body.light-theme .stitch-card,
     body.light-theme .client-card-row,
     body.light-theme #clientDrawerPanel,
@@ -383,7 +573,8 @@
     body.light-theme .stitch-subtext,
     body.light-theme .text-slate-400,
     body.light-theme .text-slate-500 {
-      color: #64748b !important;
+      color: #475569 !important;
+      font-weight: 500 !important;
     }
     body.light-theme .stitch-title,
     body.light-theme h1, body.light-theme h2, body.light-theme h3, body.light-theme h4,
@@ -413,7 +604,7 @@
     }
     body.light-theme thead tr, body.light-theme thead th {
       background-color: #f1f5f9 !important;
-      color: #475569 !important;
+      color: #334155 !important;
       border-color: #e2e8f0 !important;
     }
     body.light-theme tbody tr {
@@ -462,7 +653,7 @@
     }
     body.light-theme #liveComparisonBox {
       background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%) !important;
-      border: 1px solid #bbf7d0 !important;
+      border: 1.5px solid #86efac !important;
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
       color: #0f172a !important;
     }
@@ -1992,8 +2183,8 @@
          ======================================================== -->
     <div id="accountingTabContent" class="space-y-6 hidden">
       
-      <!-- HERO BANNER CONTABILIDAD -->
-      <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-lg p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <!-- HERO BANNER CONTABILIDAD (ADAPTABLE DARK & LIGHT) -->
+      <div class="acct-hero-banner rounded-lg p-6 sm:p-8 shadow-xl relative overflow-hidden">
         <div class="absolute -right-20 -top-20 w-80 h-80 rounded-md bg-emerald-500/20 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="space-y-2">
@@ -2309,8 +2500,8 @@
          PESTAÑA 5: ROADMAP SERVICER & AGENCIA (ISAPROMORD HQ)
          ======================================================== -->
     <div id="hqTabContent" class="space-y-6 hidden">
-      <!-- HEADER BANNER DE HQ SERVICER -->
-      <div class="bg-gradient-to-r from-[#121824] via-[#1a1528] to-[#121824] rounded-lg p-6 sm:p-8 text-white border border-purple-900/40 shadow-2xl relative overflow-hidden">
+      <!-- HEADER BANNER DE HQ SERVICER (ADAPTABLE DARK & LIGHT) -->
+      <div class="hq-hero-banner rounded-lg p-6 sm:p-8 border shadow-2xl relative overflow-hidden">
         <div class="absolute -right-16 -top-16 w-80 h-80 rounded-md bg-purple-600/10 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="space-y-2">
@@ -2339,22 +2530,22 @@
 
       <!-- MATRIZ DE ESTADO Y PROGRESO DEL SERVICER (100% DINÁMICO) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
+        <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">1. Google Search</span>
           <div id="hqCardSearchStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Verificado en Vivo</div>
           <span id="hqCardSearchDetail" class="text-[11px] text-slate-400">Archivo de verificación 200 OK</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
+        <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">2. Googlebot Sitemap</span>
           <div id="hqCardSitemapStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Sitemap Accesible</div>
           <span id="hqCardSitemapDetail" class="text-[11px] text-slate-400">sitemap.xml respondiendo 200 OK</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
+        <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">3. Motores de IA (GEO)</span>
           <div id="hqCardAiStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">llms.txt Activo</div>
           <span id="hqCardAiDetail" class="text-[11px] text-slate-400">llms.txt + robots.txt autorizados</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
+        <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">4. Google Maps Pack-3</span>
           <div id="hqCardMapsStatus" class="text-base sm:text-lg font-black text-amber-400 font-mono mt-1">Acción Pendiente ◄</div>
           <span id="hqCardMapsDetail" class="text-[11px] text-amber-300">Crear perfil de negocio</span>
@@ -4315,7 +4506,7 @@
         return {
           status: "paid",
           text: `🟢 Al Día (${diffDays}d)`,
-          badgeClass: "bg-emerald-50 text-emerald-400 border-emerald-200",
+          badgeClass: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
           diffDays
         };
       }
@@ -7216,7 +7407,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
                   <p class="text-slate-200 font-medium">${task.guide.summary}</p>
                 ` : ''}
                 ${task.guide.details ? `
-                  <div class="p-3 rounded bg-slate-900/90 border border-slate-800 text-slate-300 text-xs leading-relaxed">
+                  <div class="hq-guide-box p-3 rounded bg-slate-900/90 border border-slate-800 text-slate-300 text-xs leading-relaxed">
                     ${task.guide.details}
                   </div>
                 ` : ''}
@@ -8460,7 +8651,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
             </td>
             <td class="py-3.5 px-4 text-right">
               <div class="inline-flex items-center gap-1.5 justify-end">
-                <button onclick="openBillingNoticeModal('${client.id}')" class="px-2.5 py-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg border border-amber-200 text-xs font-bold transition-colors">
+                <button onclick="openBillingNoticeModal('${client.id}')" class="px-2.5 py-1 bg-amber-500/15 hover:bg-amber-500/25 text-amber-400 rounded-lg border border-amber-500/30 text-xs font-bold transition-colors">
                   Aviso WhatsApp
                 </button>
                 <button onclick="registerClientPayment('${client.id}')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-colors">

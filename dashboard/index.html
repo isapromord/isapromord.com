@@ -69,388 +69,70 @@
     }
   </script>
   <style>
+    
     /* ========================================================
-       OBSIDIAN CYBER LUXE THEME FOR DASHBOARD
-       ======================================================== */
-/* ========================================================
-       STITCH COMMAND CENTER (OBSIDIAN & LIGHT MODE)
+       STITCH AETHER COMMAND SPEC: PRECISION DISCIPLINED CORNERS
+       Todo debe tener esquinas redondeadas pero MENOS redondas (6px - 8px)
        ======================================================== */
     :root {
-      --bg-base: #090d16;
-      --bg-surface: #0f172a;
-      --bg-card: #121824;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-subtle: #1e293b;
-      --text-main: #f8fafc;
-      --text-muted: #64748b;
-      --accent-cyan: #00d2ff;
-      --accent-emerald: #10b981;
+      --radius-container: 8px;
+      --radius-card: 8px;
+      --radius-element: 6px;
+      --radius-chip: 4px;
     }
 
-    body.light-theme {
-      --bg-base: #f8fafc;
-      --bg-surface: #ffffff;
-      --bg-card: #ffffff;
-      --border-color: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --accent-cyan: #0284c7;
-      --accent-emerald: #059669;
-      background-color: #f8fafc !important;
-      color: #0f172a !important;
+    /* Anular hiper-redondeado (iOS/burbuja) en todo el sistema */
+    .rounded-3xl,
+    .rounded-2xl,
+    .rounded-xl {
+      border-radius: 8px !important;
+    }
+    .rounded-lg {
+      border-radius: 6px !important;
+    }
+    .rounded-md {
+      border-radius: 5px !important;
     }
 
-    body.light-theme .stitch-card {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-      color: #0f172a !important;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    /* Tarjetas principales, paneles y filas */
+    .stitch-card,
+    .client-card-row,
+    #clientDrawerPanel,
+    .modal-container,
+    div[class*="bg-[#0f172a]"],
+    div[class*="bg-[#121824]"],
+    div[class*="bg-[#0c1322]"],
+    div[class*="bg-[#090d16]"] {
+      border-radius: 8px !important;
     }
 
-    body.light-theme .stitch-rail {
-      background-color: #ffffff !important;
-      border-color: #e2e8f0 !important;
-    }
-
-    body.light-theme .stitch-header {
-      background-color: rgba(255, 255, 255, 0.9) !important;
-      border-color: #e2e8f0 !important;
-    }
-
-    body.light-theme .stitch-subtext {
-      color: #64748b !important;
-    }
-
-    body.light-theme .stitch-title {
-      color: #0f172a !important;
-    }
-
-    body.light-theme .stitch-input {
-      background-color: #f1f5f9 !important;
-      border-color: #cbd5e1 !important;
-      color: #0f172a !important;
-    }
-
-    /* Micro-Rail tooltips & active styling */
+    /* Micro-Rail lateral e items de navegación */
     .rail-btn {
-      position: relative;
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      color: #94a3b8;
-    }
-    .rail-btn:hover {
-      background: rgba(255, 255, 255, 0.06);
-      color: #ffffff;
-    }
-    body.light-theme .rail-btn:hover {
-      background: #f1f5f9;
-      color: #0f172a;
-    }
-    .rail-btn.active {
-      background: rgba(0, 210, 255, 0.12) !important;
-      color: #00d2ff !important;
-      border: 1px solid rgba(0, 210, 255, 0.35) !important;
-      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
-    }
-    body.light-theme .rail-btn.active {
-      background: rgba(2, 132, 199, 0.1) !important;
-      color: #0284c7 !important;
-      border: 1px solid rgba(2, 132, 199, 0.3) !important;
+      border-radius: 8px !important;
     }
 
-    /* Tooltip */
-    .rail-btn::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 100%;
-      margin-left: 10px;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: #0f172a;
-      color: #f8fafc;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: all 0.15s ease;
-      z-index: 50;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-    body.light-theme .rail-btn::after {
-      background: #ffffff;
-      color: #0f172a;
-      border-color: #e2e8f0;
-      box-shadow: 0 4px 12px rgba(15,23,42,0.1);
-    }
-    .rail-btn:hover::after {
-      opacity: 1;
-      transform: translateX(0);
+    /* Badges de iniciales y avatares (cuadrados elegantes con borde suave) */
+    .stitch-client-avatar,
+    div[class*="w-10 h-10 rounded"],
+    div[class*="w-8 h-8 rounded"] {
+      border-radius: 6px !important;
     }
 
-    /* Radial Health Gauge */
-    .radial-health-gauge {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto;
-    }
-    .radial-health-gauge svg {
-      transform: rotate(-90deg);
-      width: 100%;
-      height: 100%;
-    }
-    .radial-bg {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.06);
-      stroke-width: 8;
-    }
-    body.light-theme .radial-bg {
-      stroke: #e2e8f0;
-    }
-    .radial-progress {
-      fill: none;
-      stroke: #00d2ff;
-      stroke-width: 8;
-      stroke-linecap: round;
-      stroke-dasharray: 380;
-      stroke-dashoffset: 20;
-      transition: stroke-dashoffset 1s ease;
-      filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.6));
-    }
-    body.light-theme .radial-progress {
-      stroke: #0284c7;
-      filter: drop-shadow(0 0 4px rgba(2, 132, 199, 0.4));
+    /* Botones, inputs y selects */
+    button:not(.rounded-full-forced),
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      border-radius: 6px !important;
     }
 
-    /* Client horizontal card */
-    .client-card-row {
-      background: #121824;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 16px;
-      transition: all 0.2s ease;
-    }
-    .client-card-row:hover {
-      border-color: rgba(0, 210, 255, 0.4);
-      background: #151d2c;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
-    }
-    body.light-theme .client-card-row {
-      background: #ffffff;
-      border-color: #e2e8f0;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-    }
-    body.light-theme .client-card-row:hover {
-      border-color: #0284c7;
-      background: #ffffff;
-      box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
-    }
-    body {
-      background-color: #0a0e17 !important;
-      color: #dfe2ef !important;
-    }
-    .bg-slate-50 {
-      background-color: #0a0e17 !important;
-    }
-    .bg-white {
-      background-color: #121824 !important;
-      color: #dfe2ef !important;
-    }
-    .bg-white\/90 {
-      background-color: rgba(10, 14, 23, 0.85) !important;
-      backdrop-filter: blur(16px) !important;
-    }
-    .bg-slate-100 {
-      background-color: #161f30 !important;
-      color: #dfe2ef !important;
-    }
-    .bg-slate-200 {
-      background-color: #222f46 !important;
-    }
-    .border-white/[0.06], .border-slate-200, .border-slate-200\/80, .border-slate-200\/60 {
-      border-color: #222f46 !important;
-    }
-    .text-slate-900, .text-slate-950, .text-slate-800 {
-      color: #f8fafc !important;
-    }
-    .text-slate-700, .text-slate-600 {
-      color: #c3c6d7 !important;
-    }
-    .text-slate-400, .text-slate-400 {
-      color: #94a3b8 !important;
-    }
-    
-    /* Inputs, selects, and textareas */
-    input:not([type="checkbox"]):not([type="radio"]), select, textarea {
-      background-color: #0a0e17 !important;
-      color: #f8fafc !important;
-      border: 1px solid #222f46 !important;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #00d2ff !important;
-      outline: none !important;
-      box-shadow: 0 0 15px -3px rgba(0, 210, 255, 0.35) !important;
+    /* Chips y pills: esquinas redondeadas pero sutiles y técnicas (4px - 6px) */
+    .stitch-pill,
+    .stitch-chip,
+    span[class*="rounded-full"]:not(.w-1\.5):not(.w-2):not(.w-2\.5):not(.w-1):not(.h-1):not(.h-1\.5):not(.h-2) {
+      border-radius: 5px !important;
     }
 
-    /* Tables */
-    thead tr, thead th {
-      background-color: #0a0e17 !important;
-      color: #94a3b8 !important;
-      border-color: #222f46 !important;
-    }
-    tbody tr {
-      border-color: #222f46 !important;
-    }
-    tbody tr:hover {
-      background-color: rgba(22, 31, 48, 0.6) !important;
-    }
-
-    /* Modal Backdrop */
-    .bg-slate-950\/80, .bg-slate-950\/70 {
-      background-color: rgba(10, 14, 23, 0.88) !important;
-      backdrop-filter: blur(20px) !important;
-    }
-
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #0a0e17; }
-    ::-webkit-scrollbar-thumb { background: #222f46; border-radius: 9999px; }
-    ::-webkit-scrollbar-thumb:hover { background: #00d2ff; }
-
-    /* Mobile scroll helpers */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Touch smooth scrolling */
-    .touch-scroll {
-      -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-    }
-
-    /* Stitch Aether Sidebar Navigation Active State */
-    .stitch-nav-item {
-      position: relative;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .stitch-nav-item.active {
-      background: linear-gradient(90deg, rgba(0, 210, 255, 0.12) 0%, rgba(0, 210, 255, 0.02) 100%) !important;
-      color: #ffffff !important;
-      border-color: rgba(0, 210, 255, 0.35) !important;
-    }
-    .stitch-nav-item.active::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 15%;
-      height: 70%;
-      width: 3px;
-      border-radius: 0 4px 4px 0;
-      background: #00d2ff;
-      box-shadow: 0 0 10px #00d2ff;
-    }
-  
-    /* ========================================================
-       STITCH AETHER COMMAND EXPANDED THEME (ALL VIEWS & MODALS)
-       ======================================================== */
-    .stitch-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 10px;
-      border-radius: 9999px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-    .stitch-chip {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #94a3b8;
-    }
-    body.light-theme .stitch-chip {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
-      color: #475569;
-    }
-    .stitch-client-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 9999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1.5px solid transparent;
-    }
-    .stitch-client-avatar:hover {
-      transform: scale(1.1);
-      z-index: 10;
-    }
-    .stitch-client-avatar.active {
-      border-color: #00d2ff;
-      box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
-      transform: scale(1.1);
-      z-index: 10;
-    }
-    .stitch-bar {
-      transition: height 0.5s ease;
-    }
-    .stitch-bar:hover {
-      background-color: #00d2ff !important;
-      box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
-    }
-
-  
-    body.light-theme .bg-\[\#090d16\],
-    body.light-theme .bg-\[\#0a0e17\],
-    body.light-theme .bg-\[\#0c1322\],
-    body.light-theme .bg-\[\#0f172a\],
-    body.light-theme .bg-\[\#121824\],
-    body.light-theme .bg-\[\#101726\] {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border-color: #e2e8f0 !important;
-    }
-    body.light-theme .bg-\[\#090e1b\],
-    body.light-theme .bg-\[\#0b1322\],
-    body.light-theme .bg-\[\#161f30\] {
-      background-color: #f8fafc !important;
-      color: #0f172a !important;
-      border-color: #cbd5e1 !important;
-    }
-    body.light-theme .border-slate-800,
-    body.light-theme .border-slate-700,
-    body.light-theme .border-\[\#1e293b\],
-    body.light-theme .border-\[\#222f46\] {
-      border-color: #e2e8f0 !important;
-    }
-    body.light-theme .text-slate-100,
-    body.light-theme .text-slate-200 {
-      color: #0f172a !important;
-    }
-    body.light-theme .text-slate-300,
-    body.light-theme .text-slate-400 {
-      color: #475569 !important;
-    }
 
   </style>
 </head>
@@ -460,11 +142,11 @@
        MODAL DE AUTENTICACIÓN / BLOQUEO PIN
        ======================================================== -->
   <div id="authLockModal" class="fixed inset-0 z-50 bg-[#0a0e17]/90 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
-    <div class="bg-[#121824] rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-      <div class="w-16 h-16 rounded-2xl bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-4 shadow-inner">
+    <div class="bg-[#121824] rounded-lg p-8 max-w-sm w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div class="w-16 h-16 rounded-md bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-4 shadow-inner">
         <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-10 h-10 object-contain" />
       </div>
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#161f30] text-slate-300 text-xs font-bold uppercase tracking-wider mb-2 border border-[#222f46]">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#161f30] text-slate-300 text-xs font-bold uppercase tracking-wider mb-2 border border-[#222f46]">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         Nodo MBOS Seguro
       </div>
@@ -479,7 +161,7 @@
             maxlength="6" 
             placeholder="••••" 
             autocomplete="current-password"
-            class="w-full text-center text-2xl tracking-[0.5em] font-mono font-bold py-3 px-4 rounded-xl border border-[#222f46] focus:outline-none focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] bg-[#0a0e17] text-white"
+            class="w-full text-center text-2xl tracking-[0.5em] font-mono font-bold py-3 px-4 rounded border border-[#222f46] focus:outline-none focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] bg-[#0a0e17] text-white"
             required
             autofocus
           />
@@ -487,7 +169,7 @@
         </div>
         <button 
           type="submit" 
-          class="w-full py-3.5 px-5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] active:scale-[0.98] text-slate-950 font-black rounded-xl shadow-glow-cyan transition-all text-sm flex items-center justify-center gap-2"
+          class="w-full py-3.5 px-5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] active:scale-[0.98] text-slate-950 font-black rounded shadow-glow-cyan transition-all text-sm flex items-center justify-center gap-2"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
           Desbloquear Panel
@@ -510,7 +192,7 @@
     <!-- Logo Avatar Badge -->
     <div class="flex flex-col items-center gap-6">
       <a href="../" title="ISAPromoRD - Ir al Inicio" class="group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#121824] to-[#1a2333] border border-cyan-500/30 text-white font-black text-sm flex items-center justify-center shadow-inner group-hover:border-cyan-400 group-hover:scale-105 transition-all">
+        <div class="w-10 h-10 rounded bg-gradient-to-br from-[#121824] to-[#1a2333] border border-cyan-500/30 text-white font-black text-sm flex items-center justify-center shadow-inner group-hover:border-cyan-400 group-hover:scale-105 transition-all">
           <span class="text-cyan-400 font-mono">IS</span>
         </div>
       </a>
@@ -603,7 +285,7 @@
           <span class="text-base font-black tracking-tight text-white stitch-title">
             ISA<span class="text-slate-400">Promo</span><span class="text-[#00d2ff]">RD</span>
           </span>
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             Live
           </span>
@@ -621,7 +303,7 @@
             id="searchInput" 
             oninput="filterClients()" 
             placeholder="Search clients, deals, tasks..." 
-            class="stitch-input w-full pl-9 pr-10 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 font-sans transition-all"
+            class="stitch-input w-full pl-9 pr-10 py-1.5 rounded bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 font-sans transition-all"
           />
           <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
             <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] font-mono text-slate-400 border border-slate-700">⌘K</kbd>
@@ -632,13 +314,13 @@
       <!-- Telemetría & Acciones Rápidas del Header -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Fecha en Vivo -->
-        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-slate-300 font-mono stitch-card">
+        <div class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded bg-[#121824] border border-[#222f46] text-xs text-slate-300 font-mono stitch-card">
           <span>📅</span>
           <span id="rdClock">--:--:-- RD</span>
         </div>
 
         <!-- Latency / Edge Ping -->
-        <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 font-bold">
+        <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-xs font-mono text-emerald-400 font-bold">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           <span>Edge Ping</span>
           <span id="edgePingHeader">19ms</span>
@@ -649,7 +331,7 @@
           id="themeSwitchBtn" 
           onclick="toggleThemeMode()" 
           title="Alternar Modo Claro / Oscuro (Stitch Precision)"
-          class="p-2 rounded-xl bg-[#121824] hover:bg-[#1a2333] border border-[#222f46] text-slate-300 hover:text-white transition-colors"
+          class="p-2 rounded bg-[#121824] hover:bg-[#1a2333] border border-[#222f46] text-slate-300 hover:text-white transition-colors"
         >
           <span id="themeIcon">🌙</span>
         </button>
@@ -659,13 +341,13 @@
           id="cloudSyncBtn" 
           onclick="manualTriggerCloudSync()" 
           title="Sincronizar con Supabase Cloud (isapromord-hub) ahora"
-          class="p-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors"
+          class="p-2 rounded bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 transition-colors"
         >
           <span id="cloudSyncDot" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
         </button>
 
         <!-- Avatar Usuario -->
-        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 border border-cyan-400/40 flex items-center justify-center text-xs font-black text-slate-950 font-mono shadow-sm">
+        <div class="w-8 h-8 rounded-md bg-gradient-to-tr from-cyan-500 to-blue-600 border border-cyan-400/40 flex items-center justify-center text-xs font-black text-slate-950 font-mono shadow-sm">
           HL
         </div>
       </div>
@@ -684,7 +366,7 @@
           </div>
           <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight mt-1 stitch-title flex items-center gap-2.5">
             <span>Bienvenido, Isaías</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
               MBOS V4.2 CONECTADO
             </span>
           </h1>
@@ -695,7 +377,7 @@
         
         <div class="flex flex-wrap items-center gap-3 shrink-0">
           <!-- Avatares de Clientes (Acceso Directo Drilldown) -->
-          <div class="flex items-center gap-2 bg-[#121824] px-3 py-1.5 rounded-xl border border-[#222f46]">
+          <div class="flex items-center gap-2 bg-[#121824] px-3 py-1.5 rounded border border-[#222f46]">
             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">CLIENTES:</span>
             <div id="subheadClientAvatars" class="flex items-center -space-x-1">
               <!-- Inyectado por JS -->
@@ -703,7 +385,7 @@
           </div>
 
           <!-- Switcher Vista General vs Live Drilldown -->
-          <div class="flex items-center bg-[#121824] p-1 rounded-xl border border-[#222f46] text-xs font-mono">
+          <div class="flex items-center bg-[#121824] p-1 rounded border border-[#222f46] text-xs font-mono">
             <button 
               id="viewBtnOverview" 
               onclick="toggleClientViewMode('overview')" 
@@ -722,7 +404,7 @@
 
           <button 
             onclick="openNewClientModal()" 
-            class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-glow-cyan transition-all active:scale-95"
+            class="px-3.5 py-2 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-glow-cyan transition-all active:scale-95"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             <span>+ Nuevo Cliente</span>
@@ -749,7 +431,7 @@
           <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
             
             <!-- 1. MRR Cartera Activa -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
               <div class="flex items-center justify-between text-slate-400 mb-1.5">
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">MRR Cartera Activa</span>
                 <span class="text-cyan-400">💵</span>
@@ -766,7 +448,7 @@
             </div>
 
             <!-- 2. Conciliación Bancaria RD -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
               <div class="flex items-center justify-between text-slate-400 mb-1.5">
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Conciliación Bancaria RD</span>
                 <span class="text-emerald-400">🏛️</span>
@@ -790,7 +472,7 @@
             </div>
 
             <!-- 3. Entregables & Sprints -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
               <div class="flex items-center justify-between text-slate-400 mb-1.5">
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Entregables & Sprints</span>
                 <span class="text-cyan-400">☑️</span>
@@ -802,13 +484,13 @@
                 </div>
                 <!-- Barra de Progreso -->
                 <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1.5">
-                  <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full" style="width: 53.3%"></div>
+                  <div class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-md" style="width: 53.3%"></div>
                 </div>
               </div>
             </div>
 
             <!-- 4. Tráfico Referido Footers -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
               <div class="flex items-center justify-between text-slate-400 mb-1.5">
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Tráfico Referido Footers</span>
                 <span class="text-purple-400">🌐</span>
@@ -827,14 +509,14 @@
           </div>
 
           <!-- BARRA DE FILTROS & BÚSQUEDA HORIZONTAL (STITCH COMMAND CENTER) -->
-          <div class="stitch-card bg-[#0f172a] rounded-2xl p-2.5 sm:p-3 border border-white/[0.08] shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          <div class="stitch-card bg-[#0f172a] rounded-md p-2.5 sm:p-3 border border-white/[0.08] shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
             
             <!-- Pestañas de Filtrado Rápido -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               <button 
                 onclick="setQuickFilter('all')" 
                 id="qf-all" 
-                class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0"
+                class="px-3 py-1.5 rounded text-xs font-bold transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0"
               >
                 <span>Todos</span> (<span id="qf-count-all">9</span>)
               </button>
@@ -842,7 +524,7 @@
               <button 
                 onclick="setQuickFilter('active')" 
                 id="qf-active" 
-                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+                class="px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
               >
                 <span>Activos</span> (<span id="qf-count-active">8</span>)
               </button>
@@ -850,7 +532,7 @@
               <button 
                 onclick="setQuickFilter('maintenance')" 
                 id="qf-maintenance" 
-                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+                class="px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
               >
                 <span>Mantenimiento</span> (<span id="qf-count-maintenance">1</span>)
               </button>
@@ -858,7 +540,7 @@
               <button 
                 onclick="setQuickFilter('pending_billing')" 
                 id="qf-pending_billing" 
-                class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+                class="px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
               >
                 <span>Cobro</span> (<span id="qf-count-billing">0</span>)
               </button>
@@ -875,7 +557,7 @@
                   id="clientFilterSearchInput" 
                   oninput="filterClients(this.value)" 
                   placeholder="Buscar por cliente o nombre..." 
-                  class="stitch-input w-full pl-8 pr-3 py-1.5 rounded-xl bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                  class="stitch-input w-full pl-8 pr-3 py-1.5 rounded bg-[#121824] border border-[#222f46] text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400"
                 />
               </div>
 
@@ -889,7 +571,7 @@
               </select>
 
               <!-- Botones Compact/Expanded de Vista -->
-              <div class="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded-xl p-0.5">
+              <div class="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded p-0.5">
                 <button id="btnViewCompact" onclick="setClientViewMode('compact')" class="p-1 rounded-lg bg-cyan-600 text-white text-xs" title="Vista Lista Compacta">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
@@ -903,7 +585,7 @@
                 id="btnPresentationMode" 
                 onclick="togglePresentationMode()" 
                 title="Modo Presentación: Ocultar montos privados al compartir pantalla"
-                class="p-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs transition-colors shrink-0"
+                class="p-1.5 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-xs transition-colors shrink-0"
               >
                 <span>👔</span>
               </button>
@@ -916,13 +598,13 @@
           </div>
 
           <!-- ESTADO VACÍO -->
-          <div id="emptyState" class="hidden bg-[#0f172a] rounded-2xl p-10 text-center border border-dashed border-slate-700/80">
+          <div id="emptyState" class="hidden bg-[#0f172a] rounded-md p-10 text-center border border-dashed border-slate-700/80">
             <div class="w-12 h-12 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center mx-auto mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
             <h3 class="text-sm font-bold text-white mb-1">No se encontraron clientes</h3>
             <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">Prueba modificando los filtros de búsqueda o agrega un nuevo cliente a la lista.</p>
-            <button onclick="openNewClientModal()" class="px-4 py-2 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 rounded-xl text-xs font-black shadow-glow-cyan">Agregar Cliente</button>
+            <button onclick="openNewClientModal()" class="px-4 py-2 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 rounded text-xs font-black shadow-glow-cyan">Agregar Cliente</button>
           </div>
 
         </div>
@@ -933,14 +615,14 @@
         <div class="lg:col-span-4 space-y-4">
           
           <!-- WIDGET 1: ESTADO DE RED PERIMETRAL -->
-          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+          <div class="stitch-card bg-[#0f172a] rounded-md p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
             
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="text-cyan-400">❇️</span>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Estado de Red Perimetral</h3>
               </div>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">
+              <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">
                 99.98% SLA
               </span>
             </div>
@@ -986,14 +668,14 @@
           </div>
 
           <!-- WIDGET 2: VIRAL FOOTERS ISAPROMORD (EN VIVO) -->
-          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+          <div class="stitch-card bg-[#0f172a] rounded-md p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
             
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <span class="text-cyan-400">🌐</span>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Viral Footers ISAPromoRD</h3>
               </div>
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono font-bold">
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-mono font-bold">
                 <span class="w-1 h-1 rounded-full bg-cyan-400 animate-pulse"></span>
                 En vivo
               </span>
@@ -1010,8 +692,8 @@
                   <span class="text-slate-300 truncate max-w-[170px]">torrelaesperilla.com</span>
                   <span class="text-cyan-400 font-bold">148 clics</span>
                 </div>
-                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="h-full bg-cyan-400 rounded-full" style="width: 82%"></div>
+                <div class="w-full h-1 bg-slate-800 rounded-md overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-md" style="width: 82%"></div>
                 </div>
               </div>
 
@@ -1020,8 +702,8 @@
                   <span class="text-slate-300 truncate max-w-[170px]">pasionpecuaria.vercel.app</span>
                   <span class="text-cyan-400 font-bold">112 clics</span>
                 </div>
-                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="h-full bg-cyan-400 rounded-full" style="width: 65%"></div>
+                <div class="w-full h-1 bg-slate-800 rounded-md overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-md" style="width: 65%"></div>
                 </div>
               </div>
 
@@ -1030,8 +712,8 @@
                   <span class="text-slate-300 truncate max-w-[170px]">isatranslogic.com</span>
                   <span class="text-cyan-400 font-bold">96 clics</span>
                 </div>
-                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="h-full bg-cyan-400 rounded-full" style="width: 52%"></div>
+                <div class="w-full h-1 bg-slate-800 rounded-md overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-md" style="width: 52%"></div>
                 </div>
               </div>
 
@@ -1040,8 +722,8 @@
                   <span class="text-slate-300 truncate max-w-[170px]">elementsjarabacoa.com</span>
                   <span class="text-cyan-400 font-bold">72 clics</span>
                 </div>
-                <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                  <div class="h-full bg-cyan-400 rounded-full" style="width: 40%"></div>
+                <div class="w-full h-1 bg-slate-800 rounded-md overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-md" style="width: 40%"></div>
                 </div>
               </div>
             </div>
@@ -1049,7 +731,7 @@
           </div>
 
           <!-- WIDGET 3: HITOS & CALENDARIO -->
-          <div class="stitch-card bg-[#0f172a] rounded-2xl p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+          <div class="stitch-card bg-[#0f172a] rounded-md p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
             
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -1061,7 +743,7 @@
 
             <div class="space-y-2.5 pt-1 text-xs">
               <!-- Evento 1: Renovación Dominio -->
-              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+              <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
                 <div class="min-w-0">
                   <div class="font-bold text-slate-200 truncate stitch-title">Renovación Dominio .do</div>
                   <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">torrelaesperilla.com • NIC.DO</div>
@@ -1072,7 +754,7 @@
               </div>
 
               <!-- Evento 2: Facturación Ciclo -->
-              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+              <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
                 <div class="min-w-0">
                   <div class="font-bold text-slate-200 truncate stitch-title">Facturación Ciclo 30</div>
                   <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">8 comprobantes con NCF B01</div>
@@ -1083,7 +765,7 @@
               </div>
 
               <!-- Evento 3: Backup Postgres Snapshot -->
-              <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
+              <div class="p-2.5 rounded bg-slate-900/80 border border-slate-800/80 flex items-center justify-between gap-2 stitch-card">
                 <div class="min-w-0">
                   <div class="font-bold text-slate-200 truncate stitch-title">Postgres Snapshot Dump</div>
                   <div class="text-[10px] text-slate-400 font-mono truncate stitch-subtext">isapromord-hub Cold Backup</div>
@@ -1109,9 +791,9 @@
       <div id="clientsDrilldownView" class="space-y-5 hidden">
         
         <!-- Header de Navegación del Drilldown -->
-        <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-[#0f172a] border border-white/[0.08] text-xs">
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-md bg-[#0f172a] border border-white/[0.08] text-xs">
           <div class="flex items-center gap-3">
-            <button onclick="toggleClientViewMode('overview')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center gap-1.5 transition-all">
+            <button onclick="toggleClientViewMode('overview')" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center gap-1.5 transition-all">
               <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
               <span>← Volver al Directorio</span>
             </button>
@@ -1133,7 +815,7 @@
           <div class="lg:col-span-4 space-y-4">
             
             <!-- TARJETA DOSSIER DEL CLIENTE -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <!-- Header de Estado & Latencia -->
               <div class="flex items-center justify-between">
                 <span id="ddStatusBadge" class="stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -1146,7 +828,7 @@
               </div>
 
               <!-- Preview Viewport / Logo Canvas -->
-              <div class="relative w-full h-36 bg-[#0a0e17] rounded-xl border border-white/10 overflow-hidden flex flex-col justify-between p-3.5 group">
+              <div class="relative w-full h-36 bg-[#0a0e17] rounded border border-white/10 overflow-hidden flex flex-col justify-between p-3.5 group">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1.5">
                     <span class="w-2.5 h-2.5 rounded-full bg-rose-500/60"></span>
@@ -1158,7 +840,7 @@
                   </span>
                 </div>
                 <div class="flex flex-col items-center justify-center my-auto">
-                  <div class="w-10 h-10 rounded-xl bg-slate-800/80 border border-white/10 text-cyan-400 flex items-center justify-center text-xl mb-1 group-hover:scale-110 transition-transform">
+                  <div class="w-10 h-10 rounded bg-slate-800/80 border border-white/10 text-cyan-400 flex items-center justify-center text-xl mb-1 group-hover:scale-110 transition-transform">
                     🌐
                   </div>
                   <span id="ddLiveUrlText" class="text-[11px] font-mono text-cyan-400 font-semibold truncate max-w-[220px]">
@@ -1174,7 +856,7 @@
               <!-- Identidad del Cliente -->
               <div class="flex items-start justify-between gap-3 pt-1">
                 <div class="flex items-start gap-3 overflow-hidden">
-                  <div id="ddAvatarBox" class="w-10 h-10 rounded-xl bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 font-black text-sm flex items-center justify-center font-mono shrink-0 shadow-inner">
+                  <div id="ddAvatarBox" class="w-10 h-10 rounded bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 font-black text-sm flex items-center justify-center font-mono shrink-0 shadow-inner">
                     P
                   </div>
                   <div class="overflow-hidden">
@@ -1182,7 +864,7 @@
                     <h3 id="ddClientTitle" class="text-lg font-black text-white tracking-tight leading-snug stitch-title truncate">Pasión Pecuaria RD</h3>
                   </div>
                 </div>
-                <a id="ddExternalLink" href="#" target="_blank" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 transition-colors shrink-0" title="Visitar Sitio en Producción">
+                <a id="ddExternalLink" href="#" target="_blank" class="p-2 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 transition-colors shrink-0" title="Visitar Sitio en Producción">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                 </a>
               </div>
@@ -1202,14 +884,14 @@
 
               <!-- Cajas Duales de Métricas -->
               <div class="grid grid-cols-2 gap-3 pt-1">
-                <div class="p-3 rounded-xl bg-[#0a0e17] border border-white/[0.08] space-y-1">
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
                   <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">Health Score 360°</span>
                   <div class="text-xl font-black text-emerald-400 font-mono flex items-baseline gap-1">
                     <span id="ddScoreNumber">98</span><span class="text-xs text-slate-400 font-normal">/100</span>
                   </div>
                   <span class="text-[10px] text-emerald-400 font-mono font-semibold block">+4.2% SEO local</span>
                 </div>
-                <div class="p-3 rounded-xl bg-[#0a0e17] border border-white/[0.08] space-y-1">
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
                   <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">MRR Retainer</span>
                   <div id="ddMrrFee" class="text-xl font-black text-white font-mono stitch-title">RD$ 20k</div>
                   <span id="ddPlanName" class="text-[10px] text-cyan-400 font-mono font-semibold block">Plan Growth Full</span>
@@ -1227,18 +909,18 @@
 
               <!-- Botones de Acción Rápida -->
               <div class="grid grid-cols-2 gap-2.5 pt-2">
-                <button id="ddAuditBtn" onclick="drilldownRunAudit()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:opacity-95 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/20 transition-all active:scale-95">
+                <button id="ddAuditBtn" onclick="drilldownRunAudit()" class="w-full py-2.5 px-3 rounded bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:opacity-95 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-purple-600/20 transition-all active:scale-95">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                   <span>⚡ Auditar 360°</span>
                 </button>
-                <button id="ddWhatsappBtn" onclick="drilldownOpenWhatsapp()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                <button id="ddWhatsappBtn" onclick="drilldownOpenWhatsapp()" class="w-full py-2.5 px-3 rounded bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95">
                   <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
                   <span>WhatsApp Lead</span>
                 </button>
               </div>
 
               <div class="pt-1">
-                <button onclick="drilldownOpenDrawer()" class="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-white/5 flex items-center justify-center gap-2 transition-colors">
+                <button onclick="drilldownOpenDrawer()" class="w-full py-2 px-3 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-white/5 flex items-center justify-center gap-2 transition-colors">
                   <span>✏️ Ficha Completa & Edición Avanzada</span>
                 </button>
               </div>
@@ -1246,7 +928,7 @@
             </div>
 
             <!-- TARJETA TOPOLOGÍA & RUTAS -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-4.5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-4.5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
               <div class="flex items-center justify-between text-xs">
                 <div class="flex items-center gap-1.5 text-slate-300 font-mono font-bold text-[11px]">
                   <span>🌐</span>
@@ -1283,7 +965,7 @@
           <div class="lg:col-span-4 space-y-4">
             
             <!-- TARJETA PROGRESO DE SERVICIOS -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-cyan-400">🔄</span>
@@ -1301,7 +983,7 @@
             </div>
 
             <!-- TARJETA SALUD & DISTRIBUCIÓN OPERATIVA -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
                   <h3 class="text-sm font-black text-white tracking-tight stitch-title">Salud & Distribución Operativa</h3>
@@ -1359,7 +1041,7 @@
           <div class="lg:col-span-4 space-y-4">
             
             <!-- TARJETA TAREAS FINALIZADAS SPRINT -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
                   <div class="text-base font-black text-white font-mono stitch-title">
@@ -1381,7 +1063,7 @@
               </div>
 
               <!-- Phase Pill -->
-              <div class="p-2.5 rounded-xl bg-[#0a0e17] border border-white/[0.06] flex items-center gap-2.5 text-xs">
+              <div class="p-2.5 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center gap-2.5 text-xs">
                 <div class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 text-[11px]">
                   23%
                 </div>
@@ -1399,7 +1081,7 @@
             </div>
 
             <!-- TARJETA CUENTAS DE COBRO & CAJA -->
-            <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span>🏛️</span>
@@ -1410,7 +1092,7 @@
 
               <div class="space-y-2 text-xs">
                 <!-- Popular -->
-                <div class="p-3 rounded-xl bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between">
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-lg bg-blue-600 text-white font-black font-mono text-xs flex items-center justify-center shrink-0">
                       BP
@@ -1424,7 +1106,7 @@
                 </div>
 
                 <!-- Reservas / BHD -->
-                <div class="p-3 rounded-xl bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between">
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black font-mono text-xs flex items-center justify-center shrink-0">
                       BR
@@ -1452,7 +1134,7 @@
         </div>
 
         <!-- BANNER INFERIOR MRR RECURRENTE (12 COLS COMPLETO STITCH) -->
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5 transition-colors">
           <div>
             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">INGRESOS RECURRENTES (MRR)</span>
             <div class="flex items-baseline gap-2.5 mt-1">
@@ -1482,14 +1164,14 @@
     <div id="proposalsTabContent" class="space-y-8 hidden">
       
       <!-- CREADOR DE PROPUESTA -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-6">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/[0.06] gap-2">
           <div>
             <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">Creador de Cotizaciones</span>
             <h2 class="text-xl font-black text-white stitch-title">Armar Propuesta Digital Interactiva</h2>
             <p class="text-xs text-slate-400">Selecciona el cliente, el paquete base recomendado y los servicios que podrá activar a la carta.</p>
           </div>
-          <a href="../propuesta/" target="_blank" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto">
+          <a href="../propuesta/" target="_blank" class="px-3.5 py-2 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto">
             <span>Ver Plantilla Demo</span>
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
           </a>
@@ -1502,21 +1184,21 @@
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Cliente o Prospecto *</label>
               <div class="flex gap-2">
-                <select id="proposalClientSelect" onchange="handleProposalClientSelect()" class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
+                <select id="proposalClientSelect" onchange="handleProposalClientSelect()" class="flex-1 px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
                   <!-- Se llena dinámicamente -->
                 </select>
-                <input type="text" id="proposalClientCustom" placeholder="O escribe nuevo..." class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none hidden" />
+                <input type="text" id="proposalClientCustom" placeholder="O escribe nuevo..." class="flex-1 px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none hidden" />
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Categoría / Sector *</label>
-              <input type="text" id="proposalCategory" required placeholder="Ej: Clínica Dental, Inmobiliaria" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+              <input type="text" id="proposalCategory" required placeholder="Ej: Clínica Dental, Inmobiliaria" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
             </div>
 
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp del Cliente (Para Enviar)</label>
-              <input type="tel" id="proposalClientPhone" placeholder="Ej: 8293961318" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+              <input type="tel" id="proposalClientPhone" placeholder="Ej: 8293961318" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
             </div>
           </div>
 
@@ -1530,7 +1212,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 pt-1">
 
               <!-- 1. Crecimiento & CRM (MÁS POPULAR) -->
-              <label class="relative bg-emerald-50/40 hover:bg-emerald-50/70 p-4 rounded-2xl border-2 border-emerald-500/60 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 cursor-pointer transition-all space-y-2 shadow-xs">
+              <label class="relative bg-emerald-50/40 hover:bg-emerald-50/70 p-4 rounded-md border-2 border-emerald-500/60 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 cursor-pointer transition-all space-y-2 shadow-xs">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-crm" checked onchange="handlePackageSelect('pack-crm')" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500" />
                   <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider shadow-xs">Más Popular ⭐</span>
@@ -1544,7 +1226,7 @@
               </label>
 
               <!-- 2. Esencial -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-2xl border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-esencial" onchange="handlePackageSelect('pack-esencial')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
                   <span class="px-2 py-0.5 rounded-md bg-brand-100 text-brand-800 text-[10px] font-black uppercase">Esencial</span>
@@ -1558,7 +1240,7 @@
               </label>
 
               <!-- 3. Automatización IA -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-2xl border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-ia" onchange="handlePackageSelect('pack-ia')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
                   <span class="px-2 py-0.5 rounded-md bg-blue-100 text-brand-800 text-[10px] font-bold uppercase">Automatización IA</span>
@@ -1572,7 +1254,7 @@
               </label>
 
               <!-- 4. Ecosistema Total -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-2xl border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-ecosistema" onchange="handlePackageSelect('pack-ecosistema')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
                   <span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 text-[10px] font-black uppercase">Ecosistema Total</span>
@@ -1586,7 +1268,7 @@
               </label>
 
               <!-- 5. Sin Paquete / Solo A la Carta -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-2xl border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-none" onchange="handlePackageSelect('pack-none')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
                   <span class="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 text-[10px] font-black uppercase">100% A la Carta</span>
@@ -1624,7 +1306,7 @@
           <!-- PASO 3: TABLERO COMPARATIVO EN VIVO Y GENERACIÓN -->
           <div class="pt-4 border-t border-white/[0.06] space-y-4">
             <!-- Barra de Ahorro / Value Stack -->
-            <div id="liveComparisonBox" class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div id="liveComparisonBox" class="p-4 rounded-md bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs flex-1">
                 <div>
                   <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">1. Total A la Carta</span>
@@ -1660,7 +1342,7 @@
 
               <button 
                 type="submit" 
-                class="w-full sm:w-auto px-6 py-3.5 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-black text-sm rounded-xl shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2"
+                class="w-full sm:w-auto px-6 py-3.5 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-black text-sm rounded shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span>Generar Propuesta Digital & PDF</span>
@@ -1672,7 +1354,7 @@
       </div>
 
       <!-- HISTORIAL DE PROPUESTAS GENERADAS -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex items-center justify-between">
           <h3 class="text-base font-bold text-slate-900">Historial de Propuestas Recientes</h3>
           <span class="text-xs text-slate-400" id="proposalCountText">0 propuestas</span>
@@ -1690,7 +1372,7 @@
     <div id="referralsTabContent" class="space-y-6 hidden">
       
       <!-- ENCABEZADO Y ACCIONES -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -1706,7 +1388,7 @@
           <button 
             onclick="loadReferralsData(true)" 
             id="refreshReferralsBtn"
-            class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5"
+            class="px-4 py-2.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5"
             title="Refrescar métricas en vivo"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -1715,7 +1397,7 @@
 
           <button 
             onclick="openNewPartnerModal()" 
-            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center gap-1.5"
+            class="px-4 py-2.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center gap-1.5"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             <span>Añadir Partner</span>
@@ -1725,7 +1407,7 @@
 
       <!-- TARJETAS KPI DE REFERIDOS -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Clics de Footers</span>
             <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
@@ -1738,7 +1420,7 @@
           </div>
         </div>
 
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Leads WhatsApp</span>
             <div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-600 flex items-center justify-center font-bold">
@@ -1751,7 +1433,7 @@
           </div>
         </div>
 
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Tasa Conversión</span>
             <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
@@ -1764,7 +1446,7 @@
           </div>
         </div>
 
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Partners Activos</span>
             <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
@@ -1779,7 +1461,7 @@
       </div>
 
       <!-- TABLA DE PARTNERS & ENLACES -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-white/[0.06] gap-2">
           <div>
             <h3 class="text-base font-black text-white stitch-title">Clientes Afiliados & Enlaces de Atribución</h3>
@@ -1807,7 +1489,7 @@
       </div>
 
       <!-- REGISTRO DE TELEMETRÍA EN VIVO (ÚLTIMOS EVENTOS) -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h3 class="text-base font-black text-white stitch-title">Registro de Telemetría en Vivo</h3>
@@ -1828,11 +1510,11 @@
     <div id="accountingTabContent" class="space-y-6 hidden">
       
       <!-- HERO BANNER CONTABILIDAD -->
-      <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
-        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-500/20 blur-3xl pointer-events-none"></div>
+      <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-lg p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-80 h-80 rounded-md bg-emerald-500/20 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="space-y-2">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
               <span>🏛️ Contabilidad de Agencia</span>
               <span class="w-1 h-1 rounded-full bg-emerald-400"></span>
               <span>Flujo de Caja & Retainers</span>
@@ -1843,11 +1525,11 @@
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-3">
-            <button onclick="exportAccountingReport()" class="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/10 transition-colors flex items-center gap-2">
+            <button onclick="exportAccountingReport()" class="px-4 py-2.5 rounded bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/10 transition-colors flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
               <span>Exportar CSV</span>
             </button>
-            <button onclick="openManualTransactionModal()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
+            <button onclick="openManualTransactionModal()" class="px-4 py-2.5 rounded bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
               <span>+ Registrar Cobro</span>
             </button>
@@ -1859,7 +1541,7 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         
         <!-- Cobrado Este Mes -->
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Cobrado en el Mes</span>
             <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -1873,7 +1555,7 @@
         </div>
 
         <!-- MRR Contratado -->
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">MRR Recurrente</span>
             <div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-600 flex items-center justify-center">
@@ -1887,7 +1569,7 @@
         </div>
 
         <!-- Cuentas por Cobrar -->
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Cuentas por Cobrar</span>
             <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
@@ -1901,7 +1583,7 @@
         </div>
 
         <!-- ARR Anualizado Proyectado -->
-        <div class="stitch-card bg-[#0f172a] rounded-2xl p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
+        <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">ARR Anualizado</span>
             <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
@@ -1920,7 +1602,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
         <!-- Columna Izquierda: Cuentas Bancarias & Distribución (5 cols) -->
-        <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+        <div class="lg:col-span-5 bg-white rounded-lg p-6 border border-slate-200/80 shadow-sm space-y-4">
           <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
             <div>
               <h3 class="text-base font-black text-white stitch-title">Cuentas Bancarias & Distribución</h3>
@@ -1931,9 +1613,9 @@
 
           <div class="space-y-3">
             <!-- Banco Popular -->
-            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-2xl border border-white/[0.06] transition-colors flex items-center justify-between">
+            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-md border border-white/[0.06] transition-colors flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-sm">
+                <div class="w-10 h-10 rounded bg-blue-600 text-white flex items-center justify-center font-black text-sm">
                   BP
                 </div>
                 <div>
@@ -1948,9 +1630,9 @@
             </div>
 
             <!-- Banco BHD / Banreservas -->
-            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-2xl border border-white/[0.06] transition-colors flex items-center justify-between">
+            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-md border border-white/[0.06] transition-colors flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm">
+                <div class="w-10 h-10 rounded bg-emerald-600 text-white flex items-center justify-center font-black text-sm">
                   BHD
                 </div>
                 <div>
@@ -1965,9 +1647,9 @@
             </div>
 
             <!-- Efectivo / Caja Chica -->
-            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-2xl border border-white/[0.06] transition-colors flex items-center justify-between">
+            <div class="p-4 bg-[#0a0e17] hover:bg-[#121824] rounded-md border border-white/[0.06] transition-colors flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center font-black text-sm">
+                <div class="w-10 h-10 rounded bg-amber-500 text-white flex items-center justify-center font-black text-sm">
                   💵
                 </div>
                 <div>
@@ -1982,26 +1664,26 @@
             </div>
           </div>
 
-          <div class="p-3.5 bg-emerald-950/20 rounded-2xl border border-emerald-500/30 flex items-center justify-between text-xs">
+          <div class="p-3.5 bg-emerald-950/20 rounded-md border border-emerald-500/30 flex items-center justify-between text-xs">
             <span class="font-bold text-emerald-300">Total Histórico Recaudado:</span>
             <span class="font-black text-emerald-400 text-sm" id="allTimeCollectedTotal">RD$ 0</span>
           </div>
         </div>
 
         <!-- Columna Derecha: Calculadora de Metas y Proyección (7 cols) -->
-        <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+        <div class="lg:col-span-7 bg-white rounded-lg p-6 border border-slate-200/80 shadow-sm space-y-4">
           <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
             <div>
               <h3 class="text-base font-black text-white stitch-title">Simulador de Metas & Proyección de Crecimiento</h3>
               <p class="text-xs text-slate-400">Calcula tu facturación mensual (MRR) según la cantidad de clientes por paquete.</p>
             </div>
-            <span class="px-2.5 py-1 rounded-full bg-brand-50 text-brand-700 font-bold text-[11px]">Calculadora Dinámica</span>
+            <span class="px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 font-bold text-[11px]">Calculadora Dinámica</span>
           </div>
 
           <!-- Controles de Clientes -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
             <!-- Web Básica -->
-            <div class="p-3 bg-[#0a0e17] rounded-2xl border border-white/[0.06] text-center space-y-1.5">
+            <div class="p-3 bg-[#0a0e17] rounded-md border border-white/[0.06] text-center space-y-1.5">
               <span class="font-bold text-slate-700 block truncate">Solo Web</span>
               <span class="text-[11px] text-slate-400 block font-mono">RD$ 4.5k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
@@ -2012,7 +1694,7 @@
             </div>
 
             <!-- Esencial Maps -->
-            <div class="p-3 bg-[#0a0e17] rounded-2xl border border-white/[0.06] text-center space-y-1.5">
+            <div class="p-3 bg-[#0a0e17] rounded-md border border-white/[0.06] text-center space-y-1.5">
               <span class="font-bold text-slate-700 block truncate">Plan Esencial</span>
               <span class="text-[11px] text-slate-400 block font-mono">RD$ 15k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
@@ -2023,7 +1705,7 @@
             </div>
 
             <!-- Plan CRM (Popular) -->
-            <div class="p-3 bg-brand-50/60 rounded-2xl border border-brand-200 text-center space-y-1.5">
+            <div class="p-3 bg-brand-50/60 rounded-md border border-brand-200 text-center space-y-1.5">
               <span class="font-bold text-brand-900 block truncate">Plan CRM ⭐</span>
               <span class="text-[11px] text-brand-600 block font-mono">RD$ 20k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
@@ -2034,7 +1716,7 @@
             </div>
 
             <!-- Ecosistema IA -->
-            <div class="p-3 bg-[#0a0e17] rounded-2xl border border-white/[0.06] text-center space-y-1.5">
+            <div class="p-3 bg-[#0a0e17] rounded-md border border-white/[0.06] text-center space-y-1.5">
               <span class="font-bold text-slate-700 block truncate">Ecosistema</span>
               <span class="text-[11px] text-slate-400 block font-mono">RD$ 30k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
@@ -2046,7 +1728,7 @@
           </div>
 
           <!-- Resultados de la Simulación -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-900 text-white rounded-2xl">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-900 text-white rounded-md">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">MRR Mensual Resultante</span>
               <div class="text-xl font-black text-emerald-400" id="simResultMrr">RD$ 124,500</div>
@@ -2068,7 +1750,7 @@
       </div>
 
       <!-- ESTADO DE CUENTAS POR COBRAR (RECEIVABLES AGING) -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 border border-white/[0.08] shadow-sm space-y-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
           <div>
             <h3 class="text-base font-black text-white stitch-title">Estado de Cobranza del Mes (Cuentas por Cobrar)</h3>
@@ -2096,7 +1778,7 @@
       </div>
 
       <!-- LIBRO DIARIO DE TRANSACCIONES (TRANSACTION LEDGER) -->
-      <div class="stitch-card bg-[#0f172a] rounded-3xl p-6 border border-white/[0.08] shadow-sm space-y-4">
+      <div class="stitch-card bg-[#0f172a] rounded-lg p-6 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-white/[0.06]">
           <div>
             <h3 class="text-base font-black text-white stitch-title">Libro Diario de Transacciones (Ledger)</h3>
@@ -2104,14 +1786,14 @@
           </div>
           
           <div class="flex items-center gap-2">
-            <select id="ledgerFilterType" onchange="filterLedgerTransactions()" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-semibold focus:outline-none">
+            <select id="ledgerFilterType" onchange="filterLedgerTransactions()" class="px-3 py-1.5 rounded border border-slate-200 bg-slate-50 text-xs font-semibold focus:outline-none">
               <option value="all">Todos los Tipos</option>
               <option value="retainer">Retainers Mensuales</option>
               <option value="setup">Anticipos Setup 50%</option>
               <option value="settlement">Liquidaciones 50%</option>
               <option value="alacarte">Servicios A la Carta</option>
             </select>
-            <button onclick="openManualTransactionModal()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors">
+            <button onclick="openManualTransactionModal()" class="px-3 py-1.5 rounded bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-colors">
               + Nueva Entrada
             </button>
           </div>
@@ -2145,11 +1827,11 @@
          ======================================================== -->
     <div id="hqTabContent" class="space-y-6 hidden">
       <!-- HEADER BANNER DE HQ SERVICER -->
-      <div class="bg-gradient-to-r from-[#121824] via-[#1a1528] to-[#121824] rounded-3xl p-6 sm:p-8 text-white border border-purple-900/40 shadow-2xl relative overflow-hidden">
-        <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
+      <div class="bg-gradient-to-r from-[#121824] via-[#1a1528] to-[#121824] rounded-lg p-6 sm:p-8 text-white border border-purple-900/40 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-80 h-80 rounded-md bg-purple-600/10 blur-3xl pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="space-y-2">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold font-mono">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-semibold font-mono">
               <span>🏢 Centro de Mando de la Firma</span>
               <span class="w-1 h-1 rounded-full bg-purple-400"></span>
               <span>ISAPromoRD Headquarters (Servicer)</span>
@@ -2160,11 +1842,11 @@
             </p>
           </div>
           <div class="flex flex-col sm:flex-row items-center gap-3">
-            <button onclick="checkHqLiveStatus()" id="hqLiveProbeBtn" class="px-3.5 py-2 rounded-xl bg-purple-950/80 hover:bg-purple-900/90 border border-purple-600 text-purple-200 text-xs font-bold font-mono flex items-center gap-2 transition-all shadow-md">
+            <button onclick="checkHqLiveStatus()" id="hqLiveProbeBtn" class="px-3.5 py-2 rounded bg-purple-950/80 hover:bg-purple-900/90 border border-purple-600 text-purple-200 text-xs font-bold font-mono flex items-center gap-2 transition-all shadow-md">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span>🔄 Probar Servidor en Vivo</span>
             </button>
-            <a href="https://isapromord.github.io/" target="_blank" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition-all flex items-center gap-1.5">
+            <a href="https://isapromord.github.io/" target="_blank" class="px-4 py-2 rounded bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition-all flex items-center gap-1.5">
               <span>Ver Web de la Agencia</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
             </a>
@@ -2174,22 +1856,22 @@
 
       <!-- MATRIZ DE ESTADO Y PROGRESO DEL SERVICER (100% DINÁMICO) -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">1. Google Search</span>
           <div id="hqCardSearchStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Verificado en Vivo</div>
           <span id="hqCardSearchDetail" class="text-[11px] text-slate-400">Archivo de verificación 200 OK</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">2. Googlebot Sitemap</span>
           <div id="hqCardSitemapStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">Sitemap Accesible</div>
           <span id="hqCardSitemapDetail" class="text-[11px] text-slate-400">sitemap.xml respondiendo 200 OK</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">3. Motores de IA (GEO)</span>
           <div id="hqCardAiStatus" class="text-base sm:text-lg font-black text-emerald-400 font-mono mt-1">llms.txt Activo</div>
           <span id="hqCardAiDetail" class="text-[11px] text-slate-400">llms.txt + robots.txt autorizados</span>
         </div>
-        <div class="bg-[#101726] p-4 rounded-2xl border border-slate-700/80">
+        <div class="bg-[#101726] p-4 rounded-md border border-slate-700/80">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">4. Google Maps Pack-3</span>
           <div id="hqCardMapsStatus" class="text-base sm:text-lg font-black text-amber-400 font-mono mt-1">Acción Pendiente ◄</div>
           <span id="hqCardMapsDetail" class="text-[11px] text-amber-300">Crear perfil de negocio</span>
@@ -2197,14 +1879,14 @@
       </div>
 
       <!-- LISTA DE TAREAS OPERATIVAS DEL SERVICER (HQ) -->
-      <div class="bg-[#101726] p-6 rounded-3xl border border-slate-700/80 shadow-2xl space-y-6">
+      <div class="bg-[#101726] p-6 rounded-lg border border-slate-700/80 shadow-2xl space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
           <div>
             <h3 class="text-lg font-black text-white">Plan Maestro del Servicer — Pasos de Ejecución</h3>
             <p class="text-xs text-slate-400">Checklist interactivo de tareas que faltan para completar la dominancia de ISAPromoRD.</p>
           </div>
           <div class="flex items-center gap-2">
-            <span id="hqProgressBadge" class="px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold">
+            <span id="hqProgressBadge" class="px-3 py-1 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold">
               3 / 6 Completados (50%)
             </span>
           </div>
@@ -2242,7 +1924,7 @@
        MODAL: CREAR / EDITAR CLIENTE
        ======================================================== -->
   <div id="clientModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl border border-white/[0.06] my-8">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-2xl w-full shadow-2xl border border-white/[0.06] my-8">
       
       <div class="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-6">
         <div>
@@ -2258,7 +1940,7 @@
         <input type="hidden" id="clientId" value="" />
 
         <!-- CAJA DE AUTO-ESCANEO POR DOMINIO (MAGIC SCRAPER) -->
-        <div class="p-4 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-200/90 shadow-sm space-y-2.5">
+        <div class="p-4 rounded-md bg-gradient-to-r from-purple-50 via-indigo-50 to-blue-50 border border-purple-200/90 shadow-sm space-y-2.5">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs font-black shadow-xs">✨</span>
@@ -2266,7 +1948,7 @@
                 Auto-Extracción Inteligente por Dominio
               </label>
             </div>
-            <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">1-Click Auto-Fill</span>
+            <span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 text-[10px] font-mono font-bold">1-Click Auto-Fill</span>
           </div>
 
           <div class="flex gap-2">
@@ -2277,14 +1959,14 @@
                 id="clientLiveUrl" 
                 required 
                 placeholder="https://ejemplo.com o www.cliente.com" 
-                class="w-full pl-9 pr-3.5 py-2.5 rounded-xl border border-purple-200 text-sm font-mono focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white shadow-xs" 
+                class="w-full pl-9 pr-3.5 py-2.5 rounded border border-purple-200 text-sm font-mono focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white shadow-xs" 
               />
             </div>
             <button 
               type="button" 
               onclick="autoScanDomainData()" 
               id="autoScanBtn" 
-              class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-purple-600/25 active:scale-95 transition-all shrink-0"
+              class="px-4 py-2.5 rounded bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-purple-600/25 active:scale-95 transition-all shrink-0"
             >
               <span>✨ Auto-Escanear</span>
             </button>
@@ -2296,13 +1978,13 @@
           <!-- Nombre Empresa -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre Comercial *</label>
-            <input type="text" id="clientName" required placeholder="Ej: Pasión Pecuaria RD" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
+            <input type="text" id="clientName" required placeholder="Ej: Pasión Pecuaria RD" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
           </div>
 
           <!-- Categoría / Nicho -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Categoría / Industria</label>
-            <input type="text" id="clientCategory" placeholder="Ej: Agropecuaria, Veterinaria, Bienes Raíces" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
+            <input type="text" id="clientCategory" placeholder="Ej: Agropecuaria, Veterinaria, Bienes Raíces" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
           </div>
         </div>
 
@@ -2310,13 +1992,13 @@
           <!-- Hosting & Plataforma -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Hosting & Plataforma</label>
-            <input type="text" id="clientPlatform" placeholder="Ej: Vercel Anycast / GitHub Pages / WordPress" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
+            <input type="text" id="clientPlatform" placeholder="Ej: Vercel Anycast / GitHub Pages / WordPress" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
           </div>
 
           <!-- Repositorio GitHub -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Repositorio GitHub (Opcional)</label>
-            <input type="url" id="clientRepo" placeholder="https://github.com/isapromord/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
+            <input type="url" id="clientRepo" placeholder="https://github.com/isapromord/..." class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none transition-all" />
           </div>
         </div>
 
@@ -2324,19 +2006,19 @@
           <!-- Persona de Contacto -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Persona de Contacto</label>
-            <input type="text" id="clientContact" placeholder="Nombre del propietario o encargado" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="text" id="clientContact" placeholder="Nombre del propietario o encargado" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
 
           <!-- Teléfono / WhatsApp -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp del Cliente *</label>
-            <input type="tel" id="clientPhone" required placeholder="+1 (829) 396-1318" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="tel" id="clientPhone" required placeholder="+1 (829) 396-1318" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
 
           <!-- Correo Electrónico -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Correo Electrónico</label>
-            <input type="email" id="clientEmail" placeholder="contacto@cliente.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="email" id="clientEmail" placeholder="contacto@cliente.com" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
         </div>
 
@@ -2344,7 +2026,7 @@
           <!-- Estado -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Estado</label>
-            <select id="clientStatus" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
+            <select id="clientStatus" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
               <option value="active">🟢 Activo</option>
               <option value="maintenance">🟡 En Mantenimiento</option>
               <option value="pending_payment">🔴 Cobro Pendiente</option>
@@ -2355,25 +2037,25 @@
           <!-- Monto Mensual -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Mantenimiento Mensual</label>
-            <input type="text" id="clientFee" placeholder="RD$ 4,500 / mes" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="text" id="clientFee" placeholder="RD$ 4,500 / mes" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
 
           <!-- Próxima Renovación -->
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Próxima Fecha Cobro</label>
-            <input type="date" id="clientRenewal" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="date" id="clientRenewal" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
         </div>
 
         <!-- Notas / Alcance del Proyecto -->
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Notas Técnicas & Alcance</label>
-          <textarea id="clientNotes" rows="3" placeholder="Detalles de la web, funcionalidades instaladas, credenciales o acuerdos..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+          <textarea id="clientNotes" rows="3" placeholder="Detalles de la web, funcionalidades instaladas, credenciales o acuerdos..." class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
         </div>
 
         <div class="pt-4 border-t border-white/[0.06] flex items-center justify-end gap-3">
-          <button type="button" onclick="closeClientModal()" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-sm">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md shadow-brand-600/20 active:scale-[0.98] transition-all">Guardar Cliente</button>
+          <button type="button" onclick="closeClientModal()" class="px-4 py-2.5 rounded text-slate-600 hover:bg-slate-100 font-bold text-sm">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-md shadow-brand-600/20 active:scale-[0.98] transition-all">Guardar Cliente</button>
         </div>
       </form>
 
@@ -2384,7 +2066,7 @@
        MODAL: GENERADOR DE REPORTE WHATSAPP
        ======================================================== -->
   <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06]">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06]">
       <div class="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-4">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -2401,14 +2083,14 @@
       </div>
 
       <div class="space-y-4">
-        <textarea id="reportText" rows="10" readonly class="w-full p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs font-mono text-slate-700 leading-relaxed focus:outline-none"></textarea>
+        <textarea id="reportText" rows="10" readonly class="w-full p-3.5 bg-slate-50 rounded border border-slate-200 text-xs font-mono text-slate-700 leading-relaxed focus:outline-none"></textarea>
 
         <div class="flex items-center justify-end gap-3 pt-2">
-          <button onclick="copyReportText()" id="copyReportBtn" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs flex items-center gap-1.5 transition-colors">
+          <button onclick="copyReportText()" id="copyReportBtn" class="px-4 py-2.5 rounded border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs flex items-center gap-1.5 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
             <span>Copiar al Portapapeles</span>
           </button>
-          <a id="sendWhatsappLink" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all">
+          <a id="sendWhatsappLink" target="_blank" class="px-4 py-2.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
             <span>Enviar por WhatsApp</span>
           </a>
@@ -2421,7 +2103,7 @@
        MODAL: AVISO DE RENOVACIÓN & COBRO MENSUAL (WHATSAPP)
        ======================================================== -->
   <div id="billingNoticeModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] space-y-5">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold">
@@ -2441,25 +2123,25 @@
       <div class="grid grid-cols-2 gap-3 text-xs">
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp del Cliente:</label>
-          <input type="text" id="billingNoticePhone" oninput="updateBillingNoticeWhatsappLink()" class="w-full px-3 py-2 rounded-xl border border-slate-200 font-mono text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="text" id="billingNoticePhone" oninput="updateBillingNoticeWhatsappLink()" class="w-full px-3 py-2 rounded border border-slate-200 font-mono text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Monto a Cobrar:</label>
-          <input type="text" id="billingNoticeAmount" oninput="regenerateBillingMessage()" class="w-full px-3 py-2 rounded-xl border border-slate-200 font-bold text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="text" id="billingNoticeAmount" oninput="regenerateBillingMessage()" class="w-full px-3 py-2 rounded border border-slate-200 font-bold text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
       </div>
 
       <div class="space-y-1.5">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Mensaje Formal de Cobro (Editable):</label>
-        <textarea id="billingNoticeText" oninput="updateBillingNoticeWhatsappLink()" rows="10" class="w-full p-3.5 bg-slate-50 text-slate-800 font-mono text-xs rounded-2xl border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none leading-relaxed"></textarea>
+        <textarea id="billingNoticeText" oninput="updateBillingNoticeWhatsappLink()" rows="10" class="w-full p-3.5 bg-slate-50 text-slate-800 font-mono text-xs rounded-md border border-slate-200 focus:bg-white focus:ring-2 focus:ring-brand-600 focus:outline-none leading-relaxed"></textarea>
       </div>
 
       <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <button onclick="copyBillingNoticeText()" id="copyBillingNoticeBtn" class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+        <button onclick="copyBillingNoticeText()" id="copyBillingNoticeBtn" class="w-full sm:w-auto px-4 py-2.5 rounded border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
           <span>Copiar Mensaje</span>
         </button>
-        <a id="sendBillingWhatsappLink" target="_blank" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all">
+        <a id="sendBillingWhatsappLink" target="_blank" class="w-full sm:w-auto px-5 py-2.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
           <span>Enviar por WhatsApp</span>
         </a>
@@ -2478,10 +2160,10 @@
         <div class="space-y-1 overflow-hidden">
           <div class="flex items-center gap-2.5 flex-wrap">
             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight truncate" id="drawerClientName">Nombre Cliente</h3>
-            <span id="drawerClientStatusBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold border">
+            <span id="drawerClientStatusBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold border">
               🟢 Activo
             </span>
-            <span id="drawerClientHealthBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono">
+            <span id="drawerClientHealthBadge" class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono">
               ⚡ Health: 100/100
             </span>
           </div>
@@ -2494,7 +2176,7 @@
           </div>
         </div>
 
-        <button onclick="closeClientDrawer()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors shrink-0">
+        <button onclick="closeClientDrawer()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors shrink-0">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
@@ -2520,22 +2202,22 @@
       <!-- Drawer Sticky Footer Actions -->
       <div class="p-4 border-t border-white/[0.08] bg-[#0c1322] flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div class="flex items-center gap-2">
-          <button onclick="drawerRunAudit()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-purple-600/25 transition-all">
+          <button onclick="drawerRunAudit()" class="px-4 py-2 rounded bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-purple-600/25 transition-all">
             <span>⚡ Auditar Servicios 360°</span>
           </button>
-          <a href="#" target="_blank" id="drawerVisitWebBtn" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1.5 transition-colors">
+          <a href="#" target="_blank" id="drawerVisitWebBtn" class="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1.5 transition-colors">
             <span>Visitar Web ↗</span>
           </a>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="drawerOpenBillingNotice()" class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-colors">
+          <button onclick="drawerOpenBillingNotice()" class="px-3.5 py-2 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-colors">
             <span>Aviso Cobro</span>
           </button>
-          <button onclick="drawerRegisterPayment()" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/30 transition-colors">
+          <button onclick="drawerRegisterPayment()" class="px-3.5 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/30 transition-colors">
             <span>✓ Pagado</span>
           </button>
-          <button onclick="drawerEditClient()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-colors">
+          <button onclick="drawerEditClient()" class="px-3 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-colors">
             Editar
           </button>
         </div>
@@ -2548,18 +2230,18 @@
        MODAL: AUDITORÍA 360° DE TODOS LOS SERVICIOS ISAPROMORD
        ======================================================== -->
   <div id="servicesAuditModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="bg-[#0c1322] border border-slate-700/80 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
+    <div class="bg-[#0c1322] border border-slate-700/80 rounded-lg max-w-4xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
       
       <!-- Header -->
       <div class="p-5 sm:p-6 border-b border-slate-800 bg-[#0f172a]/90 flex items-center justify-between gap-4 shrink-0">
         <div class="flex items-center gap-3 overflow-hidden">
-          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500/20 via-indigo-500/20 to-cyan-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center text-xl shrink-0 shadow-inner">
+          <div class="w-10 h-10 rounded-md bg-gradient-to-br from-purple-500/20 via-indigo-500/20 to-cyan-500/20 border border-purple-500/40 text-purple-300 flex items-center justify-center text-xl shrink-0 shadow-inner">
             ⚡
           </div>
           <div class="overflow-hidden">
             <div class="flex items-center gap-2">
               <h3 class="text-base sm:text-lg font-black text-white tracking-tight truncate" id="auditModalTitle">Auditoría 360° de Servicios Web</h3>
-              <span id="auditModalStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
+              <span id="auditModalStatusBadge" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
                 Escaneo en Vivo
               </span>
             </div>
@@ -2569,7 +2251,7 @@
           </div>
         </div>
 
-        <button onclick="closeServicesAuditModal()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors shrink-0">
+        <button onclick="closeServicesAuditModal()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
@@ -2578,9 +2260,9 @@
       <div class="px-5 py-3 bg-[#080d19] border-b border-slate-800/80 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
         <div class="relative flex-1">
           <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 text-xs font-mono">🌐</span>
-          <input type="url" id="auditInputUrl" placeholder="https://ejemplo.com" class="w-full pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300 placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:outline-none" />
+          <input type="url" id="auditInputUrl" placeholder="https://ejemplo.com" class="w-full pl-8 pr-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-cyan-300 placeholder-slate-500 focus:ring-2 focus:ring-purple-500 focus:outline-none" />
         </div>
-        <button onclick="triggerDirectAuditFromInput()" id="auditBtnRunScan" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/30 shrink-0">
+        <button onclick="triggerDirectAuditFromInput()" id="auditBtnRunScan" class="px-4 py-2 rounded bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/30 shrink-0">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           <span>Escanear URL</span>
         </button>
@@ -2605,7 +2287,7 @@
         <div id="auditResultsContainer" class="hidden space-y-6">
 
           <!-- Resumen de Puntuación Global & Pilares -->
-          <div class="p-5 rounded-2xl bg-[#080d19] border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+          <div class="p-5 rounded-md bg-[#080d19] border border-slate-800 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
             
             <!-- Score Radial / Badge -->
             <div class="md:col-span-4 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4">
@@ -2613,7 +2295,7 @@
               <div class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white" id="auditScoreValue">
                 --%
               </div>
-              <span id="auditScoreStatus" class="mt-2 px-3 py-1 rounded-full text-xs font-bold border">
+              <span id="auditScoreStatus" class="mt-2 px-3 py-1 rounded-md text-xs font-bold border">
                 Calculando...
               </span>
               <span class="text-[11px] text-slate-400 mt-2 text-center" id="auditScoreAdvice">
@@ -2623,19 +2305,19 @@
 
             <!-- Contadores de Brechas & Servicios -->
             <div class="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center">
+              <div class="p-3 rounded bg-emerald-950/20 border border-emerald-500/30 text-center">
                 <span class="text-2xl font-black text-emerald-400 font-mono block" id="auditCountPassed">0</span>
                 <span class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">Cumplidos</span>
               </div>
-              <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-center">
+              <div class="p-3 rounded bg-amber-950/20 border border-amber-500/30 text-center">
                 <span class="text-2xl font-black text-amber-400 font-mono block" id="auditCountWarning">0</span>
                 <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider">Oportunidades</span>
               </div>
-              <div class="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30 text-center">
+              <div class="p-3 rounded bg-rose-950/20 border border-rose-500/30 text-center">
                 <span class="text-2xl font-black text-rose-400 font-mono block" id="auditCountFailed">0</span>
                 <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">Brechas</span>
               </div>
-              <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50 text-center" title="Módulos que no pudieron verificarse (sin datos de Google o proxy protegido)">
+              <div class="p-3 rounded bg-slate-900/60 border border-slate-700/50 text-center" title="Módulos que no pudieron verificarse (sin datos de Google o proxy protegido)">
                 <span class="text-2xl font-black text-slate-400 font-mono block" id="auditCountUnverified">0</span>
                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sin Datos</span>
               </div>
@@ -2644,20 +2326,20 @@
           </div>
 
           <!-- Barra de Acciones Operativas Rápidas -->
-          <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-[#090e1b] border border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded bg-[#090e1b] border border-slate-800">
             <div class="text-xs text-slate-300 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
               <span class="font-bold">Acciones para Ejecutar o Cotizar:</span>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-              <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
+              <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
                 <span>🚀 Aplicar al Roadmap del Cliente</span>
               </button>
-              <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
+              <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
                 <span>Copiar para WhatsApp</span>
               </button>
-              <button onclick="copyAuditReportForAntigravity()" id="auditCopyAgyBtn" class="px-3.5 py-1.5 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 hover:text-white text-xs font-bold border border-purple-500/50 flex items-center gap-1.5 transition-colors shadow-sm" title="Copiar reporte técnico formateado para AntiGravity / IA">
+              <button onclick="copyAuditReportForAntigravity()" id="auditCopyAgyBtn" class="px-3.5 py-1.5 rounded bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 hover:text-white text-xs font-bold border border-purple-500/50 flex items-center gap-1.5 transition-colors shadow-sm" title="Copiar reporte técnico formateado para AntiGravity / IA">
                 <span class="text-sm">🤖</span>
                 <span>Copiar para AntiGravity (Agente IA)</span>
               </button>
@@ -2689,7 +2371,7 @@
           Motor AntiGravity • ISAPromoRD Diagnostics v3.0 • Google Lighthouse
           <button onclick="configurePsiKey()" id="psiKeyBtn" class="px-2 py-0.5 rounded-md border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 transition-colors" title="Configurar API Key de Google PageSpeed Insights">🔑 API Key Google</button>
         </span>
-        <button onclick="closeServicesAuditModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors">
+        <button onclick="closeServicesAuditModal()" class="px-5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors">
           Cerrar
         </button>
       </div>
@@ -2701,7 +2383,7 @@
        MODAL: BACKUP & CONFIGURACIÓN PIN
        ======================================================== -->
   <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/[0.06] space-y-6">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/[0.06] space-y-6">
       <div class="flex items-center justify-between pb-4 border-b border-white/[0.06]">
         <h3 class="text-base font-bold text-slate-900">Ajustes & Respaldo</h3>
         <button onclick="closeBackupModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-lg">
@@ -2712,10 +2394,10 @@
       <!-- Datos Bancarios para Cobros -->
       <div class="space-y-2">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Cuentas Bancarias para Cobros</label>
-        <textarea id="bankDetailsInput" rows="4" placeholder="Banco, Tipo de cuenta, Número, Titular..." class="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
+        <textarea id="bankDetailsInput" rows="4" placeholder="Banco, Tipo de cuenta, Número, Titular..." class="w-full p-2.5 rounded border border-slate-200 text-xs font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none"></textarea>
         <div class="flex items-center justify-between">
           <span id="bankSuccessMsg" class="text-emerald-600 text-xs font-semibold hidden">Datos guardados.</span>
-          <button onclick="saveBankDetails()" class="ml-auto px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors">Guardar Cuenta</button>
+          <button onclick="saveBankDetails()" class="ml-auto px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-bold transition-colors">Guardar Cuenta</button>
         </div>
       </div>
 
@@ -2723,8 +2405,8 @@
       <div class="pt-4 border-t border-white/[0.06] space-y-2">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Cambiar PIN de Acceso</label>
         <div class="flex gap-2">
-          <input type="password" id="newPinInput" maxlength="6" placeholder="Nuevo PIN (ej: 3690)" class="flex-1 px-3.5 py-2 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
-          <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition-colors">Actualizar</button>
+          <input type="password" id="newPinInput" maxlength="6" placeholder="Nuevo PIN (ej: 3690)" class="flex-1 px-3.5 py-2 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded text-xs font-bold transition-colors">Actualizar</button>
         </div>
         <p id="pinSuccess" class="text-emerald-600 text-xs font-semibold hidden">PIN actualizado exitosamente.</p>
       </div>
@@ -2733,12 +2415,12 @@
       <div class="pt-4 border-t border-white/[0.06] space-y-3">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Base de Datos de Clientes</label>
         <div class="flex flex-col sm:flex-row gap-2">
-          <button onclick="exportDatabase()" class="flex-1 py-2.5 px-3 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold text-xs rounded-xl border border-brand-200 flex items-center justify-center gap-1.5 transition-colors">
+          <button onclick="exportDatabase()" class="flex-1 py-2.5 px-3 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold text-xs rounded border border-brand-200 flex items-center justify-center gap-1.5 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
             Exportar JSON
           </button>
 
-          <label class="flex-1 py-2.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 flex items-center justify-center gap-1.5 cursor-pointer transition-colors">
+          <label class="flex-1 py-2.5 px-3 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-xs rounded border border-slate-200 flex items-center justify-center gap-1.5 cursor-pointer transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
             Importar JSON
             <input type="file" id="importFileInput" onchange="importDatabase(event)" accept=".json" class="hidden" />
@@ -2748,7 +2430,7 @@
       </div>
 
       <div class="pt-2">
-        <button onclick="closeBackupModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl">Cerrar</button>
+        <button onclick="closeBackupModal()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded">Cerrar</button>
       </div>
     </div>
   </div>
@@ -2757,7 +2439,7 @@
        MODAL: PROPUESTA GENERADA EXITOSAMENTE
        ======================================================== -->
   <div id="proposalResultModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] space-y-5">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -2773,12 +2455,12 @@
       <div class="space-y-2">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Enlace Interactivo del Cliente:</label>
         <div class="flex gap-2">
-          <input type="text" id="generatedLinkInput" readonly class="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-mono bg-slate-50 focus:outline-none" />
-          <button onclick="copyGeneratedProposalLink()" id="copyProposalLinkBtn" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors">Copiar</button>
+          <input type="text" id="generatedLinkInput" readonly class="flex-1 px-3.5 py-2.5 rounded border border-slate-200 text-xs font-mono bg-slate-50 focus:outline-none" />
+          <button onclick="copyGeneratedProposalLink()" id="copyProposalLinkBtn" class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-bold transition-colors">Copiar</button>
         </div>
       </div>
 
-      <div class="p-4 bg-slate-50 rounded-2xl border border-white/[0.06] space-y-2 text-xs text-slate-600">
+      <div class="p-4 bg-slate-50 rounded-md border border-white/[0.06] space-y-2 text-xs text-slate-600">
         <div class="flex justify-between">
           <span class="font-bold text-slate-700">Cliente:</span>
           <span id="modalResClient" class="font-semibold text-slate-900">--</span>
@@ -2798,17 +2480,17 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
-        <a id="modalResOpenBtn" target="_blank" class="py-3 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center">
+        <a id="modalResOpenBtn" target="_blank" class="py-3 px-3 rounded bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
           <span>Abrir Web</span>
         </a>
 
-        <a id="modalResPdfBtn" target="_blank" class="py-3 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center shadow-xs">
+        <a id="modalResPdfBtn" target="_blank" class="py-3 px-3 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center shadow-xs">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           <span>Guardar PDF</span>
         </a>
 
-        <a id="modalResWhatsappBtn" target="_blank" class="py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all text-center">
+        <a id="modalResWhatsappBtn" target="_blank" class="py-3 px-3 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all text-center">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764zm3.377 8.21c-.14.394-.813.738-1.127.785-.302.046-.697.067-1.133-.073-.284-.092-.647-.215-1.114-.419-1.968-.858-3.237-2.859-3.336-2.991-.098-.133-.799-1.063-.799-2.024 0-.961.503-1.433.682-1.628.179-.196.391-.245.522-.245.131 0 .262.001.376.007.12.006.281-.046.438.333.163.393.555 1.353.604 1.452.049.098.082.213.016.344-.066.13-.098.213-.196.328-.098.115-.207.257-.295.344-.098.098-.201.205-.087.401.115.197.511.843 1.096 1.365.753.672 1.388.88 1.585.979.197.098.312.082.427-.049.115-.131.491-.573.622-.77.131-.197.262-.164.442-.098.18.065 1.146.541 1.343.639.197.098.328.148.377.23.049.082.049.475-.091.869z"></path></svg>
           <span>WhatsApp</span>
         </a>
@@ -2820,7 +2502,7 @@
        MODAL: SNIPPET DE FOOTER PARA CLIENTE
        ======================================================== -->
   <div id="partnerSnippetModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl border border-white/[0.06] space-y-5">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-xl w-full shadow-2xl border border-white/[0.06] space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div>
           <div class="flex items-center gap-2">
@@ -2837,8 +2519,8 @@
       <!-- Vista Previa del Badge -->
       <div class="space-y-1.5">
         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Vista Previa en el Footer del Cliente:</label>
-        <div class="bg-slate-950 p-6 rounded-2xl flex items-center justify-center border border-slate-800">
-          <a id="snippetPreviewBadge" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/15 text-xs font-medium transition-all shadow-sm">
+        <div class="bg-slate-950 p-6 rounded-md flex items-center justify-center border border-slate-800">
+          <a id="snippetPreviewBadge" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/15 text-xs font-medium transition-all shadow-sm">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Plataforma por <strong class="text-white font-bold">ISAPromoRD</strong></span>
           </a>
@@ -2855,12 +2537,12 @@
           </div>
         </div>
 
-        <textarea id="snippetCodeArea" readonly rows="5" class="w-full p-3 bg-slate-900 text-slate-200 font-mono text-xs rounded-xl focus:outline-none border border-slate-800"></textarea>
+        <textarea id="snippetCodeArea" readonly rows="5" class="w-full p-3 bg-slate-900 text-slate-200 font-mono text-xs rounded focus:outline-none border border-slate-800"></textarea>
       </div>
 
       <div class="flex items-center justify-between pt-2">
         <span class="text-[11px] text-slate-400">Pega este bloque en el Footer de la web del cliente.</span>
-        <button onclick="copySnippetCode()" id="copySnippetBtn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors flex items-center gap-1.5">
+        <button onclick="copySnippetCode()" id="copySnippetBtn" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded text-xs font-bold transition-colors flex items-center gap-1.5">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
           <span>Copiar Código</span>
         </button>
@@ -2872,7 +2554,7 @@
        MODAL: REGISTRAR NUEVO PARTNER DE REFERIDOS
        ======================================================== -->
   <div id="newPartnerModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/[0.06] space-y-5">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/[0.06] space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div>
           <h3 class="text-lg font-black text-slate-900">Nuevo Partner de Referidos</h3>
@@ -2886,7 +2568,7 @@
       <form id="newPartnerForm" onsubmit="saveNewPartner(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre Comercial del Cliente *</label>
-          <input type="text" id="partnerNameInput" required placeholder="Ej: Clínica Dental Dra. Pérez" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="text" id="partnerNameInput" required placeholder="Ej: Clínica Dental Dra. Pérez" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
 
         <div>
@@ -2900,17 +2582,17 @@
 
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">URL de la Web del Cliente</label>
-          <input type="url" id="partnerUrlInput" placeholder="https://draperez.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="url" id="partnerUrlInput" placeholder="https://draperez.com" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Recompensa / Incentivo</label>
-          <input type="text" id="partnerRewardInput" value="1 Mes de Mantenimiento Web Gratis" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="text" id="partnerRewardInput" value="1 Mes de Mantenimiento Web Gratis" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
 
         <div class="pt-2 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeNewPartnerModal()" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-sm">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all">Guardar Partner</button>
+          <button type="button" onclick="closeNewPartnerModal()" class="px-4 py-2.5 rounded text-slate-600 hover:bg-slate-100 font-bold text-sm">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all">Guardar Partner</button>
         </div>
       </form>
     </div>
@@ -2920,7 +2602,7 @@
        MODAL: REGISTRAR COBRO / ENTRADA MANUAL
        ======================================================== -->
   <div id="manualTransactionModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] my-8 space-y-5">
+    <div class="bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/[0.06] my-8 space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold">
@@ -2941,10 +2623,10 @@
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Cliente / Empresa *</label>
           <div class="space-y-1.5">
-            <select id="txClientSelect" onchange="handleTxClientSelectChange()" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
+            <select id="txClientSelect" onchange="handleTxClientSelectChange()" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
               <!-- Opciones dinámicas de clientes registrados + 'Otro' -->
             </select>
-            <input type="text" id="txClientCustomName" placeholder="O escribe el nombre del cliente..." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none hidden" />
+            <input type="text" id="txClientCustomName" placeholder="O escribe el nombre del cliente..." class="w-full px-3.5 py-2 rounded border border-slate-200 text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none hidden" />
           </div>
         </div>
 
@@ -2952,13 +2634,13 @@
           <!-- Concepto -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Concepto / Servicio *</label>
-            <input type="text" id="txConcept" required placeholder="Ej: Retainer Mensual Octubre / Anticipo 50%" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="text" id="txConcept" required placeholder="Ej: Retainer Mensual Octubre / Anticipo 50%" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
 
           <!-- Tipo de Ingreso -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Tipo de Ingreso *</label>
-            <select id="txType" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
+            <select id="txType" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
               <option value="retainer">🟢 Retainer Mensual (Recurrente)</option>
               <option value="setup">🚀 Anticipo Setup 50% (Proyecto Nuevo)</option>
               <option value="settlement">🏁 Liquidación Final 50% (Entrega)</option>
@@ -2971,13 +2653,13 @@
           <!-- Monto -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Monto Cobrado (RD$) *</label>
-            <input type="number" id="txAmount" required min="1" step="1" placeholder="Ej: 4500" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-bold text-emerald-400 focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="number" id="txAmount" required min="1" step="1" placeholder="Ej: 4500" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-bold text-emerald-400 focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
 
           <!-- Fecha -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Fecha de Cobro *</label>
-            <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
         </div>
 
@@ -2985,7 +2667,7 @@
           <!-- Cuenta de Destino -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Cuenta Bancaria Destino *</label>
-            <select id="txAccount" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
+            <select id="txAccount" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
               <option value="Banco Popular Dominicano">Banco Popular Dominicano (8294554783)</option>
               <option value="Banco BHD / Banreservas">Banco BHD / Banreservas</option>
               <option value="Efectivo / Caja Chica">Efectivo / Caja Chica</option>
@@ -2995,19 +2677,19 @@
           <!-- Referencia Bancaria -->
           <div>
             <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">No. Comprobante / Referencia</label>
-            <input type="text" id="txReference" placeholder="Ej: BP-981273 o Efectivo" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            <input type="text" id="txReference" placeholder="Ej: BP-981273 o Efectivo" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
           </div>
         </div>
 
         <!-- Notas Opcionales -->
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Notas de la Transacción</label>
-          <input type="text" id="txNotes" placeholder="Detalles adicionales, número de factura o acuerdo..." class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+          <input type="text" id="txNotes" placeholder="Detalles adicionales, número de factura o acuerdo..." class="w-full px-3.5 py-2 rounded border border-slate-200 text-xs focus:ring-2 focus:ring-brand-600 focus:outline-none" />
         </div>
 
         <div class="pt-3 border-t border-white/[0.06] flex items-center justify-end gap-3">
-          <button type="button" onclick="closeManualTransactionModal()" class="px-4 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-xs">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all">Guardar en Libro Diario</button>
+          <button type="button" onclick="closeManualTransactionModal()" class="px-4 py-2.5 rounded text-slate-600 hover:bg-slate-100 font-bold text-xs">Cancelar</button>
+          <button type="submit" class="px-5 py-2.5 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all">Guardar en Libro Diario</button>
         </div>
       </form>
     </div>
@@ -4045,11 +3727,11 @@
       const btn = document.getElementById("btnPresentationMode");
       if (btn) {
         if (presentationMode) {
-          btn.className = "px-3 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm";
+          btn.className = "px-3 py-2 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm";
           btn.innerHTML = `<span>👔</span> <span class="hidden sm:inline">Modo Cliente (Activo)</span>`;
           showToast("👔 Modo Presentación activado: finanzas y notas privadas ocultas.");
         } else {
-          btn.className = "px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 transition-colors";
+          btn.className = "px-3 py-2 rounded bg-slate-900 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 transition-colors";
           btn.innerHTML = `<span>👔</span> <span class="hidden sm:inline">Modo Cliente</span>`;
           showToast("Modo Presentación desactivado: vista completa de agencia.");
         }
@@ -4143,10 +3825,10 @@
           const healthColor = score >= 85 ? "text-emerald-400" : (score >= 60 ? "text-amber-400" : "text-rose-400");
 
           let uptimeDot = client.uptimeStatus === "online" 
-            ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '53'}ms</span>`
+            ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '53'}ms</span>`
             : (client.uptimeStatus === "offline" 
-                ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
-                : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`);
+                ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
+                : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`);
 
           const initials = client.name.substring(0, 2).toUpperCase();
 
@@ -4155,7 +3837,7 @@
               
               <!-- Identidad & Enlace -->
               <div class="flex items-center gap-3 min-w-0">
-                <div onclick="openClientDrawer('${client.id}')" class="w-10 h-10 rounded-xl bg-slate-900 border border-white/10 text-slate-200 flex items-center justify-center text-xs font-black font-mono shrink-0 cursor-pointer shadow-inner group-hover:border-cyan-400 group-hover:text-cyan-300 transition-colors">
+                <div onclick="openClientDrawer('${client.id}')" class="w-10 h-10 rounded bg-slate-900 border border-white/10 text-slate-200 flex items-center justify-center text-xs font-black font-mono shrink-0 cursor-pointer shadow-inner group-hover:border-cyan-400 group-hover:text-cyan-300 transition-colors">
                   ${initials}
                 </div>
                 <div class="min-w-0 space-y-0.5">
@@ -4163,7 +3845,7 @@
                     <h4 onclick="openClientDrawer('${client.id}')" class="text-sm font-bold text-white group-hover:text-cyan-300 cursor-pointer transition-colors truncate max-w-[200px] sm:max-w-none stitch-title">
                       ${client.name}
                     </h4>
-                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${currentBadge.bg} border shrink-0">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${currentBadge.bg} border shrink-0">
                       ${currentBadge.text}
                     </span>
                     ${uptimeDot}
@@ -4200,7 +3882,7 @@
                   <button 
                     onclick="runServicesAudit('${client.id}')" 
                     title="Auditoría 360° en vivo"
-                    class="p-2 rounded-xl text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
+                    class="p-2 rounded text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
                   >
                     <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                   </button>
@@ -4208,14 +3890,14 @@
                   <button 
                     onclick="editClient('${client.id}')" 
                     title="Editar Ficha"
-                    class="p-2 rounded-xl text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] transition-colors"
+                    class="p-2 rounded text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] transition-colors"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                   </button>
 
                   <button 
                     onclick="openClientDrawer('${client.id}')" 
-                    class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs shadow-glow-cyan transition-all active:scale-95"
+                    class="px-3.5 py-1.5 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs shadow-glow-cyan transition-all active:scale-95"
                   >
                     <span>Control</span>
                   </button>
@@ -4239,16 +3921,16 @@
           const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
           let uptimeMarkup = client.uptimeStatus === "online" 
-            ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span>Online (${client.latencyMs || '<1'}ms)</span>`
             : (client.uptimeStatus === "offline" 
-                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Inaccesible</span>`
-                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700"><span class="w-2 h-2 rounded-full bg-slate-400 animate-ping"></span>Verificando...</span>`);
+                ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Inaccesible</span>`
+                : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700"><span class="w-2 h-2 rounded-full bg-slate-400 animate-ping"></span>Verificando...</span>`);
 
           let firstPendingMarked = false;
 
           return `
-            <div class="bg-[#101726] rounded-3xl p-6 sm:p-7 border border-slate-700/80 shadow-2xl hover:border-cyan-500/40 transition-all relative overflow-hidden text-slate-100">
+            <div class="bg-[#101726] rounded-lg p-6 sm:p-7 border border-slate-700/80 shadow-2xl hover:border-cyan-500/40 transition-all relative overflow-hidden text-slate-100">
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-7">
                 
                 <!-- Información Principal y Mission Control -->
@@ -4258,24 +3940,24 @@
                   <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
                     <div class="flex flex-wrap items-center gap-3">
                       <h3 class="text-2xl font-black text-white tracking-tight cursor-pointer hover:text-cyan-300 transition-colors" onclick="openClientDrawer('${client.id}')">${client.name}</h3>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${currentBadge.bg} border">
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold ${currentBadge.bg} border">
                         ${currentBadge.text}
                       </span>
                       ${uptimeMarkup}
-                      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         ⚡ Madurez Digital: ${client.healthScore !== undefined ? client.healthScore : 100}/100
                       </span>
                     </div>
                     
                     <div class="flex items-center gap-2">
-                      <button onclick="runServicesAudit('${client.id}')" class="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Auditoría 360° de servicios ISAPromoRD">
+                      <button onclick="runServicesAudit('${client.id}')" class="px-3 py-1.5 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Auditoría 360° de servicios ISAPromoRD">
                         <span>⚡ Auditar Servicios</span>
                       </button>
-                      <button onclick="openClientDrawer('${client.id}')" class="px-3 py-1.5 rounded-xl bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Abrir Drawer Lateral">
+                      <button onclick="openClientDrawer('${client.id}')" class="px-3 py-1.5 rounded bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Abrir Drawer Lateral">
                         <span>Mission Control →</span>
                       </button>
-                      <button onclick="editClient('${client.id}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                      <button onclick="editClient('${client.id}')" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         <span>Editar</span>
                       </button>
@@ -4301,7 +3983,7 @@
                   </div>
 
                   <!-- URL Bar -->
-                  <div class="p-3 bg-[#090e1a] rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                  <div class="p-3 bg-[#090e1a] rounded border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                     <div class="flex items-center gap-2 overflow-hidden">
                       <span class="font-mono text-slate-400 font-bold">URL:</span>
                       <a href="${client.liveUrl}" target="_blank" class="font-mono font-semibold text-cyan-400 hover:text-cyan-300 hover:underline truncate">
@@ -4329,7 +4011,7 @@
                     </div>
 
                     <div class="w-full h-2 bg-slate-800/80 rounded-full overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 rounded-full transition-all duration-500" style="width: ${progressPct}%"></div>
+                      <div class="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 rounded-md transition-all duration-500" style="width: ${progressPct}%"></div>
                     </div>
 
                     <div class="space-y-2">
@@ -4339,7 +4021,7 @@
                         const guideId = `guide-${client.id}-${task.id}`;
 
                         return `
-                          <div class="p-3 rounded-xl bg-[#0a0f1d] border ${isNext ? 'border-amber-500/50 shadow-lg shadow-amber-500/5' : 'border-slate-800'}">
+                          <div class="p-3 rounded bg-[#0a0f1d] border ${isNext ? 'border-amber-500/50 shadow-lg shadow-amber-500/5' : 'border-slate-800'}">
                             <div class="flex items-center justify-between gap-3">
                               <label class="flex items-center gap-3 cursor-pointer flex-1">
                                 <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask('${client.id}', ${task.id})" class="rounded text-emerald-500 focus:ring-emerald-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer" />
@@ -4365,7 +4047,7 @@
                 </div>
 
                 <!-- Bloque Lateral: Facturación & Acciones -->
-                <div class="lg:w-80 bg-[#0c1322] p-6 rounded-2xl border border-slate-700/80 flex flex-col justify-between gap-5 text-slate-200 shadow-xl">
+                <div class="lg:w-80 bg-[#0c1322] p-6 rounded-md border border-slate-700/80 flex flex-col justify-between gap-5 text-slate-200 shadow-xl">
                   <div class="space-y-4">
                     <div>
                       <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mantenimiento Mensual</span>
@@ -4377,7 +4059,7 @@
                     <div>
                       <div class="flex items-center justify-between mb-1">
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Próximo Cobro</span>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${billing.badgeClass}">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${billing.badgeClass}">
                           ${billing.text}
                         </span>
                       </div>
@@ -4386,28 +4068,28 @@
                   </div>
 
                   <div class="space-y-2.5 pt-4 border-t border-slate-800">
-                    <button onclick="runServicesAudit('${client.id}')" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all">
+                    <button onclick="runServicesAudit('${client.id}')" class="w-full py-2.5 px-3 rounded bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all">
                       <span>⚡ Auditar Servicios (360°)</span>
                     </button>
 
-                    <a href="${client.liveUrl}" target="_blank" class="w-full py-2.5 px-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 border border-slate-700 transition-all">
+                    <a href="${client.liveUrl}" target="_blank" class="w-full py-2.5 px-3 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 border border-slate-700 transition-all">
                       <span>Visitar Web en Vivo ↗</span>
                     </a>
 
                     <div class="grid grid-cols-2 gap-2">
-                      <button onclick="openBillingNoticeModal('${client.id}')" class="py-2 px-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-500/40 flex items-center justify-center gap-1 transition-colors">
+                      <button onclick="openBillingNoticeModal('${client.id}')" class="py-2 px-2 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-500/40 flex items-center justify-center gap-1 transition-colors">
                         <span>Aviso Cobro</span>
                       </button>
-                      <button onclick="registerClientPayment('${client.id}')" class="py-2 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1 shadow-md shadow-emerald-600/30 transition-colors">
+                      <button onclick="registerClientPayment('${client.id}')" class="py-2 px-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1 shadow-md shadow-emerald-600/30 transition-colors">
                         <span>✓ Pagado</span>
                       </button>
                     </div>
 
                     <div class="flex items-center gap-2">
-                      <button onclick="editClient('${client.id}')" class="flex-1 py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
+                      <button onclick="editClient('${client.id}')" class="flex-1 py-1.5 px-3 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors">
                         Editar
                       </button>
-                      <button onclick="deleteClient('${client.id}')" class="py-1.5 px-2.5 rounded-xl text-rose-400 hover:bg-rose-500/20 border border-slate-700 hover:border-rose-500/40 transition-colors" title="Eliminar cliente">
+                      <button onclick="deleteClient('${client.id}')" class="py-1.5 px-2.5 rounded text-rose-400 hover:bg-rose-500/20 border border-slate-700 hover:border-rose-500/40 transition-colors" title="Eliminar cliente">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                       </button>
                     </div>
@@ -4545,7 +4227,7 @@
 
         body.innerHTML = `
           <!-- Resumen de Progreso -->
-          <div class="p-4 rounded-2xl bg-[#090e1b] border border-slate-800 space-y-3">
+          <div class="p-4 rounded-md bg-[#090e1b] border border-slate-800 space-y-3">
             <div class="flex items-center justify-between text-xs font-bold">
               <span class="text-white flex items-center gap-1.5">
                 <span class="text-cyan-400 font-mono">🚀</span> Progreso de Posicionamiento
@@ -4555,25 +4237,25 @@
               </span>
             </div>
             <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 rounded-full transition-all duration-500" style="width: ${progressPct}%"></div>
+              <div class="h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500 rounded-md transition-all duration-500" style="width: ${progressPct}%"></div>
             </div>
           </div>
 
           <!-- Matriz de Optimización: Los 4 Pilares -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <div class="p-2.5 rounded-xl bg-[#0b1322] border border-emerald-500/30 flex items-center gap-2">
+            <div class="p-2.5 rounded bg-[#0b1322] border border-emerald-500/30 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
               <span class="text-[11px] font-bold text-emerald-300 truncate">SEO On-Page</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-[#0b1322] border border-cyan-500/30 flex items-center gap-2">
+            <div class="p-2.5 rounded bg-[#0b1322] border border-cyan-500/30 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>
               <span class="text-[11px] font-bold text-cyan-300 truncate">WhatsApp Cards</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-[#0b1322] border border-amber-500/30 flex items-center gap-2">
+            <div class="p-2.5 rounded bg-[#0b1322] border border-amber-500/30 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
               <span class="text-[11px] font-bold text-amber-300 truncate">Google Maps</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-[#0b1322] border border-purple-500/30 flex items-center gap-2">
+            <div class="p-2.5 rounded bg-[#0b1322] border border-purple-500/30 flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>
               <span class="text-[11px] font-bold text-purple-300 truncate">IA Search</span>
             </div>
@@ -4595,7 +4277,7 @@
                 const guideId = `drawer-guide-${client.id}-${task.id}`;
 
                 return `
-                  <div class="p-3.5 rounded-xl bg-[#090e1b] border ${isNext ? 'border-amber-500/50 shadow-lg shadow-amber-500/5' : 'border-slate-800'} transition-all">
+                  <div class="p-3.5 rounded bg-[#090e1b] border ${isNext ? 'border-amber-500/50 shadow-lg shadow-amber-500/5' : 'border-slate-800'} transition-all">
                     <div class="flex items-start sm:items-center justify-between gap-3">
                       <label class="flex items-center gap-3 cursor-pointer flex-1">
                         <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask('${client.id}', ${task.id}); renderDrawerContent();" class="rounded text-emerald-500 focus:ring-emerald-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer shrink-0" />
@@ -4654,7 +4336,7 @@
         body.innerHTML = `
           <div class="space-y-4">
             <!-- Tarjeta de Mantenimiento -->
-            <div class="p-5 rounded-2xl bg-[#090e1b] border border-slate-800 space-y-4">
+            <div class="p-5 rounded-md bg-[#090e1b] border border-slate-800 space-y-4">
               <div class="flex items-center justify-between">
                 <div>
                   <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mantenimiento Mensual</span>
@@ -4662,7 +4344,7 @@
                     ${presentationMode ? 'RD$ •••••' : (client.fee || 'No asignado')}
                   </div>
                 </div>
-                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${billing.badgeClass}">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold border ${billing.badgeClass}">
                   ${billing.text}
                 </span>
               </div>
@@ -4681,15 +4363,15 @@
 
             <!-- Botones de Acción de Cobro -->
             <div class="grid grid-cols-2 gap-3">
-              <button onclick="openBillingNoticeModal('${client.id}')" class="py-3 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-500/40 flex items-center justify-center gap-2 transition-colors">
+              <button onclick="openBillingNoticeModal('${client.id}')" class="py-3 px-3 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-500/40 flex items-center justify-center gap-2 transition-colors">
                 <span>💳 Aviso Cobro WhatsApp</span>
               </button>
-              <button onclick="registerClientPayment('${client.id}'); renderDrawerContent();" class="py-3 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-emerald-600/30 transition-colors">
+              <button onclick="registerClientPayment('${client.id}'); renderDrawerContent();" class="py-3 px-3 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-emerald-600/30 transition-colors">
                 <span>✓ Registrar Pago (+1 Mes)</span>
               </button>
             </div>
 
-            <button onclick="openReportModal('${client.id}')" class="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center gap-2 transition-colors">
+            <button onclick="openReportModal('${client.id}')" class="w-full py-2.5 px-3 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center gap-2 transition-colors">
               <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
               <span>Generar Reporte Técnico para WhatsApp</span>
             </button>
@@ -4698,7 +4380,7 @@
       } else if (currentDrawerTab === "info") {
         body.innerHTML = `
           <div class="space-y-4">
-            <div class="p-5 rounded-2xl bg-[#090e1b] border border-slate-800 space-y-3.5 text-xs">
+            <div class="p-5 rounded-md bg-[#090e1b] border border-slate-800 space-y-3.5 text-xs">
               <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-2">Información de Contacto</h5>
               
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -4739,7 +4421,7 @@
             </div>
 
             <!-- Notas del Proyecto -->
-            <div class="p-4 rounded-2xl bg-[#090e1b] border border-slate-800 space-y-2 text-xs">
+            <div class="p-4 rounded-md bg-[#090e1b] border border-slate-800 space-y-2 text-xs">
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Notas & Alcance:</span>
               <p class="text-slate-300 leading-relaxed">${client.notes || 'Sin notas registradas.'}</p>
             </div>
@@ -4919,7 +4601,7 @@
         document.body.appendChild(container);
       }
       const toast = document.createElement('div');
-      toast.className = 'px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-bold shadow-2xl flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto';
+      toast.className = 'px-4 py-3 rounded bg-slate-900 border border-slate-700 text-white text-xs font-bold shadow-2xl flex items-center gap-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto';
       toast.innerHTML = `<span class="text-emerald-400">✓</span> <span>${msg}</span>`;
       container.appendChild(toast);
       requestAnimationFrame(() => {
@@ -6255,7 +5937,7 @@ https://isapromord.github.io`;
         const detailId = `audit-svc-detail-${idx}`;
 
         return `
-          <div class="rounded-2xl border ${borderClass} p-4 sm:p-5 transition-all">
+          <div class="rounded-md border ${borderClass} p-4 sm:p-5 transition-all">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div class="flex items-start gap-3">
                 <span class="text-2xl shrink-0 mt-0.5">${svc.icon}</span>
@@ -6271,7 +5953,7 @@ https://isapromord.github.io`;
               </div>
 
               <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                <button onclick="toggleAuditDetail('${detailId}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-colors">
+                <button onclick="toggleAuditDetail('${detailId}')" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-colors">
                   <span>Ver Detalle & Solución</span>
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
@@ -6280,17 +5962,17 @@ https://isapromord.github.io`;
 
             <!-- Panel Desplegable de Hallazgos y Solución -->
             <div id="${detailId}" class="${svc.status === 'passed' ? 'hidden' : ''} mt-4 pt-4 border-t border-slate-800 space-y-3 text-xs leading-relaxed">
-              <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
+              <div class="p-3 rounded bg-slate-900/90 border border-slate-800">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">🔍 Diagnóstico Real en el Sitio Web:</span>
                 <p class="text-slate-300">${svc.findings}</p>
               </div>
 
-              <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30">
+              <div class="p-3 rounded bg-purple-950/20 border border-purple-500/30">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300 block mb-1">🛠️ Qué Necesita para Lograr el Servicio:</span>
                 <p class="text-purple-200 font-medium">${svc.needed}</p>
               </div>
 
-              <div class="p-3 rounded-xl bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-2.5">
+              <div class="p-3 rounded bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-2.5">
                 <span class="text-base text-cyan-400 shrink-0">💼</span>
                 <div>
                   <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-300 block mb-0.5">Solución Oficial de ISAPromoRD:</span>
@@ -6772,7 +6454,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         const guideId = `hq_guide_${task.id}`;
 
         return `
-          <div class="p-4 rounded-2xl bg-[#0c1322] border ${task.done ? 'border-slate-800' : (isNext ? 'border-purple-500/70 shadow-lg shadow-purple-500/10' : 'border-slate-800')} transition-all">
+          <div class="p-4 rounded-md bg-[#0c1322] border ${task.done ? 'border-slate-800' : (isNext ? 'border-purple-500/70 shadow-lg shadow-purple-500/10' : 'border-slate-800')} transition-all">
             <div class="flex items-start sm:items-center justify-between gap-3 flex-col sm:flex-row">
               <label class="flex items-center gap-3 cursor-pointer flex-1">
                 <input 
@@ -6816,7 +6498,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
                   <p class="text-slate-200 font-medium">${task.guide.summary}</p>
                 ` : ''}
                 ${task.guide.details ? `
-                  <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 text-xs leading-relaxed">
+                  <div class="p-3 rounded bg-slate-900/90 border border-slate-800 text-slate-300 text-xs leading-relaxed">
                     ${task.guide.details}
                   </div>
                 ` : ''}
@@ -7170,7 +6852,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
           : '';
 
         return `
-          <label class="bg-slate-50 hover:bg-slate-100 p-3.5 rounded-2xl border ${addon.checked ? 'border-brand-500/60 bg-brand-50/20' : 'border-slate-200'} flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer transition-colors">
+          <label class="bg-slate-50 hover:bg-slate-100 p-3.5 rounded-md border ${addon.checked ? 'border-brand-500/60 bg-brand-50/20' : 'border-slate-200'} flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer transition-colors">
             <div class="flex items-start gap-3 flex-1">
               <input 
                 type="checkbox" 
@@ -7484,7 +7166,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       }
 
       container.innerHTML = list.map(item => `
-        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div class="bg-slate-50 p-4 rounded-md border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
           <div>
             <div class="flex items-center gap-2">
               <strong class="text-slate-900 font-bold text-sm">${item.clientName}</strong>
@@ -7626,12 +7308,12 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
               </div>
             </td>
             <td class="py-3.5 px-3 text-center">
-              <span class="inline-block px-2.5 py-0.5 rounded-full font-bold text-xs ${partnerClicks > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+              <span class="inline-block px-2.5 py-0.5 rounded-md font-bold text-xs ${partnerClicks > 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
                 ${partnerClicks}
               </span>
             </td>
             <td class="py-3.5 px-3 text-center">
-              <span class="inline-block px-2.5 py-0.5 rounded-full font-bold text-xs ${partnerLeads > 0 ? 'bg-blue-100 text-brand-800' : 'bg-slate-100 text-slate-600'}">
+              <span class="inline-block px-2.5 py-0.5 rounded-md font-bold text-xs ${partnerLeads > 0 ? 'bg-blue-100 text-brand-800' : 'bg-slate-100 text-slate-600'}">
                 ${partnerLeads}
               </span>
             </td>
@@ -7672,7 +7354,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         `;
       } else {
         feed.innerHTML = referralClicks.slice(0, 10).map(c => `
-          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between text-xs">
+          <div class="p-3 bg-slate-50 rounded border border-slate-200/80 flex items-center justify-between text-xs">
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               <strong class="text-slate-900 font-bold">${c.client_slug}</strong>
@@ -8040,7 +7722,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
               ${client.renewalDate || 'Sin fecha'}
             </td>
             <td class="py-3.5 px-4">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${billing.badgeClass}">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${billing.badgeClass}">
                 ${billing.text}
               </span>
             </td>
@@ -8085,7 +7767,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
             <td class="py-3.5 px-4 font-bold text-slate-900">${tx.clientName || 'Cliente'}</td>
             <td class="py-3.5 px-4 text-slate-700 max-w-xs truncate" title="${tx.concept}">${tx.concept}</td>
             <td class="py-3.5 px-4">
-              <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border ${badge.class}">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${badge.class}">
                 ${badge.text}
               </span>
             </td>
@@ -8474,7 +8156,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         ];
 
         servicesContainer.innerHTML = defaultServices.map(s => `
-          <div class="p-3 rounded-xl bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex items-center justify-between gap-3">
+          <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex items-center justify-between gap-3">
             <div class="flex items-center gap-2.5 overflow-hidden">
               <div class="w-7 h-7 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0">
                 ${s.icon}
@@ -8532,7 +8214,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         if (pctEl) pctEl.textContent = pct + "%";
 
         taskList.innerHTML = clientTasks.map((t, i) => `
-          <div class="p-2.5 rounded-xl bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-2">
+          <div class="p-2.5 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-2">
             <label class="flex items-center gap-2.5 cursor-pointer flex-1">
               <input 
                 type="checkbox" 

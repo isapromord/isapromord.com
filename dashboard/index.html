@@ -366,55 +366,55 @@
     <!-- ========================================================
          NAVEGACIÓN POR PESTAÑAS (CLIENTES VS COTIZADOR PROPUESTAS)
          ======================================================== -->
-    <div class="overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0 border-b border-[#222f46] pb-3">
-      <div class="flex items-center gap-2 min-w-max">
+    <div class="border-b border-[#222f46] pb-3">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:flex lg:items-center gap-1.5 sm:gap-2">
         <button 
           id="tabClientsBtn" 
           onclick="switchDashboardTab('clients')" 
-          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 shadow-glow-cyan transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+          class="px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 shadow-glow-cyan border border-transparent transition-all flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full lg:w-auto text-center sm:text-left"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          <span>Directorio de Clientes</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          <span class="truncate">Clientes</span>
         </button>
 
         <button 
           id="tabProposalsBtn" 
           onclick="switchDashboardTab('proposals')" 
-          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+          class="px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full lg:w-auto text-center sm:text-left"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>Cotizador & Propuestas</span>
-          <span class="px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase font-mono">A la Carte</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span class="truncate">Cotizador</span>
+          <span class="hidden xl:inline-flex px-1.5 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-black uppercase font-mono">A la Carte</span>
         </button>
 
         <button 
           id="tabReferralsBtn" 
           onclick="switchDashboardTab('referrals')" 
-          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+          class="px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full lg:w-auto text-center sm:text-left"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-          <span>Sistema de Referidos</span>
-          <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">Telemetría</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          <span class="truncate">Referidos</span>
+          <span class="hidden xl:inline-flex px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">Telemetría</span>
         </button>
 
         <button 
           id="tabAccountingBtn" 
           onclick="switchDashboardTab('accounting')" 
-          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+          class="px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full lg:w-auto text-center sm:text-left"
         >
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span>Finanzas & Contabilidad</span>
-          <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">CFO</span>
+          <svg class="w-4 h-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="truncate">Finanzas</span>
+          <span class="hidden xl:inline-flex px-1.5 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase font-mono">CFO</span>
         </button>
 
         <button 
           id="tabHqBtn" 
           onclick="switchDashboardTab('hq')" 
-          class="px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center gap-2 shrink-0 whitespace-nowrap"
+          class="col-span-2 sm:col-span-1 px-3 py-2.5 sm:px-4 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#121824] hover:bg-[#161f30] text-slate-300 border border-[#222f46] transition-all flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full lg:w-auto text-center sm:text-left"
         >
-          <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-          <span>Roadmap Servicer (HQ)</span>
-          <span class="px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[10px] font-black uppercase font-mono">ISAPromoRD</span>
+          <svg class="w-4 h-4 shrink-0 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+          <span class="truncate">Roadmap HQ</span>
+          <span class="hidden xl:inline-flex px-1.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[10px] font-black uppercase font-mono">ISAPromoRD</span>
         </button>
       </div>
     </div>
@@ -442,7 +442,7 @@
           </div>
 
           <!-- Selectores y Controles de Vista -->
-          <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0">
+          <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
             <!-- Selector de Vista: Compacta vs Detallada -->
             <div class="flex items-center p-0.5 sm:p-1 bg-slate-900 border border-slate-700 rounded-xl shrink-0">
               <button 
@@ -502,25 +502,30 @@
         </div>
 
         <!-- Filtros Rápidos por Semáforo Operativo -->
-        <div class="overflow-x-auto no-scrollbar -mx-4 sm:mx-0 px-4 sm:px-0 pt-2.5 border-t border-slate-800 text-xs">
-          <div class="flex items-center gap-2 min-w-max">
-            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1 shrink-0">Semáforo:</span>
+        <div class="pt-2.5 border-t border-slate-800 text-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1.5">
+              <span>🚦</span>
+              <span>Semáforo:</span>
+            </span>
             
-            <button onclick="setQuickFilter('all')" id="qf-all" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shrink-0 whitespace-nowrap">
-              Todos (<span id="qf-count-all">0</span>)
-            </button>
-            
-            <button onclick="setQuickFilter('pending_billing')" id="qf-pending_billing" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-rose-300 border border-slate-800 hover:border-rose-500/40 shrink-0 whitespace-nowrap">
-              🔴 Cobro Pendiente (<span id="qf-count-billing">0</span>)
-            </button>
+            <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 w-full">
+              <button onclick="setQuickFilter('all')" id="qf-all" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-center flex items-center justify-center gap-1">
+                <span>Todos</span> (<span id="qf-count-all">0</span>)
+              </button>
+              
+              <button onclick="setQuickFilter('pending_billing')" id="qf-pending_billing" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-rose-300 border border-slate-800 hover:border-rose-500/40 text-center flex items-center justify-center gap-1">
+                <span>🔴 Cobro</span> (<span id="qf-count-billing">0</span>)
+              </button>
 
-            <button onclick="setQuickFilter('low_health')" id="qf-low_health" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-amber-300 border border-slate-800 hover:border-amber-500/40 shrink-0 whitespace-nowrap">
-              ⚠️ Optimización (&lt;80%) (<span id="qf-count-health">0</span>)
-            </button>
+              <button onclick="setQuickFilter('low_health')" id="qf-low_health" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-amber-300 border border-slate-800 hover:border-amber-500/40 text-center flex items-center justify-center gap-1">
+                <span>⚠️ &lt;80%</span> (<span id="qf-count-health">0</span>)
+              </button>
 
-            <button onclick="setQuickFilter('optimized')" id="qf-optimized" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-emerald-300 border border-slate-800 hover:border-emerald-500/40 shrink-0 whitespace-nowrap">
-              🟢 100% Al Día (<span id="qf-count-optimized">0</span>)
-            </button>
+              <button onclick="setQuickFilter('optimized')" id="qf-optimized" class="px-2.5 py-1.5 sm:py-1 rounded-lg font-bold text-xs transition-all bg-slate-900 text-emerald-300 border border-slate-800 hover:border-emerald-500/40 text-center flex items-center justify-center gap-1">
+                <span>🟢 100%</span> (<span id="qf-count-optimized">0</span>)
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1686,18 +1691,22 @@
             </div>
 
             <!-- Contadores de Brechas & Servicios -->
-            <div class="md:col-span-8 grid grid-cols-3 gap-3">
-              <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center">
+            <div class="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center">
                 <span class="text-2xl font-black text-emerald-400 font-mono block" id="auditCountPassed">0</span>
                 <span class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">Cumplidos</span>
               </div>
-              <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30 text-center">
+              <div class="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30 text-center">
                 <span class="text-2xl font-black text-amber-400 font-mono block" id="auditCountWarning">0</span>
                 <span class="text-[10px] font-bold text-amber-300 uppercase tracking-wider">Oportunidades</span>
               </div>
-              <div class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/30 text-center">
+              <div class="p-3 rounded-xl bg-rose-950/20 border border-rose-500/30 text-center">
                 <span class="text-2xl font-black text-rose-400 font-mono block" id="auditCountFailed">0</span>
-                <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">Brechas Críticas</span>
+                <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">Brechas</span>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900/60 border border-slate-700/50 text-center" title="Módulos que no pudieron verificarse (sin datos de Google o proxy protegido)">
+                <span class="text-2xl font-black text-slate-400 font-mono block" id="auditCountUnverified">0</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sin Datos</span>
               </div>
             </div>
 
@@ -1745,8 +1754,9 @@
 
       <!-- Footer -->
       <div class="p-4 border-t border-slate-800 bg-[#0f172a] flex items-center justify-between shrink-0">
-        <span class="text-[11px] text-slate-400 font-mono">
-          Motor AntiGravity • ISAPromoRD Diagnostics v2.5
+        <span class="text-[11px] text-slate-400 font-mono flex items-center gap-2 flex-wrap">
+          Motor AntiGravity • ISAPromoRD Diagnostics v3.0 • Google Lighthouse
+          <button onclick="configurePsiKey()" id="psiKeyBtn" class="px-2 py-0.5 rounded-md border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-cyan-300 transition-colors" title="Configurar API Key de Google PageSpeed Insights">🔑 API Key Google</button>
         </span>
         <button onclick="closeServicesAuditModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors">
           Cerrar
@@ -4707,10 +4717,19 @@ https://isapromord.github.io`;
       let hasRobots = false;
       let hasSitemap = false;
       let hasLlms = false;
+      let psi = null;          // Resultado oficial de Google Lighthouse
+      let psiError = null;     // Motivo si Google no respondió
 
-      // 1. Ejecutar análisis en paralelo: Microlink + HTML crudo + Endpoints clave
+      // Google PageSpeed tarda 10-40s: informar al usuario honestamente
+      const t4 = setTimeout(() => {
+        if (stepText) stepText.textContent = "Ejecutando Google Lighthouse (móvil 4G) en servidores de Google...";
+        if (subText) subText.textContent = "Las métricas oficiales de Core Web Vitals tardan entre 10 y 40 segundos.";
+      }, 3000);
+
+      // 1. Ejecutar análisis en paralelo: Google PSI + Microlink + HTML crudo + Endpoints clave
       try {
         const originUrl = new URL(currentAuditUrl).origin;
+        const psiPromise = fetchPageSpeedInsights(currentAuditUrl);
         const [microResp, htmlResp, robResp, smResp, llmsResp] = await Promise.allSettled([
           fetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}`, { signal: AbortSignal.timeout(10000) }),
           fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(currentAuditUrl)}`, { signal: AbortSignal.timeout(8000) }),
@@ -4761,16 +4780,26 @@ https://isapromord.github.io`;
           } catch(e) {}
         }
 
+        const psiOutcome = await psiPromise;
+        psi = psiOutcome.data;
+        psiError = psiOutcome.error;
+
       } catch (err) {
         latencyMs = Math.round(performance.now() - startTime);
       } finally {
         clearTimeout(t1);
         clearTimeout(t2);
         clearTimeout(t3);
+        clearTimeout(t4);
+      }
+
+      if (psiError) {
+        showToast(`⚠️ Google PageSpeed no respondió: ${psiError}`);
       }
 
       // Procesar evaluación técnica real
-      const signals = { rawHtml, hasRobots, hasSitemap, hasLlms };
+      const htmlRead = !!(rawHtml || meta);
+      const signals = { rawHtml, hasRobots, hasSitemap, hasLlms, psi, psiError, htmlRead };
       currentAuditResults = evaluateServicesHealth(currentAuditUrl, meta, latencyMs, currentAuditClient, signals);
 
       // Si pertenece a un cliente registrado, actualizar su Health Score automáticamente
@@ -4791,8 +4820,71 @@ https://isapromord.github.io`;
       document.getElementById("auditResultsContainer").classList.remove("hidden");
     }
 
+    // ==========================================
+    // GOOGLE PAGESPEED INSIGHTS v5 (Fuente oficial de Rendimiento / SEO / HTTPS)
+    // ==========================================
+    const PSI_KEY_STORAGE = "isa_psi_api_key";
+
+    function configurePsiKey() {
+      const current = localStorage.getItem(PSI_KEY_STORAGE) || "";
+      const val = prompt(
+        "API Key de Google PageSpeed Insights (gratis: 25,000 consultas/día).\n" +
+        "Créala en console.cloud.google.com → APIs → 'PageSpeed Insights API' → Credenciales.\n" +
+        "Se guarda solo en este navegador. Deja vacío para borrarla.",
+        current
+      );
+      if (val === null) return;
+      const clean = val.trim();
+      if (clean) {
+        localStorage.setItem(PSI_KEY_STORAGE, clean);
+        showToast("🔑 API Key de Google guardada en este navegador");
+      } else {
+        localStorage.removeItem(PSI_KEY_STORAGE);
+        showToast("🔑 API Key eliminada (modo público con cuota compartida)");
+      }
+    }
+
+    async function fetchPageSpeedInsights(targetUrl) {
+      const key = localStorage.getItem(PSI_KEY_STORAGE);
+      const params = new URLSearchParams({ url: targetUrl, strategy: "mobile" });
+      ["performance", "seo", "best-practices"].forEach(c => params.append("category", c));
+      if (key) params.set("key", key);
+      try {
+        const r = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`, { signal: AbortSignal.timeout(60000) });
+        const d = await r.json();
+        if (d.error) {
+          if (d.error.code === 429) return { data: null, error: key ? "cuota de tu API Key agotada" : "cuota pública agotada — configura tu API Key Google (🔑)" };
+          if (d.error.code === 400) return { data: null, error: "Google no pudo cargar la URL (sitio caído o bloquea bots)" };
+          return { data: null, error: d.error.message || `HTTP ${d.error.code}` };
+        }
+        const lh = d.lighthouseResult;
+        if (!lh?.categories) return { data: null, error: "respuesta incompleta de Lighthouse" };
+        const a = lh.audits || {};
+        const num = id => (typeof a[id]?.numericValue === "number" ? a[id].numericValue : null);
+        return {
+          error: null,
+          data: {
+            performance: Math.round((lh.categories.performance?.score ?? 0) * 100),
+            seo: lh.categories.seo ? Math.round(lh.categories.seo.score * 100) : null,
+            bestPractices: lh.categories["best-practices"] ? Math.round(lh.categories["best-practices"].score * 100) : null,
+            lcpMs: num("largest-contentful-paint"),
+            fcpMs: num("first-contentful-paint"),
+            cls: num("cumulative-layout-shift"),
+            tbtMs: num("total-blocking-time"),
+            ttfbMs: num("server-response-time"),
+            isHttps: a["is-on-https"] ? a["is-on-https"].score === 1 : null,
+            finalUrl: lh.finalDisplayedUrl || lh.finalUrl || targetUrl,
+            fetchTime: lh.fetchTime
+          }
+        };
+      } catch (e) {
+        return { data: null, error: e.name === "TimeoutError" ? "Google tardó más de 60s" : "error de red al contactar Google" };
+      }
+    }
+
     function evaluateServicesHealth(url, meta, latencyMs, client, signals = {}) {
       const rawHtml = signals.rawHtml || "";
+      const psi = signals.psi || null;
       
       // Extraer datos reales del HTML o de Microlink
       let title = (meta?.title || "").trim();
@@ -4844,21 +4936,33 @@ https://isapromord.github.io`;
       let s1_needed = "";
       let s1_score = 0;
 
-      if (latencyMs > 0 && latencyMs <= 650 && isHttps) {
-        s1_status = "passed";
-        s1_score = 15;
-        s1_findings = `Respuesta ultra-rápida de ${latencyMs}ms. Certificado SSL HTTPS activo.`;
-        s1_needed = "Cumple con el estándar de rendimiento Core Web Vitals (<0.7s).";
-      } else if (latencyMs <= 1500 || isEdgePlatform) {
-        s1_status = "warning";
-        s1_score = 9;
-        s1_findings = `Latencia de ${latencyMs}ms. El servidor responde pero no aprovecha compresión WebP y Edge Caching total.`;
-        s1_needed = "Implementar optimización Anycast CDN y compresión WebP para reducir tiempos a <500ms.";
+      if (psi) {
+        const perf = psi.performance;
+        const lcpS = psi.lcpMs != null ? (psi.lcpMs / 1000).toFixed(1) : "?";
+        const fcpS = psi.fcpMs != null ? (psi.fcpMs / 1000).toFixed(1) : "?";
+        const clsV = psi.cls != null ? psi.cls.toFixed(3) : "?";
+        const ttfb = psi.ttfbMs != null ? Math.round(psi.ttfbMs) : "?";
+        const metricsLine = `Google Lighthouse móvil: Performance ${perf}/100 • LCP ${lcpS}s • FCP ${fcpS}s • CLS ${clsV} • TTFB ${ttfb}ms.`;
+        // Proporcional al score oficial de Google (0-100 → 0-15)
+        s1_score = Math.round((perf / 100) * 15);
+        if (perf >= 90 && psi.lcpMs != null && psi.lcpMs <= 2500) {
+          s1_status = "passed";
+          s1_findings = `${metricsLine} Core Web Vitals en rango "Bueno" según Google.`;
+          s1_needed = "Mantener: el sitio cumple el estándar oficial de rendimiento móvil de Google.";
+        } else if (perf >= 50) {
+          s1_status = "warning";
+          s1_findings = `${metricsLine} Rendimiento "Necesita mejora" según Google.`;
+          s1_needed = "Optimizar imágenes (WebP/AVIF), diferir JavaScript y servir desde CDN Edge para llevar LCP < 2.5s.";
+        } else {
+          s1_status = "failed";
+          s1_findings = `${metricsLine} Rendimiento "Deficiente" según Google: alto riesgo de abandono móvil.`;
+          s1_needed = "Reconstrucción ligera (Vite/estático) con despliegue Anycast de ISAPromoRD.";
+        }
       } else {
-        s1_status = "failed";
-        s1_score = 3;
-        s1_findings = `Latencia elevada (${latencyMs || '1800+'}ms). Servidor compartido lento con riesgo de abandono móvil.`;
-        s1_needed = "Migración a arquitectura Cloud Anycast Global de ISAPromoRD.";
+        s1_status = "unverified";
+        s1_score = 0;
+        s1_findings = `No verificado: Google PageSpeed no respondió (${signals.psiError || "sin datos"}). No se asigna puntaje para no estimar a ciegas.`;
+        s1_needed = "Repetir la auditoría o configurar tu API Key de Google (🔑 en el pie del modal).";
       }
 
       // 2. Google Maps GBP & SEO Local - Max 15 pts
@@ -5010,8 +5114,44 @@ https://isapromord.github.io`;
         s7_needed = "Instalación urgente de certificado SSL y migración a hosting seguro.";
       }
 
-      // Puntuación Total Escalada a 100
-      const totalScore = Math.min(100, Math.round(s1_score + s2_score + s3_score + s4_score + s5_score + s6_score + s7_score));
+      // Puntuación Total Escalada a 100 (solo sobre módulos realmente verificados)
+      const MAX = { s1: 15, s2: 15, s3: 15, s4: 15, s5: 15, s6: 15, s7: 10 };
+
+      // 6b. Respaldar SEO On-Page con el score oficial de Google Lighthouse
+      if (psi && psi.seo != null) {
+        s6_findings = `Google Lighthouse SEO: ${psi.seo}/100. ` + s6_findings;
+        if (psi.seo < 80 && s6_status === "passed") {
+          s6_status = "warning";
+          s6_score = Math.min(s6_score, 10);
+          s6_needed = "Google detecta problemas de indexabilidad/SEO técnico: revisar el reporte en pagespeed.web.dev.";
+        }
+      }
+      // 7b. HTTPS confirmado por Google (más fiable que solo leer el esquema de la URL)
+      if (psi && psi.isHttps === false && s7_status === "passed") {
+        s7_status = "warning";
+        s7_score = 5;
+        s7_findings = "Google Lighthouse reporta recursos sin HTTPS (contenido mixto). " + s7_findings;
+      }
+
+      // Si no se pudo leer el HTML, los módulos basados en código NO se pueden afirmar como fallidos
+      if (!signals.htmlRead) {
+        const msg = "No verificado: no se pudo leer el HTML del sitio (proxy bloqueado o sitio protegido). No se asigna puntaje para no reportar una brecha falsa.";
+        if (s2_status !== "unverified") { s2_status = "unverified"; s2_score = 0; s2_findings = msg; s2_needed = "Repetir la auditoría."; }
+        if (s3_status !== "unverified") { s3_status = "unverified"; s3_score = 0; s3_findings = msg; s3_needed = "Repetir la auditoría."; }
+        if (s5_status !== "unverified") { s5_status = "unverified"; s5_score = 0; s5_findings = msg; s5_needed = "Repetir la auditoría."; }
+        if (!psi) { s6_status = "unverified"; s6_score = 0; s6_findings = msg; s6_needed = "Repetir la auditoría."; }
+      }
+
+      const statusMap = { s1: s1_status, s2: s2_status, s3: s3_status, s4: s4_status, s5: s5_status, s6: s6_status, s7: s7_status };
+      const scoreMap = { s1: s1_score, s2: s2_score, s3: s3_score, s4: s4_score, s5: s5_score, s6: s6_score, s7: s7_score };
+      let earned = 0, possible = 0;
+      Object.keys(MAX).forEach(k => {
+        if (statusMap[k] === "unverified") return;
+        earned += scoreMap[k];
+        possible += MAX[k];
+      });
+      const totalScore = possible > 0 ? Math.min(100, Math.round((earned / possible) * 100)) : 0;
+      const coverage = Math.round((possible / 100) * 100);
 
       const services = [
         {
@@ -5103,6 +5243,7 @@ https://isapromord.github.io`;
       const passedCount = services.filter(s => s.status === "passed").length;
       const warningCount = services.filter(s => s.status === "warning").length;
       const failedCount = services.filter(s => s.status === "failed").length;
+      const unverifiedCount = services.filter(s => s.status === "unverified").length;
 
       return {
         url,
@@ -5110,9 +5251,13 @@ https://isapromord.github.io`;
         latencyMs,
         client,
         score: totalScore,
+        coverage,
+        psi,
+        psiError: signals.psiError,
         passedCount,
         warningCount,
         failedCount,
+        unverifiedCount,
         services
       };
     }
@@ -5144,6 +5289,8 @@ https://isapromord.github.io`;
       document.getElementById("auditCountPassed").textContent = results.passedCount;
       document.getElementById("auditCountWarning").textContent = results.warningCount;
       document.getElementById("auditCountFailed").textContent = results.failedCount;
+      const unverifiedEl = document.getElementById("auditCountUnverified");
+      if (unverifiedEl) unverifiedEl.textContent = results.unverifiedCount || 0;
 
       // Renderizar tarjetas de servicios
       const listEl = document.getElementById("auditServicesList");
@@ -5160,6 +5307,10 @@ https://isapromord.github.io`;
           badgeClass = "bg-amber-500/20 text-amber-300 border-amber-500/30";
           badgeText = "Oportunidad de Mejora ⚠️";
           borderClass = "border-amber-500/30 bg-[#12101b]";
+        } else if (svc.status === "unverified") {
+          badgeClass = "bg-slate-700/40 text-slate-300 border-slate-600/50";
+          badgeText = "No Verificado ⏳";
+          borderClass = "border-slate-800 bg-[#0d121d]";
         } else {
           badgeClass = "bg-rose-500/20 text-rose-300 border-rose-500/30";
           badgeText = "Brecha Crítica (Falta) ✕";

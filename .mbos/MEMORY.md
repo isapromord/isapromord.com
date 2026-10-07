@@ -861,3 +861,23 @@
 - **Despliegues Verificados:**
   - `pasion-pecuaria-rd`: Formulario conectado al hub `biomfntvqbhjmmmggxzj`, probado en vivo y desplegado en Vercel.
   - `isapromord.com`: Dashboard conectado al hub `biomfntvqbhjmmmggxzj`, tabla `agency_clients` inicializada y sincronizada, desplegado en GitHub Pages (`main` y `gh-pages`).
+
+
+## [2026-10-07] - Reestructuración del Motor de Auditoría 360° & Eliminación de Simulaciones
+
+### 1. Diagnóstico del Problema de Discrepancias
+- **Landing (`index.html`):** Contenía ramas condicionales fijas (*hardcoded*) para dominios específicos (`frescodelhorno`, `alveare`) que forzaban puntajes predeterminados (52/100 y 78/100), además de fórmulas heurísticas simuladas.
+- **Dashboard (`dashboard/index.html`):** La auditoría dependía de proxies públicos gratuitos (`allorigins.win`, `microlink.io`). La latencia medida correspondía al tráfico del proxy y no al servidor del cliente, provocando que el Módulo 1 (*Web Transaccional*) alternara erráticamente entre 15 y 9 puntos (scores totales bailando entre 80/100 y 86/100 para la misma URL).
+
+### 2. Remediaciones Implementadas
+- **Landing ética y unificada:**
+  - Se eliminaron por completo las ramas fijas de `frescodelhorno` y `alveare`.
+  - Se conserva únicamente la condición de demostración institucional para `isapromord` (99/100).
+  - Cualquier otro dominio se somete a una evaluación homogénea y transparente basada en resolución DNS en vivo.
+- **Motor Híbrido en Dashboard (v3.0):**
+  - **Google PageSpeed Insights v5 Integrado:** Conexión directa (`strategy=mobile`) en paralelo con categorías `performance`, `seo` y `best-practices`.
+  - **Métricas Oficiales Extraídas:** Rendimiento oficial de Google Lighthouse (0-100), LCP, FCP, CLS, TTFB y verificación HTTPS.
+  - **Módulo 1 Determinista:** Ya no depende del cronómetro del proxy. Se puntúa directamente de la métrica oficial de Google Performance.
+  - **Módulo 6 Enriquecido:** El diagnóstico SEO On-Page se respalda con el puntaje oficial de Google Lighthouse SEO.
+  - **Estado 'No Verificado' (Cero Falsos Positivos):** Si Google o el proxy no responden por bloqueos anti-bot, el módulo no se marca como fallido artificialmente; se etiqueta como *No Verificado* y el puntaje global se normaliza únicamente sobre los módulos comprobables.
+  - **Soporte de API Key de Google:** Botón en el pie del modal para guardar opcionalmente una API Key propia en `localStorage` (25,000 consultas/día gratis).

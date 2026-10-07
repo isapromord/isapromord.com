@@ -1606,30 +1606,9 @@
             activeDomain = best.domain;
             activeIp = best.ip;
 
-            if (activeDomain.includes('frescodelhorno')) {
-              scoreText = "Puntaje Actual: 52/100 (Mejorable - WordPress Lento)";
-              scoreBadgeClass = "px-4 py-1.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 font-mono font-bold text-xs sm:text-sm";
-              mapsText = "Página 2-3 (Sin Schema Local)";
-              mapsClass = "text-lg font-black text-amber-400 mt-1";
-              speedText = "4.6s (Lenta en 4G RD)";
-              speedClass = "text-lg font-black text-red-400 mt-1";
-              lossText = "~95 clientes/mes";
-              diagText = `Sitio web oficial localizado en ${activeDomain} (Servidor Nginx en ${activeIp}). Detectamos arquitectura tradicional en WordPress con imágenes pesadas sin compresión WebP. En conexiones móviles dominicanas tarda más de 4 segundos en abrir, causando que el 53% de los visitantes abandonen la página antes de ver el menú o pedir por WhatsApp.`;
-
-            } else if (activeDomain.includes('alveare')) {
-              scoreText = "Puntaje Actual: 78/100 (Competitivo - Oportunidad CRO)";
-              scoreBadgeClass = "px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold text-xs sm:text-sm";
-              mapsText = "Página 1-2 (Competitivo)";
-              mapsClass = "text-lg font-black text-emerald-400 mt-1";
-              speedText = "1.8s (Buena / Next.js en Cloudflare)";
-              speedClass = "text-lg font-black text-emerald-400 mt-1";
-              lossText = "~42 clientes/mes";
-              diagText = `Sitio web oficial localizado en ${activeDomain} (Infraestructura moderna en Next.js protegida por Cloudflare CDN). La velocidad base es buena, pero la carga pesada de listings de propiedades y la ausencia de botones flotantes magnéticos de contacto a WhatsApp limitan la conversión de clientes interesados en bienes raíces.`;
-
-            } else {
-              const isCdn = measuredLatency < 110;
-              const estSeconds = isCdn ? (measuredLatency / 80 + 0.8).toFixed(1) : Math.min(6.5, (measuredLatency / 50) + 2.4).toFixed(1);
-              const calcScore = isCdn ? Math.max(72, Math.min(84, 100 - Math.round(measuredLatency / 8))) : Math.max(38, Math.min(64, Math.round(100 - (estSeconds * 11))));
+            const isCdn = measuredLatency < 110;
+            const estSeconds = isCdn ? (measuredLatency / 80 + 0.8).toFixed(1) : Math.min(6.5, (measuredLatency / 50) + 2.4).toFixed(1);
+            const calcScore = isCdn ? Math.max(72, Math.min(84, 100 - Math.round(measuredLatency / 8))) : Math.max(38, Math.min(64, Math.round(100 - (estSeconds * 11))));
 
               scoreText = `Puntaje Comercial: ${calcScore}/100 (${calcScore >= 75 ? 'Riesgo Moderado' : 'Riesgo Crítico de Fuga'})`;
               scoreBadgeClass = calcScore >= 75 
@@ -1662,7 +1641,6 @@
                   </div>
                 </div>
               `;
-            }
 
           } else {
             scoreText = "Puntaje Comercial: 24/100 (Inexistente - Fuga Total)";

@@ -69,23 +69,402 @@
     }
   </script>
   <style>
-    
+
     /* ========================================================
-       STITCH AETHER COMMAND SPEC: PRECISION DISCIPLINED CORNERS
-       Todo debe tener esquinas redondeadas pero MENOS redondas (6px - 8px)
+       OBSIDIAN CYBER LUXE THEME FOR DASHBOARD
+       ======================================================== */
+/* ========================================================
+       STITCH COMMAND CENTER (OBSIDIAN & LIGHT MODE)
        ======================================================== */
     :root {
-      --radius-container: 8px;
-      --radius-card: 8px;
-      --radius-element: 6px;
-      --radius-chip: 4px;
+      --bg-base: #090d16;
+      --bg-surface: #0f172a;
+      --bg-card: #121824;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #64748b;
+      --accent-cyan: #00d2ff;
+      --accent-emerald: #10b981;
     }
 
-    /* Anular hiper-redondeado (iOS/burbuja) en todo el sistema */
+    body.light-theme {
+      --bg-base: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --border-subtle: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-cyan: #0284c7;
+      --accent-emerald: #059669;
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+
+    body.light-theme .stitch-card {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    }
+
+    body.light-theme .stitch-rail {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .stitch-header {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      border-color: #e2e8f0 !important;
+    }
+
+    body.light-theme .stitch-subtext {
+      color: #64748b !important;
+    }
+
+    body.light-theme .stitch-title {
+      color: #0f172a !important;
+    }
+
+    body.light-theme .stitch-input {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+
+    /* Micro-Rail tooltips & active styling */
+    .rail-btn {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #94a3b8;
+    }
+    .rail-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffffff;
+    }
+    body.light-theme .rail-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .rail-btn.active {
+      background: rgba(0, 210, 255, 0.12) !important;
+      color: #00d2ff !important;
+      border: 1px solid rgba(0, 210, 255, 0.35) !important;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+    }
+    body.light-theme .rail-btn.active {
+      background: rgba(2, 132, 199, 0.1) !important;
+      color: #0284c7 !important;
+      border: 1px solid rgba(2, 132, 199, 0.3) !important;
+    }
+
+    /* Tooltip */
+    .rail-btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.15s ease;
+      z-index: 50;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    body.light-theme .rail-btn::after {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #e2e8f0;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.1);
+    }
+    .rail-btn:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Radial Health Gauge */
+    .radial-health-gauge {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto;
+    }
+    .radial-health-gauge svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+    .radial-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.06);
+      stroke-width: 8;
+    }
+    body.light-theme .radial-bg {
+      stroke: #e2e8f0;
+    }
+    .radial-progress {
+      fill: none;
+      stroke: #00d2ff;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 380;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 1s ease;
+      filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.6));
+    }
+    body.light-theme .radial-progress {
+      stroke: #0284c7;
+      filter: drop-shadow(0 0 4px rgba(2, 132, 199, 0.4));
+    }
+
+    /* Client horizontal card */
+    .client-card-row {
+      background: #121824;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      transition: all 0.2s ease;
+    }
+    .client-card-row:hover {
+      border-color: rgba(0, 210, 255, 0.4);
+      background: #151d2c;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+    }
+    body.light-theme .client-card-row {
+      background: #ffffff;
+      border-color: #e2e8f0;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    body.light-theme .client-card-row:hover {
+      border-color: #0284c7;
+      background: #ffffff;
+      box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
+    }
+    body {
+      background-color: #0a0e17 !important;
+      color: #dfe2ef !important;
+    }
+    .bg-slate-50 {
+      background-color: #0a0e17 !important;
+    }
+    .bg-white {
+      background-color: #121824 !important;
+      color: #dfe2ef !important;
+    }
+    .bg-white\/90 {
+      background-color: rgba(10, 14, 23, 0.85) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+    .bg-slate-100 {
+      background-color: #161f30 !important;
+      color: #dfe2ef !important;
+    }
+    .bg-slate-200 {
+      background-color: #222f46 !important;
+    }
+    .border-white/[0.06], .border-slate-200, .border-slate-200\/80, .border-slate-200\/60 {
+      border-color: #222f46 !important;
+    }
+    .text-slate-900, .text-slate-950, .text-slate-800 {
+      color: #f8fafc !important;
+    }
+    .text-slate-700, .text-slate-600 {
+      color: #c3c6d7 !important;
+    }
+    .text-slate-400, .text-slate-400 {
+      color: #94a3b8 !important;
+    }
+    
+    /* Inputs, selects, and textareas */
+    input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+      background-color: #0a0e17 !important;
+      color: #f8fafc !important;
+      border: 1px solid #222f46 !important;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #00d2ff !important;
+      outline: none !important;
+      box-shadow: 0 0 15px -3px rgba(0, 210, 255, 0.35) !important;
+    }
+
+    /* Tables */
+    thead tr, thead th {
+      background-color: #0a0e17 !important;
+      color: #94a3b8 !important;
+      border-color: #222f46 !important;
+    }
+    tbody tr {
+      border-color: #222f46 !important;
+    }
+    tbody tr:hover {
+      background-color: rgba(22, 31, 48, 0.6) !important;
+    }
+
+    /* Modal Backdrop */
+    .bg-slate-950\/80, .bg-slate-950\/70 {
+      background-color: rgba(10, 14, 23, 0.88) !important;
+      backdrop-filter: blur(20px) !important;
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0e17; }
+    ::-webkit-scrollbar-thumb { background: #222f46; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00d2ff; }
+
+    /* Mobile scroll helpers */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Touch smooth scrolling */
+    .touch-scroll {
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+    }
+
+    /* Stitch Aether Sidebar Navigation Active State */
+    .stitch-nav-item {
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stitch-nav-item.active {
+      background: linear-gradient(90deg, rgba(0, 210, 255, 0.12) 0%, rgba(0, 210, 255, 0.02) 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(0, 210, 255, 0.35) !important;
+    }
+    .stitch-nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 15%;
+      height: 70%;
+      width: 3px;
+      border-radius: 0 4px 4px 0;
+      background: #00d2ff;
+      box-shadow: 0 0 10px #00d2ff;
+    }
+  
+    /* ========================================================
+       STITCH AETHER COMMAND EXPANDED THEME (ALL VIEWS & MODALS)
+       ======================================================== */
+    .stitch-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .stitch-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94a3b8;
+    }
+    body.light-theme .stitch-chip {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      color: #475569;
+    }
+    .stitch-client-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1.5px solid transparent;
+    }
+    .stitch-client-avatar:hover {
+      transform: scale(1.1);
+      z-index: 10;
+    }
+    .stitch-client-avatar.active {
+      border-color: #00d2ff;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
+      transform: scale(1.1);
+      z-index: 10;
+    }
+    .stitch-bar {
+      transition: height 0.5s ease;
+    }
+    .stitch-bar:hover {
+      background-color: #00d2ff !important;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+    }
+
+  
+    body.light-theme .bg-\[\#090d16\],
+    body.light-theme .bg-\[\#0a0e17\],
+    body.light-theme .bg-\[\#0c1322\],
+    body.light-theme .bg-\[\#0f172a\],
+    body.light-theme .bg-\[\#121824\],
+    body.light-theme .bg-\[\#101726\] {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme .bg-\[\#090e1b\],
+    body.light-theme .bg-\[\#0b1322\],
+    body.light-theme .bg-\[\#161f30\] {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    body.light-theme .border-slate-800,
+    body.light-theme .border-slate-700,
+    body.light-theme .border-\[\#1e293b\],
+    body.light-theme .border-\[\#222f46\] {
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme .text-slate-100,
+    body.light-theme .text-slate-200 {
+      color: #0f172a !important;
+    }
+    body.light-theme .text-slate-300,
+    body.light-theme .text-slate-400 {
+      color: #475569 !important;
+    }
+
+  
+
+    /* ========================================================
+       DISCIPLINED SOFT GEOMETRY OVERRIDES (STITCH SPEC 6px - 8px)
+       ELIMINA ESQUINAS BURBUJA / HIPER-REDONDEADAS
+       ======================================================== */
     .rounded-3xl,
-    .rounded-2xl,
-    .rounded-xl {
+    .rounded-2xl {
       border-radius: 8px !important;
+    }
+    .rounded-xl {
+      border-radius: 6px !important;
     }
     .rounded-lg {
       border-radius: 6px !important;
@@ -94,45 +473,67 @@
       border-radius: 5px !important;
     }
 
-    /* Tarjetas principales, paneles y filas */
     .stitch-card,
     .client-card-row,
     #clientDrawerPanel,
-    .modal-container,
-    div[class*="bg-[#0f172a]"],
-    div[class*="bg-[#121824]"],
-    div[class*="bg-[#0c1322]"],
-    div[class*="bg-[#090d16]"] {
+    .modal-container {
       border-radius: 8px !important;
     }
 
-    /* Micro-Rail lateral e items de navegación */
+    /* Radial Health Gauge: dimensiones fijas y centrado estricto */
+    .radial-health-gauge {
+      position: relative !important;
+      width: 140px !important;
+      height: 140px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .radial-health-gauge svg {
+      width: 140px !important;
+      height: 140px !important;
+      transform: rotate(-90deg) !important;
+    }
+
+    /* Avatares de clientes: cuadrados elegantes con esquinas de 6px y separación */
+    .stitch-client-avatar {
+      width: 28px !important;
+      height: 28px !important;
+      min-width: 28px !important;
+      border-radius: 6px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-size: 10px !important;
+      font-weight: 800 !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+    }
+    .stitch-client-avatar:hover {
+      transform: scale(1.08) !important;
+      z-index: 10 !important;
+    }
+    .stitch-client-avatar.active {
+      border-color: #00d2ff !important;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.6) !important;
+      transform: scale(1.08) !important;
+      z-index: 10 !important;
+    }
+
+    /* Botones y controles */
     .rail-btn {
       border-radius: 8px !important;
     }
-
-    /* Badges de iniciales y avatares (cuadrados elegantes con borde suave) */
-    .stitch-client-avatar,
-    div[class*="w-10 h-10 rounded"],
-    div[class*="w-8 h-8 rounded"] {
+    button:not(.rounded-full-forced) {
       border-radius: 6px !important;
     }
-
-    /* Botones, inputs y selects */
-    button:not(.rounded-full-forced),
     input:not([type="checkbox"]):not([type="radio"]),
     select,
     textarea {
       border-radius: 6px !important;
     }
-
-    /* Chips y pills: esquinas redondeadas pero sutiles y técnicas (4px - 6px) */
-    .stitch-pill,
-    .stitch-chip,
-    span[class*="rounded-full"]:not(.w-1\.5):not(.w-2):not(.w-2\.5):not(.w-1):not(.h-1):not(.h-1\.5):not(.h-2) {
-      border-radius: 5px !important;
-    }
-
 
   </style>
 </head>
@@ -379,7 +780,7 @@
           <!-- Avatares de Clientes (Acceso Directo Drilldown) -->
           <div class="flex items-center gap-2 bg-[#121824] px-3 py-1.5 rounded border border-[#222f46]">
             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">CLIENTES:</span>
-            <div id="subheadClientAvatars" class="flex items-center -space-x-1">
+            <div id="subheadClientAvatars" class="flex items-center gap-1.5">
               <!-- Inyectado por JS -->
             </div>
           </div>
@@ -628,7 +1029,7 @@
             </div>
 
             <!-- Medidor Radial Circular -->
-            <div class="radial-health-gauge py-2">
+            <div class="radial-health-gauge py-2 relative">
               <svg viewBox="0 0 140 140">
                 <circle class="radial-bg" cx="70" cy="70" r="55"></circle>
                 <circle class="radial-progress" cx="70" cy="70" r="55" stroke-dashoffset="35"></circle>

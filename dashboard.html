@@ -1233,10 +1233,9 @@
               <div>
                 <div class="flex items-baseline gap-1.5">
                   <span id="kpiMrr" class="text-lg sm:text-xl font-black text-white font-mono stitch-title">RD$ 0</span>
-                  <span class="text-[10px] font-bold text-emerald-400 font-mono">+18.4%</span>
                 </div>
                 <div class="text-[10px] text-slate-400 font-mono mt-1 pt-1 border-t border-white/[0.05] truncate">
-                  Retainers: <span id="kpiTotalClients" class="text-slate-200 font-bold">9</span> Clientes • Meta: 150k
+                  Retainers: <span id="kpiTotalClients" class="text-slate-200 font-bold">11</span> Clientes en Cartera
                 </div>
               </div>
             </div>
@@ -1435,9 +1434,9 @@
                 <span class="text-cyan-400">❇️</span>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Estado de Red Perimetral</h3>
               </div>
-              <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">
-                99.98% SLA
-              </span>
+              <button onclick="pingAllClients()" class="px-2 py-0.5 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95" title="Hacer ping a todos los dominios activos">
+                <span>↻ Sondeo en Vivo</span>
+              </button>
             </div>
 
             <!-- Medidor Radial Circular (Espacio Amplio sin Letras Sobresaliendo) -->
@@ -1445,11 +1444,11 @@
               <div class="relative w-48 h-48 flex items-center justify-center">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
                   <circle cx="60" cy="60" r="48" stroke="rgba(255, 255, 255, 0.06)" stroke-width="7" fill="none" />
-                  <circle cx="60" cy="60" r="48" stroke="#00d2ff" stroke-width="7" stroke-dasharray="301.6" stroke-dashoffset="20" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.6));" />
+                  <circle cx="60" cy="60" r="48" stroke="#00d2ff" stroke-width="7" stroke-dasharray="301.6" stroke-dashoffset="0" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.6));" />
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none p-3">
-                  <span class="text-3xl font-black text-white font-mono stitch-title leading-none">100%</span>
-                  <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest mt-1">SALUD NODOS</span>
+                  <span id="overviewNodesPct" class="text-3xl font-black text-white font-mono stitch-title leading-none">100%</span>
+                  <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest mt-1">DISPONIBILIDAD RED</span>
                   <span id="overviewNodesCountSub" class="text-[11px] font-mono text-emerald-400 font-bold mt-1 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/20">11/11 Nodos Live</span>
                 </div>
               </div>
@@ -1460,23 +1459,23 @@
               <div class="flex items-center justify-between text-slate-300">
                 <div class="flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span class="stitch-subtext text-slate-300">Vercel Edge Deployments</span>
+                  <span class="stitch-subtext text-slate-300">Sitios Web Desplegados</span>
                 </div>
-                <span class="text-emerald-400 font-bold">9/9 OK</span>
+                <span id="telemetryWebSitesActive" class="text-emerald-400 font-bold">11/11 Activos</span>
               </div>
               <div class="flex items-center justify-between text-slate-300">
                 <div class="flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span class="stitch-subtext text-slate-300">Supabase PostgREST & Auth</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                  <span class="stitch-subtext text-slate-300">Supabase Cloud & Auth</span>
                 </div>
                 <span class="text-cyan-400 font-bold" id="telemetrySupabasePing">23ms</span>
               </div>
               <div class="flex items-center justify-between text-slate-300">
                 <div class="flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span class="stitch-subtext text-slate-300">Cloudflare SSL & WAF Rules</span>
+                  <span class="stitch-subtext text-slate-300">Resolución DNS (Cloudflare)</span>
                 </div>
-                <span class="text-emerald-400 font-bold">0 Threat</span>
+                <span id="telemetryDnsStatus" class="text-emerald-400 font-bold">100% NOERROR</span>
               </div>
             </div>
 
@@ -1587,7 +1586,7 @@
                   <span id="ddStatusText">EN LÍNEA • Vercel CDN</span>
                 </span>
                 <span class="text-xs sm:text-sm font-mono text-slate-300">
-                  Edge: <span id="ddLatency" class="text-emerald-400 font-bold">18ms</span>
+                  Edge: <span id="ddLatency" class="text-emerald-400 font-bold">-- ms</span>
                 </span>
               </div>
 
@@ -1671,6 +1670,33 @@
 
             </div>
 
+          </div>
+
+          <!-- COLUMNA 2 (CENTRAL - 4 COLS): PROGRESO DE SERVICIOS & SALUD DE CUENTA -->
+          <div class="lg:col-span-4 space-y-4">
+            
+            <!-- TARJETA PROGRESO DE SERVICIOS -->
+            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-cyan-400">🔄</span>
+                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Servicios & Pilares Activos</h3>
+                </div>
+                <span class="stitch-pill bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold">
+                  OPTIMIZACIÓN RD
+                </span>
+              </div>
+
+              <p class="text-xs text-slate-400">
+                Módulos de posicionamiento, mensajería omnicanal y presencia digital de este cliente.
+              </p>
+
+              <!-- Lista de Servicios Operativos del Cliente -->
+              <div class="space-y-2.5 text-sm" id="ddServicesListContainer">
+                <!-- Se inyecta dinámicamente según el cliente seleccionado -->
+              </div>
+            </div>
+
             <!-- TARJETA TOPOLOGÍA & RUTAS -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
               <div class="flex items-center justify-between text-sm">
@@ -1705,32 +1731,42 @@
 
           </div>
 
-          <!-- COLUMNA 2 (CENTRAL - 4 COLS): PROGRESO DE SERVICIOS & SALUD DE CUENTA -->
+          <!-- COLUMNA 3 (DERECHA - 4 COLS): TAREAS Y ENTREGABLES DEL CLIENTE -->
           <div class="lg:col-span-4 space-y-4">
             
-            <!-- TARJETA PROGRESO DE SERVICIOS -->
+            <!-- TARJETA TAREAS FINALIZADAS SPRINT -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="text-cyan-400">🔄</span>
-                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Servicios & Pilares Activos</h3>
+                <div>
+                  <div class="text-lg font-black text-white font-mono stitch-title">
+                    <span id="ddDoneTaskCount">0</span> / <span id="ddTotalTaskCount">0</span>
+                  </div>
+                  <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">TAREAS ENTREGADAS</span>
                 </div>
-                <span class="stitch-pill bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold">
-                  OPTIMIZACIÓN RD
+                <span id="ddDoneTaskPct" class="stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold text-xs">
+                  0%
                 </span>
               </div>
 
-              <p class="text-xs text-slate-400">
-                Módulos de posicionamiento, mensajería omnicanal y presencia digital de este cliente.
-              </p>
-
-              <!-- Lista de Servicios Operativos del Cliente -->
-              <div class="space-y-2.5 text-sm" id="ddServicesListContainer">
-                <!-- Se inyecta dinámicamente según el cliente seleccionado -->
+              <!-- Phase Pill -->
+              <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center gap-3 text-sm">
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
+                  ✓
+                </div>
+                <div class="overflow-hidden">
+                  <span class="text-xs font-mono text-cyan-400 font-bold uppercase block">ROADMAP DEL CLIENTE</span>
+                  <span id="ddPhaseClientText" class="text-slate-100 font-bold truncate block">Entregables de la Cuenta</span>
+                </div>
               </div>
+
+              <!-- Task Checklist -->
+              <div class="space-y-2 text-sm" id="ddSprintTaskList">
+                <!-- Se inyecta dinámicamente con las tareas reales del cliente -->
+              </div>
+
             </div>
 
-            <!-- TARJETA SALUD & MONITOREO REAL EN VIVO (TEXTO DEBAJO DEL CÍRCULO NEÓN) -->
+            <!-- TARJETA SALUD & MONITOREO REAL EN VIVO (UBICADA EN COLUMNA DERECHA) -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
@@ -1781,43 +1817,6 @@
                   <span class="text-slate-300 text-xs">Latencia de Respuesta DNS:</span>
                   <span id="ddLatencyStatus" class="font-mono font-bold text-white text-xs">~42 ms</span>
                 </div>
-              </div>
-
-            </div>
-
-          </div>
-
-          <!-- COLUMNA 3 (DERECHA - 4 COLS): TAREAS Y ENTREGABLES DEL CLIENTE -->
-          <div class="lg:col-span-4 space-y-4">
-            
-            <!-- TARJETA TAREAS FINALIZADAS SPRINT -->
-            <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-lg font-black text-white font-mono stitch-title">
-                    <span id="ddDoneTaskCount">0</span> / <span id="ddTotalTaskCount">0</span>
-                  </div>
-                  <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">TAREAS ENTREGADAS</span>
-                </div>
-                <span id="ddDoneTaskPct" class="stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold text-xs">
-                  0%
-                </span>
-              </div>
-
-              <!-- Phase Pill -->
-              <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center gap-3 text-sm">
-                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
-                  ✓
-                </div>
-                <div class="overflow-hidden">
-                  <span class="text-xs font-mono text-cyan-400 font-bold uppercase block">ROADMAP DEL CLIENTE</span>
-                  <span id="ddPhaseClientText" class="text-slate-100 font-bold truncate block">Entregables de la Cuenta</span>
-                </div>
-              </div>
-
-              <!-- Task Checklist -->
-              <div class="space-y-2 text-sm" id="ddSprintTaskList">
-                <!-- Se inyecta dinámicamente con las tareas reales del cliente -->
               </div>
 
             </div>
@@ -4384,6 +4383,17 @@
       const kpiProdBar = document.getElementById("kpiProductionBar");
       if (kpiProdBar) kpiProdBar.style.width = `${sprintDonePct}%`;
 
+      // Métricas reales del Widget de Red Perimetral
+      const activeWithUrl = clients.filter(c => c.liveUrl && c.status === "active");
+      const webActiveEl = document.getElementById("telemetryWebSitesActive");
+      if (webActiveEl) webActiveEl.textContent = `${activeWithUrl.length}/${clients.length} Desplegados`;
+
+      const nodesPctEl = document.getElementById("overviewNodesPct");
+      if (nodesPctEl) {
+        const netPct = clients.length > 0 ? Math.round((activeCount / clients.length) * 100) : 100;
+        nodesPctEl.textContent = `${netPct}%`;
+      }
+
       // Renderizar widgets dinámicos
       renderViralFootersWidget();
       renderMilestonesCalendarWidget();
@@ -4401,23 +4411,25 @@
           hostname = new URL(c.liveUrl).hostname;
         } catch(e) {}
         return `
-          <div class="space-y-1 group">
-            <div class="flex items-center justify-between">
-              <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-300 hover:text-cyan-400 truncate max-w-[170px] transition-colors flex items-center gap-1 font-mono">
-                <span>${hostname}</span>
-                <span class="text-[10px] text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
-              </a>
-              <span class="text-cyan-400 font-bold font-mono">Sello Activo</span>
-            </div>
-            <div class="w-full h-1 bg-slate-800 rounded-md overflow-hidden">
-              <div class="h-full bg-cyan-400 rounded-md" style="width: 85%"></div>
-            </div>
+          <div class="p-2 rounded bg-slate-900/50 border border-white/[0.05] flex items-center justify-between gap-2 group hover:border-cyan-500/30 transition-all">
+            <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-200 hover:text-cyan-400 truncate max-w-[170px] transition-colors flex items-center gap-1 font-mono text-xs">
+              <span>${hostname}</span>
+            </a>
+            <a href="${c.liveUrl || '#'}" target="_blank" class="px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[10px] font-mono font-bold border border-cyan-500/20 shrink-0 transition-colors">
+              Visitar ↗
+            </a>
           </div>
         `;
       }).join('');
 
       const kpiCount = document.getElementById("kpiReferralSitesCount");
       if (kpiCount) kpiCount.textContent = `${activeWithUrl.length} Sitios`;
+
+      const kpiTag = document.getElementById("kpiReferralActiveTag");
+      if (kpiTag) {
+        const pct = clients.length > 0 ? Math.round((activeWithUrl.length / clients.length) * 100) : 100;
+        kpiTag.textContent = `${pct}% Con Web`;
+      }
     }
 
     function renderMilestonesCalendarWidget() {
@@ -5453,7 +5465,17 @@
           client.dnsRecord = res.ip;
         }
       }
+      const totalProbed = clients.filter(c => c.liveUrl && c.uptimeStatus !== "checking");
+      const onlineProbed = totalProbed.filter(c => c.uptimeStatus === "online");
+      const dnsEl = document.getElementById("telemetryDnsStatus");
+      if (dnsEl && totalProbed.length > 0) {
+        const pct = Math.round((onlineProbed.length / totalProbed.length) * 100);
+        dnsEl.textContent = `${pct}% NOERROR`;
+        dnsEl.className = pct === 100 ? "text-emerald-400 font-bold" : "text-amber-400 font-bold";
+      }
       renderClients();
+      updateKpis();
+      showToast("Sondeo perimetral completado para todos los sitios activos", "success");
     }
 
     // ==========================================
@@ -9267,7 +9289,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
 
       // 2. Telemetría & Latencia
       const latencyEl = document.getElementById("ddLatency");
-      if (latencyEl) latencyEl.textContent = (client.latencyMs ? client.latencyMs + 'ms' : '18ms');
+      if (latencyEl) latencyEl.textContent = (client.latencyMs ? client.latencyMs + 'ms' : '-- ms');
 
       const statusBadge = document.getElementById("ddStatusBadge");
       const statusText = document.getElementById("ddStatusText");

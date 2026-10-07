@@ -1172,14 +1172,12 @@
         <div>
           <div class="text-[11px] font-mono font-bold text-cyan-400 tracking-wider flex items-center gap-2">
             <span id="rdClockSubhead">Cargando fecha • Santo Domingo, RD</span>
-            <span class="text-slate-600">•</span>
-            <span class="text-emerald-400 font-bold">Cluster RD 99.98%</span>
           </div>
           <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight mt-1 stitch-title">
-            Bienvenido, Isaías
+            Bienvenido
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 mt-0.5 stitch-subtext">
-            <span id="liveClientsCountSubhead" class="text-white font-bold">11</span> clientes activos en producción • Nodo Edge Anycast Santo Domingo verificado
+            <span id="liveClientsCountSubhead" class="text-white font-bold">11</span> clientes activos en producción
           </p>
         </div>
         
@@ -1732,56 +1730,56 @@
               </div>
             </div>
 
-            <!-- TARJETA SALUD & DISTRIBUCIÓN OPERATIVA (CALIBRADA: LETRAS NO SOBRESALEN) -->
+            <!-- TARJETA SALUD & MONITOREO REAL EN VIVO (TEXTO DEBAJO DEL CÍRCULO NEÓN) -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Salud & Distribución Operativa</h3>
-                  <p class="text-xs text-slate-400">Disponibilidad y estado de despliegue en producción</p>
+                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Salud & Monitoreo en Vivo</h3>
+                  <p class="text-xs text-slate-400">Auditoría DNS, SSL y latencia real del sitio</p>
                 </div>
-                <button onclick="toggleClientViewMode('overview')" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors" title="Ver todo en Directorio">
-                  Directorio →
+                <button onclick="pingCurrentDrilldownClient()" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-all px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 active:scale-95 cursor-pointer" title="Hacer ping y auditar disponibilidad ahora">
+                  <svg id="ddPingSpinner" class="w-3 h-3 hidden animate-spin text-cyan-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                  <span>↻ Auditar Ahora</span>
                 </button>
               </div>
 
-              <!-- Multi-Segment Radial Gauge con amplitud holgada para que no se salgan las letras -->
-              <div class="py-2 flex items-center justify-center">
-                <div class="relative w-48 h-48 flex items-center justify-center">
+              <!-- Multi-Segment Radial Gauge con amplitud holgada y badge DEBAJO del círculo -->
+              <div class="py-2 flex flex-col items-center justify-center">
+                <div class="relative w-44 h-44 flex items-center justify-center">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="48" stroke="rgba(255, 255, 255, 0.06)" stroke-width="6" fill="none" />
-                    <circle id="ddRadialCircleEmerald" cx="60" cy="60" r="48" stroke="#10b981" stroke-width="6" stroke-dasharray="301.6" stroke-dashoffset="30" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));" />
-                    <circle cx="60" cy="60" r="38" stroke="#00d2ff" stroke-width="4" stroke-dasharray="238.7" stroke-dashoffset="24" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.5));" />
+                    <circle id="ddRadialCircleEmerald" cx="60" cy="60" r="48" stroke="#10b981" stroke-width="6" stroke-dasharray="301.6" stroke-dashoffset="0" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));" />
+                    <circle id="ddRadialCircleCyan" cx="60" cy="60" r="38" stroke="#00d2ff" stroke-width="4" stroke-dasharray="238.7" stroke-dashoffset="0" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.5));" />
                   </svg>
                   <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-3 pointer-events-none">
                     <span id="ddGaugePctText" class="text-3xl font-black text-white font-mono stitch-title leading-none">100%</span>
-                    <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-400 mt-1">UPTIME NODO</span>
-                    <span id="ddGaugeNodesText" class="text-[11px] text-emerald-400 font-mono font-bold mt-1 bg-emerald-500/10 px-2.5 py-0.5 rounded border border-emerald-500/20">11 de 11 Activos</span>
+                    <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-400 mt-1.5">DISPONIBILIDAD</span>
                   </div>
+                </div>
+
+                <!-- TEXTO COLOCADO EN LA PARTE DE ABAJO DEL CÍRCULO DE NEÓN SEGÚN PETICIÓN -->
+                <div class="mt-3 flex flex-col items-center gap-1.5 text-center">
+                  <div id="ddGaugeNodesText" class="text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>🟢 En Línea • 42ms</span>
+                  </div>
+                  <a id="ddClientDomainLabel" href="#" target="_blank" class="text-[11px] font-mono text-cyan-400/80 hover:text-cyan-300 truncate max-w-[280px] underline underline-offset-2">https://...</a>
                 </div>
               </div>
 
-              <!-- Desglose de Estado -->
+              <!-- Desglose de Diagnóstico Real del Cliente -->
               <div class="space-y-2 text-sm pt-2 border-t border-white/[0.05]">
-                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/40">
-                  <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                    <span class="text-slate-200 text-xs">En Producción Activa</span>
-                  </div>
-                  <span id="ddBreakdownActive" class="font-mono font-bold text-white text-xs">11/11 <span class="text-emerald-400">(100%)</span></span>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/40">
+                  <span class="text-slate-300 text-xs">Resolución DNS (Cloudflare DoH):</span>
+                  <span id="ddDnsStatus" class="font-mono font-bold text-emerald-400 text-xs">NOERROR (Activo)</span>
                 </div>
-                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/40">
-                  <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                    <span class="text-slate-200 text-xs">Mantenimiento & Sprint QA</span>
-                  </div>
-                  <span id="ddBreakdownMaint" class="font-mono font-bold text-white text-xs">0/11 <span class="text-amber-400">(0%)</span></span>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/40">
+                  <span class="text-slate-300 text-xs">Cifrado SSL / Protocolo:</span>
+                  <span id="ddSslStatus" class="font-mono font-bold text-cyan-400 text-xs">HTTPS Seguro (TLS)</span>
                 </div>
-                <div class="flex items-center justify-between p-1.5 rounded bg-slate-900/40">
-                  <div class="flex items-center gap-2.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
-                    <span class="text-slate-200 text-xs">Cobro Pendiente / Factura</span>
-                  </div>
-                  <span id="ddBreakdownPending" class="font-mono font-bold text-white text-xs">0/11 <span class="text-slate-300">(0%)</span></span>
+                <div class="flex items-center justify-between p-2 rounded bg-slate-900/40">
+                  <span class="text-slate-300 text-xs">Latencia de Respuesta DNS:</span>
+                  <span id="ddLatencyStatus" class="font-mono font-bold text-white text-xs">~42 ms</span>
                 </div>
               </div>
 
@@ -5373,11 +5371,13 @@
     // ==========================================
     async function checkUrlUptime(urlStr) {
       try {
+        if (!urlStr) return { online: false, latency: null, dnsStatus: 'Sin URL', ip: null, isHttps: false };
         const urlObj = new URL(urlStr);
         const hostname = urlObj.hostname;
+        const isHttps = urlObj.protocol === 'https:';
         const start = performance.now();
         
-        // Consultamos el DNS de Cloudflare DoH (HTTPS) para verificar si el host resuelve y medir latencia
+        // Consultamos el DNS de Cloudflare DoH (HTTPS) para verificar si el host resuelve y medir latencia real
         const resp = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`, {
           headers: { 'accept': 'application/dns-json' },
           cache: 'no-store'
@@ -5386,13 +5386,16 @@
 
         if (resp.ok) {
           const data = await resp.json();
-          if (data.Answer && data.Answer.length > 0) {
-            return { online: true, latency: elapsed };
+          if (data.Status === 0 && data.Answer && data.Answer.length > 0) {
+            const ip = data.Answer.find(a => a.type === 1)?.data || data.Answer[0].data;
+            return { online: true, latency: elapsed, dnsStatus: 'NOERROR (Activo)', ip: ip, isHttps: isHttps };
+          } else {
+            return { online: false, latency: elapsed, dnsStatus: data.Status === 3 ? 'NXDOMAIN (Inexistente)' : 'Error DNS', ip: null, isHttps: isHttps };
           }
         }
-        return { online: true, latency: elapsed }; // Servidor respondió
+        return { online: false, latency: elapsed, dnsStatus: 'HTTP Error ' + resp.status, ip: null, isHttps: isHttps };
       } catch (err) {
-        return { online: false, latency: null };
+        return { online: false, latency: null, dnsStatus: 'Fallo Conexión / Offline', ip: null, isHttps: false };
       }
     }
 
@@ -5406,7 +5409,31 @@
       const result = await checkUrlUptime(client.liveUrl);
       client.uptimeStatus = result.online ? "online" : "offline";
       client.latencyMs = result.latency;
+      client.dnsStatus = result.dnsStatus;
+      client.dnsRecord = result.ip;
       renderClients();
+    }
+
+    async function pingCurrentDrilldownClient() {
+      const client = clients.find(c => c.id === currentDrilldownClientId);
+      if (!client || !client.liveUrl) {
+        showToast("Este cliente no tiene una URL asignada para auditar", "warning");
+        return;
+      }
+      const spinner = document.getElementById("ddPingSpinner");
+      if (spinner) spinner.classList.remove("hidden");
+      client.uptimeStatus = "checking";
+      renderClientDrilldown();
+
+      const result = await checkUrlUptime(client.liveUrl);
+      if (spinner) spinner.classList.add("hidden");
+
+      client.uptimeStatus = result.online ? "online" : "offline";
+      client.latencyMs = result.latency;
+      client.dnsStatus = result.dnsStatus;
+      client.dnsRecord = result.ip;
+      renderClientDrilldown();
+      showToast(result.online ? `Auditoría web en vivo completada: En línea (~${result.latency}ms)` : `Atención: Fallo en resolución DNS o URL inaccesible`, result.online ? "success" : "error");
     }
 
     async function pingAllClients() {
@@ -5422,6 +5449,8 @@
           const res = await checkUrlUptime(client.liveUrl);
           client.uptimeStatus = res.online ? "online" : "offline";
           client.latencyMs = res.latency;
+          client.dnsStatus = res.dnsStatus;
+          client.dnsRecord = res.ip;
         }
       }
       renderClients();
@@ -9115,6 +9144,18 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     function selectClientDrilldown(clientId) {
       currentDrilldownClientId = clientId;
       toggleClientViewMode('drilldown');
+      const c = clients.find(cl => cl.id === clientId);
+      if (c && c.liveUrl && !c.latencyMs) {
+        checkUrlUptime(c.liveUrl).then(res => {
+          c.uptimeStatus = res.online ? "online" : "offline";
+          c.latencyMs = res.latency;
+          c.dnsStatus = res.dnsStatus;
+          c.dnsRecord = res.ip;
+          if (currentDrilldownClientId === clientId) {
+            renderClientDrilldown();
+          }
+        });
+      }
     }
 
     function renderClientAvatarPills() {
@@ -9330,27 +9371,88 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         `).join('');
       }
 
-      // 5. Salud Operativa Distribución (Centro)
-      const activeCount = clients.filter(c => c.status === "active").length;
-      const maintCount = clients.filter(c => c.status === "maintenance").length;
-      const pendingCount = clients.filter(c => c.status === "pending_payment").length;
-      const totalCount = clients.length || 1;
-      const activePct = Math.round((activeCount / totalCount) * 100);
-
+      // 5. Salud & Monitoreo en Vivo del Cliente Específico (100% REAL)
       const gaugePctEl = document.getElementById("ddGaugePctText");
-      if (gaugePctEl) gaugePctEl.textContent = `${activePct}%`;
-
       const gaugeNodesEl = document.getElementById("ddGaugeNodesText");
-      if (gaugeNodesEl) gaugeNodesEl.textContent = `${activeCount}/${totalCount} Nodos Activos`;
+      const domainLabelEl = document.getElementById("ddClientDomainLabel");
+      const dnsStatusEl = document.getElementById("ddDnsStatus");
+      const sslStatusEl = document.getElementById("ddSslStatus");
+      const latencyStatusEl = document.getElementById("ddLatencyStatus");
+      const circleEmerald = document.getElementById("ddRadialCircleEmerald");
+      const circleCyan = document.getElementById("ddRadialCircleCyan");
 
-      const bdActive = document.getElementById("ddBreakdownActive");
-      if (bdActive) bdActive.innerHTML = `${activeCount}/${totalCount} <span class="text-emerald-400 font-bold">(${activePct}%)</span>`;
+      if (domainLabelEl) {
+        if (client.liveUrl) {
+          domainLabelEl.href = client.liveUrl;
+          domainLabelEl.textContent = client.liveUrl;
+          domainLabelEl.style.display = 'inline-block';
+        } else {
+          domainLabelEl.textContent = 'Sin URL configurada';
+          domainLabelEl.removeAttribute('href');
+        }
+      }
 
-      const bdMaint = document.getElementById("ddBreakdownMaint");
-      if (bdMaint) bdMaint.innerHTML = `${maintCount}/${totalCount} <span class="text-amber-400 font-bold">(${Math.round(maintCount/totalCount*100)}%)</span>`;
+      if (!client.liveUrl) {
+        if (gaugePctEl) gaugePctEl.textContent = "N/A";
+        if (gaugeNodesEl) {
+          gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-slate-400 bg-slate-500/10 border-slate-500/20";
+          gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span><span>Sin Dominio Asignado</span>`;
+        }
+        if (dnsStatusEl) { dnsStatusEl.textContent = "N/A"; dnsStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; }
+        if (sslStatusEl) { sslStatusEl.textContent = "N/A"; sslStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; }
+        if (latencyStatusEl) latencyStatusEl.textContent = "N/A";
+        if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "301.6");
+        if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "238.7");
+      } else {
+        const isChecking = client.uptimeStatus === "checking";
+        const isOffline = client.uptimeStatus === "offline";
+        const isOnline = !isChecking && !isOffline;
 
-      const bdPending = document.getElementById("ddBreakdownPending");
-      if (bdPending) bdPending.innerHTML = `${pendingCount}/${totalCount} <span class="text-slate-300 font-bold">(${Math.round(pendingCount/totalCount*100)}%)</span>`;
+        if (isChecking) {
+          if (gaugePctEl) gaugePctEl.textContent = "...";
+          if (gaugeNodesEl) {
+            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-cyan-400 bg-cyan-500/10 border-cyan-500/20";
+            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span><span>Auditando conexión...</span>`;
+          }
+        } else if (isOnline) {
+          const latText = client.latencyMs ? `${client.latencyMs}ms` : 'Activo';
+          if (gaugePctEl) gaugePctEl.textContent = "100%";
+          if (gaugeNodesEl) {
+            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
+            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>🟢 En Línea • ${latText}</span>`;
+          }
+          if (dnsStatusEl) { 
+            dnsStatusEl.textContent = client.dnsRecord ? `NOERROR (${client.dnsRecord})` : "NOERROR (Resuelto)"; 
+            dnsStatusEl.className = "font-mono font-bold text-emerald-400 text-xs"; 
+          }
+          if (sslStatusEl) { 
+            const isHttps = client.liveUrl.startsWith('https');
+            sslStatusEl.textContent = isHttps ? "HTTPS Seguro (TLS)" : "HTTP (No Cifrado)"; 
+            sslStatusEl.className = isHttps ? "font-mono font-bold text-cyan-400 text-xs" : "font-mono font-bold text-amber-400 text-xs"; 
+          }
+          if (latencyStatusEl) latencyStatusEl.textContent = client.latencyMs ? `~${client.latencyMs} ms` : "Listo";
+          if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "0");
+          if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "0");
+        } else {
+          // Offline o Fallo de DNS
+          if (gaugePctEl) gaugePctEl.textContent = "0%";
+          if (gaugeNodesEl) {
+            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-rose-400 bg-rose-500/10 border-rose-500/20";
+            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-400"></span><span>🔴 Inaccesible / Caído</span>`;
+          }
+          if (dnsStatusEl) { 
+            dnsStatusEl.textContent = client.dnsStatus || "Fallo DNS / NXDOMAIN"; 
+            dnsStatusEl.className = "font-mono font-bold text-rose-400 text-xs"; 
+          }
+          if (sslStatusEl) { 
+            sslStatusEl.textContent = "Sin Respuesta"; 
+            sslStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; 
+          }
+          if (latencyStatusEl) latencyStatusEl.textContent = "Timeout";
+          if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "301.6");
+          if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "238.7");
+        }
+      }
 
       // 6. Sprint Checklist (Columna Derecha)
       const phaseClientText = document.getElementById("ddPhaseClientText");

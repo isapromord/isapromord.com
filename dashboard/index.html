@@ -255,51 +255,216 @@
       background: #ffffff;
       box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.08);
     }
-    body {
+    /* Estilos Oscuros (Por Defecto) - Con Scoping para NO romper el Light Mode */
+    body:not(.light-theme) {
       background-color: #0a0e17 !important;
       color: #dfe2ef !important;
     }
-    .bg-slate-50 {
-      background-color: #0a0e17 !important;
+    body:not(.light-theme) .bg-slate-50 {
+      background-color: #0f172a !important;
+      border-color: #1e293b !important;
     }
-    .bg-white {
+    body:not(.light-theme) .bg-white {
       background-color: #121824 !important;
       color: #dfe2ef !important;
     }
-    .bg-white\/90 {
+    body:not(.light-theme) .bg-white\/90 {
       background-color: rgba(10, 14, 23, 0.85) !important;
       backdrop-filter: blur(16px) !important;
     }
-    .bg-slate-100 {
+    body:not(.light-theme) .bg-slate-100 {
       background-color: #161f30 !important;
       color: #dfe2ef !important;
     }
-    .bg-slate-200 {
+    body:not(.light-theme) .bg-slate-200 {
       background-color: #222f46 !important;
     }
-    .border-white/[0.06], .border-slate-200, .border-slate-200\/80, .border-slate-200\/60 {
+    body:not(.light-theme) .border-white\[0\.06\], 
+    body:not(.light-theme) .border-slate-200, 
+    body:not(.light-theme) .border-slate-200\/80, 
+    body:not(.light-theme) .border-slate-200\/60 {
       border-color: #222f46 !important;
     }
-    .text-slate-900, .text-slate-950, .text-slate-800 {
+    body:not(.light-theme) .text-slate-900, 
+    body:not(.light-theme) .text-slate-950, 
+    body:not(.light-theme) .text-slate-800 {
       color: #f8fafc !important;
     }
-    .text-slate-700, .text-slate-600 {
+    body:not(.light-theme) .text-slate-700, 
+    body:not(.light-theme) .text-slate-600 {
       color: #c3c6d7 !important;
     }
-    .text-slate-400, .text-slate-400 {
+    body:not(.light-theme) .text-slate-400 {
       color: #94a3b8 !important;
     }
     
-    /* Inputs, selects, and textareas */
-    input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+    /* Inputs en modo oscuro */
+    body:not(.light-theme) input:not([type="checkbox"]):not([type="radio"]), 
+    body:not(.light-theme) select, 
+    body:not(.light-theme) textarea {
       background-color: #0a0e17 !important;
       color: #f8fafc !important;
       border: 1px solid #222f46 !important;
     }
-    input:focus, select:focus, textarea:focus {
+    body:not(.light-theme) input:focus, 
+    body:not(.light-theme) select:focus, 
+    body:not(.light-theme) textarea:focus {
       border-color: #00d2ff !important;
       outline: none !important;
       box-shadow: 0 0 15px -3px rgba(0, 210, 255, 0.35) !important;
+    }
+
+    /* Tarjetas de paquetes en modo oscuro */
+    body:not(.light-theme) .proposal-pkg-card {
+      background-color: #101726;
+      border: 1.5px solid #1e293b;
+      color: #f8fafc;
+    }
+    body:not(.light-theme) .proposal-pkg-card:hover {
+      border-color: rgba(0, 210, 255, 0.4);
+      background-color: #131c2e;
+    }
+    body:not(.light-theme) .proposal-pkg-card:has(input:checked) {
+      border-color: #00d2ff !important;
+      background-color: rgba(0, 210, 255, 0.08) !important;
+      box-shadow: 0 0 16px -2px rgba(0, 210, 255, 0.25) !important;
+    }
+
+    /* Filas de addons en modo oscuro */
+    body:not(.light-theme) .proposal-addon-row {
+      background-color: #101726;
+      border: 1px solid #1e293b;
+      color: #f8fafc;
+    }
+    body:not(.light-theme) .proposal-addon-row:hover {
+      border-color: rgba(0, 210, 255, 0.35);
+      background-color: #131c2e;
+    }
+    body:not(.light-theme) .proposal-addon-row.is-checked {
+      border-color: rgba(0, 210, 255, 0.6);
+      background-color: rgba(0, 210, 255, 0.06);
+    }
+
+    /* Barra comparativa de cotización en modo oscuro (img2 fix) */
+    body:not(.light-theme) #liveComparisonBox {
+      background: linear-gradient(135deg, rgba(16, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 100%) !important;
+      border: 1px solid rgba(0, 210, 255, 0.25) !important;
+      box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* ========================================================
+       MODO CLARO (LIGHT THEME PRECISION - IMG 3 FIX)
+       ======================================================== */
+    body.light-theme {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+    }
+    body.light-theme .stitch-card,
+    body.light-theme .client-card-row,
+    body.light-theme #clientDrawerPanel,
+    body.light-theme .modal-container {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+    }
+    body.light-theme .stitch-rail {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme .stitch-header {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme #mobileBottomNav {
+      background-color: rgba(255, 255, 255, 0.95) !important;
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme .stitch-subtext,
+    body.light-theme .text-slate-400,
+    body.light-theme .text-slate-500 {
+      color: #64748b !important;
+    }
+    body.light-theme .stitch-title,
+    body.light-theme h1, body.light-theme h2, body.light-theme h3, body.light-theme h4,
+    body.light-theme .text-white {
+      color: #0f172a !important;
+    }
+    body.light-theme .text-slate-100,
+    body.light-theme .text-slate-200,
+    body.light-theme .text-slate-300 {
+      color: #334155 !important;
+    }
+    body.light-theme input:not([type="checkbox"]):not([type="radio"]), 
+    body.light-theme select, 
+    body.light-theme textarea,
+    body.light-theme .stitch-input {
+      background-color: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
+    }
+    body.light-theme input:focus, 
+    body.light-theme select:focus, 
+    body.light-theme textarea:focus,
+    body.light-theme .stitch-input:focus {
+      border-color: #0284c7 !important;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.15) !important;
+      outline: none !important;
+    }
+    body.light-theme thead tr, body.light-theme thead th {
+      background-color: #f1f5f9 !important;
+      color: #475569 !important;
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme tbody tr {
+      border-color: #e2e8f0 !important;
+    }
+    body.light-theme tbody tr:hover {
+      background-color: #f8fafc !important;
+    }
+    body.light-theme .bg-slate-900\/40,
+    body.light-theme .bg-slate-900\/80,
+    body.light-theme .bg-slate-900,
+    body.light-theme .bg-\[\#121824\],
+    body.light-theme .bg-\[\#0f172a\],
+    body.light-theme .bg-\[\#101726\] {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+    body.light-theme .proposal-pkg-card {
+      background-color: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      color: #0f172a;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    body.light-theme .proposal-pkg-card:hover {
+      border-color: #0284c7;
+      background-color: #f8fafc;
+    }
+    body.light-theme .proposal-pkg-card:has(input:checked) {
+      border-color: #0284c7 !important;
+      background-color: #f0f9ff !important;
+      box-shadow: 0 0 0 1px #0284c7, 0 4px 12px rgba(2, 132, 199, 0.1) !important;
+    }
+    body.light-theme .proposal-addon-row {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+    }
+    body.light-theme .proposal-addon-row:hover {
+      border-color: #0284c7;
+      background-color: #f8fafc;
+    }
+    body.light-theme .proposal-addon-row.is-checked {
+      border-color: #0284c7;
+      background-color: #f0f9ff;
+    }
+    body.light-theme #liveComparisonBox {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%) !important;
+      border: 1px solid #bbf7d0 !important;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+      color: #0f172a !important;
     }
 
     /* Tables */
@@ -638,7 +803,7 @@
        ======================================================== -->
   <aside 
     id="stitchSidebar" 
-    class="stitch-rail fixed top-0 left-0 h-screen w-16 lg:w-[68px] bg-[#090d16] border-r border-[#1e293b] flex flex-col justify-between py-4 items-center z-50 transition-colors"
+    class="stitch-rail hidden md:flex flex-col fixed top-0 left-0 h-screen w-16 lg:w-[68px] bg-[#090d16] border-r border-[#1e293b] justify-between py-4 items-center z-50 transition-colors"
   >
     <!-- Logo Avatar Badge -->
     <div class="flex flex-col items-center gap-6">
@@ -725,7 +890,7 @@
   <!-- ========================================================
        CONTENIDO PRINCIPAL ADAPTADO AL MICRO-RAIL (pl-16 lg:pl-[68px])
        ======================================================== -->
-  <div class="flex-1 min-w-0 flex flex-col justify-between pl-16 lg:pl-[68px] min-h-screen">
+  <div class="flex-1 min-w-0 flex flex-col justify-between pl-0 md:pl-16 lg:pl-[68px] min-h-screen">
     
     <!-- BARRA SUPERIOR (HEADER COMMAND CENTER STITCH) -->
     <header class="stitch-header sticky top-0 z-40 bg-[#090d16]/90 backdrop-blur-xl border-b border-[#1e293b] px-4 sm:px-6 h-16 flex items-center justify-between gap-4 transition-colors">
@@ -809,7 +974,7 @@
     </header>
 
     <!-- CUERPO PRINCIPAL -->
-    <main class="w-full max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-5 flex-1 space-y-6">
+    <main class="w-full max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-5 pb-24 md:pb-8 flex-1 space-y-6">
 
       <!-- SUB-HEADER: MISSION CONTROL RD (IDENTICO AL DISEÑO DE STITCH IMG2) -->
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#1e293b]/80">
@@ -868,7 +1033,7 @@
         <div class="lg:col-span-8 space-y-4">
           
           <!-- 4 TARJETAS KPI SUPERIORES (STITCH COMMAND CENTER) -->
-          <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
             
             <!-- 1. MRR Cartera Activa -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
@@ -1530,71 +1695,71 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 pt-1">
 
               <!-- 1. Crecimiento & CRM (MÁS POPULAR) -->
-              <label class="relative bg-emerald-50/40 hover:bg-emerald-50/70 p-4 rounded-md border-2 border-emerald-500/60 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 cursor-pointer transition-all space-y-2 shadow-xs">
+              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-crm" checked onchange="handlePackageSelect('pack-crm')" class="w-4 h-4 text-emerald-600 focus:ring-emerald-500" />
-                  <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider shadow-xs">Más Popular ⭐</span>
+                  <input type="radio" name="basePkg" value="pack-crm" checked onchange="handlePackageSelect('pack-crm')" class="w-4 h-4 text-emerald-500 focus:ring-emerald-400" />
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase tracking-wider">Más Popular ⭐</span>
                 </div>
-                <div class="font-black text-sm text-slate-900">Crecimiento & Control CRM</div>
+                <div class="font-bold text-sm text-white stitch-title">Crecimiento & Control CRM</div>
                 <div class="text-xs text-slate-400 leading-tight">Web + Maps Activo + Schemas GEO + CRM a medida sin costo por usuario.</div>
-                <div class="space-y-0.5">
-                  <div class="font-black text-base text-emerald-400">RD$ 65,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div class="text-xs font-bold text-slate-600">+ RD$ 20,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
+                <div class="space-y-0.5 pt-1">
+                  <div class="font-black text-base text-emerald-400 font-mono">RD$ 65,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
+                  <div class="text-xs font-bold text-slate-300 font-mono">+ RD$ 20,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
               <!-- 2. Esencial -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-esencial" onchange="handlePackageSelect('pack-esencial')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
-                  <span class="px-2 py-0.5 rounded-md bg-brand-100 text-brand-800 text-[10px] font-black uppercase">Esencial</span>
+                  <input type="radio" name="basePkg" value="pack-esencial" onchange="handlePackageSelect('pack-esencial')" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400" />
+                  <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[10px] font-black uppercase">Esencial</span>
                 </div>
-                <div class="font-black text-sm text-slate-900">Presencia & Captación Local</div>
+                <div class="font-bold text-sm text-white stitch-title">Presencia & Captación Local</div>
                 <div class="text-xs text-slate-400 leading-tight">Landing page transaccional + Google Maps activo + WhatsApp.</div>
-                <div class="space-y-0.5">
-                  <div class="font-black text-base text-brand-700">RD$ 30,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div class="text-xs font-bold text-slate-600">+ RD$ 15,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
+                <div class="space-y-0.5 pt-1">
+                  <div class="font-black text-base text-cyan-400 font-mono">RD$ 30,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
+                  <div class="text-xs font-bold text-slate-300 font-mono">+ RD$ 15,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
               <!-- 3. Automatización IA -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-ia" onchange="handlePackageSelect('pack-ia')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
-                  <span class="px-2 py-0.5 rounded-md bg-blue-100 text-brand-800 text-[10px] font-bold uppercase">Automatización IA</span>
+                  <input type="radio" name="basePkg" value="pack-ia" onchange="handlePackageSelect('pack-ia')" class="w-4 h-4 text-purple-500 focus:ring-purple-400" />
+                  <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-bold uppercase">Automatización IA</span>
                 </div>
-                <div class="font-black text-sm text-slate-900">Negocio con Inteligencia Artificial</div>
+                <div class="font-bold text-sm text-white stitch-title">Negocio con Inteligencia Artificial</div>
                 <div class="text-xs text-slate-400 leading-tight">Web + Maps + Agente IA 24/7 + Schemas GEO para ChatGPT/Gemini.</div>
-                <div class="space-y-0.5">
-                  <div class="font-black text-base text-slate-900">RD$ 50,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div class="text-xs font-bold text-slate-600">+ RD$ 20,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
+                <div class="space-y-0.5 pt-1">
+                  <div class="font-black text-base text-purple-400 font-mono">RD$ 50,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
+                  <div class="text-xs font-bold text-slate-300 font-mono">+ RD$ 20,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
               <!-- 4. Ecosistema Total -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-ecosistema" onchange="handlePackageSelect('pack-ecosistema')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
-                  <span class="px-2 py-0.5 rounded-md bg-purple-100 text-purple-800 text-[10px] font-black uppercase">Ecosistema Total</span>
+                  <input type="radio" name="basePkg" value="pack-ecosistema" onchange="handlePackageSelect('pack-ecosistema')" class="w-4 h-4 text-pink-500 focus:ring-pink-400" />
+                  <span class="px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/40 text-[10px] font-black uppercase">Ecosistema Total</span>
                 </div>
-                <div class="font-black text-sm text-slate-900">Ecosistema Completo + CRM a Medida</div>
+                <div class="font-bold text-sm text-white stitch-title">Ecosistema Completo + CRM a Medida</div>
                 <div class="text-xs text-slate-400 leading-tight">Web + Maps + IA 24/7 + CRM adaptado al flujo de la empresa.</div>
-                <div class="space-y-0.5">
-                  <div class="font-black text-base text-purple-700">RD$ 85,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div class="text-xs font-bold text-slate-600">+ RD$ 30,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
+                <div class="space-y-0.5 pt-1">
+                  <div class="font-black text-base text-pink-400 font-mono">RD$ 85,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
+                  <div class="text-xs font-bold text-slate-300 font-mono">+ RD$ 30,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
               <!-- 5. Sin Paquete / Solo A la Carta -->
-              <label class="relative bg-slate-50 hover:bg-slate-100 p-4 rounded-md border-2 border-transparent has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50 cursor-pointer transition-all space-y-2">
+              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-none" onchange="handlePackageSelect('pack-none')" class="w-4 h-4 text-brand-600 focus:ring-brand-500" />
-                  <span class="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 text-[10px] font-black uppercase">100% A la Carta</span>
+                  <input type="radio" name="basePkg" value="pack-none" onchange="handlePackageSelect('pack-none')" class="w-4 h-4 text-slate-400 focus:ring-slate-400" />
+                  <span class="px-2 py-0.5 rounded bg-slate-700/50 text-slate-300 border border-slate-600 text-[10px] font-black uppercase">100% A la Carta</span>
                 </div>
-                <div class="font-black text-sm text-slate-900">Sin Paquete Combo</div>
+                <div class="font-bold text-sm text-white stitch-title">Sin Paquete Combo</div>
                 <div class="text-xs text-slate-400 leading-tight">No ofrecer paquete. Enviar solo la lista de servicios seleccionados abajo.</div>
-                <div class="space-y-0.5">
-                  <div class="font-black text-base text-slate-900">A la carta</div>
+                <div class="space-y-0.5 pt-1">
+                  <div class="font-black text-base text-slate-200 font-mono">A la carta</div>
                   <div class="text-xs font-bold text-slate-400">Cotización simple</div>
                 </div>
               </label>
@@ -1624,22 +1789,22 @@
           <!-- PASO 3: TABLERO COMPARATIVO EN VIVO Y GENERACIÓN -->
           <div class="pt-4 border-t border-white/[0.06] space-y-4">
             <!-- Barra de Ahorro / Value Stack -->
-            <div id="liveComparisonBox" class="p-4 rounded-md bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-200/80 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div id="liveComparisonBox" class="p-4 rounded-md border flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs flex-1">
                 <div>
-                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">1. Total A la Carta</span>
-                  <strong id="compAlacarteTotal" class="text-sm font-black text-slate-800">RD$ 0</strong>
-                  <span id="compAlacarteMonthly" class="text-[11px] text-slate-400 block">+ RD$ 0/mes</span>
+                  <span class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block">1. Total A la Carta</span>
+                  <strong id="compAlacarteTotal" class="text-sm font-black font-mono text-white stitch-title">RD$ 0</strong>
+                  <span id="compAlacarteMonthly" class="text-[11px] font-mono text-slate-400 block">+ RD$ 0/mes</span>
                 </div>
                 <div>
-                  <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">2. Paquete Ofrecido</span>
-                  <strong id="compPackageTotal" class="text-sm font-black text-brand-700">RD$ 65,000</strong>
-                  <span id="compPackageMonthly" class="text-[11px] text-brand-600 block">+ RD$ 20,000/mes</span>
+                  <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider block">2. Paquete Ofrecido</span>
+                  <strong id="compPackageTotal" class="text-sm font-black font-mono text-cyan-300">RD$ 65,000</strong>
+                  <span id="compPackageMonthly" class="text-[11px] font-mono text-cyan-400/80 block">+ RD$ 20,000/mes</span>
                 </div>
                 <div class="col-span-2 sm:col-span-1">
-                  <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">3. Ahorro al Cliente 🔥</span>
-                  <strong id="compSavingsTotal" class="text-sm font-black text-emerald-400">Ahorra RD$ 0</strong>
-                  <span id="compSavingsMonthly" class="text-[11px] text-emerald-600 block">en mensualidad</span>
+                  <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">3. Ahorro al Cliente 🔥</span>
+                  <strong id="compSavingsTotal" class="text-sm font-black font-mono text-emerald-300">Ahorra RD$ 0</strong>
+                  <span id="compSavingsMonthly" class="text-[11px] font-mono text-emerald-400/80 block">en mensualidad</span>
                 </div>
               </div>
             </div>
@@ -1660,7 +1825,7 @@
 
               <button 
                 type="submit" 
-                class="w-full sm:w-auto px-6 py-3.5 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-black text-sm rounded shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2"
+                class="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-sm rounded shadow-glow-cyan transition-all flex items-center justify-center gap-2 active:scale-95"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span>Generar Propuesta Digital & PDF</span>
@@ -4290,14 +4455,11 @@
           return `
             <div class="client-card-row p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 group">
               
-              <!-- Identidad & Enlace -->
-              <div class="flex items-center gap-3 min-w-0">
-                <div onclick="selectClientDrilldown('${client.id}')" class="w-10 h-10 rounded bg-slate-900 border border-white/10 text-slate-200 flex items-center justify-center text-sm font-black font-mono shrink-0 cursor-pointer shadow-inner group-hover:border-cyan-400 group-hover:text-cyan-300 transition-colors">
-                  ${initials}
-                </div>
-                <div class="min-w-0 space-y-0.5">
+              <!-- Identidad & Enlace (Limpio y Elegante sin Cuadro de Iniciales Rústico) -->
+              <div class="flex items-center gap-3 min-w-0 flex-1">
+                <div class="min-w-0 space-y-1 flex-1">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <h4 onclick="selectClientDrilldown('${client.id}')" class="text-base font-bold text-white group-hover:text-cyan-300 cursor-pointer transition-colors truncate max-w-[200px] sm:max-w-none stitch-title">
+                    <h4 onclick="selectClientDrilldown('${client.id}')" class="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 cursor-pointer transition-colors stitch-title">
                       ${client.name}
                     </h4>
                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-bold ${currentBadge.bg} border shrink-0">
@@ -4305,10 +4467,10 @@
                     </span>
                     ${uptimeDot}
                   </div>
-                  <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-300 truncate stitch-subtext">
-                    <a href="${client.liveUrl}" target="_blank" class="text-slate-300 hover:text-cyan-400 hover:underline truncate max-w-[170px] sm:max-w-none">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin Dominio'}</a>
+                  <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-400 truncate stitch-subtext">
+                    <a href="${client.liveUrl}" target="_blank" class="text-slate-300 hover:text-cyan-400 hover:underline truncate">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin Dominio'}</a>
                     <span class="text-slate-600">•</span>
-                    <span class="text-slate-300 font-sans truncate">${client.category || 'General'}</span>
+                    <span class="text-slate-400 font-sans truncate">${client.category || 'General'}</span>
                   </div>
                 </div>
               </div>
@@ -7161,6 +7323,20 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       if (accountingContent) accountingContent.classList.add("hidden");
       if (hqContent) hqContent.classList.add("hidden");
 
+      // Sincronizar barra inferior móvil
+      const mobClients = document.getElementById("mobNavClients");
+      const mobProposals = document.getElementById("mobNavProposals");
+      const mobAccounting = document.getElementById("mobNavAccounting");
+      const mobReferrals = document.getElementById("mobNavReferrals");
+      
+      const mobInactive = "flex flex-col items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 min-w-[56px] transition-colors";
+      const mobActive = "flex flex-col items-center justify-center p-1.5 rounded-lg text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 min-w-[56px] transition-colors shadow-sm";
+
+      if (mobClients) mobClients.className = (tab === 'clients') ? mobActive : mobInactive;
+      if (mobProposals) mobProposals.className = (tab === 'proposals') ? mobActive : mobInactive;
+      if (mobAccounting) mobAccounting.className = (tab === 'accounting') ? mobActive : mobInactive;
+      if (mobReferrals) mobReferrals.className = (tab === 'referrals') ? mobActive : mobInactive;
+
       if (tab === 'clients') {
         if (clientsContent) clientsContent.classList.remove("hidden");
         if (tabClientsBtn) tabClientsBtn.className = activeClass;
@@ -7400,32 +7576,32 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
 
       container.innerHTML = currentProposalAddons.map(addon => {
         const typeBadge = addon.type === "monthly" 
-          ? '<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 text-[10px] font-bold border border-amber-200">Mensual</span>' 
-          : '<span class="px-2 py-0.5 rounded-md bg-blue-50 text-brand-700 text-[10px] font-bold border border-blue-200">Pago Único</span>';
+          ? '<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/30">Mensual</span>' 
+          : '<span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[10px] font-bold border border-cyan-500/30">Pago Único</span>';
 
         const inComboBadge = (selectedBaseKey !== 'pack-none' && includedIds.includes(addon.id))
-          ? '<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-400 text-[10px] font-bold border border-emerald-200">✓ En Combo</span>'
+          ? '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">✓ En Combo</span>'
           : '';
 
         return `
-          <label class="bg-slate-50 hover:bg-slate-100 p-3.5 rounded-md border ${addon.checked ? 'border-brand-500/60 bg-brand-50/20' : 'border-slate-200'} flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer transition-colors">
-            <div class="flex items-start gap-3 flex-1">
+          <label class="proposal-addon-row ${addon.checked ? 'is-checked' : ''} p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer">
+            <div class="flex items-start gap-3 flex-1 min-w-0">
               <input 
                 type="checkbox" 
                 ${addon.checked ? 'checked' : ''} 
                 onchange="toggleProposalAddon('${addon.id}')" 
-                class="mt-0.5 w-4 h-4 rounded text-brand-600 focus:ring-brand-500 cursor-pointer"
+                class="mt-0.5 w-4 h-4 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0"
               />
-              <div>
+              <div class="min-w-0 space-y-0.5">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="text-xs font-bold text-slate-900">${addon.name}</span>
+                  <span class="text-xs font-bold text-white stitch-title">${addon.name}</span>
                   ${typeBadge}
                   ${inComboBadge}
                 </div>
                 <p class="text-[11px] text-slate-400">${addon.description}</p>
               </div>
             </div>
-            <div class="text-left sm:text-right shrink-0 pl-7 sm:pl-0 font-mono font-bold text-xs text-slate-900">
+            <div class="text-left sm:text-right shrink-0 pl-7 sm:pl-0 font-mono font-bold text-xs text-white stitch-title">
               RD$ ${addon.price.toLocaleString('es-DO')}
               <span class="text-[10px] font-normal text-slate-400 block">${addon.type === 'monthly' ? '/ mes' : 'único'}</span>
             </div>
@@ -8920,5 +9096,31 @@ function drilldownRunAudit() {
   </script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ========================================================
+       BARRA DE NAVEGACIÓN MÓVIL (BOTTOM NAV - SOLUCIÓN PARA IMG 4 & 5)
+       ======================================================== -->
+  <nav id="mobileBottomNav" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#090d16]/95 backdrop-blur-xl border-t border-[#1e293b] flex items-center justify-around px-2 py-2 safe-area-bottom shadow-2xl transition-colors">
+    <button onclick="switchDashboardTab('clients')" id="mobNavClients" class="flex flex-col items-center justify-center p-1.5 rounded-lg text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 min-w-[56px] transition-colors shadow-sm">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+      <span class="text-[10px] font-mono font-bold mt-0.5">Clientes</span>
+    </button>
+    <button onclick="switchDashboardTab('proposals')" id="mobNavProposals" class="flex flex-col items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 min-w-[56px] transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      <span class="text-[10px] font-mono font-bold mt-0.5">Cotizar</span>
+    </button>
+    <button onclick="openNewClientModal()" class="flex flex-col items-center justify-center p-1.5 rounded-full bg-gradient-to-r from-[#00d2ff] to-[#0284c7] text-slate-950 font-black shadow-glow-cyan -mt-3.5 w-11 h-11 border-2 border-[#090d16] active:scale-95 transition-transform" title="Nuevo Cliente">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+    </button>
+    <button onclick="switchDashboardTab('accounting')" id="mobNavAccounting" class="flex flex-col items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 min-w-[56px] transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span class="text-[10px] font-mono font-bold mt-0.5">CFO</span>
+    </button>
+    <button onclick="switchDashboardTab('referrals')" id="mobNavReferrals" class="flex flex-col items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-cyan-400 min-w-[56px] transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+      <span class="text-[10px] font-mono font-bold mt-0.5">Telemetría</span>
+    </button>
+  </nav>
+
 </body>
 </html>

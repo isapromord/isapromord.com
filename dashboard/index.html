@@ -7984,15 +7984,28 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       const downloadPdfUrl = fullUrl.includes('?') ? `${fullUrl}&download=1` : `${fullUrl}?download=1`;
       lastGeneratedProposalUrl = fullUrl;
 
-      // Guardar en historial
+      // Guardar en historial con timestamp exacto (incluye hora y minutos)
+      const nowIso = new Date().toISOString();
       saveProposalToHistory({
         id: proposalPayload.id,
         clientName: clientName,
         category: category,
-        date: new Date().toISOString().split('T')[0],
+        date: nowIso.split('T')[0],
+        createdAt: nowIso,
         onetime: isComparison ? pkgSetup : alacarteSetup,
         monthly: isComparison ? pkgMonthly : alacarteMonthly,
         url: fullUrl
+      });
+
+      // Sincronizar con Supabase Cloud
+      saveProposalToCloud({
+        id: proposalPayload.id,
+        clientName: clientName,
+        category: category,
+        onetime: isComparison ? pkgSetup : alacarteSetup,
+        monthly: isComparison ? pkgMonthly : alacarteMonthly,
+        url: fullUrl,
+        createdAt: nowIso
       });
 
       // Mostrar modal
@@ -8057,6 +8070,9 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     }
 
     // Historial de propuestas
+    // Map para retener eliminaciones pendientes con opción de Deshacer (estilo Gmail)
+    const pendingProposalDeletions = new Map();
+
     function getStoredProposals() {
       try {
         return JSON.parse(localStorage.getItem(STORAGE_KEY_PROPOSALS) || "[]");
@@ -8068,8 +8084,39 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     function saveProposalToHistory(prop) {
       const list = getStoredProposals();
       list.unshift(prop);
-      if (list.length > 20) list.pop();
+      if (list.length > 50) list.pop();
       localStorage.setItem(STORAGE_KEY_PROPOSALS, JSON.stringify(list));
+      renderProposalsHistory();
+    }
+
+    // Formateador inteligente de Fecha y Hora (extrae hora incluso de propuestas históricas vía ID o ISO)
+    function formatProposalTimestamp(item) {
+      let dateObj = null;
+      if (item.createdAt) {
+        dateObj = new Date(item.createdAt);
+      } else if (item.id && typeof item.id === 'string' && item.id.startsWith("prop-")) {
+        const rawTs = parseInt(item.id.replace("prop-", ""), 10);
+        if (!isNaN(rawTs) && rawTs > 1700000000000) {
+          dateObj = new Date(rawTs);
+        }
+      }
+
+      if (!dateObj || isNaN(dateObj.getTime())) {
+        return item.date || "Fecha reciente";
+      }
+
+      const datePart = dateObj.toLocaleDateString('es-DO', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: '2-digit' 
+      });
+      const timePart = dateObj.toLocaleTimeString('es-DO', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+      });
+
+      return `${datePart} • ${timePart}`;
     }
 
     function renderProposalsHistory() {
@@ -8077,36 +8124,178 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       const container = document.getElementById("proposalsHistoryContainer");
       const countText = document.getElementById("proposalCountText");
 
-      countText.textContent = `${list.length} propuesta${list.length === 1 ? '' : 's'}`;
+      if (countText) {
+        countText.textContent = `${list.length} propuesta${list.length === 1 ? '' : 's'}`;
+      }
+
+      if (!container) return;
 
       if (list.length === 0) {
         container.innerHTML = `
-          <div class="text-center py-6 text-slate-400 text-xs">
-            Aún no has generado propuestas. Configura una arriba y haz clic en "Generar Enlace Interactivo".
+          <div class="text-center py-8 text-slate-400 text-xs stitch-subtext">
+            Aún no has generado propuestas. Configura una arriba y haz clic en "Generar Propuesta Digital & PDF".
           </div>
         `;
         return;
       }
 
-      container.innerHTML = list.map(item => `
-        <div class="bg-slate-50 p-4 rounded-md border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div>
-            <div class="flex items-center gap-2">
-              <strong class="text-slate-900 font-bold text-sm">${item.clientName}</strong>
-              <span class="text-slate-400 font-mono text-[11px]">${item.date}</span>
+      container.innerHTML = list.map(item => {
+        const timeFormatted = formatProposalTimestamp(item);
+
+        return `
+          <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-800/80 hover:border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors group">
+            <div class="space-y-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <strong class="text-white font-bold text-sm stitch-title truncate">${item.clientName}</strong>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/25 shrink-0" title="Fecha y hora de generación">
+                  🕒 ${timeFormatted}
+                </span>
+              </div>
+              <p class="text-slate-400 text-[11px] truncate stitch-subtext">
+                ${item.category || 'General'} • Setup: <span class="font-mono text-emerald-400 font-bold">RD$ ${(item.onetime || 0).toLocaleString('es-DO')}</span> • Mensual: <span class="font-mono text-cyan-300 font-bold">RD$ ${(item.monthly || 0).toLocaleString('es-DO')}/mes</span>
+              </p>
             </div>
-            <p class="text-slate-400 text-[11px] mt-0.5">${item.category || 'General'} • Setup: RD$ ${(item.onetime || 0).toLocaleString('es-DO')} • Mensual: RD$ ${(item.monthly || 0).toLocaleString('es-DO')}/mes</p>
+            <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+              <a href="${item.url}" target="_blank" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded border border-white/10 transition-colors shadow-sm" title="Ver propuesta interactiva">
+                Ver
+              </a>
+              <button onclick="navigator.clipboard.writeText('${item.url}'); showToast('Enlace copiado al portapapeles', 'success');" class="px-3 py-1.5 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold rounded transition-colors cursor-pointer shadow-sm active:scale-95" title="Copiar enlace directo">
+                Copiar Link
+              </button>
+              <button onclick="deleteProposalWithUndo('${item.id}')" class="p-1.5 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer active:scale-95" title="Eliminar propuesta del historial">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              </button>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <a href="${item.url}" target="_blank" class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-lg border border-slate-200 transition-colors">
-              Ver
-            </a>
-            <button onclick="navigator.clipboard.writeText('${item.url}'); alert('Enlace copiado al portapapeles');" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-lg transition-colors">
-              Copiar Link
-            </button>
-          </div>
+        `;
+      }).join('');
+    }
+
+    // Eliminación con opción de Deshacer (estilo Gmail con toast interactivo)
+    function deleteProposalWithUndo(propId) {
+      const list = getStoredProposals();
+      const index = list.findIndex(p => p.id === propId);
+      if (index === -1) return;
+
+      const [removedProp] = list.splice(index, 1);
+      // Actualizar localStorage temporalmente para quitarlo visualmente al instante
+      localStorage.setItem(STORAGE_KEY_PROPOSALS, JSON.stringify(list));
+      renderProposalsHistory();
+
+      // Si ya existía un undo pendiente para este mismo ID, límpialo
+      if (pendingProposalDeletions.has(propId)) {
+        const prev = pendingProposalDeletions.get(propId);
+        clearInterval(prev.intervalId);
+        if (prev.toastEl) prev.toastEl.remove();
+      }
+
+      // Crear snackbar de Deshacer flotante
+      const undoToastId = `undo_toast_${propId}`;
+      const existingToast = document.getElementById(undoToastId);
+      if (existingToast) existingToast.remove();
+
+      let secondsLeft = 6;
+      const toastEl = document.createElement("div");
+      toastEl.id = undoToastId;
+      toastEl.className = "fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-50 flex items-center gap-3 px-4 py-3 bg-[#0f172a] text-white rounded-lg shadow-2xl border border-cyan-500/40 animate-in slide-in-from-bottom-5 duration-200";
+      toastEl.innerHTML = `
+        <div class="flex items-center gap-2 text-xs">
+          <span class="text-rose-400">🗑️</span>
+          <span>Propuesta de <strong class="text-white">${removedProp.clientName}</strong> eliminada.</span>
         </div>
-      `).join('');
+        <button onclick="undoProposalDelete('${propId}')" class="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
+          Deshacer (<span id="undoCount_${propId}">${secondsLeft}</span>s)
+        </button>
+        <button onclick="finalizeProposalDelete('${propId}')" class="text-slate-400 hover:text-white text-xs p-1 cursor-pointer transition-colors" title="Confirmar eliminación permanente">✕</button>
+      `;
+      document.body.appendChild(toastEl);
+
+      const intervalId = setInterval(() => {
+        secondsLeft--;
+        const countSpan = document.getElementById(`undoCount_${propId}`);
+        if (countSpan) countSpan.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+          clearInterval(intervalId);
+          finalizeProposalDelete(propId);
+        }
+      }, 1000);
+
+      pendingProposalDeletions.set(propId, {
+        item: removedProp,
+        index: index,
+        intervalId: intervalId,
+        toastEl: toastEl
+      });
+    }
+
+    // Deshacer la eliminación: reinsertar en la posición original
+    function undoProposalDelete(propId) {
+      const pending = pendingProposalDeletions.get(propId);
+      if (!pending) return;
+
+      clearInterval(pending.intervalId);
+      if (pending.toastEl) pending.toastEl.remove();
+      pendingProposalDeletions.delete(propId);
+
+      const list = getStoredProposals();
+      list.splice(pending.index, 0, pending.item);
+      localStorage.setItem(STORAGE_KEY_PROPOSALS, JSON.stringify(list));
+
+      renderProposalsHistory();
+      showToast(`↩️ Propuesta de ${pending.item.clientName} restaurada`, 'success');
+    }
+
+    // Finalizar la eliminación: purga permanente de local y Supabase Cloud
+    async function finalizeProposalDelete(propId) {
+      const pending = pendingProposalDeletions.get(propId);
+      if (!pending) return;
+
+      clearInterval(pending.intervalId);
+      if (pending.toastEl) {
+        pending.toastEl.classList.add("opacity-0", "transition-opacity", "duration-200");
+        setTimeout(() => pending.toastEl.remove(), 250);
+      }
+      pendingProposalDeletions.delete(propId);
+
+      // Eliminar payload local
+      localStorage.removeItem(`proposal_${propId}`);
+
+      // Eliminar de Supabase Cloud
+      await deleteProposalFromCloud(propId);
+    }
+
+    async function deleteProposalFromCloud(propId) {
+      if (!supabaseClient) return;
+      try {
+        const { error } = await supabaseClient
+          .from("agency_proposals")
+          .delete()
+          .eq("id", propId);
+        if (error) console.warn("Supabase proposal delete notice:", error.message);
+      } catch (err) {
+        console.warn("deleteProposalFromCloud exception:", err);
+      }
+    }
+
+    async function saveProposalToCloud(prop) {
+      if (!supabaseClient) return;
+      try {
+        const row = {
+          id: prop.id,
+          client_name: prop.clientName,
+          category: prop.category,
+          onetime: prop.onetime,
+          monthly: prop.monthly,
+          url: prop.url,
+          created_at: prop.createdAt || new Date().toISOString()
+        };
+        const { error } = await supabaseClient
+          .from("agency_proposals")
+          .upsert(row, { onConflict: "id" });
+        if (error) console.warn("Supabase proposal save notice:", error.message);
+      } catch (err) {
+        console.warn("saveProposalToCloud exception:", err);
+      }
     }
 
     // ==========================================

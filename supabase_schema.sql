@@ -64,3 +64,19 @@ VALUES
   ('pasionpecuaria', 'Pasión Pecuaria RD', 'https://pasionpecuaria.vercel.app', '1 Mes de Mantenimiento Web Gratis', true)
 ON CONFLICT (client_slug) DO UPDATE 
 SET client_name = EXCLUDED.client_name, website_url = EXCLUDED.website_url;
+
+-- 5. Tabla de Propuestas Comerciales Generadas
+CREATE TABLE IF NOT EXISTS public.agency_proposals (
+    id TEXT PRIMARY KEY,
+    client_name TEXT NOT NULL,
+    category TEXT,
+    onetime NUMERIC DEFAULT 0,
+    monthly NUMERIC DEFAULT 0,
+    url TEXT,
+    payload JSONB,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+ALTER TABLE public.agency_proposals ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Permitir todo a agency_proposals" ON public.agency_proposals;
+CREATE POLICY "Permitir todo a agency_proposals" ON public.agency_proposals FOR ALL USING (true);

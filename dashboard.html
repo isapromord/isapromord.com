@@ -1169,7 +1169,7 @@
 
       <!-- SUB-HEADER: MISSION CONTROL RD (IDENTICO AL DISEÑO DE STITCH IMG2) -->
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-3 border-b border-[#1e293b]/80">
-        <div>
+        <div class="shrink-0">
           <div class="text-[11px] font-mono font-bold text-cyan-400 tracking-wider flex items-center gap-2">
             <span id="rdClockSubhead">Cargando fecha • Santo Domingo, RD</span>
           </div>
@@ -1177,19 +1177,46 @@
             Bienvenido
           </h1>
           <p class="text-xs sm:text-sm text-slate-300 mt-0.5 stitch-subtext">
-            <span id="liveClientsCountSubhead" class="text-white font-bold">11</span> clientes activos en producción
+            <span id="liveClientsCountSubhead" class="text-white font-bold">8</span> clientes activos en producción
           </p>
         </div>
         
-        <div class="flex flex-wrap items-center gap-3 shrink-0">
+        <!-- AUDITOR RÁPIDO DE URL EXTERNA / PROSPECTOS (ESPACIO CENTRAL IMG2) -->
+        <div class="flex-1 max-w-lg w-full lg:mx-4">
+          <form onsubmit="event.preventDefault(); triggerQuickAuditFromHeader();" class="relative flex items-center">
+            <div class="relative w-full">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-purple-400 text-xs font-mono">⚡</span>
+              <input 
+                type="url" 
+                id="headerQuickAuditUrl" 
+                placeholder="Auditar URL externa o prospecto (ej: https://ejemplo.com)..." 
+                class="w-full pl-8 pr-24 py-2 rounded-lg bg-[#0a0e17] border border-purple-500/40 text-xs font-mono text-cyan-300 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-400 transition-all shadow-inner"
+              />
+              <button 
+                type="submit" 
+                class="absolute right-1 top-1 bottom-1 px-3 rounded-md bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer hover:scale-105 active:scale-95"
+              >
+                <span>Auditar</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+              </button>
+            </div>
+          </form>
+        </div>
 
-
-
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <!-- Botón Auditoría 360 Completa -->
+          <button 
+            onclick="openDirectAuditModal()" 
+            class="px-3.5 py-2 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm hover:scale-105"
+            title="Auditar cualquier URL externa o prospecto"
+          >
+            <span>⚡ Auditar URL</span>
+          </button>
 
           <!-- Botón Directo para Crear Propuestas / Cotizaciones -->
           <button 
             onclick="switchDashboardTab('proposals')" 
-            class="px-3.5 py-2 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm"
+            class="px-3.5 py-2 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm hover:scale-105"
             title="Abrir Cotizador A la Carte y Generador de Propuestas"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -1198,7 +1225,7 @@
 
           <button 
             onclick="openNewClientModal()" 
-            class="px-3.5 py-2 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-glow-cyan transition-all active:scale-95"
+            class="px-3.5 py-2 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-glow-cyan transition-all active:scale-95 hover:scale-105"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
             <span>Nuevo Cliente</span>
@@ -3015,6 +3042,9 @@
               <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
                 <span>🚀 Aplicar al Roadmap del Cliente</span>
               </button>
+              <button onclick="convertAuditToClientWithPrefill()" id="auditConvertClientBtn" class="hidden px-3.5 py-1.5 rounded bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-cyan-600/25 transition-all">
+                <span>➕ Convertir en Cliente (Pre-llenar Datos)</span>
+              </button>
               <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
                 <span>Copiar para WhatsApp</span>
@@ -4013,7 +4043,7 @@
         optimization_matrix: client.optimizationMatrix || {},
         tasks: client.tasks || [],
         payment_history: client.paymentHistory || [],
-        uptime_status: client.uptimeStatus || "online",
+        uptime_status: (client.uptimeStatus === "checking" ? "online" : client.uptimeStatus) || "online",
         latency_ms: typeof client.latencyMs === "number" ? client.latencyMs : null,
         updated_at: new Date().toISOString()
       };
@@ -4040,7 +4070,7 @@
         optimizationMatrix: row.optimization_matrix || {},
         tasks: row.tasks || [],
         paymentHistory: row.payment_history || [],
-        uptimeStatus: row.uptime_status || "online",
+        uptimeStatus: (row.uptime_status === "checking" ? "online" : row.uptime_status) || "online",
         latencyMs: row.latency_ms
       };
     }
@@ -5313,16 +5343,25 @@
     async function checkUrlUptime(urlStr) {
       try {
         if (!urlStr) return { online: false, latency: null, dnsStatus: 'Sin URL', ip: null, isHttps: false };
-        const urlObj = new URL(urlStr);
+        let urlObj;
+        try {
+          urlObj = new URL(urlStr.startsWith('http') ? urlStr : 'https://' + urlStr);
+        } catch(e) {
+          return { online: false, latency: null, dnsStatus: 'URL Inválida', ip: null, isHttps: false };
+        }
         const hostname = urlObj.hostname;
         const isHttps = urlObj.protocol === 'https:';
         const start = performance.now();
         
-        // Consultamos el DNS de Cloudflare DoH (HTTPS) para verificar si el host resuelve y medir latencia real
+        const ctrl = new AbortController();
+        const tid = setTimeout(() => { try { ctrl.abort(); } catch(e){} }, 3500);
+
+        // Consultamos el DNS de Cloudflare DoH (HTTPS) con timeout seguro de 3.5s
         const resp = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=A`, {
           headers: { 'accept': 'application/dns-json' },
-          cache: 'no-store'
-        });
+          cache: 'no-store',
+          signal: ctrl.signal
+        }).finally(() => clearTimeout(tid));
         const elapsed = Math.round(performance.now() - start);
 
         if (resp.ok) {
@@ -5378,6 +5417,7 @@
     }
 
     async function pingAllClients() {
+      // 1. Marcar solo los clientes con liveUrl
       for (const client of clients) {
         if (client.liveUrl) {
           client.uptimeStatus = "checking";
@@ -5385,15 +5425,25 @@
       }
       renderClients();
 
-      for (const client of clients) {
-        if (client.liveUrl) {
+      // 2. Ejecutar sondeo concurrente en paralelo con Promise.allSettled
+      await Promise.allSettled(clients.map(async (client) => {
+        if (!client.liveUrl) return;
+        try {
           const res = await checkUrlUptime(client.liveUrl);
           client.uptimeStatus = res.online ? "online" : "offline";
           client.latencyMs = res.latency;
           client.dnsStatus = res.dnsStatus;
           client.dnsRecord = res.ip;
+        } catch(e) {
+          client.uptimeStatus = "offline";
         }
-      }
+      }));
+
+      // Garantizar que NINGÚN cliente quede atascado en "checking"
+      clients.forEach(c => {
+        if (c.uptimeStatus === "checking") c.uptimeStatus = "online";
+      });
+
       const totalProbed = clients.filter(c => c.liveUrl && c.uptimeStatus !== "checking");
       const onlineProbed = totalProbed.filter(c => c.uptimeStatus === "online");
       const dnsEl = document.getElementById("telemetryDnsStatus");
@@ -5404,7 +5454,6 @@
       }
       renderClients();
       updateKpis();
-      showToast("Sondeo perimetral completado para todos los sitios activos", "success");
     }
 
     // ==========================================
@@ -5733,73 +5782,107 @@
           };
         }
       } else {
-        // Crear nuevo cliente con Roadmap de Optimización inicial
+        // Crear nuevo cliente con Roadmap de Optimización inicial o brechas auditadas
+        let initialScore = 70;
+        let initialLatency = 350;
+        let initialTasks = [
+          {
+            id: 1,
+            title: "Auditoría inicial de requerimientos técnicos y velocidad",
+            done: true,
+            date: today,
+            guide: {
+              summary: "Inspección técnica de código, cabeceras, meta tags y tiempos de carga.",
+              details: "Diagnóstico inicial ejecutado por ISAPromoRD."
+            }
+          },
+          {
+            id: 2,
+            title: "Optimización integral SEO, OpenGraph WhatsApp y Schemas JSON-LD",
+            done: false,
+            date: today,
+            guide: {
+              summary: "Inyección de metadatos transaccionales y tarjetas enriquecidas.",
+              details: "Meta Description, Canonical, OpenGraph 1200x630, Geo Meta Tags y Schema LocalBusiness."
+            }
+          },
+          {
+            id: 3,
+            title: "Generación de robots.txt, sitemap.xml y llms.txt para IA",
+            done: false,
+            date: today,
+            guide: {
+              summary: "Protocolos de rastreo para Googlebot y motores de Inteligencia Artificial.",
+              details: "Autorización para GPTBot, ClaudeBot, PerplexityBot y mapa de sitio completo."
+            }
+          },
+          {
+            id: 4,
+            title: "Verificación en Google Search Console y envío de Sitemap",
+            done: false,
+            date: today,
+            guide: {
+              summary: "Verificación de propiedad técnica y envío prioritario a Googlebot.",
+              details: "Ingresar sitemap.xml completo y solicitar indexación en Search Console."
+            }
+          },
+          {
+            id: 5,
+            title: "Creación y optimización de ficha en Google Business Profile (Maps)",
+            done: false,
+            date: today,
+            guide: {
+              summary: "Aparición garantizada en el mapa y en el Google Local 3-Pack.",
+              details: "Registrar o verificar perfil con nombre, teléfono, horario y web oficial."
+            }
+          }
+        ];
+
+        if (window._pendingAuditGapsForNewClient) {
+          initialScore = window._pendingAuditGapsForNewClient.score || initialScore;
+          initialLatency = window._pendingAuditGapsForNewClient.latencyMs || initialLatency;
+          if (window._pendingAuditGapsForNewClient.gaps && window._pendingAuditGapsForNewClient.gaps.length > 0) {
+            initialTasks = [
+              {
+                id: 1,
+                title: "Auditoría inicial 360° ejecutada con éxito",
+                done: true,
+                date: today,
+                guide: {
+                  summary: `Diagnóstico completado con Health Score de ${initialScore}/100.`,
+                  details: "Inspección de SEO, Maps, OpenGraph, IA y arquitectura realizada."
+                }
+              },
+              ...window._pendingAuditGapsForNewClient.gaps.map((g, idx) => ({
+                id: idx + 2,
+                title: g.taskTitle,
+                done: false,
+                date: today,
+                guide: {
+                  summary: g.needed,
+                  details: `${g.findings} Solución recomendada por ISAPromoRD: ${g.solution}`
+                }
+              }))
+            ];
+          }
+          window._pendingAuditGapsForNewClient = null;
+        }
+
         const newId = "client-" + Date.now();
         clients.unshift({
           id: newId,
           name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
           joinedDate: today,
-          healthScore: 70,
+          healthScore: initialScore,
+          latencyMs: initialLatency,
           optimizationMatrix: {
-            seo: "70%",
+            seo: initialScore >= 80 ? "85%" : "65%",
             whatsapp: "80%",
-            geo: "60%",
-            ai: "50%"
+            geo: "70%",
+            ai: "60%"
           },
-          tasks: [
-            {
-              id: 1,
-              title: "Auditoría inicial de requerimientos técnicos y velocidad",
-              done: true,
-              date: today,
-              guide: {
-                summary: "Inspección técnica de código, cabeceras, meta tags y tiempos de carga.",
-                details: "Diagnóstico inicial ejecutado por ISAPromoRD."
-              }
-            },
-            {
-              id: 2,
-              title: "Optimización integral SEO, OpenGraph WhatsApp y Schemas JSON-LD",
-              done: false,
-              date: today,
-              guide: {
-                summary: "Inyección de metadatos transaccionales y tarjetas enriquecidas.",
-                details: "Meta Description, Canonical, OpenGraph 1200x630, Geo Meta Tags y Schema LocalBusiness."
-              }
-            },
-            {
-              id: 3,
-              title: "Generación de robots.txt, sitemap.xml y llms.txt para IA",
-              done: false,
-              date: today,
-              guide: {
-                summary: "Protocolos de rastreo para Googlebot y motores de Inteligencia Artificial.",
-                details: "Autorización para GPTBot, ClaudeBot, PerplexityBot y mapa de sitio completo."
-              }
-            },
-            {
-              id: 4,
-              title: "Verificación en Google Search Console y envío de Sitemap",
-              done: false,
-              date: today,
-              guide: {
-                summary: "Verificación de propiedad técnica y envío prioritario a Googlebot.",
-                details: "Ingresar sitemap.xml completo y solicitar indexación en Search Console."
-              }
-            },
-            {
-              id: 5,
-              title: "Creación y optimización de ficha en Google Business Profile (Maps)",
-              done: false,
-              date: today,
-              guide: {
-                summary: "Aparición garantizada en el mapa y en el Google Local 3-Pack.",
-                details: "Registrar o verificar perfil con nombre, teléfono, horario y web oficial."
-              }
-            }
-          ],
-          uptimeStatus: "checking",
-          latencyMs: null
+          tasks: initialTasks,
+          uptimeStatus: "online"
         });
       }
 
@@ -6143,6 +6226,21 @@ https://isapromord.github.io`;
       if (!rawUrl) {
         showToast("⚠️ Ingresa una URL o dominio para auditar");
         return;
+      }
+      runServicesAudit(null, rawUrl);
+    }
+
+    function triggerQuickAuditFromHeader() {
+      const input = document.getElementById("headerQuickAuditUrl");
+      if (!input) return;
+      let rawUrl = input.value.trim();
+      if (!rawUrl) {
+        showToast("⚠️ Ingresa una URL o dominio para auditar");
+        input.focus();
+        return;
+      }
+      if (!/^https?:\/\//i.test(rawUrl)) {
+        rawUrl = "https://" + rawUrl;
       }
       runServicesAudit(null, rawUrl);
     }
@@ -6881,6 +6979,23 @@ https://isapromord.github.io`;
       const unverifiedEl = document.getElementById("auditCountUnverified");
       if (unverifiedEl) unverifiedEl.textContent = results.unverifiedCount || 0;
 
+      // Alternar botones de acción según si es cliente del CRM o prospecto/externo
+      const syncBtn = document.getElementById("auditSyncRoadmapBtn");
+      const convertBtn = document.getElementById("auditConvertClientBtn");
+      if (currentAuditClient) {
+        if (syncBtn) {
+          syncBtn.classList.remove("hidden");
+          syncBtn.innerHTML = `<span>🚀 Aplicar al Roadmap (${currentAuditClient.name})</span>`;
+        }
+        if (convertBtn) convertBtn.classList.add("hidden");
+      } else {
+        if (syncBtn) syncBtn.classList.add("hidden");
+        if (convertBtn) {
+          convertBtn.classList.remove("hidden");
+          convertBtn.innerHTML = `<span>➕ Convertir en Cliente (Pre-llenar Datos)</span>`;
+        }
+      }
+
       // Renderizar tarjetas de servicios
       const listEl = document.getElementById("auditServicesList");
       listEl.innerHTML = results.services.map((svc, idx) => {
@@ -7011,18 +7126,93 @@ https://isapromord.github.io`;
 
         showToast(`✓ Roadmap de ${client.name} actualizado (+${addedCount} tareas sincronizadas).`);
       } else {
-        // No es cliente registrado aún: sugerir registrarlo
-        const registerConfirm = confirm(`Este dominio (${currentAuditUrl}) no está registrado como cliente aún en el CRM.\n\n¿Deseas abrir el registro para darlo de alta con este Roadmap y Health Score (${currentAuditResults.score}/100)?`);
-        if (registerConfirm) {
-          closeServicesAuditModal();
-          openNewClientModal();
-          const liveUrlInput = document.getElementById("clientLiveUrl");
-          if (liveUrlInput) {
-            liveUrlInput.value = currentAuditUrl;
-            autoScanDomainData();
-          }
-        }
+        convertAuditToClientWithPrefill();
       }
+    }
+
+    function convertAuditToClientWithPrefill() {
+      if (!currentAuditResults) return;
+
+      const res = currentAuditResults;
+      const url = res.url || currentAuditUrl;
+      let domain = "";
+      try {
+        domain = new URL(url).hostname;
+      } catch(e) {
+        domain = url.replace(/^https?:\/\//, '').split('/')[0];
+      }
+
+      // 1. Extraer nombre comercial limpio
+      let clientName = "";
+      if (res.meta && res.meta.publisher && !res.meta.publisher.includes(".") && res.meta.publisher.length > 2) {
+        clientName = res.meta.publisher;
+      } else if (res.meta && res.meta.title) {
+        const parts = res.meta.title.split(/[|\-—–•]/).map(p => p.trim()).filter(Boolean);
+        if (parts.length > 0) clientName = parts[0];
+      }
+      if (!clientName || clientName.length < 2) {
+        clientName = domain.replace(/^www\./, '').split('.')[0];
+        clientName = clientName.charAt(0).toUpperCase() + clientName.slice(1);
+      }
+
+      // 2. Extraer Categoría / Nicho detectado
+      const combinedText = ((res.meta?.title || "") + " " + (res.meta?.description || "")).toLowerCase();
+      let detectedCat = "Servicios Profesionales";
+      if (/apartamento|torre|inmueble|bienes ra[íi]ces|realty|penthouse|residencial/i.test(combinedText)) {
+        detectedCat = "Bienes Raíces & Inmobiliaria";
+      } else if (/veterinari|pecuari|ganader|agrop|finca|animal/i.test(combinedText)) {
+        detectedCat = "Agropecuaria & Tienda Online";
+      } else if (/dent|odont|cl[íi]nic|m[ée]dic|salud|doctor|est[ée]tic/i.test(combinedText)) {
+        detectedCat = "Salud & Especialidades Médicas";
+      } else if (/log[íi]stic|transporte|carga|flete|despacho|aduan/i.test(combinedText)) {
+        detectedCat = "Logística & Transporte de Carga";
+      } else if (/abogad|legal|jur[íi]dic|notar/i.test(combinedText)) {
+        detectedCat = "Servicios Legales & Consultoría";
+      } else if (/restauran|caf[ée]|comida|bar|gourmet|pizza/i.test(combinedText)) {
+        detectedCat = "Gastronomía & Restaurante";
+      } else if (/hotel|resort|turis|viaje|hospedaje/i.test(combinedText)) {
+        detectedCat = "Turismo & Hospitalidad";
+      } else if (/tienda|shop|compra|producto|ropa|calzado/i.test(combinedText)) {
+        detectedCat = "Comercio Electrónico / Retail";
+      }
+
+      // 3. Plataforma detectada
+      const platform = res.detectedCms ? res.detectedCms : (res.meta?.responseHeaders?.server || "Hosting Cloud");
+
+      // 4. Cerrar auditoría y abrir modal de nuevo cliente
+      closeServicesAuditModal();
+      openNewClientModal();
+
+      // 5. Pre-llenar campos en el formulario
+      document.getElementById("clientLiveUrl").value = url;
+      document.getElementById("clientName").value = clientName;
+      document.getElementById("clientCategory").value = detectedCat;
+      document.getElementById("clientPlatform").value = platform;
+      document.getElementById("clientFee").value = "RD$ 4,500 / mes";
+      document.getElementById("clientStatus").value = "lead";
+
+      // 6. Preparar brechas para inyectarlas directamente al guardar
+      const gaps = res.services.filter(s => s.status !== 'passed');
+      window._pendingAuditGapsForNewClient = {
+        score: res.score,
+        latencyMs: res.latencyMs,
+        gaps: gaps.map(s => ({
+          taskTitle: `Remediación: ${s.title}`,
+          needed: s.needed,
+          findings: s.findings,
+          solution: s.solution
+        }))
+      };
+
+      const feedback = document.getElementById("autoScanFeedback");
+      if (feedback) {
+        feedback.classList.remove("hidden");
+        feedback.className = "text-[11px] font-bold text-emerald-400 bg-emerald-950/40 p-2.5 rounded border border-emerald-500/30";
+        feedback.innerHTML = `✓ Datos prellenados desde la Auditoría 360° (Health Score: ${res.score}/100, ${gaps.length} brechas preparadas en el Roadmap). ¡Solo completa los datos restantes!`;
+      }
+
+      document.getElementById("clientContact").focus();
+      showToast(`⚡ Ficha prellenada para "${clientName}". Solo completa los campos restantes.`, "success");
     }
 
     function copyAuditProposalWhatsapp() {

@@ -1741,17 +1741,17 @@
 
               <!-- Grid de archivos satélite reales -->
               <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs" id="ddSatelliteFilesGrid">
-                <a id="ddRobotsLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                <a id="ddRobotsLink" href="javascript:void(0)" onclick="openSatelliteFile('robots.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
                   <div class="font-bold text-[11px]">robots.txt</div>
-                  <div id="ddRobotsStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                  <div id="ddRobotsStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
                 </a>
-                <a id="ddSitemapLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                <a id="ddSitemapLink" href="javascript:void(0)" onclick="openSatelliteFile('sitemap.xml')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
                   <div class="font-bold text-[11px]">sitemap.xml</div>
-                  <div id="ddSitemapStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                  <div id="ddSitemapStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
                 </a>
-                <a id="ddLlmsLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                <a id="ddLlmsLink" href="javascript:void(0)" onclick="openSatelliteFile('llms.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
                   <div class="font-bold text-[11px]">llms.txt (IA)</div>
-                  <div id="ddLlmsStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                  <div id="ddLlmsStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
                 </a>
               </div>
 
@@ -3549,6 +3549,34 @@
        LÓGICA JAVASCRIPT DEL DASHBOARD
        ======================================================== -->
   <script>
+    // Sanitizador global contra XSS e inyecciones
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Apertura directa y segura de archivos satélite del cliente en nueva pestaña
+    function openSatelliteFile(fileType) {
+      const client = clients.find(c => c.id === currentDrilldownClientId);
+      if (!client || !client.liveUrl) {
+        showToast("Este cliente no tiene una URL asignada para comprobar archivos satélite", "warning");
+        return;
+      }
+      let base = client.liveUrl.trim();
+      if (!base.startsWith('http')) base = 'https://' + base;
+      try {
+        const u = new URL(base);
+        window.open(`${u.origin}/${fileType}`, '_blank');
+      } catch (e) {
+        window.open(`${base.replace(/\/+$/, '')}/${fileType}`, '_blank');
+      }
+    }
+
     // ==========================================
     // 1. CONSTANTES & ESTADO INICIAL
     // ==========================================
@@ -10519,7 +10547,16 @@ ${aiActionInstructions}`;
       }
 
       // Archivos Satélite Reales (Bajo Columna Centro)
-      const origin = client.liveUrl ? new URL(client.liveUrl).origin : "";
+      let origin = "";
+      if (client.liveUrl) {
+        try {
+          const uStr = client.liveUrl.trim();
+          const uObj = new URL(uStr.startsWith('http') ? uStr : 'https://' + uStr);
+          origin = uObj.origin;
+        } catch(e) {
+          origin = client.liveUrl.replace(/\/+$/, '');
+        }
+      }
       const robLink = document.getElementById("ddRobotsLink");
       const siteLink = document.getElementById("ddSitemapLink");
       const llmLink = document.getElementById("ddLlmsLink");

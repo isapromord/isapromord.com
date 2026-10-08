@@ -985,3 +985,19 @@
   - Inyección de la descripción canónica de 715 caracteres en los bloques Schema.org (`Organization` y `ProfessionalService`) de `index.html` y en `llms.txt`.
   - Adaptación de meta description (`<meta name="description">`), OpenGraph (`og:description`) y Twitter Card (`twitter:description`) con el extracto de alto impacto: *"En ISAPromoRD transformamos la presencia digital de empresas en Santo Domingo y República Dominicana: diseño web ultrarrápido (<0.5s), posicionamiento Google Maps (SEO Local), agentes de WhatsApp con IA y sistemas CRM a la medida."*
   - Metatags geográficos `geo.placename` y coordenadas ICBM sincronizados con Altos de Arroyo Hondo III (`18.4969, -69.9855`).
+
+## [2026-10-08] - Blindaje Anti-Colapso y Resiliencia del Motor de Auditoría 360°
+
+### 1. Diagnóstico de Causa Raíz (Por qué se colgaba)
+- **Causa Raíz Identificada:**
+  1. En `runServicesAudit`, se lanzaban 4 peticiones concurrentes a `api.microlink.io` (para la web, robots.txt, sitemap.xml y llms.txt). La capa gratuita de Microlink tiene un límite estricto de 25 peticiones por día y satura la cola con peticiones simultáneas, resultando en HTTP 429 o sockets estancados.
+  2. `AbortSignal.timeout(6000)` fallaba en ciertos contextos de navegador o esperaba 6s completos mientras las peticiones rechazadas lanzaban excepciones no controladas.
+  3. Las instrucciones que ocultaban el spinner de carga (`classList.add("hidden")`) y mostraban los resultados estaban ubicadas **fuera** del bloque de control de errores. Ante cualquier error de red o de parseo, el hilo se rompía y la interfaz quedaba permanentemente congelada en *"Analizando..."*.
+  4. Riesgo de `TypeError` en `ogImage.toLowerCase()` cuando Microlink devolvía estructuras de imagen como objeto anidado sin propiedad `.url`.
+
+### 2. Arquitectura de Solución Implementada (Zero-Hang Engine)
+- **Hard Watchdog y Try/Finally Absoluto:** El cierre del spinner de carga y la renderización de la interfaz ahora viven estrictamente dentro de un bloque `finally`. Es matemáticamente imposible que la modal quede en bucle infinito; a los 4.5s máximo se presentan los resultados técnicos sin importar el estado del dominio.
+- **Helper Seguro `safeFetch` con AbortController:** Control de cancelación con temporizador nativo independiente de la versión del motor JS.
+- **Desacoplamiento de Microlink:** Eliminación de los 3 requests pesados secundarios de Chromium. Se integró Cloudflare DNS-over-HTTPS (`cloudflare-dns.com`) para validación instantánea de infraestructura (<300ms, ilimitado y sin CORS) + fallback en cascada con proxy CORS ligero (`allorigins.win`).
+- **Sanitización Estricta de Metadatos:** `ogImage` garantizado como string nativo antes de cualquier operación de subcadena o minúsculas.
+- **Sincronización:** Reflejado de forma idéntica en `dashboard/index.html` y `dashboard.html`.

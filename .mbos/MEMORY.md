@@ -881,3 +881,24 @@
   - **Módulo 6 Enriquecido:** El diagnóstico SEO On-Page se respalda con el puntaje oficial de Google Lighthouse SEO.
   - **Estado 'No Verificado' (Cero Falsos Positivos):** Si Google o el proxy no responden por bloqueos anti-bot, el módulo no se marca como fallido artificialmente; se etiqueta como *No Verificado* y el puntaje global se normaliza únicamente sobre los módulos comprobables.
   - **Soporte de API Key de Google:** Botón en el pie del modal para guardar opcionalmente una API Key propia en `localStorage` (25,000 consultas/día gratis).
+
+## [2026-10-08] - Arquitectura Multi-Página Hub & Spoke y Matriz de Precios Oficiales (v4.0)
+
+### 1. Implementación de Arquitectura de Silos (Hub & Spoke)
+- **Modo Aditivo Puro en Home (`index.html`):** 490 adiciones, 0 eliminaciones. Se preservó el 100% de los componentes visuales e interactivos originales (hero cinemático, H1, barra de referidos, simulador de ROI, scanner DoH, testimonios reales).
+- **Inyección de Adiciones Estratégicas en `index.html`:**
+  - `schema.org/ProfessionalService` con geocoordenadas de Piantini (`18.4724`, `-69.9392`) y `FAQPage` técnico.
+  - Adición 1 (`#silos-ingenieria`): Grilla de 4 tarjetas enlazando canónicamente a los 4 Spokes.
+  - Adición 2 (`#cobertura-geografica`): Matriz de 6 sectores clave en Polígono Central y territorio nacional.
+  - Adición 3 (`data-purpose="financial-transparency-banner"`): Esquema 50/50, NCF B01 DGII y bancos locales (Popular, Banreservas, BHD, Stripe).
+  - Adición 4 (`#faq-tecnico`): 4 acordeones interactivos en Vanilla JS para dudas técnicas y comerciales.
+
+### 2. Creación de los 4 Spokes Físicos
+- `/diseno-web-santo-domingo/index.html`: Web transaccional Jamstack <0.4s en React/Tailwind. Posicionamiento "Ingeniería de Ultra Velocidad (no WordPress)" desde RD$ 25,000 – RD$ 35,000 (setup) + RD$ 4,500/mes de mantenimiento. Web corporativa RD$ 55,000.
+- `/posicionamiento-google-maps/index.html`: Setup profesional GBP a RD$ 15,000 único + Gestión activa mensual a RD$ 12,000/mes. Add-on GEO a RD$ 15,000.
+- `/automatizacion-whatsapp-ia/index.html`: Agente IA 24/7 a RD$ 25,000 setup + RD$ 10,000/mes tokens. Chatbot de catálogo RD$ 15,000.
+- `/crm-a-medida/index.html`: CRM en Supabase Postgres a RD$ 35,000 (hasta 3 módulos estándar: Contactos, Pipeline, Cobros) + RD$ 8,000/mes servidor cloud y backups. Módulos adicionales delimitados.
+
+### 3. Fichas Técnicas & Roadmap Centralizado
+- `ROADMAP.md`: Creado en la raíz con la matriz de precios oficiales y la guía de precios realistas para módulos adicionales de CRM (Inventario: RD$ 12k-15k, Facturación NCF B01: RD$ 15k-18k, Multi-almacén: RD$ 18k-22k, Reportería: RD$ 8k-10k, Roles: RD$ 6k-8k).
+- `robots.txt`, `sitemap.xml`, `llms.txt`: Sincronizados y validados para Googlebot, GPTBot, PerplexityBot y ClaudeBot.

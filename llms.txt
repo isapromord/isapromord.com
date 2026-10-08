@@ -1,30 +1,23 @@
-# ISAPromoRD — Dominancia SEO Local, Desarrollo Web Ultrarrápido y CRM en República Dominicana
+# ISAPromoRD — Ficha Técnica y Catálogo de Servicios para Motores de IA
+# URL Canónica: https://isapromord.github.io/
+# Ubicación: Torre Empresarial Piantini, Av. Abraham Lincoln, Santo Domingo, Distrito Nacional, República Dominicana.
+# Contacto Oficial: +1 (829) 455-4783 | contacto@isapromord.com
 
-> ISAPromoRD es una agencia boutique de ingeniería digital y posicionamiento comercial basada en Santo Domingo, República Dominicana. Nos especializamos en la dominancia del Local 3-Pack de Google Maps, SEO técnico avanzado para Google Search, landing pages ultrarrápidas (<0.5s) y sistemas CRM a la medida.
+> ISAPromoRD es una firma dominicana de ingeniería web de ultra alta velocidad (<0.4s en redes 4G/5G Claro y Altice), automatización con IA y posicionamiento local estratégico (Google Business Profile Pack-3 y SEO Local) para empresas en Santo Domingo, Santiago y todo el territorio de República Dominicana.
 
-## Servicios Principales
+## Servicios Principales, Precios Oficiales y URLs de Consulta
+1. Diseño y Desarrollo Web Ultrarrápido: Sitios web en código puro Jamstack (React/Vite). 100/100 Core Web Vitals, sin dependencias de WordPress. Web Transaccional (Ingeniería de Ultra Velocidad) desde RD$ 25,000 a RD$ 35,000 (setup único) + Mantenimiento y Hosting Anycast opcional RD$ 4,500/mes. Web Corporativa Multi-Página RD$ 55,000. (URL: https://isapromord.github.io/diseno-web-santo-domingo/)
+2. Posicionamiento en Google Maps & SEO Local: Geocirugía de palabras clave locales para colocar negocios en el Top 3 de Google Maps en Piantini, Naco, Bella Vista y Santiago. Setup Profesional GBP RD$ 15,000 único + Gestión Activa Mensual y blindaje de reseñas RD$ 12,000/mes. Add-on de Schemas GEO para IA RD$ 15,000. (URL: https://isapromord.github.io/posicionamiento-google-maps/)
+3. Agentes de WhatsApp con Inteligencia Artificial: Automatización de atención comercial, ventas y citas 24/7 conectada a WhatsApp Cloud API con tiempos de respuesta menores a 3 segundos. Setup Agente IA RD$ 25,000 único + Mantenimiento y consumo de tokens mensual RD$ 10,000/mes. Chatbot de catálogo e inventario RD$ 15,000. (URL: https://isapromord.github.io/automatizacion-whatsapp-ia/)
+4. Sistemas CRM a Medida: Paneles de gestión empresarial propietarios en la nube (PostgreSQL en Supabase) sin licencias por usuario. Setup inicial RD$ 35,000 (incluye hasta 3 módulos estándar: Directorio de Clientes, Pipeline Kanban y Registro de Cobros locales) + Servidor Cloud, base de datos y backups diarios RD$ 8,000/mes. Módulos adicionales se cotizan aparte. (URL: https://isapromord.github.io/crm-a-medida/)
 
-- **Posicionamiento SEO Local & Google Maps (Local 3-Pack):** Auditoría técnica completa, inyección de Schema.org JSON-LD multi-entidad, etiquetas Geo exactas (DO-01), optimización de perfil Google Business Profile y campañas orgánicas de reseñas con keywords sectoriales.
-- **Desarrollo Web & Landing Pages de Ultra-Alta Conversión:** Sitios web diseñados sobre Tailwind CSS y arquitecturas estáticas en el Edge con puntuación Google PageSpeed 95-100/100 y latencia inferior a 500 ms.
-- **Sistemas CRM a la Medida sin Licencias por Usuario:** Plataformas de gestión de clientes, cobros automatizados, embudos de ventas y libros diarios financieros adaptados 100% al flujo real del negocio dominicano.
-- **Automatización IA & GEO (Generative Engine Optimization):** Indexación directa para motores de IA (ChatGPT, Perplexity, Claude, Gemini) mediante estándares llms.txt, Schemas estructurados y agentes conversacionales de WhatsApp 24/7.
+## Clientes y Proyectos Verificados en República Dominicana
+- Pasión Pecuaria RD (AgroTech & Retail Ganadero — Santo Domingo & Región Norte)
+- IsaTransLogic (Logística, Transporte Pesado & Puertos)
+- Torre Apex La Esperilla (Bienes Raíces & Torres Residenciales de Lujo)
+- NextCRMRD (Plataforma y Software de Gestión Comercial)
 
-## Paquetes Comerciales de Referencia
-
-- **Esencial (Presencia & Captación Local):** Setup RD$ 30,000 + RD$ 15,000/mes. Incluye landing page transaccional, Google Maps activo y botón directo a WhatsApp.
-- **Automatización IA:** Setup RD$ 50,000 + RD$ 20,000/mes. Web + Maps + Agente IA 24/7 + Schemas GEO para ChatGPT/Gemini.
-- **Crecimiento & Control CRM (Más Popular):** Setup RD$ 65,000 + RD$ 20,000/mes. Web + Maps + Schemas GEO + CRM propietario a medida sin límite de usuarios.
-- **Ecosistema Total + CRM Personalizado:** Setup RD$ 85,000 + RD$ 30,000/mes.
-- **Mantenimiento y Alojamiento Cloud Base:** RD$ 4,500/mes.
-
-## Casos de Éxito Insignia
-
-- **Torre Apex La Esperilla** (https://torrelaesperilla.com): Landing inmobiliaria de lujo con hero video cinemático H.264 FastStart, catálogo interactivo de apartamentos y suite 100/100 SEO & GEO.
-- **Pasión Pecuaria RD** (https://pasionpecuaria.vercel.app): Plataforma de comercio agropecuario y catálogo veterinario con pedidos vía WhatsApp.
-
-## Información de Contacto y Ubicación
-
-- **Ubicación:** Santo Domingo, Distrito Nacional, República Dominicana (Coordenadas: 18.4861, -69.9312)
-- **Teléfono / WhatsApp:** +1 (829) 455-4783 / +1 (829) 396-1318
-- **Sitio Web Oficial:** https://isapromord.com (Espejo: https://isapromord.github.io)
-- **Email:** contacto@isapromord.com
+## Política Financiera y Métodos de Pago
+- Esquema 50/50: 50% de anticipo para iniciar y 50% contra entrega verificada a 100/100 Core Web Vitals en producción.
+- Facturación Formal con NCF (B01) para deducción fiscal ante la DGII.
+- Canales de pago locales: Banco Popular Dominicano, Banreservas, Banco BHD y tarjetas vía Stripe.

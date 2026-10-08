@@ -54,7 +54,16 @@
   - Emblema 3D aumentado a 62px con resplandor cyan.
 - **Video Animado Cinemático en Producción:**
   - Archivos WebM (1.14 MB) y MP4 (1.49 MB) con faststart y poster WebP de 11 KB.
+- **Arquitectura Multi-Página Hub & Spoke (Silos de Ingeniería):**
+  - Hub Central: `https://isapromord.github.io/` (Zero-Destructive, 490 adiciones, 0 eliminaciones).
+  - Spoke 1: `https://isapromord.github.io/diseno-web-santo-domingo/` (Web Transaccional <0.4s en React Jamstack).
+  - Spoke 2: `https://isapromord.github.io/posicionamiento-google-maps/` (Geocirugía GBP Pack-3 & SEO Local).
+  - Spoke 3: `https://isapromord.github.io/automatizacion-whatsapp-ia/` (Agentes de WhatsApp con IA 24/7).
+  - Spoke 4: `https://isapromord.github.io/crm-a-medida/` (Sistemas CRM Propietarios Supabase Postgres).
+  - Matriz Oficial de Precios y Módulos Adicionales documentada en `ROADMAP.md`.
+  - Archivos técnicos SEO/GEO: `robots.txt`, `sitemap.xml`, `llms.txt` 100% optimizados.
 - **Pipeline GitHub Pages Ultrarrápido:**
   - Despliegues continuos directamente a la rama `gh-pages` con build limpio en segundos.
 - **Branch Principal:** `main` y `gh-pages` (sincronizados con remotos `origin` y `pages`).
 - **Hosting Activo:** GitHub Pages CDN Anycast Global con SSL automático.
+

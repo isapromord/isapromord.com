@@ -407,6 +407,95 @@
   }
   </script>
 
+  <!-- Schema JSON-LD: ProfessionalService & FAQPage Técnico -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://isapromord.com/#professionalservice",
+        "name": "ISAPromoRD",
+        "url": "https://isapromord.github.io/",
+        "telephone": "+18294554783",
+        "email": "contacto@isapromord.com",
+        "image": "https://isapromord.github.io/assets/logo.png",
+        "priceRange": "RD$ 25,000 - RD$ 55,000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Torre Empresarial Piantini, Av. Abraham Lincoln",
+          "addressLocality": "Santo Domingo",
+          "addressRegion": "Distrito Nacional",
+          "postalCode": "10148",
+          "addressCountry": "DO"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 18.4724,
+          "longitude": -69.9392
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "08:30",
+            "closes": "18:30"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday"],
+            "opens": "09:00",
+            "closes": "13:00"
+          }
+        ],
+        "areaServed": [
+          { "@type": "City", "name": "Santo Domingo" },
+          { "@type": "City", "name": "Santiago de los Caballeros" },
+          { "@type": "City", "name": "Punta Cana" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://isapromord.com/#faq-tecnico",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Por qué es tan crítico que mi página web cargue en menos de 0.5s en República Dominicana?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "En República Dominicana el 53% de los usuarios móviles abandonan una página si tarda más de 2 segundos en cargar en redes Claro o Altice. Desarrollar en Jamstack puro con carga menor a 0.4s maximiza la retención y la conversión inmediata a WhatsApp."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto tiempo toma tener mi sitio web y Google Maps en producción?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Una Landing Transaccional toma entre 7 a 10 días laborables. Una Web Corporativa Multi-Página de 10 a 14 días. La Geocirugía de Google Business Profile toma de 5 a 7 días laborables para ver resultados de indexación."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Trabajan únicamente con empresas de Santo Domingo o también en el interior del país?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Brindamos cobertura en todo el territorio nacional: Santo Domingo, Santiago, San Francisco de Macorís, La Vega, Puerto Plata, Punta Cana y la diáspora dominicana en el extranjero."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo funciona la garantía de velocidad y el esquema de pago 50/50?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pagas el 50% de anticipo para iniciar y el 50% restante solo cuando la web esté 100% auditada a 100/100 Core Web Vitals en producción. Si no hay mejoras en 60 días, trabajamos sin costo hasta lograrlas."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
   <style>
     /* Estilos Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -1046,6 +1135,104 @@
   </section>
 
   <!-- ========================================================
+       ADICIÓN 1: SILOS DE INGENIERÍA ESPECIALIZADA (HUB & SPOKE)
+       ======================================================== -->
+  <section class="py-24 relative border-t border-slate-800 bg-[#0b0f17]" data-purpose="engineering-silos-section" id="silos-ingenieria">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#00d2ff]"></span>
+          ARQUITECTURA DISTRIBUIDA • HUB &amp; SPOKE
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          Silos de Ingeniería Especializada
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Arquitectura modular de alto rendimiento. Conoce a fondo las especificaciones técnicas de cada una de nuestras divisiones.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- CARD 1 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-[#00d2ff] font-mono font-bold text-lg mb-5 group-hover:scale-105 transition-transform">
+              ⚡
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[#00d2ff] transition-colors">
+              Desarrollo Web Ultrarrápido (&lt;0.5s)
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-6">
+              Arquitecturas Jamstack puras en React y Tailwind. Sin bases de datos pesadas ni plugins.
+            </p>
+          </div>
+          <a href="/diseno-web-santo-domingo/" class="inline-flex items-center gap-2 text-xs font-bold font-mono text-[#00d2ff] hover:text-cyan-300 transition-colors pt-4 border-t border-slate-800">
+            Ver especificaciones y tiempos ➔
+          </a>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-950/40 border border-emerald-500/20 flex items-center justify-center text-[#10b981] font-mono font-bold text-lg mb-5 group-hover:scale-105 transition-transform">
+              📍
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[#10b981] transition-colors">
+              Google Maps Pack-3 &amp; SEO Local
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-6">
+              Geocirugía técnica de Google Business Profile. Dominamos los primeros 3 puestos del mapa en Piantini, Naco, Bella Vista y Santiago.
+            </p>
+          </div>
+          <a href="/posicionamiento-google-maps/" class="inline-flex items-center gap-2 text-xs font-bold font-mono text-[#10b981] hover:text-emerald-300 transition-colors pt-4 border-t border-slate-800">
+            Ver estrategia de geocirugía ➔
+          </a>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-purple-950/40 border border-purple-500/20 flex items-center justify-center text-purple-400 font-mono font-bold text-lg mb-5 group-hover:scale-105 transition-transform">
+              🤖
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
+              Agentes de WhatsApp con IA 24/7
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-6">
+              Respuestas instantáneas en menos de 3 segundos. Califica clientes, envía catálogos y agenda citas automáticamente.
+            </p>
+          </div>
+          <a href="/automatizacion-whatsapp-ia/" class="inline-flex items-center gap-2 text-xs font-bold font-mono text-purple-400 hover:text-purple-300 transition-colors pt-4 border-t border-slate-800">
+            Ver automatización con IA ➔
+          </a>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-950/40 border border-cyan-500/20 flex items-center justify-center text-[#00d2ff] font-mono font-bold text-lg mb-5 group-hover:scale-105 transition-transform">
+              🗄️
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-[#00d2ff] transition-colors">
+              Sistemas CRM &amp; Paneles a Medida
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed mb-6">
+              Paneles propietarios sin licencias abusivas por usuario de HubSpot o Salesforce. Base de datos segura en la nube.
+            </p>
+          </div>
+          <a href="/crm-a-medida/" class="inline-flex items-center gap-2 text-xs font-bold font-mono text-[#00d2ff] hover:text-cyan-300 transition-colors pt-4 border-t border-slate-800">
+            Ver arquitectura CRM ➔
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
        TESTIMONIOS DE CASOS REALES EN REPÚBLICA DOMINICANA
        ======================================================== -->
   <section class="py-24 relative bg-[#0a0e17]" data-purpose="testimonials-section" id="testimonios">
@@ -1120,6 +1307,150 @@
               <strong class="text-white block text-sm">Ing. Roberto Jiménez</strong>
               <span class="text-xs text-slate-400 font-mono">Torre La Esperilla</span>
             </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       ADICIÓN 2: COBERTURA ESTRATÉGICA EN POLÍGONO CENTRAL Y RD
+       ======================================================== -->
+  <section class="py-24 relative border-t border-slate-800 bg-[#0f131c]/60" data-purpose="geographic-coverage-section" id="cobertura-geografica">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-950/30 text-[#10b981] font-mono text-xs font-semibold mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+          GEOCIRUGÍA REGIONAL • REPÚBLICA DOMINICANA
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          Cobertura Estratégica en Polígono Central y Todo el Territorio Nacional
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Implementamos protocolos de geocirugía calibrados específicamente para la densidad poblacional y hábitos de compra de cada zona comercial de RD.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- BLOQUE 1 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🩺</span>
+            <div>
+              <h3 class="text-base font-bold text-white">Clínicas &amp; Salud Privada</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Especialistas &bull; Centros Odontológicos</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Atracción de pacientes locales e internacionales de turismo médico con fichas optimizadas por especialidad.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Piantini</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Gazcue</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Naco</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Bella Vista</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE 2 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🏢</span>
+            <div>
+              <h3 class="text-base font-bold text-white">Inmobiliarias &amp; Torres de Lujo</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Desarrollo Inmobiliario &bull; Preventas</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Captación de compradores de alto poder adquisitivo y miembros de la diáspora para proyectos residenciales.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">La Esperilla</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Av. Anacaona</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Punta Cana</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Bávaro</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE 3 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">⚖️</span>
+            <div>
+              <h3 class="text-base font-bold text-white">Firmas Legales &amp; Tributarias</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Litigios &bull; Asesoría Corporativa</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Autoridad de marca jurídica y visibilidad en búsquedas corporativas de alto nivel en corredores financieros.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Polígono Central</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Av. Winston Churchill</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Av. Abraham Lincoln</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE 4 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🚛</span>
+            <div>
+              <h3 class="text-base font-bold text-white">Logística, Transporte &amp; Puertos</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Carga Pesada &bull; Operadores Logísticos</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Posicionamiento en nodos portuarios e industriales neurálgicos de importación y distribución en RD.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Puerto de Haina</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Santo Domingo Este</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Autopista Duarte</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Santiago</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE 5 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🌾</span>
+            <div>
+              <h3 class="text-base font-bold text-white">AgroTech &amp; Agroindustria</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Insumos &bull; Maquinaria Agrícola</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Conexión con productores agrícolas y ganaderos del corazón del Cibao mediante búsquedas geo-localizadas.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">La Vega</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">San Francisco de Macorís</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Moca</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Bonao</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE 6 -->
+        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🛍️</span>
+            <div>
+              <h3 class="text-base font-bold text-white">Comercio B2B &amp; Servicios Técnicos</h3>
+              <span class="text-xs font-mono text-[#00d2ff]">Distribuidores &bull; Mantenimiento Industrial</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">
+            Dominancia en licitaciones privadas y suministros empresariales a escala local y nacional.
+          </p>
+          <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-slate-300">
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Distrito Nacional</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Zona Industrial de Herrera</span>
+            <span class="px-2 py-0.5 rounded bg-slate-800/80 border border-slate-700">Nivel Nacional</span>
           </div>
         </div>
 
@@ -1236,6 +1567,49 @@
 
       </div>
 
+      <!-- ========================================================
+           ADICIÓN 3: TRANSPARENCIA FINANCIERA, NCF Y CANALES DE PAGO
+           ======================================================== -->
+      <div class="my-12 p-8 sm:p-10 rounded-3xl bg-[#0f131c] border border-cyan-500/20 max-w-4xl mx-auto relative overflow-hidden" data-purpose="financial-transparency-banner">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
+          <div class="w-16 h-16 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center text-3xl shrink-0">
+            🛡️
+          </div>
+          <div class="flex-grow space-y-4">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-[#10b981] font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                🛡️ ESQUEMA DE CONFIANZA 50/50 • CERO RIESGO COMERCIAL
+              </span>
+              <p class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed">
+                Pagas el 50% para iniciar y el 50% restante solo cuando la plataforma esté completamente auditada a 100/100 Core Web Vitals y verificada en producción.
+              </p>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800">
+              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
+                <strong class="text-white">Canales de Pago Locales &amp; Facturación con NCF:</strong> Emitimos factura con comprobante fiscal (B01) para deducibilidad del 100% de la inversión ante la DGII.
+              </p>
+
+              <!-- BADGES BANCARIOS -->
+              <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 font-mono text-xs text-slate-300">
+                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span> Banco Popular Dominicano
+                </span>
+                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Banreservas
+                </span>
+                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-cyan-500"></span> Banco BHD
+                </span>
+                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-purple-500"></span> Stripe / Tarjetas Internacionales
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Tarjeta Principal de Cotización Interactiva -->
       <div class="p-8 sm:p-12 rounded-3xl bg-[#161f30] border-2 border-[#00d2ff]/50 shadow-glow-cyan text-center max-w-4xl mx-auto mb-12 relative overflow-hidden">
         <h4 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-4">
@@ -1277,6 +1651,122 @@
 
     </div>
   </section>
+
+  <!-- ========================================================
+       ADICIÓN 4: FAQ EXHAUSTIVO CON ACORDEONES DESPLEGABLES
+       ======================================================== -->
+  <section class="py-24 relative border-t border-slate-800 bg-[#0b0f17]" data-purpose="technical-faq-section" id="faq-tecnico">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#00d2ff]"></span>
+          CLARIDAD TÉCNICA • CERO AMBIGÜEDAD
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          Ingeniería Sin Rodeos: Respuestas Técnicas y Comerciales
+        </h2>
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+          Resolvemos las dudas críticas de gerentes y propietarios antes de dar inicio a la ingeniería de su plataforma.
+        </p>
+      </div>
+
+      <!-- ACCORDION WRAPPER -->
+      <div class="space-y-4" id="isaFaqAccordion">
+        
+        <!-- ITEM 1 -->
+        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
+          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+            <span class="text-base sm:text-lg">¿Por qué es tan crítico que mi página web cargue en menos de 0.5s en República Dominicana?</span>
+            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
+          </button>
+          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+            En República Dominicana, más del 80% de los accesos a sitios web ocurren desde smartphones con redes móviles de Claro y Altice. Las conexiones en la calle o en interiores presentan fluctuaciones severas de latencia. Si tu página tarda más de 2 segundos en responder, el 53% de los usuarios abandonan el sitio antes de ver tu oferta o pulsar el botón de WhatsApp. Al desarrollar en código estático puro Jamstack con nodos CDN Edge en el Caribe y Miami, eliminamos las consultas lentas a bases de datos, garantizando una carga instantánea en menos de 0.4s y un puntaje perfecto de 100/100 Core Web Vitals.
+          </div>
+        </div>
+
+        <!-- ITEM 2 -->
+        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
+          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+            <span class="text-base sm:text-lg">¿Cuánto tiempo toma tener mi sitio web y Google Maps en producción?</span>
+            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
+          </button>
+          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+            Nuestros tiempos de entrega son precisos y auditados por contrato:
+            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-300">
+              <li><strong>Landing Transaccional (&lt;0.5s):</strong> De 7 a 10 días laborables completamente testeada en producción.</li>
+              <li><strong>Web Corporativa Multi-Página:</strong> De 10 a 14 días laborables incluyendo arquitectura Spoke y SEO On-Page.</li>
+              <li><strong>Geocirugía de Google Business Profile (GBP):</strong> De 5 a 7 días hábiles para la reestructuración completa de coordenadas, categorías, metadatos y fotografías geo-etiquetadas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ITEM 3 -->
+        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
+          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+            <span class="text-base sm:text-lg">¿Trabajan únicamente con empresas de Santo Domingo o también en el interior del país?</span>
+            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
+          </button>
+          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+            Ofrecemos cobertura técnica en todo el territorio nacional: Santo Domingo (Distrito Nacional, Santo Domingo Este, Norte y Oeste), Santiago de los Caballeros, San Francisco de Macorís, La Vega, Puerto Plata, Punta Cana, Bávaro y la región Sur. Asimismo, colaboramos frecuentemente con empresarios dominicanos radicados en Nueva York, Florida, Massachusetts y Puerto Rico que operan inversiones y negocios en RD.
+          </div>
+        </div>
+
+        <!-- ITEM 4 -->
+        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
+          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+            <span class="text-base sm:text-lg">¿Cómo funciona la garantía de velocidad y el esquema de pago 50/50?</span>
+            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
+          </button>
+          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+            Mantenemos una política de riesgo cero: abonas el 50% para dar inicio formal a la fase de ingeniería, y el 50% restante solo cuando la web esté 100% terminada, auditada ante tus ojos a 100/100 Core Web Vitals en Google Lighthouse y verificada en servidores de producción. Además, cuentas con nuestra Garantía de Rendimiento de 60 días: si no se logran mejoras medibles en posicionamiento y tiempos de respuesta, continuamos optimizando sin ningún costo adicional hasta alcanzar la meta pactada.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // Inicializador de Acordeón FAQ Técnico
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqTriggers = document.querySelectorAll('.faq-trigger');
+      faqTriggers.forEach(function(trigger) {
+        trigger.addEventListener('click', function() {
+          const item = this.closest('.faq-item');
+          const content = item.querySelector('.faq-content');
+          const icon = item.querySelector('.faq-icon');
+          const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+          // Cerrar otros acordeones
+          document.querySelectorAll('.faq-item').forEach(function(otherItem) {
+            if (otherItem !== item) {
+              const otherBtn = otherItem.querySelector('.faq-trigger');
+              const otherContent = otherItem.querySelector('.faq-content');
+              const otherIcon = otherItem.querySelector('.faq-icon');
+              if (otherContent) otherContent.classList.add('hidden');
+              if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+              if (otherIcon) otherIcon.textContent = '+';
+              otherItem.classList.remove('border-cyan-500/40');
+            }
+          });
+
+          if (isExpanded) {
+            content.classList.add('hidden');
+            this.setAttribute('aria-expanded', 'false');
+            icon.textContent = '+';
+            item.classList.remove('border-cyan-500/40');
+          } else {
+            content.classList.remove('hidden');
+            this.setAttribute('aria-expanded', 'true');
+            icon.textContent = '−';
+            item.classList.add('border-cyan-500/40');
+          }
+        });
+      });
+    });
+  </script>
 
   <!-- ========================================================
        BANNER DE VIDEO-AUDITORÍA GRATIS

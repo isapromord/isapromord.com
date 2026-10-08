@@ -6524,24 +6524,22 @@ https://isapromord.github.io`;
         } catch(e) {}
       }
 
-      // Extraer datos reales del HTML o de Microlink
-      let title = (meta?.title || "").trim();
-      if (!title && doc) title = doc.querySelector('title')?.textContent?.trim() || "";
+      // Extraer datos reales del HTML (prioridad máxima al árbol DOM en vivo) o de Microlink como fallback
+      let title = doc?.querySelector('title')?.textContent?.trim() || "";
       if (!title && rawHtml) {
         const tm = rawHtml.match(/<title[^>]*>(.*?)<\/title>/i);
         if (tm) title = tm[1].trim();
       }
+      if (!title && meta?.title) title = meta.title.trim();
 
-      let desc = (meta?.description || "").trim();
-      if (!desc && doc) {
-        desc = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || 
-               doc.querySelector('meta[property="og:description"]')?.getAttribute('content')?.trim() || "";
-      }
+      let desc = doc?.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || 
+                 doc?.querySelector('meta[property="og:description"]')?.getAttribute('content')?.trim() || "";
       if (!desc && rawHtml) {
         const dm = rawHtml.match(/<meta[^>]*name=["']description["'][^>]*content=["'](.*?)["']/i) ||
                    rawHtml.match(/<meta[^>]*content=["'](.*?)["'][^>]*name=["']description["']/i);
         if (dm) desc = dm[1].trim();
       }
+      if (!desc && meta?.description) desc = meta.description.trim();
 
       let ogImage = "";
       if (typeof meta?.image?.url === "string") {
@@ -6748,14 +6746,15 @@ https://isapromord.github.io`;
       let s5_status = "failed";
       let s5_findings = "";
       let s5_needed = "";
-      let s5_score = 0;
+      const hasFloatingWa = doc ? (Boolean(doc.querySelector('[class*="fixed"]')) && hasWaLink) : (rawHtml.includes('fixed') && hasWaLink);
+      const isRdPhoneDetected = hasRdPhone || /(?:809|829|849)/.test(rawHtml) || /(?:809|829|849)/.test(htmlLower);
 
-      if (hasWaLink && hasRdPhone) {
+      if (hasWaLink && (isRdPhoneDetected || hasFloatingWa)) {
         s5_status = "passed";
         s5_score = 15;
-        s5_findings = "Canal directo WhatsApp detectado en el sitio con número dominicano verificado.";
+        s5_findings = "Canal directo WhatsApp detectado en el sitio con botón interactivo de alta visibilidad y número verificado.";
         s5_needed = "Conectar automatización o respuestas pre-cargadas para respuesta inmediata en <3 segundos.";
-      } else if (hasWaLink || hasRdPhone) {
+      } else if (hasWaLink || isRdPhoneDetected) {
         s5_status = "warning";
         s5_score = 8;
         s5_findings = "Dispone de teléfono o mención de WhatsApp pero sin botón interactivo de alta visibilidad.";

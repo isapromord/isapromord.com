@@ -1791,8 +1791,8 @@
                     <span id="ddPhaseClientText" class="text-slate-100 font-bold text-xs truncate block">Entregables Activos</span>
                   </div>
                 </div>
-                <button onclick="promptAddTask(currentDrilldownClientId); renderClientDrilldown();" class="text-cyan-400 hover:text-cyan-300 text-xs font-bold shrink-0">
-                  + Añadir
+                <button onclick="openRoadmapManagementModal(currentDrilldownClientId)" class="px-2.5 py-1 rounded bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 hover:text-cyan-200 text-xs font-bold shrink-0 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm active:scale-95">
+                  <span>+ Gestionar / Añadir</span>
                 </button>
               </div>
 
@@ -2934,6 +2934,140 @@
   </div>
 
   <!-- ========================================================
+       MODAL: GESTIÓN DE ROADMAP & VINCULACIÓN DE PROPUESTAS
+       ======================================================== -->
+  <div id="roadmapManagementModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0c1322] border border-cyan-500/30 rounded-xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Header -->
+      <div class="p-5 sm:p-6 border-b border-white/[0.08] bg-[#0f172a] flex items-center justify-between gap-4 shrink-0">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-10 h-10 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-mono text-xl shrink-0">
+            📋
+          </div>
+          <div class="overflow-hidden">
+            <h3 class="text-base sm:text-lg font-black text-white tracking-tight truncate stitch-title">
+              Roadmap & Entregables de la Cuenta
+            </h3>
+            <p class="text-xs text-slate-400 truncate">
+              Cliente: <span class="text-cyan-300 font-bold" id="roadmapModalClientName">--</span>
+            </p>
+          </div>
+        </div>
+        <button onclick="closeRoadmapManagementModal()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center gap-1 px-5 pt-3 border-b border-white/[0.08] bg-[#090d16] shrink-0 overflow-x-auto">
+        <button type="button" onclick="switchRoadmapTab('proposals')" id="roadmapTabBtn-proposals" class="px-4 py-2.5 text-xs font-bold border-b-2 border-cyan-400 text-cyan-300 transition-colors flex items-center gap-2 shrink-0">
+          <span>📄 Propuestas Comerciales</span>
+          <span id="roadmapModalPropBadge" class="px-2 py-0.5 rounded-full text-[10px] bg-cyan-500/20 text-cyan-300 font-mono">0</span>
+        </button>
+        <button type="button" onclick="switchRoadmapTab('catalog')" id="roadmapTabBtn-catalog" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2 shrink-0">
+          <span>📦 Catálogo Oficial ISAPromoRD</span>
+        </button>
+        <button type="button" onclick="switchRoadmapTab('custom')" id="roadmapTabBtn-custom" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2 shrink-0">
+          <span>✏️ Hito Personalizado</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 sm:p-6 overflow-y-auto space-y-5 flex-1 text-slate-200" id="roadmapModalBody">
+        
+        <!-- TAB 1: PROPUESTAS COMERCIALES -->
+        <div id="roadmapView-proposals" class="space-y-4">
+          <div class="bg-cyan-950/30 border border-cyan-500/20 rounded-lg p-3.5 text-xs text-cyan-200/90 flex items-start gap-3">
+            <span class="text-base shrink-0">💡</span>
+            <div>
+              <strong class="font-bold text-cyan-300 block mb-0.5">Sincronización de Servicios y Propuestas</strong>
+              Al aprobar una propuesta, todos los entregables del paquete y servicios a la carta seleccionados se inyectan automáticamente en el Roadmap activo con sus guías técnicas precargadas.
+            </div>
+          </div>
+
+          <div id="roadmapProposalsList" class="space-y-3">
+            <!-- Inyectado dinámicamente con las propuestas del cliente -->
+          </div>
+        </div>
+
+        <!-- TAB 2: CATÁLOGO OFICIAL -->
+        <div id="roadmapView-catalog" class="space-y-4 hidden">
+          <p class="text-xs text-slate-400">
+            Selecciona uno o más servicios estándar de ISAPromoRD para incorporarlos al roadmap activo con sus guías técnicas de ejecución:
+          </p>
+          <div id="roadmapCatalogGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <!-- Inyectado dinámicamente -->
+          </div>
+          <div class="flex justify-end pt-2">
+            <button onclick="injectSelectedCatalogServices()" class="px-5 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-md shadow-md shadow-cyan-500/20 transition-all cursor-pointer">
+              + Inyectar Servicios Seleccionados
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: HITO PERSONALIZADO -->
+        <div id="roadmapView-custom" class="space-y-4 hidden">
+          <form onsubmit="handleSaveCustomRoadmapTask(event)" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                Título del Hito o Entregable *
+              </label>
+              <input 
+                type="text" 
+                id="customRoadmapTaskTitle" 
+                required 
+                placeholder="Ej. Integración con pasarela de pago Azul / Cardnet" 
+                class="w-full px-3.5 py-2.5 rounded bg-slate-900 border border-slate-700 text-white text-xs font-medium focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                Resumen / Objetivo del Hito (Opcional)
+              </label>
+              <input 
+                type="text" 
+                id="customRoadmapTaskSummary" 
+                placeholder="Ej. Conectar checkout seguro y verificar credenciales de producción." 
+                class="w-full px-3.5 py-2.5 rounded bg-slate-900 border border-slate-700 text-white text-xs font-medium focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                Pasos de Ejecución / Notas Técnicas (Opcional)
+              </label>
+              <textarea 
+                id="customRoadmapTaskDetails" 
+                rows="3" 
+                placeholder="1. Solicitar credenciales API&#10;2. Configurar webhook de confirmación&#10;3. Realizar transacción de prueba RD$ 100" 
+                class="w-full px-3.5 py-2.5 rounded bg-slate-900 border border-slate-700 text-white text-xs font-medium focus:ring-2 focus:ring-cyan-500 focus:outline-none"
+              ></textarea>
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+              <button type="button" onclick="closeRoadmapManagementModal()" class="px-4 py-2.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors">
+                Cancelar
+              </button>
+              <button type="submit" class="px-5 py-2.5 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold shadow-md shadow-cyan-500/20 transition-all cursor-pointer">
+                Guardar Hito en Roadmap
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-white/[0.08] bg-[#0f172a] flex items-center justify-between gap-3 shrink-0 text-xs text-slate-400">
+        <span id="roadmapModalFooterCount">0 entregables en cuenta</span>
+        <button onclick="closeRoadmapManagementModal()" class="px-4 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
        MODAL: AUDITORÍA 360° DE TODOS LOS SERVICIOS ISAPROMORD
        ======================================================== -->
   <div id="servicesAuditModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
@@ -3203,6 +3337,13 @@
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764zm3.377 8.21c-.14.394-.813.738-1.127.785-.302.046-.697.067-1.133-.073-.284-.092-.647-.215-1.114-.419-1.968-.858-3.237-2.859-3.336-2.991-.098-.133-.799-1.063-.799-2.024 0-.961.503-1.433.682-1.628.179-.196.391-.245.522-.245.131 0 .262.001.376.007.12.006.281-.046.438.333.163.393.555 1.353.604 1.452.049.098.082.213.016.344-.066.13-.098.213-.196.328-.098.115-.207.257-.295.344-.098.098-.201.205-.087.401.115.197.511.843 1.096 1.365.753.672 1.388.88 1.585.979.197.098.312.082.427-.049.115-.131.491-.573.622-.77.131-.197.262-.164.442-.098.18.065 1.146.541 1.343.639.197.098.328.148.377.23.049.082.049.475-.091.869z"></path></svg>
           <span>WhatsApp</span>
         </a>
+      </div>
+
+      <!-- Conexión Directa al Roadmap del Cliente -->
+      <div id="modalResRoadmapBox" class="hidden pt-3 border-t border-slate-200">
+        <button id="modalResRoadmapBtn" onclick="activateCurrentProposalInRoadmap()" class="w-full py-2.5 px-4 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20 transition-all cursor-pointer">
+          <span>🚀 Activar Servicios en el Roadmap del Cliente</span>
+        </button>
       </div>
     </div>
   </div>
@@ -4794,7 +4935,7 @@
                           ${completedTasks}/${totalTasks} (${progressPct}%)
                         </span>
                       </span>
-                      <button onclick="promptAddTask('${client.id}')" class="text-cyan-400 hover:text-cyan-300 text-[11px] font-bold">
+                      <button onclick="openRoadmapManagementModal('${client.id}')" class="text-cyan-400 hover:text-cyan-300 text-[11px] font-bold cursor-pointer">
                         + Añadir Tarea
                       </button>
                     </div>
@@ -5143,7 +5284,7 @@
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Pasos Operativos:</span>
-              <button onclick="promptAddTask('${client.id}'); renderDrawerContent();" class="text-cyan-400 hover:text-cyan-300 text-xs font-bold">
+              <button onclick="openRoadmapManagementModal('${client.id}')" class="text-cyan-400 hover:text-cyan-300 text-xs font-bold cursor-pointer">
                 + Añadir Paso
               </button>
             </div>
@@ -5459,38 +5600,576 @@
     // ==========================================
     // 8. TAREAS DEL CLIENTE
     // ==========================================
+    // 8. TAREAS & ROADMAP AVANZADO DEL CLIENTE
+    // ==========================================
     function toggleTask(clientId, taskId) {
       const client = clients.find(c => c.id === clientId);
       if (!client) return;
 
-      const task = (client.tasks || []).find(t => t.id === taskId);
+      const task = (client.tasks || []).find(t => (t.id !== undefined && t.id === taskId) || t.id === Number(taskId));
       if (task) {
         task.done = !task.done;
-        saveClientsToStorage();
+        saveClientsToStorage(true);
         renderClients();
+        if (typeof renderClientDrilldown === 'function' && currentDrilldownClientId === clientId) {
+          renderClientDrilldown();
+        }
       }
     }
 
-    function promptAddTask(clientId) {
-      const title = prompt("Título de la nueva tarea o hito para este cliente:");
-      if (!title || !title.trim()) return;
+    function deleteClientTask(clientId, taskId) {
+      const client = clients.find(c => c.id === clientId);
+      if (!client || !client.tasks) return;
+
+      client.tasks = client.tasks.filter((t, i) => (t.id !== undefined ? t.id !== taskId : i !== taskId));
+      saveClientsToStorage(true);
+      renderClients();
+      if (typeof renderClientDrilldown === 'function' && currentDrilldownClientId === clientId) {
+        renderClientDrilldown();
+      }
+      showToast("Entregable eliminado del roadmap", "info");
+    }
+
+    // Catálogo oficial de servicios estándar ISAPromoRD
+    const OFFICIAL_CATALOG_SERVICES = [
+      {
+        key: "web-fast",
+        icon: "🌐",
+        name: "Desarrollo de Landing Page Transaccional (<1s)",
+        badge: "Pago Único (RD$ 20,000)",
+        summary: "Desarrollo en React/Vite con carga ultra-rápida en 4G RD, diseño responsive y botón WhatsApp transaccional.",
+        details: "1. Estructura HTML5 semántica y Tailwind CSS minificado.\n2. Optimización de imágenes en formato WebP/AVIF.\n3. Integración de botón interactivo de WhatsApp con mensaje transaccional pre-llenado.\n4. Certificación de carga <0.8s en PageSpeed."
+      },
+      {
+        key: "maps-setup",
+        icon: "📍",
+        name: "Optimización Profesional de Google Maps (GBP)",
+        badge: "Pago Único (RD$ 15,000)",
+        summary: "Reclamación, configuración técnica y optimización completa de ficha Google Business Profile para Pack-3.",
+        details: "1. Verificación de propiedad en Google Business Profile.\n2. Categorías primarias y secundarias de alta relevancia local.\n3. Catálogo de productos/servicios y subida de fotos geolocalizadas.\n4. Optimización de horarios y llamada a la acción hacia WhatsApp."
+      },
+      {
+        key: "maps-monthly",
+        icon: "📈",
+        name: "Gestión Activa Mensual Google Maps & SEO Local",
+        badge: "Mensual (RD$ 12,000/mes)",
+        summary: "Publicaciones semanales en Google Maps, respuesta profesional a cada reseña con palabras clave locales.",
+        details: "1. Redacción y publicación de posts semanales con ofertas y novedades.\n2. Respuesta en <24h a reseñas de clientes con keywords locales de Santo Domingo.\n3. Monitoreo del Local Pack 3 de Google Maps.\n4. Reporte mensual de llamadas y solicitudes de ruta ganadas."
+      },
+      {
+        key: "ai-whatsapp",
+        icon: "🤖",
+        name: "Agente IA WhatsApp 24/7 (Citas & Ventas)",
+        badge: "Setup (RD$ 25,000) + Tokens",
+        summary: "IA conversacional avanzada que atiende visitantes las 24 horas: resuelve dudas, califica leads y agenda citas.",
+        details: "1. Diseño del árbol conversacional y respuestas a preguntas frecuentes.\n2. Conexión de API de WhatsApp oficial con latencia de respuesta <3s.\n3. Agendamiento de citas directo a Google Calendar.\n4. Notificación inmediata a gerencia ante leads calificados."
+      },
+      {
+        key: "geo-schemas",
+        icon: "🔍",
+        name: "Optimización GEO Schemas JSON-LD & llms.txt",
+        badge: "Pago Único (RD$ 15,000)",
+        summary: "Implementación de Schema JSON-LD y archivo llms.txt para recomendación por ChatGPT, Gemini y Perplexity.",
+        details: "1. Bloque Schema.org LocalBusiness con geocoordenadas exactas y horarios.\n2. Archivo /llms.txt en raíz con catálogo y propuesta de valor condensada.\n3. Validar sintaxis en Schema.org Validator y Google Rich Results.\n4. Indexación en motores generativos de Inteligencia Artificial."
+      },
+      {
+        key: "crm-custom",
+        icon: "📊",
+        name: "CRM Personalizado a Medida (Ventas & Clientes)",
+        badge: "Setup (RD$ 35,000)",
+        summary: "Sistema centralizado para prospectos, clientes, catálogo y renovaciones sin costo por usuario.",
+        details: "1. Modelado de base de datos en Supabase con persistencia en tiempo real.\n2. Tablero de control de embudo de ventas y cotizaciones.\n3. Gestión de cartera de clientes y cuentas por cobrar.\n4. Capacitación del equipo comercial para adopción ágil."
+      },
+      {
+        key: "cloud-maintenance",
+        icon: "🛡️",
+        name: "Mantenimiento Cloud Anycast, SSL & Backups",
+        badge: "Mensual (RD$ 4,500/mes)",
+        summary: "Hosting Anycast, certificado SSL TLS 1.3, copias de seguridad continuas y soporte prioritario.",
+        details: "1. Monitoreo activo de Uptime 24/7 y latencia DNS oficial.\n2. Copias de seguridad automáticas de base de datos y archivos en la nube.\n3. Renovación automática de certificados de seguridad SSL.\n4. Soporte técnico prioritario por canal de WhatsApp de la agencia."
+      }
+    ];
+
+    let currentRoadmapClientId = null;
+
+    function openRoadmapManagementModal(clientId) {
+      if (!clientId) clientId = currentDrilldownClientId;
+      if (!clientId && clients.length > 0) clientId = clients[0].id;
+      currentRoadmapClientId = clientId;
 
       const client = clients.find(c => c.id === clientId);
-      if (!client) return;
+      if (!client) {
+        showToast("Selecciona un cliente para gestionar su Roadmap", "warning");
+        return;
+      }
 
-      if (!client.tasks) client.tasks = [];
-      const newId = client.tasks.length > 0 ? Math.max(...client.tasks.map(t => t.id)) + 1 : 1;
-      const today = new Date().toISOString().split('T')[0];
+      const modal = document.getElementById("roadmapManagementModal");
+      if (!modal) return;
 
-      client.tasks.push({
-        id: newId,
-        title: title.trim(),
-        done: false,
-        date: today
+      const nameEl = document.getElementById("roadmapModalClientName");
+      if (nameEl) nameEl.textContent = client.name;
+
+      const totalTasks = client.tasks ? client.tasks.length : 0;
+      const doneTasks = client.tasks ? client.tasks.filter(t => t.done).length : 0;
+      const footerCount = document.getElementById("roadmapModalFooterCount");
+      if (footerCount) {
+        footerCount.textContent = `${doneTasks} de ${totalTasks} entregables completados`;
+      }
+
+      // Renderizar pestañas
+      renderRoadmapProposalsTab(client);
+      renderRoadmapCatalogTab();
+      switchRoadmapTab('proposals');
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeRoadmapManagementModal() {
+      const modal = document.getElementById("roadmapManagementModal");
+      if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      }
+    }
+
+    function switchRoadmapTab(tabKey) {
+      const tabs = ['proposals', 'catalog', 'custom'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`roadmapTabBtn-${t}`);
+        const view = document.getElementById(`roadmapView-${t}`);
+        if (btn) {
+          if (t === tabKey) {
+            btn.className = "px-4 py-2.5 text-xs font-bold border-b-2 border-cyan-400 text-cyan-300 transition-colors flex items-center gap-2 shrink-0 cursor-pointer";
+          } else {
+            btn.className = "px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2 shrink-0 cursor-pointer";
+          }
+        }
+        if (view) {
+          if (t === tabKey) view.classList.remove("hidden");
+          else view.classList.add("hidden");
+        }
+      });
+    }
+
+    // Extraer entregables estructurados de una propuesta comercial
+    function getProposalDeliverables(propItem) {
+      let payload = null;
+      try {
+        const raw = localStorage.getItem("proposal_" + propItem.id);
+        if (raw) payload = JSON.parse(raw);
+      } catch (e) {}
+
+      const deliverables = [];
+
+      if (payload) {
+        const pkg = payload.offeredPackage || payload.basePackage;
+        if (pkg && Array.isArray(pkg.deliverables)) {
+          pkg.deliverables.forEach(d => {
+            deliverables.push({
+              source: pkg.title || 'Combo Aprobado',
+              title: d,
+              summary: `Entregable contratado del paquete: ${pkg.title || 'ISAPromoRD'}`,
+              details: `Alcance oficial incluido en la propuesta comercial aprobada por ${payload.clientName || 'el cliente'}.`
+            });
+          });
+        }
+
+        const addons = payload.selectedServices || payload.addons || [];
+        if (Array.isArray(addons)) {
+          addons.forEach(a => {
+            const alreadyIn = deliverables.some(d => d.title.toLowerCase().includes((a.name || '').toLowerCase()));
+            if (!alreadyIn && a.name) {
+              deliverables.push({
+                source: 'Servicio Contratado',
+                title: a.name,
+                summary: a.description || `Servicio a la carta: ${a.name}`,
+                details: `Inversión: RD$ ${Number(a.price || 0).toLocaleString('es-DO')} (${a.type === 'monthly' ? '/ mes' : 'pago único'}).`
+              });
+            }
+          });
+        }
+      }
+
+      // Respaldo por ID de paquete base si no hay payload en localStorage
+      if (deliverables.length === 0 && propItem.basePackageKey && PROPOSAL_BASE_PACKAGES[propItem.basePackageKey]) {
+        const pkg = PROPOSAL_BASE_PACKAGES[propItem.basePackageKey];
+        if (pkg && pkg.deliverables) {
+          pkg.deliverables.forEach(d => {
+            deliverables.push({
+              source: pkg.title,
+              title: d,
+              summary: `Entregable del paquete: ${pkg.title}`,
+              details: `Alcance estándar contratado.`
+            });
+          });
+        }
+      }
+
+      // Si por alguna razón no tiene lista, proveer entregables estándar de servicio web
+      if (deliverables.length === 0) {
+        deliverables.push({
+          source: 'Módulo Web',
+          title: '🌐 Desarrollo y despliegue de Landing Page ultra-rápida (<1s)',
+          summary: 'Desarrollo en Vite / React con botón interactivo de WhatsApp.',
+          details: 'Optimización de Core Web Vitals y hosting en CDN Anycast.'
+        });
+        deliverables.push({
+          source: 'Google Maps',
+          title: '📍 Optimización y configuración técnica de Google Business Profile',
+          summary: 'Configuración técnica y posicionamiento local en Google Maps.',
+          details: 'Optimización de categorías, horario, fotografías y catálogo.'
+        });
+      }
+
+      return deliverables;
+    }
+
+    // Renderizar Pestaña de Propuestas Comerciales
+    function renderRoadmapProposalsTab(client) {
+      const container = document.getElementById("roadmapProposalsList");
+      const badge = document.getElementById("roadmapModalPropBadge");
+      if (!container) return;
+
+      const allProposals = getStoredProposals();
+      const clientNameNorm = (client.name || "").trim().toLowerCase();
+
+      const matching = allProposals.filter(p => {
+        if (p.clientId && p.clientId === client.id) return true;
+        if (p.clientName && p.clientName.trim().toLowerCase() === clientNameNorm) return true;
+        return false;
       });
 
-      saveClientsToStorage();
+      if (badge) badge.textContent = matching.length;
+
+      if (matching.length === 0) {
+        container.innerHTML = `
+          <div class="p-6 rounded-lg bg-[#0a0e17] border border-dashed border-slate-700 text-center space-y-3">
+            <div class="w-12 h-12 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-mono text-xl flex items-center justify-center mx-auto">
+              📄
+            </div>
+            <h4 class="text-sm font-bold text-white">No hay propuestas emitidas para ${escapeHtml(client.name)} aún</h4>
+            <p class="text-xs text-slate-400 max-w-md mx-auto">
+              Genera una propuesta digital con el cotizador para que el cliente seleccione los servicios. Al ser aprobada, podrás activar todos los entregables en su roadmap con un solo clic.
+            </p>
+            <div class="pt-2">
+              <button onclick="goToProposalBuilderForClient('${client.id}')" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs rounded-md shadow-md shadow-cyan-500/20 transition-all cursor-pointer">
+                📝 Crear Propuesta Comercial Ahora
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = matching.map(prop => {
+        const timeFormatted = formatProposalTimestamp(prop);
+        const deliverables = getProposalDeliverables(prop);
+        const isApproved = prop.status === 'approved';
+
+        // Evaluar cuántos de estos entregables ya existen en el roadmap del cliente
+        const currentTitles = (client.tasks || []).map(t => t.title.toLowerCase());
+        const importedCount = deliverables.filter(d => 
+          currentTitles.some(ct => ct.includes(d.title.toLowerCase().substring(0, 20)))
+        ).length;
+
+        const allImported = deliverables.length > 0 && importedCount === deliverables.length;
+
+        return `
+          <div class="p-4 rounded-lg bg-[#0a0e17] border ${isApproved ? 'border-emerald-500/30' : 'border-white/[0.08]'} space-y-3.5 transition-all">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-white/[0.06]">
+              <div class="space-y-0.5">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-xs font-bold text-white stitch-title">${prop.packageTitle || 'Propuesta Comercial'}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${isApproved ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/25'}">
+                    ${isApproved ? '✓ Aprobada / Activa' : '🟡 Propuesta Emitida'}
+                  </span>
+                  <span class="text-[10px] font-mono text-slate-400">🕒 ${timeFormatted}</span>
+                </div>
+                <p class="text-[11px] text-slate-400 font-mono">
+                  Setup: <strong class="text-emerald-400 font-bold">RD$ ${(prop.onetime || 0).toLocaleString('es-DO')}</strong> • Mensual: <strong class="text-cyan-300 font-bold">RD$ ${(prop.monthly || 0).toLocaleString('es-DO')}/mes</strong>
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                <a href="${prop.url}" target="_blank" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-white/10 transition-colors">
+                  ↗ Ver Propuesta
+                </a>
+                <button 
+                  onclick="activateProposalInRoadmap('${client.id}', '${prop.id}')" 
+                  class="px-3.5 py-1.5 rounded ${allImported ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/50' : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-md shadow-cyan-500/20'} text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>${allImported ? '🔄 Re-sincronizar' : '🚀 Activar en Roadmap'}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de Entregables de esta propuesta -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <span>Entregables Incluidos (${deliverables.length}):</span>
+                <span class="${allImported ? 'text-emerald-400' : 'text-cyan-400'} font-bold">
+                  ${importedCount} de ${deliverables.length} en Roadmap
+                </span>
+              </div>
+              <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                ${deliverables.map((d, dIdx) => `
+                  <div class="p-2 rounded bg-slate-900/60 border border-white/[0.04] flex items-start gap-2 text-xs">
+                    <span class="text-cyan-400 font-mono text-[10px] mt-0.5 shrink-0">▸</span>
+                    <div class="flex-1 min-w-0">
+                      <div class="text-slate-200 font-medium truncate">${escapeHtml(d.title)}</div>
+                      <div class="text-[10px] text-slate-400 truncate">${escapeHtml(d.summary)}</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Renderizar Pestaña de Catálogo Oficial
+    function renderRoadmapCatalogTab() {
+      const grid = document.getElementById("roadmapCatalogGrid");
+      if (!grid) return;
+
+      grid.innerHTML = OFFICIAL_CATALOG_SERVICES.map((s, idx) => `
+        <label class="p-3.5 rounded-lg bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/30 flex items-start gap-3 cursor-pointer transition-colors group">
+          <input 
+            type="checkbox" 
+            name="catalogRoadmapItem" 
+            value="${s.key}" 
+            class="mt-1 w-4 h-4 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0" 
+          />
+          <div class="space-y-1 min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-base shrink-0">${s.icon}</span>
+                <span class="text-xs font-bold text-white stitch-title truncate">${escapeHtml(s.name)}</span>
+              </div>
+            </div>
+            <span class="inline-block px-1.5 py-0.2 rounded bg-cyan-500/10 text-cyan-300 text-[10px] font-mono border border-cyan-500/20">
+              ${s.badge}
+            </span>
+            <p class="text-[11px] text-slate-400 leading-snug">${escapeHtml(s.summary)}</p>
+          </div>
+        </label>
+      `).join('');
+    }
+
+    // Inyectar entregables de propuesta aprobada al Roadmap
+    function activateProposalInRoadmap(clientId, proposalId) {
+      const client = clients.find(c => c.id === clientId);
+      if (!client) {
+        showToast("Cliente no encontrado", "error");
+        return;
+      }
+
+      const proposals = getStoredProposals();
+      const prop = proposals.find(p => p.id === proposalId);
+      if (!prop) {
+        showToast("Propuesta no encontrada en el registro", "error");
+        return;
+      }
+
+      if (!client.tasks) client.tasks = [];
+
+      const deliverables = getProposalDeliverables(prop);
+      let addedCount = 0;
+      const today = new Date().toISOString().split('T')[0];
+
+      deliverables.forEach((d, idx) => {
+        const exists = client.tasks.some(t => 
+          t.title.trim().toLowerCase() === d.title.trim().toLowerCase() ||
+          t.title.toLowerCase().includes(d.title.toLowerCase().substring(0, 18))
+        );
+
+        if (!exists) {
+          const nextId = client.tasks.length > 0 ? Math.max(...client.tasks.map(t => t.id || 0)) + 1 : 1;
+          client.tasks.push({
+            id: nextId,
+            title: d.title,
+            done: false,
+            date: today,
+            guide: {
+              summary: d.summary || d.source,
+              details: d.details || 'Entregable contratado vía propuesta comercial oficial.'
+            }
+          });
+          addedCount++;
+        }
+      });
+
+      // Marcar propuesta como Aprobada / Activa
+      prop.status = 'approved';
+      prop.approvedAt = new Date().toISOString();
+      prop.clientId = client.id;
+      localStorage.setItem(STORAGE_KEY_PROPOSALS, JSON.stringify(proposals));
+
+      // Actualizar tarifa o retainer si la propuesta tiene monto mensual
+      if (prop.monthly && prop.monthly > 0 && (!client.retainer || client.retainer < prop.monthly)) {
+        client.retainer = prop.monthly;
+        client.fee = `RD$ ${prop.monthly.toLocaleString('es-DO')} / mes`;
+      }
+
+      saveClientsToStorage(true);
       renderClients();
+      if (typeof renderClientDrilldown === 'function') renderClientDrilldown();
+      renderRoadmapProposalsTab(client);
+
+      const footerCount = document.getElementById("roadmapModalFooterCount");
+      if (footerCount) {
+        const total = client.tasks.length;
+        const done = client.tasks.filter(t => t.done).length;
+        footerCount.textContent = `${done} de ${total} entregables completados`;
+      }
+
+      showToast(`¡${addedCount} entregables activados con éxito en el Roadmap de ${client.name}!`, "success");
+    }
+
+    // Inyectar servicios seleccionados del catálogo al Roadmap
+    function injectSelectedCatalogServices() {
+      if (!currentRoadmapClientId) {
+        showToast("Selecciona un cliente", "warning");
+        return;
+      }
+
+      const client = clients.find(c => c.id === currentRoadmapClientId);
+      if (!client) return;
+
+      const checkedBoxes = Array.from(document.querySelectorAll('input[name="catalogRoadmapItem"]:checked'));
+      if (checkedBoxes.length === 0) {
+        showToast("Selecciona al menos un servicio del catálogo", "info");
+        return;
+      }
+
+      if (!client.tasks) client.tasks = [];
+      const today = new Date().toISOString().split('T')[0];
+      let added = 0;
+
+      checkedBoxes.forEach(cb => {
+        const item = OFFICIAL_CATALOG_SERVICES.find(s => s.key === cb.value);
+        if (item) {
+          const exists = client.tasks.some(t => t.title.toLowerCase().includes(item.name.toLowerCase().substring(0, 15)));
+          if (!exists) {
+            const nextId = client.tasks.length > 0 ? Math.max(...client.tasks.map(t => t.id || 0)) + 1 : 1;
+            client.tasks.push({
+              id: nextId,
+              title: `${item.icon} ${item.name}`,
+              done: false,
+              date: today,
+              guide: {
+                summary: item.summary,
+                details: item.details
+              }
+            });
+            added++;
+          }
+        }
+        cb.checked = false;
+      });
+
+      saveClientsToStorage(true);
+      renderClients();
+      if (typeof renderClientDrilldown === 'function') renderClientDrilldown();
+
+      const footerCount = document.getElementById("roadmapModalFooterCount");
+      if (footerCount) {
+        const total = client.tasks.length;
+        const done = client.tasks.filter(t => t.done).length;
+        footerCount.textContent = `${done} de ${total} entregables completados`;
+      }
+
+      showToast(`¡${added} servicios inyectados en el Roadmap de ${client.name}!`, "success");
+      closeRoadmapManagementModal();
+    }
+
+    // Guardar Hito Personalizado en el Roadmap
+    function handleSaveCustomRoadmapTask(e) {
+      e.preventDefault();
+      if (!currentRoadmapClientId) return;
+
+      const client = clients.find(c => c.id === currentRoadmapClientId);
+      if (!client) return;
+
+      const titleInput = document.getElementById("customRoadmapTaskTitle");
+      const summaryInput = document.getElementById("customRoadmapTaskSummary");
+      const detailsInput = document.getElementById("customRoadmapTaskDetails");
+
+      const title = titleInput.value.trim();
+      if (!title) return;
+
+      const summary = summaryInput ? summaryInput.value.trim() : "";
+      const details = detailsInput ? detailsInput.value.trim() : "";
+      const today = new Date().toISOString().split('T')[0];
+
+      if (!client.tasks) client.tasks = [];
+      const nextId = client.tasks.length > 0 ? Math.max(...client.tasks.map(t => t.id || 0)) + 1 : 1;
+
+      const taskObj = {
+        id: nextId,
+        title: title,
+        done: false,
+        date: today
+      };
+
+      if (summary || details) {
+        taskObj.guide = {
+          summary: summary || title,
+          details: details || ''
+        };
+      }
+
+      client.tasks.push(taskObj);
+      saveClientsToStorage(true);
+      renderClients();
+      if (typeof renderClientDrilldown === 'function') renderClientDrilldown();
+
+      titleInput.value = "";
+      if (summaryInput) summaryInput.value = "";
+      if (detailsInput) detailsInput.value = "";
+
+      showToast(`Hito guardado exitosamente en el Roadmap de ${client.name}`, "success");
+      closeRoadmapManagementModal();
+    }
+
+    // Ir al Cotizador de Propuestas para un cliente específico
+    function goToProposalBuilderForClient(clientId) {
+      closeRoadmapManagementModal();
+      const client = clients.find(c => c.id === clientId);
+      switchDashboardTab('proposals');
+
+      if (client) {
+        setTimeout(() => {
+          const select = document.getElementById("proposalClientSelect");
+          if (select) {
+            select.value = client.name;
+            handleProposalClientSelect();
+          }
+        }, 100);
+      }
+    }
+
+    // Activar propuesta generada recientemente desde modal de éxito
+    function activateCurrentProposalInRoadmap() {
+      if (!lastGeneratedProposalData) return;
+      const clientName = lastGeneratedProposalData.clientName;
+      const client = clients.find(c => c.name.toLowerCase() === clientName.toLowerCase() || c.id === lastGeneratedProposalData.clientId);
+      if (!client) {
+        showToast("Cliente no registrado en la cartera de cuentas", "warning");
+        return;
+      }
+      activateProposalInRoadmap(client.id, lastGeneratedProposalData.id);
+      closeProposalResultModal();
+      if (typeof openClientDrilldown === 'function') {
+        openClientDrilldown(client.id);
+      }
+    }
+
+    // Compatibilidad: reemplazo de promptAddTask para evitar window.prompt
+    function promptAddTask(clientId) {
+      openRoadmapManagementModal(clientId);
     }
 
     function toggleTaskGuide(guideId) {
@@ -8263,17 +8942,31 @@ ${aiActionInstructions}`;
       const downloadPdfUrl = fullUrl.includes('?') ? `${fullUrl}&download=1` : `${fullUrl}?download=1`;
       lastGeneratedProposalUrl = fullUrl;
 
+      // Vincular con cliente existente en cartera si coincide el nombre
+      const clientNameNorm = clientName.trim().toLowerCase();
+      const matchedClient = clients.find(c => 
+        (c.name && c.name.trim().toLowerCase() === clientNameNorm) || 
+        (select.value !== "__custom__" && c.name === select.value)
+      );
+      const matchedClientId = matchedClient ? matchedClient.id : null;
+      proposalPayload.clientId = matchedClientId;
+
       // Guardar en historial con timestamp exacto (incluye hora y minutos)
       const nowIso = new Date().toISOString();
       saveProposalToHistory({
         id: proposalPayload.id,
+        clientId: matchedClientId,
         clientName: clientName,
         category: category,
+        status: 'draft',
         date: nowIso.split('T')[0],
         createdAt: nowIso,
         onetime: isComparison ? pkgSetup : alacarteSetup,
         monthly: isComparison ? pkgMonthly : alacarteMonthly,
-        url: fullUrl
+        url: fullUrl,
+        basePackageKey: selectedBaseKey,
+        packageTitle: isComparison ? basePkg.title : 'A la Carta',
+        deliverablesCount: (isComparison ? basePkg.deliverables.length : 0) + selectedServices.length
       });
 
       // Sincronizar con Supabase Cloud
@@ -8324,6 +9017,21 @@ ${aiActionInstructions}`;
         waTarget = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
       }
       document.getElementById("modalResWhatsappBtn").href = waTarget;
+
+      // Habilitar botón de activación instantánea al Roadmap si el cliente está registrado en el CRM
+      const roadmapBox = document.getElementById("modalResRoadmapBox");
+      const roadmapBtn = document.getElementById("modalResRoadmapBtn");
+      if (roadmapBox) {
+        if (matchedClient) {
+          roadmapBox.classList.remove("hidden");
+          const totalDelivs = (isComparison ? basePkg.deliverables.length : 0) + selectedServices.length;
+          if (roadmapBtn) {
+            roadmapBtn.innerHTML = `<span>🚀 Activar ${totalDelivs} Entregables en Roadmap de ${escapeHtml(matchedClient.name)}</span>`;
+          }
+        } else {
+          roadmapBox.classList.add("hidden");
+        }
+      }
 
       const modal = document.getElementById("proposalResultModal");
       modal.classList.remove("hidden");
@@ -9806,34 +10514,64 @@ ${aiActionInstructions}`;
 
       if (taskList) {
         if (clientTasks.length > 0) {
-          taskList.innerHTML = clientTasks.map((t, i) => `
-            <div class="p-2.5 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-2.5">
-              <label class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0">
-                <input 
-                  type="checkbox" 
-                  ${t.done ? 'checked' : ''} 
-                  onchange="toggleTask('${client.id}', ${t.id || i}); renderClientDrilldown();"
-                  class="rounded text-cyan-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer shrink-0" 
-                />
-                <span class="${t.done ? 'line-through text-slate-400' : 'text-slate-100'} text-xs sm:text-sm font-medium truncate">
-                  ${escapeHtml(t.title)}
-                </span>
-              </label>
-              <span class="text-[10px] font-mono font-bold ${t.done ? 'text-emerald-400' : 'text-amber-400'} shrink-0">
-                ${t.done ? 'Completado' : 'Pendiente'}
-              </span>
+          taskList.innerHTML = clientTasks.map((t, i) => {
+            const hasGuide = t.guide && (t.guide.summary || t.guide.details);
+            const guideId = `ddGuide_${client.id}_${t.id !== undefined ? t.id : i}`;
+            return `
+            <div class="space-y-1.5">
+              <div class="p-2.5 rounded bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/25 flex items-center justify-between gap-2.5 transition-colors">
+                <label class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0">
+                  <input 
+                    type="checkbox" 
+                    ${t.done ? 'checked' : ''} 
+                    onchange="toggleTask('${client.id}', ${t.id !== undefined ? t.id : i}); renderClientDrilldown();"
+                    class="rounded text-cyan-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer shrink-0" 
+                  />
+                  <span class="${t.done ? 'line-through text-slate-400' : 'text-slate-100'} text-xs sm:text-sm font-medium truncate">
+                    ${escapeHtml(t.title)}
+                  </span>
+                </label>
+                <div class="flex items-center gap-2 shrink-0">
+                  ${hasGuide ? `
+                    <button onclick="toggleTaskGuide('${guideId}')" class="px-1.5 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[10px] font-mono border border-cyan-500/25 transition-all cursor-pointer" title="Ver guía de ejecución técnica">
+                      📖 Guía
+                    </button>
+                  ` : ''}
+                  <span class="text-[10px] font-mono font-bold ${t.done ? 'text-emerald-400' : 'text-amber-400'} shrink-0">
+                    ${t.done ? '✓ Completado' : '⏳ Pendiente'}
+                  </span>
+                  <button onclick="deleteClientTask('${client.id}', ${t.id !== undefined ? t.id : i})" class="text-slate-500 hover:text-rose-400 p-1 text-xs transition-colors cursor-pointer" title="Eliminar entregable del roadmap">
+                    ✕
+                  </button>
+                </div>
+              </div>
+              ${hasGuide ? `
+                <div id="${guideId}" class="hidden p-3 rounded-md bg-[#080d1a] border border-cyan-500/25 text-xs space-y-1.5 ml-6">
+                  <div class="font-bold text-cyan-300 text-[11px]">${escapeHtml(t.guide.summary || 'Guía Técnica de Ejecución')}</div>
+                  <div class="text-slate-300 whitespace-pre-line text-[11px] leading-relaxed">${escapeHtml(t.guide.details || '')}</div>
+                  ${t.guide.link ? `
+                    <a href="${t.guide.link}" target="_blank" class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 hover:underline text-[11px] font-mono font-semibold pt-1">
+                      ↗ ${escapeHtml(t.guide.linkLabel || 'Abrir Recurso Oficial')}
+                    </a>
+                  ` : ''}
+                </div>
+              ` : ''}
             </div>
-          `).join('');
+            `;
+          }).join('');
         } else {
           taskList.innerHTML = `
-            <div class="p-3.5 rounded bg-[#0a0e17] border border-dashed border-slate-700 text-center space-y-2">
-              <p class="text-xs text-slate-400">Sin tareas manuales asignadas aún a esta cuenta.</p>
-              <div class="flex flex-col sm:flex-row items-center justify-center gap-2">
-                <button onclick="convertAuditGapsToTasks('${client.id}')" class="px-2.5 py-1.5 rounded bg-cyan-600/20 hover:bg-cyan-600/35 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all cursor-pointer">
+            <div class="p-4 rounded bg-[#0a0e17] border border-dashed border-slate-700 text-center space-y-3">
+              <p class="text-xs text-slate-400">Sin entregables asignados aún en el roadmap de esta cuenta.</p>
+              <div class="flex flex-wrap items-center justify-center gap-2">
+                <button onclick="openRoadmapManagementModal('${client.id}')" class="px-3 py-1.5 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all cursor-pointer shadow-md shadow-cyan-500/20">
+                  📄 Cargar desde Propuesta Aprobada
+                </button>
+                <button onclick="convertAuditGapsToTasks('${client.id}')" class="px-3 py-1.5 rounded bg-cyan-600/20 hover:bg-cyan-600/35 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all cursor-pointer">
                   📥 Inyectar Brechas de Auditoría
                 </button>
-                <button onclick="promptAddTask('${client.id}'); renderClientDrilldown();" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-white/10 text-xs font-bold transition-all cursor-pointer">
-                  + Añadir Manual
+                <button onclick="openRoadmapManagementModal('${client.id}'); switchRoadmapTab('catalog');" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-white/10 text-xs font-bold transition-all cursor-pointer">
+                  📦 Catálogo Oficial
                 </button>
               </div>
             </div>

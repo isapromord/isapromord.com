@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-07  
+> **Última Actualización:** 2026-10-08  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,7 +13,7 @@
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 📄 **Páginas Legales Oficiales:** [Privacidad](https://isapromord.github.io/privacidad/) (Ley 172-13) • [Términos](https://isapromord.github.io/terminos/) (50/50, NCF B01)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_leads` y `agency_clients`.  
-> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva con URL oficial propia (`/propuestas/demo/`), mini-captador híbrido conectado directo a Supabase, páginas legales E-E-A-T activas, filas de clientes clickeables y navegación SPA estándar vía HTML5 History API.
+> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva con URL oficial propia (`/propuestas/demo/`), mini-captador híbrido conectado directo a Supabase, páginas legales E-E-A-T activas, filas de clientes clickeables, navegación SPA estándar vía HTML5 History API y geolocalización NAP actualizada a domicilio real en Altos de Arroyo Hondo III con blindaje de privacidad residencial.
 
 ---
 

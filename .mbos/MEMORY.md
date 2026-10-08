@@ -957,3 +957,13 @@
 
 
 
+
+## [2026-10-08] - Actualización NAP de Domicilio Real (Altos de Arroyo Hondo III) y Blindaje de Privacidad
+
+### 1. Diagnóstico de Privacidad y Estándares de la Industria
+- **Problema:** Se utilizaba una dirección de fantasía ("Torre Empresarial Piantini, Av. Abraham Lincoln"). Al ser ISAPromoRD un estudio de ingeniería digital que opera desde un domicilio residencial (home office), declarar una torre inexistente violaba la autenticidad exigida por Google E-E-A-T, y publicar el número de apartamento privado exponía la intimidad y seguridad física del fundador.
+- **Solución Estándar para Empresas Digitales / Remotas:**
+  - **Capa Pública (Footer / Páginas de Servicios):** Se presenta la zona y sede operativa oficial sin exponer el número de apartamento: *"Calle 1ra, No. 14, Sector La Ceiba, Altos de Arroyo Hondo III, Santo Domingo, D.N., 10605"*, con la aclaración ejecutiva: *"Sede de Operaciones & Desarrollo Digital (Atención técnica y comercial remota nacional • Reuniones presenciales previa cita)"*.
+  - **Capa Técnica (Schema.org JSON-LD & LLMs):** Geocodificación precisa en Altos de Arroyo Hondo III (`latitude: 18.5042, longitude: -69.9635`, `postalCode: 10605`, `streetAddress: Calle 1ra, No. 14, Altos de Arroyo Hondo III`), estableciendo sólida autoridad de entidad local en Santo Domingo sin comprometer la seguridad habitacional.
+  - **Capa Legal:** Actualización del domicilio legal en `/privacidad/index.html` bajo la Ley 172-13.
+  - **Sincronización Transversal:** Reflejado en `index.html`, los 4 Spokes, `llms.txt`, `ROADMAP.md` y repositorios Git.

@@ -1,7 +1,7 @@
 # 🗺️ ROADMAP & GUÍA DE PRECIOS OFICIALES — ISAPromoRD
 
 > **Documento Central de Estrategia, Precios y Hoja de Ruta de Ingeniería**  
-> **Entidad:** ISAPromoRD • Torre Empresarial Piantini, Santo Domingo, D.N.  
+> **Entidad:** ISAPromoRD • Altos de Arroyo Hondo III, Santo Domingo, D.N. (10605)  
 > **Contacto:** +1 (829) 455-4783 • contacto@isapromord.com  
 > **Última Actualización:** Octubre 2026  
 
@@ -65,7 +65,7 @@
 - [x] Integración de simulador de ROI, scanner DNS y propuestas interactivas.
 
 ### Fase 2: Consolidación Off-Page & SEO Local (En Curso 🔄)
-- [ ] Verificación oficial y reclamación de Google Business Profile (Torre Empresarial Piantini).
+- [ ] Verificación oficial y configuración de Google Business Profile (Santo Domingo, D.N. - Área de servicio).
 - [ ] Sincronización continua de reseñas y publicaciones semanales en Maps.
 - [ ] Inyección de Backlinks locales en directorios empresariales de RD (Páginas Amarillas RD, CeroPapeleo).
 - [ ] Viral Footer Link: Activación en sitios de clientes aliados (*"Ingeniería web de ultra velocidad por ISAPromoRD"*).

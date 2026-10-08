@@ -9,10 +9,10 @@
 > - 🛡️ **Dashboard Administrador ("Obsidian Cyber Luxe"):** [https://isapromord.github.io/dashboard/](https://isapromord.github.io/dashboard/) (PIN: `3690`)  
 > - ⚡ **Motor de Auditoría 360° (v3.0 Híbrido):** Integración Google PageSpeed Insights v5 + Parser de Señales Dominicanas (Maps, WhatsApp, GEO IA). Cero hardcodes.  
 > - 💼 **Suite Contable & CFO:** [https://isapromord.github.io/dashboard/](https://isapromord.github.io/dashboard/) (Tab 4: "Finanzas & Contabilidad")  
-> - 📄 **Propuesta Pasión Pecuaria (Ruta Limpia):** [https://isapromord.github.io/propuestas/pasionpecuaria/](https://isapromord.github.io/propuestas/pasionpecuaria/)  
+> - 📄 **Propuesta Demo Interactiva (Anonimizada & Blindada):** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_leads` y `agency_clients`.  
-> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, sincronización bidireccional activa y motor de auditoría determinista sin fluctuaciones de proxies.
+> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva anonimizada ("Tu Negocio / Empresa") con degradado corregido y contraste 100/100.
 
 ---
 

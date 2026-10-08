@@ -902,3 +902,18 @@
 ### 3. Fichas Técnicas & Roadmap Centralizado
 - `ROADMAP.md`: Creado en la raíz con la matriz de precios oficiales y la guía de precios realistas para módulos adicionales de CRM (Inventario: RD$ 12k-15k, Facturación NCF B01: RD$ 15k-18k, Multi-almacén: RD$ 18k-22k, Reportería: RD$ 8k-10k, Roles: RD$ 6k-8k).
 - `robots.txt`, `sitemap.xml`, `llms.txt`: Sincronizados y validados para Googlebot, GPTBot, PerplexityBot y ClaudeBot.
+
+## [2026-10-08] - Anonimización de Propuesta Formal, Corrección de Contraste en Hero y Ruta /propuestas/demo/
+
+### 1. Diagnóstico de Privacidad y Usabilidad
+- **Exposición de Cliente Real:** El botón público en la home apuntaba a `propuestas/pasionpecuaria/`, exponiendo la razón social real ("Pasión Pecuaria RD"), categoría específica y montos de negociación privada en una página pública. Esto violaba principios de privacidad y confidencialidad comercial (NDA).
+- **Falla de Contraste en Hero Box (Degradado Roto):** La clase Tailwind `to-brand-950` fallaba porque `brand` solo estaba definido hasta `900`. Al no compilar el stop final del gradiente, caía en el fallback `--tw-gradient-to: rgb(255 255 255 / 0)` sobre el fondo general `bg-white`, provocando un lavado blanco/plateado sobre el tercio derecho del hero que volvía invisibles "Fecha: Octubre 2026" y "Validez de la Oferta: 15 Días Hábiles".
+
+### 2. Remediación de Código & Diseño
+- **Anonimización a Entidad Genérica:** Se reemplazó el cliente real por **"Tu Negocio / Empresa"** y la categoría por *"Comercio, Servicios o Distribución en República Dominicana"*, tanto en el DOM inicial como en `DEFAULT_PROPOSAL_DATA` de JS y en la firma de impresión.
+- **Creación de Ruta Limpia `/propuestas/demo/`:** Se creó la ruta física dedicada para GitHub Pages y se actualizaron los enlaces en `index.html` (tarjeta de cotización en `#precios` y enlace del testimonio) para abrir la propuesta demo interactiva.
+- **Corrección de Contraste de Ultra Élite:**
+  - Fondo del Hero sustituido por gradiente técnico blindado: `background: linear-gradient(135deg, #0b0f17 0%, #0f172a 60%, #161f33 100%)` con `border border-slate-800`.
+  - Píldoras individuales con micro-tarjetas oscuras (`bg-slate-900/50 p-3 rounded-xl border border-slate-800/80`) para cada métrica clave.
+  - Glow ambiental controlado (`bg-cyan-500/10` y `bg-emerald-500/10`) sin lavado de texto. Legibilidad y contraste 100/100 en mobile y desktop.
+

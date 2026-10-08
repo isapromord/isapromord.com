@@ -160,41 +160,42 @@
       </div>
     </div>
 
-    <!-- HERO DE LA PROPUESTA -->
-    <div id="proposalHeroBox" class="bg-gradient-to-br from-slate-950 via-slate-900 to-brand-950 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden break-inside-avoid">
-      <!-- Glow ambiental -->
-      <div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-brand-500/20 blur-3xl pointer-events-none no-print"></div>
+    <!-- HERO DE LA PROPUESTA (TEMA OSCURO TÉCNICO AETHER COMMAND - MÁXIMO CONTRASTE) -->
+    <div id="proposalHeroBox" class="rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden break-inside-avoid border border-slate-800" style="background: linear-gradient(135deg, #0b0f17 0%, #0f172a 60%, #161f33 100%);">
+      <!-- Glow ambiental sutil y controlado que no sobreexpone ni lava el texto -->
+      <div class="absolute -right-16 -top-16 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none no-print"></div>
+      <div class="absolute right-1/3 -bottom-16 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none no-print"></div>
 
-      <div class="relative z-10 space-y-4">
+      <div class="relative z-10 space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
-          <span class="hero-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-brand-300 font-bold border border-white/10 uppercase tracking-wider text-[11px]">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse no-print"></span>
+          <span class="hero-badge inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 text-cyan-300 font-bold border border-cyan-500/30 uppercase tracking-wider text-[11px] shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse no-print"></span>
             Propuesta Comercial & Comparativa
           </span>
-          <span class="hero-subtext text-slate-400 font-mono" id="proposalDate">Fecha: Octubre 2026</span>
+          <span class="hero-subtext text-slate-300 font-mono bg-slate-800/60 px-3 py-1 rounded-full border border-slate-700/60" id="proposalDate">Fecha: Octubre 2026</span>
         </div>
 
-        <div class="space-y-1">
-          <span class="hero-subtext text-xs uppercase tracking-widest text-slate-400 font-mono">Preparada especialmente para:</span>
-          <h1 id="clientNameHeader" class="text-2xl sm:text-4xl font-black tracking-tight text-white">Pasión Pecuaria RD</h1>
-          <p id="clientCategoryHeader" class="hero-subtext text-slate-300 text-sm sm:text-base font-medium">Estrategia Digital de Alto Rendimiento, Captación en Google & CRM Operativo</p>
+        <div class="space-y-1.5">
+          <span class="hero-subtext text-xs uppercase tracking-widest text-cyan-400 font-mono font-semibold">Preparada especialmente para:</span>
+          <h1 id="clientNameHeader" class="text-2xl sm:text-4xl font-black tracking-tight text-white drop-shadow-sm">Tu Negocio / Empresa</h1>
+          <p id="clientCategoryHeader" class="hero-subtext text-slate-300 text-sm sm:text-base font-medium">Comercio, Servicios o Distribución en República Dominicana</p>
         </div>
 
-        <div class="pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-          <div>
-            <span class="hero-subtext text-slate-400 block text-[11px]">Agencia Responsable:</span>
+        <div class="pt-5 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Agencia Responsable:</span>
             <strong class="text-white font-bold">ISAPromoRD</strong>
           </div>
-          <div>
-            <span class="hero-subtext text-slate-400 block text-[11px]">Objetivo Estratégico:</span>
-            <strong class="text-white font-bold">Máxima Visibilidad Local & Nuevos Clientes</strong>
+          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Objetivo Estratégico:</span>
+            <strong class="text-white font-bold">Máxima Visibilidad Local & Ventas</strong>
           </div>
-          <div>
-            <span class="hero-subtext text-slate-400 block text-[11px]">Canal de Captación:</span>
+          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Canal de Captación:</span>
             <strong class="hero-accent text-emerald-400 font-bold">Llamadas & WhatsApp Directo</strong>
           </div>
-          <div>
-            <span class="hero-subtext text-slate-400 block text-[11px]">Validez de la Oferta:</span>
+          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Validez de la Oferta:</span>
             <strong class="text-amber-400 font-bold" id="validityDays">15 Días Hábiles</strong>
           </div>
         </div>
@@ -650,12 +651,12 @@
     };
 
     // ==========================================
-    // 2. DATOS POR DEFECTO (NotebookLM Knowledge Base)
+    // 2. DATOS POR DEFECTO (CONFIGURACIÓN DEMO / MODELO)
     // ==========================================
     const DEFAULT_PROPOSAL_DATA = {
-      clientName: "Pasión Pecuaria RD",
-      clientCategory: "Agropecuaria & Tienda Online",
-      dateStr: "1 de Octubre, 2026",
+      clientName: "Tu Negocio / Empresa",
+      clientCategory: "Comercio, Servicios o Distribución en República Dominicana",
+      dateStr: "Octubre 2026",
       validity: "15 Días Hábiles",
       mode: "comparison",
       selectedServices: [
@@ -778,8 +779,8 @@
       const mode = urlParams.get('mode');
       const dataParam = urlParams.get('d');
 
-      // 0. Preset personalizado por slug (ej: ?p=pasionpecuaria o ?c=pasionpecuaria)
-      if (slugPreset.includes('pasionpecuaria') || slugPreset.includes('pasion-pecuaria') || slugPreset.includes('pasion')) {
+      // 0. Preset personalizado por slug (ej: ?p=demo o ?c=demo o legado)
+      if (slugPreset.includes('demo') || slugPreset.includes('ejemplo') || slugPreset.includes('pasionpecuaria') || slugPreset.includes('pasion')) {
         proposal = DEFAULT_PROPOSAL_DATA;
         return;
       }

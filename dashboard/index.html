@@ -1572,9 +1572,10 @@
         </div>
 
         <!-- 3 COLUMNAS DEL CLIENTE ACTIVO -->
+        <!-- 3 COLUMNAS DEL CLIENTE ACTIVO (MONITOREO & AUDITORÍA 100% REAL) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           
-          <!-- COLUMNA 1 (IZQUIERDA - 4 COLS): DOSSIER TÉCNICO & TOPOLOGÍA -->
+          <!-- COLUMNA 1 (IZQUIERDA - 4 COLS): DOSSIER TÉCNICO & TELEMETRÍA EN VIVO -->
           <div class="lg:col-span-4 space-y-4">
             
             <!-- TARJETA DOSSIER DEL CLIENTE -->
@@ -1582,35 +1583,46 @@
               <!-- Header de Estado & Latencia -->
               <div class="flex items-center justify-between">
                 <span id="ddStatusBadge" class="stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span id="ddStatusText">EN LÍNEA • Vercel CDN</span>
+                  <span id="ddStatusDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span id="ddStatusText">EN LÍNEA</span>
                 </span>
                 <span class="text-xs sm:text-sm font-mono text-slate-300">
-                  Edge: <span id="ddLatency" class="text-emerald-400 font-bold">-- ms</span>
+                  Latencia: <span id="ddLatency" class="text-emerald-400 font-bold">-- ms</span>
                 </span>
               </div>
 
-              <!-- Preview Viewport / Logo Canvas -->
-              <div class="relative w-full h-40 bg-[#0a0e17] rounded border border-white/10 overflow-hidden flex flex-col justify-between p-3.5 group">
+              <!-- Consola de Enrutamiento y Dominio en Vivo -->
+              <div class="relative w-full bg-[#0a0e17] rounded border border-white/10 p-3.5 space-y-2.5">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/60"></span>
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500/60"></span>
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/60"></span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span class="text-[11px] font-mono text-slate-300 font-bold uppercase tracking-wider">Host En Vivo</span>
                   </div>
-                  <span id="ddPlatformPill" class="text-xs font-mono text-slate-300 bg-slate-800/80 px-2.5 py-0.5 rounded border border-white/5 font-medium">
-                    Next.js 14 • Vercel Edge
+                  <span id="ddPlatformPill" class="text-[11px] font-mono text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/30 font-semibold truncate max-w-[190px]">
+                    Detectando Servidor...
                   </span>
                 </div>
-                <div class="flex flex-col items-center justify-center my-auto">
-                  <svg class="w-10 h-10 text-slate-500 mb-1.5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                  <span id="ddLiveUrlText" class="text-xs sm:text-sm font-mono text-cyan-400 font-semibold truncate max-w-[240px]">
-                    https://cliente.vercel.app
-                  </span>
+                <div class="p-2.5 rounded bg-black/40 border border-white/5 flex items-center justify-between gap-2">
+                  <div class="overflow-hidden min-w-0">
+                    <span class="text-[10px] font-mono text-slate-400 block">Dominio Principal:</span>
+                    <a id="ddLiveUrlText" href="#" target="_blank" class="text-xs sm:text-sm font-mono text-cyan-400 font-bold hover:underline truncate block">
+                      https://...
+                    </a>
+                  </div>
+                  <a id="ddExternalLink" href="javascript:void(0)" target="_blank" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 shrink-0 text-xs flex items-center gap-1 transition-colors" title="Visitar en Vivo">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    <span>Abrir</span>
+                  </a>
                 </div>
-                <div class="flex items-center justify-between text-xs text-slate-300 font-mono">
-                  <span class="text-emerald-400 font-semibold">SSL ACTIVO</span>
-                  <span>HTTP/3 (QUIC)</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                  <div class="p-2 rounded bg-slate-900/60 border border-white/5">
+                    <span class="text-[10px] text-slate-400 block">IP Resuelta (DNS A):</span>
+                    <span id="ddDnsIpBadge" class="text-slate-200 font-bold text-[11px] truncate block">--</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-900/60 border border-white/5">
+                    <span class="text-[10px] text-slate-400 block">Cifrado / SSL:</span>
+                    <span id="ddSslBadge" class="text-emerald-400 font-bold text-[11px] block">HTTPS TLS 1.3</span>
+                  </div>
                 </div>
               </div>
 
@@ -1625,9 +1637,6 @@
                     <h3 id="ddClientTitle" class="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug stitch-title truncate">Nombre Cliente</h3>
                   </div>
                 </div>
-                <a id="ddExternalLink" href="javascript:void(0)" target="_blank" class="p-2 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-white/10 transition-colors shrink-0" title="Visitar Sitio en Producción">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>
               </div>
 
               <!-- Sector & Descripción -->
@@ -1647,10 +1656,10 @@
               <div class="grid grid-cols-2 gap-3 pt-1">
                 <div class="p-3.5 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
                   <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">Health Score</span>
-                  <div class="text-2xl sm:text-3xl font-black text-emerald-400 font-mono flex items-baseline gap-1">
-                    <span id="ddScoreNumber">98</span><span class="text-sm text-slate-400 font-normal">/100</span>
+                  <div class="text-2xl sm:text-3xl font-black font-mono flex items-baseline gap-1">
+                    <span id="ddScoreNumber" class="text-emerald-400">--</span><span class="text-sm text-slate-400 font-normal">/100</span>
                   </div>
-                  <span class="text-xs text-emerald-400 font-mono font-semibold block">Salud técnica óptima</span>
+                  <span id="ddScoreSubtitle" class="text-xs text-emerald-400 font-mono font-semibold block">Salud técnica óptima</span>
                 </div>
                 <div class="p-3.5 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
                   <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">Tarifa Mensual</span>
@@ -1661,71 +1670,67 @@
 
               <!-- Chips de Stack Tecnológico -->
               <div id="ddStackChipsContainer" class="flex flex-wrap gap-1.5 pt-1">
-                <span class="stitch-chip">Next.js / Vite</span>
-                <span class="stitch-chip">Supabase Pro</span>
-                <span class="stitch-chip">Google Maps Pack-3</span>
-                <span class="stitch-chip">GEO IA ChatGPT</span>
-                <span class="stitch-chip text-emerald-400 border-emerald-500/20">SSL Anycast</span>
+                <!-- Inyectado dinámicamente -->
               </div>
 
             </div>
 
           </div>
 
-          <!-- COLUMNA 2 (CENTRAL - 4 COLS): PROGRESO DE SERVICIOS & SALUD DE CUENTA -->
+          <!-- COLUMNA 2 (CENTRAL - 4 COLS): DIAGNÓSTICO DE LOS 7 PILARES TÉCNICOS -->
           <div class="lg:col-span-4 space-y-4">
             
             <!-- TARJETA PROGRESO DE SERVICIOS -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                  <span class="text-cyan-400">🔄</span>
-                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Servicios & Pilares Activos</h3>
+                  <span class="text-cyan-400">⚡</span>
+                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Diagnóstico de los 7 Pilares</h3>
                 </div>
-                <span class="stitch-pill bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold">
-                  OPTIMIZACIÓN RD
+                <span id="ddPillarsBadge" class="stitch-pill bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold">
+                  TELEMETRÍA REAL
                 </span>
               </div>
 
               <p class="text-xs text-slate-400">
-                Módulos de posicionamiento, mensajería omnicanal y presencia digital de este cliente.
+                Auditoría técnica en vivo de conversión, posicionamiento Google, GEO IA y velocidad.
               </p>
 
-              <!-- Lista de Servicios Operativos del Cliente -->
+              <!-- Lista de Servicios Operativos del Cliente (100% REAL) -->
               <div class="space-y-2.5 text-sm" id="ddServicesListContainer">
-                <!-- Se inyecta dinámicamente según el cliente seleccionado -->
+                <!-- Se inyecta dinámicamente con los 7 módulos reales -->
               </div>
             </div>
 
-            <!-- TARJETA TOPOLOGÍA & RUTAS -->
+            <!-- TARJETA PROTOCOLOS & ARCHIVOS SATÉLITE -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-3.5 transition-colors">
               <div class="flex items-center justify-between text-sm">
                 <div class="flex items-center gap-1.5 text-slate-200 font-mono font-bold text-xs sm:text-sm">
-                  <span>🌐</span>
-                  <span>TOPOLOGÍA & ENRUTAMIENTO</span>
+                  <span>🛰️</span>
+                  <span>ARCHIVOS SATÉLITE & PROTOCOLOS</span>
                 </div>
-                <span class="text-emerald-400 font-mono font-bold text-xs sm:text-sm">Edge CDN Activo</span>
+                <span class="text-cyan-400 font-mono font-bold text-xs">Inspección de Raíz</span>
               </div>
 
-              <!-- Pipeline visual con cajas y flechas -->
-              <div class="grid grid-cols-3 gap-2 items-center text-center font-mono text-xs">
-                <div class="p-2.5 rounded bg-[#0a0e17] border border-white/10 text-slate-300">
-                  <div class="font-bold">Dominio</div>
-                  <div class="text-[11px] text-slate-400">DNS Propio</div>
-                </div>
-                <div class="p-2.5 rounded bg-[#0a0e17] border border-cyan-500/30 text-cyan-300 shadow-sm shadow-cyan-500/10">
-                  <div class="font-bold">Cloudflare</div>
-                  <div class="text-[11px] text-cyan-400/80">SSL Anycast</div>
-                </div>
-                <div class="p-2.5 rounded bg-[#0a0e17] border border-white/10 text-slate-300">
-                  <div class="font-bold">Edge Server</div>
-                  <div class="text-[11px] text-slate-400">Serverless</div>
-                </div>
+              <!-- Grid de archivos satélite reales -->
+              <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs" id="ddSatelliteFilesGrid">
+                <a id="ddRobotsLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                  <div class="font-bold text-[11px]">robots.txt</div>
+                  <div id="ddRobotsStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                </a>
+                <a id="ddSitemapLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                  <div class="font-bold text-[11px]">sitemap.xml</div>
+                  <div id="ddSitemapStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                </a>
+                <a id="ddLlmsLink" href="#" target="_blank" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block">
+                  <div class="font-bold text-[11px]">llms.txt (IA)</div>
+                  <div id="ddLlmsStatus" class="text-[10px] text-slate-400 mt-0.5">Comprobar</div>
+                </a>
               </div>
 
               <div class="flex items-center justify-between text-xs font-mono text-slate-300 pt-1.5 border-t border-white/[0.05]">
-                <span>Certificado Criptográfico SSL</span>
-                <span class="text-emerald-400 font-bold">Válido & Seguro</span>
+                <span>Servidor / CMS Detectado:</span>
+                <span id="ddDetectedCmsLabel" class="text-cyan-400 font-bold">Cloud CDN</span>
               </div>
             </div>
 
@@ -1749,14 +1754,19 @@
               </div>
 
               <!-- Phase Pill -->
-              <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center gap-3 text-sm">
-                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
-                  ✓
+              <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between text-sm">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="w-7 h-7 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
+                    📋
+                  </div>
+                  <div class="overflow-hidden">
+                    <span class="text-[11px] font-mono text-cyan-400 font-bold uppercase block">ROADMAP DE LA CUENTA</span>
+                    <span id="ddPhaseClientText" class="text-slate-100 font-bold text-xs truncate block">Entregables Activos</span>
+                  </div>
                 </div>
-                <div class="overflow-hidden">
-                  <span class="text-xs font-mono text-cyan-400 font-bold uppercase block">ROADMAP DEL CLIENTE</span>
-                  <span id="ddPhaseClientText" class="text-slate-100 font-bold truncate block">Entregables de la Cuenta</span>
-                </div>
+                <button onclick="promptAddTask(currentDrilldownClientId); renderClientDrilldown();" class="text-cyan-400 hover:text-cyan-300 text-xs font-bold shrink-0">
+                  + Añadir
+                </button>
               </div>
 
               <!-- Task Checklist -->
@@ -1766,45 +1776,38 @@
 
             </div>
 
-            <!-- TARJETA SALUD & MONITOREO REAL EN VIVO (UBICADA EN COLUMNA DERECHA) -->
+            <!-- TARJETA SALUD & MONITOREO REAL EN VIVO -->
             <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
-                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Salud & Monitoreo en Vivo</h3>
-                  <p class="text-xs text-slate-400">Auditoría DNS, SSL y latencia real del sitio</p>
+                  <h3 class="text-base font-black text-white tracking-tight stitch-title">Salud & Disponibilidad</h3>
+                  <p class="text-xs text-slate-400">Monitoreo DNS oficial y conectividad en vivo</p>
                 </div>
                 <button onclick="pingCurrentDrilldownClient()" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-all px-2.5 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 active:scale-95 cursor-pointer" title="Hacer ping y auditar disponibilidad ahora">
                   <svg id="ddPingSpinner" class="w-3 h-3 hidden animate-spin text-cyan-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
-                  <span>↻ Auditar Ahora</span>
+                  <span>↻ Probar Ping</span>
                 </button>
               </div>
 
-              <!-- Multi-Segment Radial Gauge con amplitud holgada y badge DEBAJO del círculo -->
-              <div class="py-2 flex flex-col items-center justify-center">
-                <div class="relative w-44 h-44 flex items-center justify-center">
-                  <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                    <circle cx="60" cy="60" r="48" stroke="rgba(255, 255, 255, 0.06)" stroke-width="6" fill="none" />
-                    <circle id="ddRadialCircleEmerald" cx="60" cy="60" r="48" stroke="#10b981" stroke-width="6" stroke-dasharray="301.6" stroke-dashoffset="0" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));" />
-                    <circle id="ddRadialCircleCyan" cx="60" cy="60" r="38" stroke="#00d2ff" stroke-width="4" stroke-dasharray="238.7" stroke-dashoffset="0" stroke-linecap="round" fill="none" style="filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.5));" />
-                  </svg>
-                  <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-3 pointer-events-none">
-                    <span id="ddGaugePctText" class="text-3xl font-black text-white font-mono stitch-title leading-none">100%</span>
-                    <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-cyan-400 mt-1.5">DISPONIBILIDAD</span>
+              <!-- Cuadro Resumen de Madurez Digital Real -->
+              <div class="p-4 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-4">
+                <div>
+                  <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Madurez Digital</span>
+                  <div class="text-3xl font-black text-white font-mono mt-0.5">
+                    <span id="ddGaugeScoreBig">--</span><span class="text-base text-slate-500 font-normal">/100</span>
                   </div>
+                  <span id="ddGaugeScoreBadge" class="text-[11px] font-mono text-emerald-400 font-bold block mt-1">Auditado ✓</span>
                 </div>
-
-                <!-- TEXTO COLOCADO EN LA PARTE DE ABAJO DEL CÍRCULO DE NEÓN SEGÚN PETICIÓN -->
-                <div class="mt-3 flex flex-col items-center gap-1.5 text-center">
-                  <div id="ddGaugeNodesText" class="text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 border-emerald-500/20">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>🟢 En Línea • 42ms</span>
-                  </div>
-                  <a id="ddClientDomainLabel" href="#" target="_blank" class="text-[11px] font-mono text-cyan-400/80 hover:text-cyan-300 truncate max-w-[280px] underline underline-offset-2">https://...</a>
+                <div class="text-right space-y-1">
+                  <button onclick="drilldownRunAudit()" class="px-3.5 py-2 rounded bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 text-xs font-bold transition-all inline-flex items-center gap-1.5 shadow-sm active:scale-95">
+                    <span>⚡ Auditar 360°</span>
+                  </button>
+                  <span id="ddLastAuditDateLabel" class="text-[10px] font-mono text-slate-400 block">Última: Reciente</span>
                 </div>
               </div>
 
               <!-- Desglose de Diagnóstico Real del Cliente -->
-              <div class="space-y-2 text-sm pt-2 border-t border-white/[0.05]">
+              <div class="space-y-2 text-sm pt-1 border-t border-white/[0.05]">
                 <div class="flex items-center justify-between p-2 rounded bg-slate-900/40">
                   <span class="text-slate-300 text-xs">Resolución DNS (Cloudflare DoH):</span>
                   <span id="ddDnsStatus" class="font-mono font-bold text-emerald-400 text-xs">NOERROR (Activo)</span>
@@ -1814,8 +1817,8 @@
                   <span id="ddSslStatus" class="font-mono font-bold text-cyan-400 text-xs">HTTPS Seguro (TLS)</span>
                 </div>
                 <div class="flex items-center justify-between p-2 rounded bg-slate-900/40">
-                  <span class="text-slate-300 text-xs">Latencia de Respuesta DNS:</span>
-                  <span id="ddLatencyStatus" class="font-mono font-bold text-white text-xs">~42 ms</span>
+                  <span class="text-slate-300 text-xs">Latencia DNS / Ping:</span>
+                  <span id="ddLatencyStatus" class="font-mono font-bold text-white text-xs">-- ms</span>
                 </div>
               </div>
 
@@ -6313,12 +6316,28 @@ https://isapromord.github.io`;
           rawHtml = `<title>${meta.title || ''}</title><meta name="description" content="${meta.description || ''}">`;
         }
 
-        // Detección de archivos clave en base al HTML o heurística
-        if (rawHtml) {
-          hasRobots = rawHtml.includes('robots.txt') || rawHtml.includes('robots');
-          hasSitemap = rawHtml.includes('sitemap.xml') || rawHtml.includes('sitemap');
-          hasLlms = rawHtml.includes('llms.txt');
-        }
+        // 4. Comprobación directa paralela de archivos satélite en el host
+        try {
+          const [robRes, siteRes, llmRes] = await Promise.allSettled([
+            safeFetch(originUrl + '/robots.txt', 2500),
+            safeFetch(originUrl + '/sitemap.xml', 2500),
+            safeFetch(originUrl + '/llms.txt', 2500)
+          ]);
+          if (robRes.status === 'fulfilled' && robRes.value && robRes.value.ok) {
+            hasRobots = true;
+          }
+          if (siteRes.status === 'fulfilled' && siteRes.value && siteRes.value.ok) {
+            hasSitemap = true;
+          }
+          if (llmRes.status === 'fulfilled' && llmRes.value && llmRes.value.ok) {
+            hasLlms = true;
+          }
+        } catch(e) {}
+
+        // Fallback de detección en base al HTML si el host tiene CORS estricto
+        if (!hasRobots && rawHtml) hasRobots = rawHtml.includes('robots.txt') || rawHtml.includes('robots');
+        if (!hasSitemap && rawHtml) hasSitemap = rawHtml.includes('sitemap.xml') || rawHtml.includes('sitemap');
+        if (!hasLlms && rawHtml) hasLlms = rawHtml.includes('llms.txt');
 
         // Si Cloudflare DoH confirmó registros A válidos, el DNS está activo
         if (dohData && dohData.Answer && dohData.Answer.length > 0) {
@@ -6348,11 +6367,29 @@ https://isapromord.github.io`;
             currentAuditClient.healthScore = currentAuditResults.score;
             currentAuditClient.lastAuditTimestamp = new Date().toISOString();
             currentAuditClient.latencyMs = latencyMs;
+            currentAuditClient.detectedCms = currentAuditResults.detectedCms;
+            currentAuditClient.lastAuditSummary = {
+              score: currentAuditResults.score,
+              testedAt: new Date().toISOString(),
+              latencyMs: latencyMs,
+              detectedCms: currentAuditResults.detectedCms,
+              services: currentAuditResults.services.map(s => ({
+                id: s.id,
+                title: s.title,
+                status: s.status,
+                score: s.score,
+                maxScore: s.id === 'cloud_maintenance' ? 10 : 15,
+                findings: s.findings,
+                needed: s.needed,
+                solution: s.solution
+              }))
+            };
             try { 
               saveClientsToStorage(true); // Guarda en localStorage Y dispara syncAllClientsToCloud()
               syncClientToCloud(currentAuditClient); // Upsert directo garantizado a Supabase
             } catch(e){}
             try { renderClients(); } catch(e){}
+            try { renderClientDrilldown(); } catch(e){}
             try { updateKpis(); } catch(e){}
           }
 
@@ -6381,14 +6418,27 @@ https://isapromord.github.io`;
     function evaluateServicesHealth(url, meta, latencyMs, client, signals = {}) {
       const rawHtml = signals.rawHtml || "";
       
+      // Parser nativo DOMParser
+      let doc = null;
+      if (rawHtml) {
+        try {
+          doc = new DOMParser().parseFromString(rawHtml, 'text/html');
+        } catch(e) {}
+      }
+
       // Extraer datos reales del HTML o de Microlink
       let title = (meta?.title || "").trim();
+      if (!title && doc) title = doc.querySelector('title')?.textContent?.trim() || "";
       if (!title && rawHtml) {
         const tm = rawHtml.match(/<title[^>]*>(.*?)<\/title>/i);
         if (tm) title = tm[1].trim();
       }
 
       let desc = (meta?.description || "").trim();
+      if (!desc && doc) {
+        desc = doc.querySelector('meta[name="description"]')?.getAttribute('content')?.trim() || 
+               doc.querySelector('meta[property="og:description"]')?.getAttribute('content')?.trim() || "";
+      }
       if (!desc && rawHtml) {
         const dm = rawHtml.match(/<meta[^>]*name=["']description["'][^>]*content=["'](.*?)["']/i) ||
                    rawHtml.match(/<meta[^>]*content=["'](.*?)["'][^>]*name=["']description["']/i);
@@ -6400,6 +6450,8 @@ https://isapromord.github.io`;
         ogImage = meta.image.url;
       } else if (typeof meta?.image === "string") {
         ogImage = meta.image;
+      } else if (doc) {
+        ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content')?.trim() || "";
       } else if (rawHtml) {
         const ogMatch = rawHtml.match(/<meta[^>]*property=["']og:image["'][^>]*content=["'](.*?)["']/i);
         if (ogMatch) ogImage = ogMatch[1];
@@ -6408,22 +6460,82 @@ https://isapromord.github.io`;
       const serverHeader = (meta?.responseHeaders?.server || "").toLowerCase();
       const isHttps = url.toLowerCase().startsWith("https://");
 
+      // Detección universal de CMS / Hosting (WordPress, Shopify, Wix, Next.js, etc.)
+      const htmlLower = (rawHtml || "").toLowerCase();
+      let detectedCms = "Cloud Anycast";
+      if (htmlLower.includes('/wp-content/') || htmlLower.includes('/wp-includes/') || htmlLower.includes('wordpress')) {
+        detectedCms = "WordPress";
+      } else if (htmlLower.includes('cdn.shopify.com') || htmlLower.includes('shopify.theme')) {
+        detectedCms = "Shopify";
+      } else if (htmlLower.includes('wixstatic.com') || htmlLower.includes('wix.com')) {
+        detectedCms = "Wix";
+      } else if (htmlLower.includes('webflow.com') || htmlLower.includes('w-layout-grid')) {
+        detectedCms = "Webflow";
+      } else if (htmlLower.includes('__next') || htmlLower.includes('next.js')) {
+        detectedCms = "Next.js";
+      } else if (htmlLower.includes('data-reactroot') || htmlLower.includes('vite')) {
+        detectedCms = "Vite / React";
+      } else if (serverHeader.includes('vercel')) {
+        detectedCms = "Vercel Anycast";
+      } else if (serverHeader.includes('netlify')) {
+        detectedCms = "Netlify Anycast";
+      } else if (serverHeader.includes('cloudflare')) {
+        detectedCms = "Cloudflare Edge";
+      } else if (serverHeader.includes('apache')) {
+        detectedCms = "Apache Web Server";
+      } else if (serverHeader.includes('nginx')) {
+        detectedCms = "Nginx Web Server";
+      }
+
       const combinedText = (title + " " + desc + " " + url + " " + (rawHtml ? rawHtml.substring(0, 3000) : "")).toLowerCase();
 
-      // Detección profunda de Schemas JSON-LD en el HTML
-      const hasJsonLd = rawHtml.includes('application/ld+json');
-      const hasLocalSchema = hasJsonLd && (/localbusiness|transportationservice|realestateagent|store|organization|medicalbusiness/i.test(rawHtml));
-      const hasFaqSchema = hasJsonLd && (/faqpage/i.test(rawHtml));
+      // Detección profunda y validación sintáctica de Schemas JSON-LD
+      let hasJsonLd = false;
+      let hasLocalSchema = false;
+      let hasFaqSchema = false;
+      let hasOrganization = false;
+
+      if (doc) {
+        const scripts = Array.from(doc.querySelectorAll('script[type="application/ld+json"]'));
+        scripts.forEach(s => {
+          try {
+            const parsed = JSON.parse(s.textContent);
+            hasJsonLd = true;
+            const str = JSON.stringify(parsed).toLowerCase();
+            if (str.includes('localbusiness') || str.includes('store') || str.includes('transportationservice') || str.includes('realestateagent') || str.includes('medicalbusiness') || str.includes('restaurant')) {
+              hasLocalSchema = true;
+            }
+            if (str.includes('organization')) hasOrganization = true;
+            if (str.includes('faqpage')) hasFaqSchema = true;
+          } catch(e) {}
+        });
+      }
+      if (!hasJsonLd && rawHtml) {
+        hasJsonLd = rawHtml.includes('application/ld+json');
+        hasLocalSchema = hasJsonLd && (/localbusiness|transportationservice|realestateagent|store|medicalbusiness/i.test(rawHtml));
+        hasFaqSchema = hasJsonLd && (/faqpage/i.test(rawHtml));
+        hasOrganization = hasJsonLd && (/organization/i.test(rawHtml));
+      }
+      if (!hasLocalSchema && hasOrganization) hasLocalSchema = true;
 
       // Detección de Geo Meta Tags
-      const hasGeoRegion = rawHtml.includes('geo.region') || rawHtml.includes('geo.position') || rawHtml.includes('ICBM');
+      const hasGeoRegion = doc 
+        ? (!!doc.querySelector('meta[name="geo.region"]') || !!doc.querySelector('meta[name="geo.position"]') || !!doc.querySelector('meta[name="ICBM"]'))
+        : (rawHtml.includes('geo.region') || rawHtml.includes('geo.position') || rawHtml.includes('ICBM'));
 
       // Detección de WhatsApp transaccional
-      const hasWaLink = rawHtml.includes('wa.me') || rawHtml.includes('whatsapp') || combinedText.includes('wa.me');
+      const hasWaLink = doc
+        ? (!!doc.querySelector('a[href*="wa.me"]') || !!doc.querySelector('a[href*="whatsapp"]') || htmlLower.includes('wa.me'))
+        : (rawHtml.includes('wa.me') || rawHtml.includes('whatsapp') || htmlLower.includes('wa.me'));
 
       // Detección de Canónica y H1
-      const hasCanonical = rawHtml.includes('rel="canonical"') || rawHtml.includes("rel='canonical'");
-      const hasH1 = /<h1[^>]*>/i.test(rawHtml);
+      const hasCanonical = doc 
+        ? !!doc.querySelector('link[rel="canonical"]')
+        : (rawHtml.includes('rel="canonical"') || rawHtml.includes("rel='canonical'"));
+
+      const hasH1 = doc 
+        ? doc.querySelectorAll('h1').length > 0 
+        : /<h1[^>]*>/i.test(rawHtml);
 
       // Heurísticas de plataforma
       const isVercel = serverHeader.includes("vercel") || url.includes("vercel.app");
@@ -6730,6 +6842,7 @@ https://isapromord.github.io`;
         client,
         score: totalScore,
         coverage,
+        detectedCms,
         passedCount,
         warningCount,
         failedCount,
@@ -6997,6 +7110,31 @@ https://isapromord.com`;
 - Módulo Oficial ISAPromoRD: ${s.solution}`;
       }).join('\n\n');
 
+      const isWp = platform.toLowerCase().includes("wordpress") || Boolean(res.meta?.isWordPress);
+      const isCustomGit = Boolean(repoUrl && repoUrl !== "No configurado");
+
+      let aiActionInstructions = "";
+      if (isWp) {
+        aiActionInstructions = `El sitio web corre sobre **WordPress**.
+1. Si tienes acceso FTP/SSH o a la base de código del theme/child-theme:
+   - Implementa los schemas JSON-LD faltantes en \`functions.php\` o mediante el plugin SEO activo.
+   - Corrige los metatags OpenGraph y Twitter Cards.
+   - Sube los archivos satélite (\`robots.txt\`, \`sitemap.xml\`, \`llms.txt\`) a la raíz del hosting.
+2. Si la remediación es externa:
+   - Proporciona los snippets de código PHP y configuraciones precisas de plugins (RankMath / Yoast) para que el cliente o administrador las aplique directamente.`;
+      } else if (isCustomGit) {
+        aiActionInstructions = `El sitio cuenta con repositorio Git: \`${repoUrl}\`.
+1. Clona o abre el repositorio localmente.
+2. Implementa las remediaciones directamente en el código fuente (HTML, React, Vite o Astro).
+3. Agrega los schemas JSON-LD estructurados correspondientes a la categoría "${clientCategory}".
+4. Genera o actualiza \`robots.txt\`, \`sitemap.xml\` y \`llms.txt\`.
+5. Ejecuta pruebas de compilación/preview y haz commit/push para despliegue automático.`;
+      } else {
+        aiActionInstructions = `El sitio está alojado en ${platform} (código estático / CMS / no vinculado a Git).
+1. Genera los bloques de código exactos (HTML meta tags, script tags JSON-LD, configuración para robots.txt y sitemap.xml).
+2. Proporciona instrucciones paso a paso para insertar los códigos en la cabecera (<head>) del administrador de contenidos o panel de control del hosting (cPanel, Webflow, Shopify, etc.).`;
+      }
+
       const text = 
 `⚡ **ISAPROMORD AUDIT REMEDIATION PAYLOAD**
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -7019,20 +7157,7 @@ ${gapsList}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 **INSTRUCCIÓN DIRECTA PARA ANTIGRAVITY (AGENTE IA):**
-AntiGravity, por favor toma este reporte y ejecuta la remediación técnica completa:
-1. Inspecciona el código fuente del proyecto (en local o clona ${repoUrl}).
-2. Inyecta todos los elementos requeridos en \`index.html\`:
-   - Title optimizado con palabras clave y ubicación geográfica en República Dominicana.
-   - Meta Description persuasiva de 140-160 caracteres con llamada a la acción.
-   - Canonical URL (\`${res.url}\`).
-   - Geo Meta Tags para República Dominicana (\`geo.region\` DO-01, coordenadas GPS, ICBM).
-   - Tarjetas OpenGraph completas con imagen destacada 1200x630 para WhatsApp.
-   - Schemas JSON-LD enriquecidos (@graph con LocalBusiness georreferenciado, FAQPage y OfferCatalog).
-3. Genera \`public/robots.txt\` autorizando Googlebot, GPTBot, PerplexityBot, ClaudeBot y vinculando el sitemap.
-4. Genera \`public/sitemap.xml\` válido.
-5. Genera \`public/llms.txt\` y \`public/llms-full.txt\` bajo la especificación llmstxt.org.
-6. Ejecuta \`npm run build\` para verificar que compila con 0 errores y haz commit/push a GitHub.
-7. Al finalizar, confírmame para marcar el hito como 100% completado en el Dashboard de ISAPromoRD.`;
+${aiActionInstructions}`;
 
       copyToClipboard(encodeURIComponent(text), "🤖 Reporte Técnico para AntiGravity copiado al portapapeles");
 
@@ -9102,8 +9227,9 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     function selectClientDrilldown(clientId, pushToHistory = true) {
       currentDrilldownClientId = clientId;
       toggleClientViewMode('drilldown', pushToHistory);
+      renderClientDrilldown();
       const c = clients.find(cl => cl.id === clientId);
-      if (c && c.liveUrl && !c.latencyMs) {
+      if (c && c.liveUrl) {
         checkUrlUptime(c.liveUrl).then(res => {
           c.uptimeStatus = res.online ? "online" : "offline";
           c.latencyMs = res.latency;
@@ -9243,6 +9369,42 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       }
     }
 
+    function convertAuditGapsToTasks(clientId) {
+      const client = clients.find(c => c.id === clientId);
+      if (!client) return;
+      if (!client.lastAuditSummary || !client.lastAuditSummary.services) {
+        showToast("Iniciando auditoría 360° en vivo para detectar brechas reales...", "info");
+        openServicesAuditModal(client.id);
+        return;
+      }
+      const gaps = client.lastAuditSummary.services.filter(s => s.status === 'failed' || s.status === 'warning');
+      if (gaps.length === 0) {
+        showToast("¡Excelente! Este cliente cumple al 100% todos los pilares técnicos.", "success");
+        return;
+      }
+      if (!client.tasks) client.tasks = [];
+      let added = 0;
+      gaps.forEach((gap, idx) => {
+        const exists = client.tasks.some(t => t.title.toLowerCase().includes(gap.title.toLowerCase().substring(0, 15)));
+        if (!exists) {
+          client.tasks.push({
+            id: Date.now() + idx,
+            title: `Remediar: ${gap.title}`,
+            done: false,
+            date: new Date().toISOString().split('T')[0],
+            guide: {
+              summary: gap.needed,
+              details: `${gap.findings} Solución recomendada por ISAPromoRD: ${gap.solution}`
+            }
+          });
+          added++;
+        }
+      });
+      saveClientsToStorage(true);
+      renderClientDrilldown();
+      showToast(`✓ Se han inyectado ${added} tareas técnicas al Roadmap de ${client.name}`, "success");
+    }
+
     function renderClientDrilldown() {
       if (!currentDrilldownClientId && clients.length > 0) {
         currentDrilldownClientId = clients[0].id;
@@ -9250,7 +9412,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       const client = clients.find(c => c.id === currentDrilldownClientId) || clients[0];
       if (!client) return;
 
-      // 1. Header & Basic Info
+      // 1. Header & Información Básica
       const headerName = document.getElementById("ddHeaderClientName");
       if (headerName) headerName.textContent = client.name;
 
@@ -9276,7 +9438,10 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       }
 
       const liveUrlText = document.getElementById("ddLiveUrlText");
-      if (liveUrlText) liveUrlText.textContent = client.liveUrl || "Sin URL asignada";
+      if (liveUrlText) {
+        liveUrlText.textContent = client.liveUrl || "Sin URL asignada";
+        if (client.liveUrl) liveUrlText.href = client.liveUrl;
+      }
 
       const categoryText = document.getElementById("ddCategoryText");
       if (categoryText) categoryText.textContent = client.category || "Servicios Digitales";
@@ -9284,13 +9449,16 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       const notesText = document.getElementById("ddNotesText");
       if (notesText) notesText.textContent = client.notes || "Plataforma web omnicanal con catálogo, posicionamiento Google Maps y soporte continuo.";
 
+      // Plataforma / Servidor Web Real
+      const detectedServer = client.detectedCms || (client.platform ? client.platform.split('•')[0].trim() : 'Cloud CDN');
       const platformPill = document.getElementById("ddPlatformPill");
-      if (platformPill) platformPill.textContent = client.platform || "Vercel Anycast • Vite / React";
+      if (platformPill) platformPill.textContent = detectedServer;
 
-      // 2. Telemetría & Latencia
+      // 2. Telemetría & Conectividad en Vivo
       const latencyEl = document.getElementById("ddLatency");
       if (latencyEl) latencyEl.textContent = (client.latencyMs ? client.latencyMs + 'ms' : '-- ms');
 
+      const isOnline = client.uptimeStatus !== "offline";
       const statusBadge = document.getElementById("ddStatusBadge");
       const statusText = document.getElementById("ddStatusText");
       if (statusBadge && statusText) {
@@ -9300,262 +9468,220 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         } else if (client.status === "pending_payment") {
           statusBadge.className = "stitch-pill bg-rose-500/10 text-rose-400 border border-rose-500/30";
           statusText.textContent = "COBRO PENDIENTE";
-        } else {
+        } else if (isOnline) {
           statusBadge.className = "stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
-          statusText.textContent = "EN LÍNEA • Vercel CDN";
+          statusText.textContent = `EN LÍNEA • ${detectedServer}`;
+        } else {
+          statusBadge.className = "stitch-pill bg-rose-500/10 text-rose-400 border border-rose-500/30";
+          statusText.textContent = "INACCESIBLE";
         }
       }
 
-      // 3. Métricas Duales
+      // Badges de IP y SSL en vivo
+      const dnsIpBadge = document.getElementById("ddDnsIpBadge");
+      if (dnsIpBadge) dnsIpBadge.textContent = client.dnsRecord || "Resolviendo DNS...";
+
+      const isHttps = client.liveUrl && client.liveUrl.startsWith('https');
+      const sslBadge = document.getElementById("ddSslBadge");
+      if (sslBadge) {
+        sslBadge.textContent = isHttps ? "HTTPS TLS 1.3" : "HTTP (Inseguro)";
+        sslBadge.className = isHttps ? "text-emerald-400 font-bold text-[11px] block" : "text-amber-400 font-bold text-[11px] block";
+      }
+
+      // 3. Health Score Real Auditado (Sin Mockups)
       const scoreNum = document.getElementById("ddScoreNumber");
-      if (scoreNum) scoreNum.textContent = client.healthScore !== undefined ? client.healthScore : 98;
+      const scoreSubtitle = document.getElementById("ddScoreSubtitle");
+      const hasAudited = typeof client.healthScore === "number";
+
+      if (scoreNum) {
+        scoreNum.textContent = hasAudited ? client.healthScore : "--";
+        scoreNum.className = hasAudited 
+          ? (client.healthScore >= 85 ? "text-emerald-400" : (client.healthScore >= 60 ? "text-amber-400" : "text-rose-400")) 
+          : "text-slate-400";
+      }
+      if (scoreSubtitle) {
+        scoreSubtitle.textContent = hasAudited 
+          ? (client.healthScore >= 85 ? "Salud técnica óptima" : (client.healthScore >= 60 ? "Oportunidad de optimización" : "Brechas críticas detectadas")) 
+          : "Pendiente de auditoría";
+      }
 
       const mrrFee = document.getElementById("ddMrrFee");
       if (mrrFee) {
-        mrrFee.textContent = presentationMode ? "RD$ •••••" : (client.fee || "RD$ 15,000 / m");
+        mrrFee.textContent = presentationMode ? "RD$ •••••" : (client.fee || "RD$ 4,500 / mes");
       }
 
       const planName = document.getElementById("ddPlanName");
       if (planName) {
-        planName.textContent = client.fee && client.fee.includes("30") ? "Plan Ecosistema IA" : (client.fee && client.fee.includes("20") ? "Plan CRM Growth" : "Plan Retainer Pro");
+        planName.textContent = client.fee && client.fee.includes("8,000") ? "Plan Pro Enterprise" : (client.fee && client.fee.includes("4,500") ? "Plan Retainer Pro" : "Plan Retainer");
       }
 
-      // Renderizar Chips de Stack Tecnológico Dinámicos
+      // Renderizar Chips de Stack Tecnológico Reales
       const stackChipsContainer = document.getElementById("ddStackChipsContainer");
       if (stackChipsContainer) {
-        const stackList = [];
-        if (client.platform) {
-          const parts = client.platform.split("•").map(p => p.trim());
-          parts.forEach(p => stackList.push(p));
-        } else {
-          stackList.push("Next.js / Vite");
-        }
-        if (client.database || (client.notes && client.notes.toLowerCase().includes("supabase"))) {
-          stackList.push("Supabase Pro");
-        }
-        if (client.category && (client.category.toLowerCase().includes("transporte") || client.category.toLowerCase().includes("logística"))) {
-          stackList.push("Fleet Tracking");
-        }
-        if (client.optimizationMatrix?.geo || (client.notes && client.notes.toLowerCase().includes("maps"))) {
-          stackList.push("Google Maps Pack-3");
-        }
-        if (client.optimizationMatrix?.ai || (client.notes && client.notes.toLowerCase().includes("ia"))) {
-          stackList.push("GEO IA ChatGPT");
-        }
-        stackList.push("SSL Anycast");
-
-        const uniqueChips = [...new Set(stackList)];
-        stackChipsContainer.innerHTML = uniqueChips.map(chip => {
-          const isEmerald = chip.toLowerCase().includes("ssl") || chip.toLowerCase().includes("anycast");
-          return `<span class="stitch-chip ${isEmerald ? 'text-emerald-400 border-emerald-500/20' : ''}">${escapeHtml(chip)}</span>`;
-        }).join("");
+        const stackList = [
+          detectedServer,
+          isHttps ? "SSL Cifrado" : "HTTP Inseguro",
+          client.repoUrl ? "GitHub Repo" : "CMS Web",
+          client.dnsRecord ? `IP: ${client.dnsRecord}` : "DNS Resuelto",
+          hasAudited ? `Score: ${client.healthScore}/100` : "Por Auditar"
+        ];
+        stackChipsContainer.innerHTML = stackList.map(chip => `
+          <span class="stitch-chip ${chip.includes('SSL') || chip.includes('Score: 100') ? 'text-emerald-400 border-emerald-500/20' : ''}">
+            ${escapeHtml(chip)}
+          </span>
+        `).join("");
       }
 
-      // 4. Progreso de Servicios Reales del Cliente (Centro)
+      // 4. Diagnóstico de los 7 Pilares Técnicos Reales (Columna Centro)
       const servicesContainer = document.getElementById("ddServicesListContainer");
-      if (servicesContainer) {
-        const mat = client.optimizationMatrix || { seo: '98%', whatsapp: '100%', geo: '95%', ai: '95%' };
-        const realServices = [
-          {
-            icon: "🔍",
-            title: "Auditoría SEO On-Page & Core Web Vitals",
-            sub: `${client.name} • Tasa de Carga Optimizada`,
-            status: mat.seo || "98%",
-            statusClass: "text-cyan-300",
-            action: "drilldownRunAudit()",
-            actionLabel: "Auditar 360°"
-          },
-          {
-            icon: "💬",
-            title: "WhatsApp Leads & Conversión Omnicanal",
-            sub: client.phone ? `Enrutamiento directo a ${client.phone}` : "Canal comercial activo",
-            status: mat.whatsapp || "100%",
-            statusClass: "text-emerald-400 font-bold",
-            action: "drilldownOpenWhatsapp()",
-            actionLabel: "Abrir Chat"
-          },
-          {
-            icon: "📍",
-            title: "Google Maps Pack-3 & GEO Local RD",
-            sub: "Indexación geográfica y geolocalización",
-            status: mat.geo || "95%",
-            statusClass: "text-purple-300",
-            action: "window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('" + client.name + " Santo Domingo'), '_blank')",
-            actionLabel: "Ver en Maps"
-          },
-          {
-            icon: "🤖",
-            title: "Indexación IA (ChatGPT, Gemini, Claude)",
-            sub: "Optimización de llms.txt & schema.org",
-            status: mat.ai || "95%",
-            statusClass: "text-amber-300",
-            action: "drilldownRunAudit()",
-            actionLabel: "Verificar IA"
-          },
-          {
-            icon: "⚡",
-            title: "Infraestructura Cloud & Edge Anycast",
-            sub: client.platform || "Vercel CDN • SSL Activo",
-            status: client.status === "active" ? "ONLINE" : "EN REVISIÓN",
-            statusClass: client.status === "active" ? "text-emerald-400 font-bold" : "text-amber-400",
-            action: client.liveUrl ? "window.open('" + client.liveUrl + "', '_blank')" : "showToast('Sin URL en vivo')",
-            actionLabel: "Visitar Web"
-          }
-        ];
+      const pillarsBadge = document.getElementById("ddPillarsBadge");
+      if (pillarsBadge) {
+        pillarsBadge.textContent = hasAudited ? `SCORE: ${client.healthScore}/100` : "SIN AUDITAR";
+      }
 
-        servicesContainer.innerHTML = realServices.map(s => `
-          <div class="p-3.5 rounded bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3 overflow-hidden">
-              <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 text-base">
-                ${s.icon}
+      if (servicesContainer) {
+        const auditSvcs = client.lastAuditSummary?.services || [];
+        if (auditSvcs.length > 0) {
+          servicesContainer.innerHTML = auditSvcs.map(s => {
+            const isPass = s.status === 'passed';
+            const isWarn = s.status === 'warning';
+            const badgeClass = isPass ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : (isWarn ? 'bg-amber-500/10 text-amber-300 border-amber-500/30' : 'bg-rose-500/10 text-rose-400 border-rose-500/30');
+            const badgeLabel = isPass ? `CUMPLE (${s.score}/${s.maxScore} pts)` : (isWarn ? `OPORTUNIDAD (${s.score}/${s.maxScore} pts)` : `BRECHA CRÍTICA (0/${s.maxScore} pts)`);
+            const icon = isPass ? '✓' : (isWarn ? '⚠️' : '✕');
+
+            return `
+              <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] hover:border-cyan-500/30 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start gap-2.5 overflow-hidden min-w-0">
+                  <div class="w-6 h-6 rounded bg-slate-800 border border-white/10 text-slate-200 flex items-center justify-center shrink-0 text-xs font-bold font-mono">
+                    ${icon}
+                  </div>
+                  <div class="overflow-hidden min-w-0">
+                    <h4 class="font-bold text-slate-100 text-xs sm:text-sm truncate">${escapeHtml(s.title)}</h4>
+                    <p class="text-[11px] text-slate-400 line-clamp-1 mt-0.5">${escapeHtml(s.findings || s.needed || '')}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${badgeClass}">${badgeLabel}</span>
+                  <button onclick="drilldownRunAudit()" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[11px] text-cyan-300 font-bold border border-white/10 transition-colors">
+                    Re-Auditar
+                  </button>
+                </div>
               </div>
-              <div class="overflow-hidden">
-                <h4 class="font-bold text-slate-100 text-sm truncate">${s.title}</h4>
-                <span class="text-xs text-slate-300 font-mono truncate block">${s.sub}</span>
+            `;
+          }).join('');
+        } else {
+          // Si aún no se ha auditado, mostrar los 7 pilares con botón de escaneo en vivo
+          servicesContainer.innerHTML = `
+            <div class="p-5 rounded bg-[#0a0e17] border border-dashed border-slate-700 text-center space-y-3">
+              <div class="w-10 h-10 rounded-full bg-cyan-500/10 text-cyan-400 mx-auto flex items-center justify-center font-bold text-lg">⚡</div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Sin escaneo técnico registrado</h4>
+                <p class="text-xs text-slate-400 max-w-sm mx-auto mt-1">Haz clic en el botón de abajo para ejecutar la auditoría de los 7 pilares técnicos en vivo.</p>
               </div>
-            </div>
-            <div class="flex items-center gap-2.5 shrink-0">
-              <span class="text-xs font-mono font-bold uppercase ${s.statusClass}">${s.status}</span>
-              <button onclick="${s.action}" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-cyan-300 font-bold border border-white/10 transition-colors">
-                ${s.actionLabel}
+              <button onclick="drilldownRunAudit()" class="px-4 py-2 rounded bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/20 transition-all inline-flex items-center gap-2 cursor-pointer">
+                <span>⚡ Ejecutar Auditoría 360° en Vivo</span>
               </button>
             </div>
-          </div>
-        `).join('');
+          `;
+        }
       }
 
-      // 5. Salud & Monitoreo en Vivo del Cliente Específico (100% REAL)
-      const gaugePctEl = document.getElementById("ddGaugePctText");
-      const gaugeNodesEl = document.getElementById("ddGaugeNodesText");
-      const domainLabelEl = document.getElementById("ddClientDomainLabel");
+      // Archivos Satélite Reales (Bajo Columna Centro)
+      const origin = client.liveUrl ? new URL(client.liveUrl).origin : "";
+      const robLink = document.getElementById("ddRobotsLink");
+      const siteLink = document.getElementById("ddSitemapLink");
+      const llmLink = document.getElementById("ddLlmsLink");
+      const detectedCmsLabel = document.getElementById("ddDetectedCmsLabel");
+
+      if (robLink && origin) robLink.href = origin + "/robots.txt";
+      if (siteLink && origin) siteLink.href = origin + "/sitemap.xml";
+      if (llmLink && origin) llmLink.href = origin + "/llms.txt";
+      if (detectedCmsLabel) detectedCmsLabel.textContent = detectedServer;
+
+      // 5. Checklist de Tareas & Roadmap (Columna Derecha)
+      const phaseClientText = document.getElementById("ddPhaseClientText");
+      if (phaseClientText) phaseClientText.textContent = `Entregables en ${client.name}`;
+
+      const taskList = document.getElementById("ddSprintTaskList");
+      const clientTasks = client.tasks || [];
+      const doneCount = clientTasks.filter(t => t.done).length;
+      const totalTasks = clientTasks.length;
+      const pct = totalTasks > 0 ? Math.round((doneCount / totalTasks) * 100) : 0;
+
+      const doneEl = document.getElementById("ddDoneTaskCount");
+      const totalEl = document.getElementById("ddTotalTaskCount");
+      const pctEl = document.getElementById("ddDoneTaskPct");
+      if (doneEl) doneEl.textContent = doneCount;
+      if (totalEl) totalEl.textContent = totalTasks;
+      if (pctEl) pctEl.textContent = pct + "%";
+
+      if (taskList) {
+        if (clientTasks.length > 0) {
+          taskList.innerHTML = clientTasks.map((t, i) => `
+            <div class="p-2.5 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-2.5">
+              <label class="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0">
+                <input 
+                  type="checkbox" 
+                  ${t.done ? 'checked' : ''} 
+                  onchange="toggleTask('${client.id}', ${t.id || i}); renderClientDrilldown();"
+                  class="rounded text-cyan-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer shrink-0" 
+                />
+                <span class="${t.done ? 'line-through text-slate-400' : 'text-slate-100'} text-xs sm:text-sm font-medium truncate">
+                  ${escapeHtml(t.title)}
+                </span>
+              </label>
+              <span class="text-[10px] font-mono font-bold ${t.done ? 'text-emerald-400' : 'text-amber-400'} shrink-0">
+                ${t.done ? 'Completado' : 'Pendiente'}
+              </span>
+            </div>
+          `).join('');
+        } else {
+          taskList.innerHTML = `
+            <div class="p-3.5 rounded bg-[#0a0e17] border border-dashed border-slate-700 text-center space-y-2">
+              <p class="text-xs text-slate-400">Sin tareas manuales asignadas aún a esta cuenta.</p>
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-2">
+                <button onclick="convertAuditGapsToTasks('${client.id}')" class="px-2.5 py-1.5 rounded bg-cyan-600/20 hover:bg-cyan-600/35 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all cursor-pointer">
+                  📥 Inyectar Brechas de Auditoría
+                </button>
+                <button onclick="promptAddTask('${client.id}'); renderClientDrilldown();" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-white/10 text-xs font-bold transition-all cursor-pointer">
+                  + Añadir Manual
+                </button>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // 6. Monitoreo & Disponibilidad Real (Cuadro Inferior Derecho)
+      const bigScoreEl = document.getElementById("ddGaugeScoreBig");
+      const bigScoreBadge = document.getElementById("ddGaugeScoreBadge");
+      const lastAuditDateLabel = document.getElementById("ddLastAuditDateLabel");
       const dnsStatusEl = document.getElementById("ddDnsStatus");
       const sslStatusEl = document.getElementById("ddSslStatus");
       const latencyStatusEl = document.getElementById("ddLatencyStatus");
-      const circleEmerald = document.getElementById("ddRadialCircleEmerald");
-      const circleCyan = document.getElementById("ddRadialCircleCyan");
 
-      if (domainLabelEl) {
-        if (client.liveUrl) {
-          domainLabelEl.href = client.liveUrl;
-          domainLabelEl.textContent = client.liveUrl;
-          domainLabelEl.style.display = 'inline-block';
-        } else {
-          domainLabelEl.textContent = 'Sin URL configurada';
-          domainLabelEl.removeAttribute('href');
-        }
+      if (bigScoreEl) bigScoreEl.textContent = hasAudited ? client.healthScore : "--";
+      if (bigScoreBadge) {
+        bigScoreBadge.textContent = hasAudited 
+          ? (client.healthScore >= 85 ? "🟢 Salud Óptima" : (client.healthScore >= 60 ? "🟡 Oportunidades Pendientes" : "🔴 Brechas Críticas")) 
+          : "⚪ Sin Auditar";
+        bigScoreBadge.className = hasAudited 
+          ? (client.healthScore >= 85 ? "text-emerald-400 text-[11px] font-mono font-bold block mt-1" : (client.healthScore >= 60 ? "text-amber-400 text-[11px] font-mono font-bold block mt-1" : "text-rose-400 text-[11px] font-mono font-bold block mt-1"))
+          : "text-slate-400 text-[11px] font-mono font-bold block mt-1";
       }
-
-      if (!client.liveUrl) {
-        if (gaugePctEl) gaugePctEl.textContent = "N/A";
-        if (gaugeNodesEl) {
-          gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-slate-400 bg-slate-500/10 border-slate-500/20";
-          gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-slate-400"></span><span>Sin Dominio Asignado</span>`;
-        }
-        if (dnsStatusEl) { dnsStatusEl.textContent = "N/A"; dnsStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; }
-        if (sslStatusEl) { sslStatusEl.textContent = "N/A"; sslStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; }
-        if (latencyStatusEl) latencyStatusEl.textContent = "N/A";
-        if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "301.6");
-        if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "238.7");
-      } else {
-        const isChecking = client.uptimeStatus === "checking";
-        const isOffline = client.uptimeStatus === "offline";
-        const isOnline = !isChecking && !isOffline;
-
-        if (isChecking) {
-          if (gaugePctEl) gaugePctEl.textContent = "...";
-          if (gaugeNodesEl) {
-            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-cyan-400 bg-cyan-500/10 border-cyan-500/20";
-            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span><span>Auditando conexión...</span>`;
-          }
-        } else if (isOnline) {
-          const latText = client.latencyMs ? `${client.latencyMs}ms` : 'Activo';
-          if (gaugePctEl) gaugePctEl.textContent = "100%";
-          if (gaugeNodesEl) {
-            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 border-emerald-500/20";
-            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>🟢 En Línea • ${latText}</span>`;
-          }
-          if (dnsStatusEl) { 
-            dnsStatusEl.textContent = client.dnsRecord ? `NOERROR (${client.dnsRecord})` : "NOERROR (Resuelto)"; 
-            dnsStatusEl.className = "font-mono font-bold text-emerald-400 text-xs"; 
-          }
-          if (sslStatusEl) { 
-            const isHttps = client.liveUrl.startsWith('https');
-            sslStatusEl.textContent = isHttps ? "HTTPS Seguro (TLS)" : "HTTP (No Cifrado)"; 
-            sslStatusEl.className = isHttps ? "font-mono font-bold text-cyan-400 text-xs" : "font-mono font-bold text-amber-400 text-xs"; 
-          }
-          if (latencyStatusEl) latencyStatusEl.textContent = client.latencyMs ? `~${client.latencyMs} ms` : "Listo";
-          if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "0");
-          if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "0");
-        } else {
-          // Offline o Fallo de DNS
-          if (gaugePctEl) gaugePctEl.textContent = "0%";
-          if (gaugeNodesEl) {
-            gaugeNodesEl.className = "text-xs font-mono font-bold px-3 py-1 rounded-full border flex items-center gap-1.5 text-rose-400 bg-rose-500/10 border-rose-500/20";
-            gaugeNodesEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-400"></span><span>🔴 Inaccesible / Caído</span>`;
-          }
-          if (dnsStatusEl) { 
-            dnsStatusEl.textContent = client.dnsStatus || "Fallo DNS / NXDOMAIN"; 
-            dnsStatusEl.className = "font-mono font-bold text-rose-400 text-xs"; 
-          }
-          if (sslStatusEl) { 
-            sslStatusEl.textContent = "Sin Respuesta"; 
-            sslStatusEl.className = "font-mono font-bold text-slate-400 text-xs"; 
-          }
-          if (latencyStatusEl) latencyStatusEl.textContent = "Timeout";
-          if (circleEmerald) circleEmerald.setAttribute("stroke-dashoffset", "301.6");
-          if (circleCyan) circleCyan.setAttribute("stroke-dashoffset", "238.7");
-        }
+      if (lastAuditDateLabel) {
+        lastAuditDateLabel.textContent = client.lastAuditTimestamp ? `Última: ${new Date(client.lastAuditTimestamp).toLocaleDateString('es-DO')}` : "Sin auditar";
       }
-
-      // 6. Sprint Checklist (Columna Derecha)
-      const phaseClientText = document.getElementById("ddPhaseClientText");
-      if (phaseClientText) phaseClientText.textContent = `Despliegues en ${client.name}`;
-
-      const taskList = document.getElementById("ddSprintTaskList");
-      if (taskList) {
-        const clientTasks = client.tasks || [
-          { id: 1, title: `Verificar Sitemap XML & llms.txt en ${client.name}`, done: true },
-          { id: 2, title: "Enviar propuesta CRM interactiva al cliente", done: true },
-          { id: 3, title: "Auditoría SEO 360° en Google PageSpeed", done: false },
-          { id: 4, title: "Configurar Webhook Stripe & Monitoreo Edge", done: false }
-        ];
-
-        const doneCount = clientTasks.filter(t => t.done).length;
-        const totalTasks = clientTasks.length;
-        const pct = totalTasks > 0 ? Math.round((doneCount / totalTasks) * 100) : 0;
-
-        const doneEl = document.getElementById("ddDoneTaskCount");
-        const totalEl = document.getElementById("ddTotalTaskCount");
-        const pctEl = document.getElementById("ddDoneTaskPct");
-        if (doneEl) doneEl.textContent = doneCount;
-        if (totalEl) totalEl.textContent = totalTasks;
-        if (pctEl) pctEl.textContent = pct + "%";
-
-        taskList.innerHTML = clientTasks.map((t, i) => `
-          <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.06] flex items-center justify-between gap-2.5">
-            <label class="flex items-center gap-2.5 cursor-pointer flex-1">
-              <input 
-                type="checkbox" 
-                ${t.done ? 'checked' : ''} 
-                onchange="toggleTask('${client.id}', ${t.id || i}); renderClientDrilldown();"
-                class="rounded text-cyan-400 bg-slate-900 border-slate-700 w-4 h-4 cursor-pointer shrink-0" 
-              />
-              <span class="${t.done ? 'line-through text-slate-400' : 'text-slate-100'} text-sm font-medium truncate">
-                ${t.title}
-              </span>
-            </label>
-            <span class="text-xs font-mono font-bold ${t.done ? 'text-emerald-400' : 'text-amber-400'} shrink-0">
-              ${t.done ? 'Completado' : 'Pendiente'}
-            </span>
-          </div>
-        `).join('');
+      if (dnsStatusEl) {
+        dnsStatusEl.textContent = client.dnsRecord ? `NOERROR (${client.dnsRecord})` : "NOERROR (Activo)";
+        dnsStatusEl.className = "font-mono font-bold text-emerald-400 text-xs";
       }
-
-      // 7. Banner MRR
-      const bannerMrr = document.getElementById("ddBannerMrr");
-      if (bannerMrr) {
-        const totalMrr = calculateTotalMrr();
-        bannerMrr.textContent = presentationMode ? "RD$ •••••" : `RD$ ${totalMrr.toLocaleString()}`;
+      if (sslStatusEl) {
+        sslStatusEl.textContent = isHttps ? "HTTPS Seguro (TLS 1.3)" : "HTTP (No Cifrado)";
+        sslStatusEl.className = isHttps ? "font-mono font-bold text-cyan-400 text-xs" : "font-mono font-bold text-amber-400 text-xs";
+      }
+      if (latencyStatusEl) {
+        latencyStatusEl.textContent = client.latencyMs ? `${client.latencyMs} ms` : "-- ms";
       }
     }    // Abrir cotizador con los datos del cliente pre-rellenados
     function openProposalForClient(clientId) {

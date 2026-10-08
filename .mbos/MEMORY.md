@@ -976,3 +976,12 @@
 - **Copy Ejecutivo:** *"Sede de Operaciones & Desarrollo Digital (Atención técnica y comercial remota nacional)"*.
 - **Email Canónico Activo:** Transición total de `contacto@isapromord.com` a `isapromord@gmail.com` en todos los archivos, schemas, enlaces `mailto:` y políticas para garantizar recepción inmediata de prospectos a bandeja sin pérdida por falta de servidores MX dedicados.
 - **Estrategia Google Business Profile (SAB):** Preparación de la arquitectura de entidad para apelación/verificación bajo la modalidad de Negocio de Área de Servicio (SAB - Service Area Business) sin tienda física pública.
+
+## [2026-10-08] - Inyección de Business Description Oficial en Metadata, OpenGraph y Schemas
+
+### 1. Optimización Algorítmica (Googlebot & Motores de IA)
+- **Problema Previo:** La meta-descripción y Schema tenían textos genéricos ("Impulsamos tu crecimiento...") sin anclaje geográfico de primer orden ni desglose de servicios clave.
+- **Implementación:**
+  - Inyección de la descripción canónica de 715 caracteres en los bloques Schema.org (`Organization` y `ProfessionalService`) de `index.html` y en `llms.txt`.
+  - Adaptación de meta description (`<meta name="description">`), OpenGraph (`og:description`) y Twitter Card (`twitter:description`) con el extracto de alto impacto: *"En ISAPromoRD transformamos la presencia digital de empresas en Santo Domingo y República Dominicana: diseño web ultrarrápido (<0.5s), posicionamiento Google Maps (SEO Local), agentes de WhatsApp con IA y sistemas CRM a la medida."*
+  - Metatags geográficos `geo.placename` y coordenadas ICBM sincronizados con Altos de Arroyo Hondo III (`18.4969, -69.9855`).

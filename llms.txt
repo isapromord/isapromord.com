@@ -3,7 +3,7 @@
 # Ubicación: Calle 1ra, No. 14, Altos de Arroyo Hondo III, Santo Domingo, Distrito Nacional, 10605, República Dominicana.
 # Contacto Oficial: +1 (829) 455-4783 | isapromord@gmail.com
 
-> ISAPromoRD es una firma dominicana de ingeniería web de ultra alta velocidad (<0.4s en redes 4G/5G Claro y Altice), automatización con IA y posicionamiento local estratégico (Google Business Profile Pack-3 y SEO Local) para empresas en Santo Domingo, Santiago y todo el territorio de República Dominicana.
+> En ISAPromoRD transformamos la presencia digital de empresas en Santo Domingo y República Dominicana en un canal continuo de ventas y eficiencia operativa. Desarrollamos infraestructura digital de alto rendimiento: diseño de páginas web ultrarrápidas (<0.5s), landing pages de alta conversión, posicionamiento estratégico en Google Maps (SEO Local), agentes de WhatsApp con Inteligencia Artificial y sistemas CRM a la medida con bases de datos en la nube. Conectamos tus campañas, automatizaciones comerciales y canales de citas para que ningún prospecto se pierda y tu equipo cierre más negocios. No solo creamos páginas: construimos la tecnología que escala tu empresa.
 
 ## Servicios Principales, Precios Oficiales y URLs de Consulta
 1. Diseño y Desarrollo Web Ultrarrápido: Sitios web en código puro Jamstack (React/Vite). 100/100 Core Web Vitals, sin dependencias de WordPress. Web Transaccional (Ingeniería de Ultra Velocidad) desde RD$ 25,000 a RD$ 35,000 (setup único) + Mantenimiento y Hosting Anycast opcional RD$ 4,500/mes. Web Corporativa Multi-Página RD$ 55,000. (URL: https://isapromord.github.io/diseno-web-santo-domingo/)

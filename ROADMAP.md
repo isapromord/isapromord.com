@@ -2,7 +2,7 @@
 
 > **Documento Central de Estrategia, Precios y Hoja de Ruta de Ingeniería**  
 > **Entidad:** ISAPromoRD • Altos de Arroyo Hondo III, Santo Domingo, D.N. (10605)  
-> **Contacto:** +1 (829) 455-4783 • contacto@isapromord.com  
+> **Contacto:** +1 (829) 455-4783 • isapromord@gmail.com  
 > **Última Actualización:** Octubre 2026  
 
 ---

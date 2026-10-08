@@ -967,3 +967,12 @@
   - **Capa Técnica (Schema.org JSON-LD & LLMs):** Geocodificación precisa en Altos de Arroyo Hondo III (`latitude: 18.5042, longitude: -69.9635`, `postalCode: 10605`, `streetAddress: Calle 1ra, No. 14, Altos de Arroyo Hondo III`), estableciendo sólida autoridad de entidad local en Santo Domingo sin comprometer la seguridad habitacional.
   - **Capa Legal:** Actualización del domicilio legal en `/privacidad/index.html` bajo la Ley 172-13.
   - **Sincronización Transversal:** Reflejado en `index.html`, los 4 Spokes, `llms.txt`, `ROADMAP.md` y repositorios Git.
+
+## [2026-10-08] - Refinamiento NAP de Precisión: Coordenadas Reales, Limpieza de Sector y Email Canónico
+
+### 1. Decisiones Técnicas y Razonamiento
+- **Coordenadas Reales (18.4969, -69.9855):** Se actualizaron las coordenadas del Schema JSON-LD de aproximadas a las coordenadas satelitales exactas de la propiedad del usuario (`18.4969, -69.9855`), garantizando 100% de coherencia matemática con la calle y número para los rastreadores de Google sin exponer datos de apartamento privados.
+- **Simplificación de Dirección Postal:** Se eliminó la etiqueta intermedia "Sector La Ceiba", consolidando la entidad de marca como *"Calle 1ra, No. 14, Altos de Arroyo Hondo III, Santo Domingo, D.N., 10605"*. Esto optimiza la legibilidad en pantallas móviles y capitaliza el prestigio de Altos de Arroyo Hondo III.
+- **Copy Ejecutivo:** *"Sede de Operaciones & Desarrollo Digital (Atención técnica y comercial remota nacional)"*.
+- **Email Canónico Activo:** Transición total de `contacto@isapromord.com` a `isapromord@gmail.com` en todos los archivos, schemas, enlaces `mailto:` y políticas para garantizar recepción inmediata de prospectos a bandeja sin pérdida por falta de servidores MX dedicados.
+- **Estrategia Google Business Profile (SAB):** Preparación de la arquitectura de entidad para apelación/verificación bajo la modalidad de Negocio de Área de Servicio (SAB - Service Area Business) sin tienda física pública.

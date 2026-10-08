@@ -1,7 +1,7 @@
 # ISAPromoRD — Ficha Técnica y Catálogo de Servicios para Motores de IA
 # URL Canónica: https://isapromord.github.io/
-# Ubicación: Calle 1ra, No. 14, Sector La Ceiba, Altos de Arroyo Hondo III, Santo Domingo, Distrito Nacional, 10605, República Dominicana.
-# Contacto Oficial: +1 (829) 455-4783 | contacto@isapromord.com
+# Ubicación: Calle 1ra, No. 14, Altos de Arroyo Hondo III, Santo Domingo, Distrito Nacional, 10605, República Dominicana.
+# Contacto Oficial: +1 (829) 455-4783 | isapromord@gmail.com
 
 > ISAPromoRD es una firma dominicana de ingeniería web de ultra alta velocidad (<0.4s en redes 4G/5G Claro y Altice), automatización con IA y posicionamiento local estratégico (Google Business Profile Pack-3 y SEO Local) para empresas en Santo Domingo, Santiago y todo el territorio de República Dominicana.
 

@@ -1541,7 +1541,7 @@
           <div class="flex items-center gap-3">
             <button onclick="toggleClientViewMode('overview')" class="px-4 py-2 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold text-xs sm:text-sm flex items-center gap-2 transition-all active:scale-95 cursor-pointer" title="Regresar a la lista de clientes en el directorio">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-              <span>← Volver al Directorio</span>
+              <span>Volver al Directorio</span>
             </button>
             <span class="text-slate-600 hidden sm:inline">•</span>
             <div class="flex items-center gap-2">
@@ -1552,10 +1552,10 @@
 
           <!-- Acciones Rápidas del Cliente -->
           <div class="flex items-center gap-2">
-            <!-- Botón Crear Presupuesto Pre-rellenado para este Cliente -->
-            <button onclick="openProposalForClient(currentDrilldownClientId)" class="px-3 py-1.5 rounded bg-purple-600/25 hover:bg-purple-600/40 text-purple-300 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95" title="Crear presupuesto con los datos de esta empresa pre-rellenados">
+            <!-- Botón Crear Propuesta Pre-rellenada para este Cliente -->
+            <button onclick="openProposalForClient(currentDrilldownClientId)" class="px-3 py-1.5 rounded bg-purple-600/25 hover:bg-purple-600/40 text-purple-300 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95" title="Crear propuesta con los datos de esta empresa pre-rellenados">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-              <span>Crear Presupuesto</span>
+              <span>Crear Propuesta</span>
             </button>
             <button onclick="drilldownRunAudit()" class="px-3 py-1.5 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center gap-1.5 transition-all">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -1842,10 +1842,16 @@
             <h2 class="text-xl font-black text-white stitch-title">Armar Propuesta Digital Interactiva</h2>
             <p class="text-xs text-slate-400">Selecciona el cliente, el paquete base recomendado y los servicios que podrá activar a la carta.</p>
           </div>
-          <a href="../propuesta/" target="_blank" class="px-3.5 py-2 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors self-start sm:self-auto">
-            <span>Ver Plantilla Demo</span>
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          </a>
+          <div class="flex items-center gap-2 self-start sm:self-auto">
+            <button type="button" onclick="switchDashboardTab('clients')" class="px-3.5 py-2 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold text-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer" title="Regresar al Directorio de Clientes">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+              <span>Volver al Directorio</span>
+            </button>
+            <a href="../propuestas/demo/" target="_blank" class="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors" title="Abrir la propuesta demo oficial">
+              <span>Ver Plantilla Demo</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            </a>
+          </div>
         </div>
 
         <form id="proposalForm" onsubmit="handleGenerateProposal(event)" class="space-y-6">
@@ -3784,6 +3790,26 @@
       renderClients();
       updateKpis();
 
+      // Configurar estado base del historial (Industry Standard SPA: evita ser expulsado al landing)
+      try {
+        const initialHash = window.location.hash;
+        if (initialHash && initialHash.length > 1) {
+          const tabKey = initialHash.replace('#', '');
+          if (['proposals', 'accounting', 'referrals', 'hq'].includes(tabKey)) {
+            switchDashboardTab(tabKey, false);
+          } else if (tabKey.startsWith('client-')) {
+            const cId = tabKey.replace('client-', '');
+            setTimeout(() => selectClientDrilldown(cId, false), 250);
+          } else {
+            history.replaceState({ tab: 'clients', mode: 'overview' }, '', '#directorio');
+          }
+        } else {
+          history.replaceState({ tab: 'clients', mode: 'overview' }, '', '#directorio');
+        }
+      } catch (e) {
+        console.warn("Error al inicializar History API", e);
+      }
+
       // Iniciar Sincronización en la Nube (Supabase) en background
       initCloudSync();
 
@@ -4580,13 +4606,13 @@
           const initials = client.name.substring(0, 2).toUpperCase();
 
           return `
-            <div class="client-card-row p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 group">
+            <div onclick="selectClientDrilldown('${client.id}')" class="client-card-row p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 group cursor-pointer hover:border-cyan-500/50 hover:bg-[#131c2e] transition-all">
               
-              <!-- Identidad & Enlace (Limpio y Elegante sin Cuadro de Iniciales Rústico) -->
+              <!-- Identidad & Enlace -->
               <div class="flex items-center gap-3 min-w-0 flex-1">
                 <div class="min-w-0 space-y-1 flex-1">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <h4 onclick="selectClientDrilldown('${client.id}')" class="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 cursor-pointer transition-colors stitch-title">
+                    <h4 class="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors stitch-title">
                       ${client.name}
                     </h4>
                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-bold ${currentBadge.bg} border shrink-0">
@@ -4595,7 +4621,7 @@
                     ${uptimeDot}
                   </div>
                   <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-400 truncate stitch-subtext">
-                    <a href="${client.liveUrl}" target="_blank" class="text-slate-300 hover:text-cyan-400 hover:underline truncate">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin Dominio'}</a>
+                    <a href="${client.liveUrl}" target="_blank" onclick="event.stopPropagation()" class="text-slate-300 hover:text-cyan-400 hover:underline truncate">${client.liveUrl ? client.liveUrl.replace(/^https?:\/\//, '') : 'Sin Dominio'}</a>
                     <span class="text-slate-600">•</span>
                     <span class="text-slate-400 font-sans truncate">${client.category || 'General'}</span>
                   </div>
@@ -4621,37 +4647,30 @@
                   </span>
                 </div>
 
-                <!-- Acciones Rápidas -->
-                <div class="flex items-center gap-1.5 shrink-0">
+                <!-- Acciones Rápidas (El row completo abre Control; botones específicos no propagan) -->
+                <div class="flex items-center gap-1.5 shrink-0" onclick="event.stopPropagation()">
                   <button 
-                    onclick="runServicesAudit('${client.id}')" 
+                    onclick="event.stopPropagation(); runServicesAudit('${client.id}')" 
                     title="Auditoría 360° en vivo"
-                    class="p-2 rounded text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors"
+                    class="p-2 rounded text-slate-400 hover:text-purple-300 hover:bg-white/[0.04] transition-colors cursor-pointer"
                   >
                     <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                   </button>
 
                   <button 
-                    onclick="editClient('${client.id}')" 
+                    onclick="event.stopPropagation(); editClient('${client.id}')" 
                     title="Editar Ficha"
-                    class="p-2 rounded text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] transition-colors"
+                    class="p-2 rounded text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] transition-colors cursor-pointer"
                   >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                   </button>
 
                   <button 
-                    onclick="openProposalForClient('${client.id}')" 
-                    title="Crear presupuesto pre-rellenado para ${client.name}"
-                    class="px-3 py-2 rounded bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 font-bold text-xs transition-all flex items-center gap-1 cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
+                    onclick="event.stopPropagation(); openProposalForClient('${client.id}')" 
+                    title="Crear propuesta para ${client.name}"
+                    class="px-3.5 py-2 rounded bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 font-bold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-sm hover:scale-105 active:scale-95 shrink-0"
                   >
-                    <span>Presupuesto</span>
-                  </button>
-
-                  <button 
-                    onclick="selectClientDrilldown('${client.id}')" 
-                    class="px-4 py-2 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm shadow-glow-cyan transition-all active:scale-95"
-                  >
-                    <span>Control</span>
+                    <span>Propuestas</span>
                   </button>
                 </div>
 
@@ -4682,7 +4701,7 @@
           let firstPendingMarked = false;
 
           return `
-            <div class="bg-[#101726] rounded-lg p-6 sm:p-7 border border-slate-700/80 shadow-2xl hover:border-cyan-500/40 transition-all relative overflow-hidden text-slate-100">
+            <div onclick="selectClientDrilldown('${client.id}')" class="bg-[#101726] rounded-lg p-6 sm:p-7 border border-slate-700/80 shadow-2xl hover:border-cyan-500/50 hover:bg-[#131c2e] transition-all relative overflow-hidden text-slate-100 cursor-pointer group">
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-7">
                 
                 <!-- Información Principal y Mission Control -->
@@ -4691,7 +4710,7 @@
                   <!-- Encabezado de la Ficha -->
                   <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
                     <div class="flex flex-wrap items-center gap-3">
-                      <h3 class="text-2xl font-black text-white tracking-tight cursor-pointer hover:text-cyan-300 transition-colors" onclick="selectClientDrilldown('${client.id}')">${client.name}</h3>
+                      <h3 class="text-2xl font-black text-white tracking-tight group-hover:text-cyan-300 transition-colors">${client.name}</h3>
                       <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold ${currentBadge.bg} border">
                         ${currentBadge.text}
                       </span>
@@ -4702,18 +4721,15 @@
                       </span>
                     </div>
                     
-                    <div class="flex items-center gap-2">
-                      <button onclick="runServicesAudit('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm" title="Auditoría 360° de servicios ISAPromoRD">
+                    <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                      <button onclick="event.stopPropagation(); runServicesAudit('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer" title="Auditoría 360° de servicios ISAPromoRD">
                         <span>⚡ Auditar Servicios</span>
                       </button>
-                      <button onclick="openProposalForClient('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-95" title="Crear presupuesto pre-rellenado para ${client.name}">
+                      <button onclick="event.stopPropagation(); openProposalForClient('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-95 cursor-pointer" title="Crear propuesta para ${client.name}">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <span>Presupuesto</span>
+                        <span>Propuestas</span>
                       </button>
-                      <button onclick="selectClientDrilldown('${client.id}')" class="px-4 py-2 rounded bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-xs sm:text-sm flex items-center gap-1.5 transition-all shadow-glow-cyan active:scale-95" title="Ver Master Command Center">
-                        <span>Ver Dossier Stitch →</span>
-                      </button>
-                      <button onclick="editClient('${client.id}')" class="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm">
+                      <button onclick="event.stopPropagation(); editClient('${client.id}')" class="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer">
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         <span>Editar</span>
                       </button>
@@ -7354,7 +7370,10 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
       }
     }
 
-    function switchDashboardTab(tab) {
+    let currentActiveTab = 'clients';
+
+    function switchDashboardTab(tab, pushToHistory = true) {
+      currentActiveTab = tab;
       const clientsContent = document.getElementById("clientsTabContent");
       const proposalsContent = document.getElementById("proposalsTabContent");
       const referralsContent = document.getElementById("referralsTabContent");
@@ -7416,6 +7435,18 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         if (tabHqBtn) tabHqBtn.className = activeClass;
         loadHqTasks();
         checkHqLiveStatus();
+      }
+
+      // Estándar de la Industria: Push al historial para que el botón Atrás no saque a la landing
+      if (pushToHistory) {
+        try {
+          const newHash = tab === 'clients' ? (clientViewScreenMode === 'drilldown' ? `#client-${currentDrilldownClientId}` : '#directorio') : `#${tab}`;
+          if (window.location.hash !== newHash) {
+            history.pushState({ tab: tab, mode: clientViewScreenMode, clientId: currentDrilldownClientId }, '', newHash);
+          }
+        } catch (e) {
+          console.warn("History pushState no soportado", e);
+        }
       }
     }
 
@@ -8949,7 +8980,7 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
     let currentDrilldownClientId = null;
     let clientViewScreenMode = 'overview'; // 'overview' | 'drilldown'
 
-    function toggleClientViewMode(mode) {
+    function toggleClientViewMode(mode, pushToHistory = true) {
       clientViewScreenMode = mode;
       const overviewEl = document.getElementById("clientsOverviewView");
       const drilldownEl = document.getElementById("clientsDrilldownView");
@@ -8965,6 +8996,17 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
 
         // Scroll suave hacia la parte superior de la cuenta
         window.scrollTo({ top: 60, behavior: 'smooth' });
+
+        if (pushToHistory) {
+          try {
+            const newHash = `#client-${currentDrilldownClientId || ''}`;
+            if (window.location.hash !== newHash) {
+              history.pushState({ tab: 'clients', mode: 'drilldown', clientId: currentDrilldownClientId }, '', newHash);
+            }
+          } catch (e) {
+            console.warn("History pushState no soportado", e);
+          }
+        }
       } else {
         // Volver limpiamente al Directorio
         if (drilldownEl) drilldownEl.classList.add("hidden");
@@ -8977,12 +9019,23 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         } else {
           window.scrollTo({ top: 180, behavior: 'smooth' });
         }
+
+        if (pushToHistory) {
+          try {
+            const newHash = '#directorio';
+            if (window.location.hash !== newHash) {
+              history.pushState({ tab: 'clients', mode: 'overview' }, '', newHash);
+            }
+          } catch (e) {
+            console.warn("History pushState no soportado", e);
+          }
+        }
       }
     }
 
-    function selectClientDrilldown(clientId) {
+    function selectClientDrilldown(clientId, pushToHistory = true) {
       currentDrilldownClientId = clientId;
-      toggleClientViewMode('drilldown');
+      toggleClientViewMode('drilldown', pushToHistory);
       const c = clients.find(cl => cl.id === clientId);
       if (c && c.liveUrl && !c.latencyMs) {
         checkUrlUptime(c.liveUrl).then(res => {
@@ -8996,6 +9049,70 @@ AntiGravity, por favor toma este reporte y ejecuta la remediación técnica comp
         });
       }
     }
+
+    // ========================================================
+    // MANEJADOR OFICIAL DE POPSTATE (INDUSTRY STANDARD SPA BACK BUTTON)
+    // Evita ser expulsado a la landing page al presionar "Atrás" en el navegador
+    // ========================================================
+    window.addEventListener('popstate', (event) => {
+      // 1. Si hay algún modal abierto, cerrarlo primero
+      const activeModals = [
+        'auditServicesModal', 
+        'newClientModal', 
+        'editClientModal', 
+        'paymentReminderModal', 
+        'clientExportModal', 
+        'editServiceScopeModal'
+      ];
+      for (const mId of activeModals) {
+        const m = document.getElementById(mId);
+        if (m && !m.classList.contains('hidden')) {
+          m.classList.add('hidden');
+          return;
+        }
+      }
+
+      const state = event.state;
+      const hash = window.location.hash;
+
+      // 2. Si el hash apunta a un cliente específico
+      if (hash && hash.startsWith('#client-')) {
+        const cId = hash.replace('#client-', '');
+        if (cId) {
+          switchDashboardTab('clients', false);
+          selectClientDrilldown(cId, false);
+          return;
+        }
+      }
+
+      // 3. Si estábamos en la vista de detalle de cliente (drilldown) y retrocede al directorio
+      if (clientViewScreenMode === 'drilldown') {
+        toggleClientViewMode('overview', false);
+        return;
+      }
+
+      // 4. Si estábamos en otra pestaña (Cotizador, Finanzas, Referidos, HQ)
+      if (state && state.tab) {
+        switchDashboardTab(state.tab, false);
+        if (state.mode === 'drilldown' && state.clientId) {
+          selectClientDrilldown(state.clientId, false);
+        } else if (state.tab === 'clients') {
+          toggleClientViewMode('overview', false);
+        }
+      } else if (hash && hash.length > 1) {
+        const targetTab = hash.substring(1);
+        if (['clients', 'proposals', 'accounting', 'referrals', 'hq'].includes(targetTab)) {
+          switchDashboardTab(targetTab, false);
+        } else {
+          switchDashboardTab('clients', false);
+          toggleClientViewMode('overview', false);
+        }
+      } else {
+        // Por defecto, regresar de forma segura al directorio de clientes
+        switchDashboardTab('clients', false);
+        toggleClientViewMode('overview', false);
+      }
+    });
 
     function renderClientAvatarPills() {
       const containerSubhead = document.getElementById("subheadClientAvatars");

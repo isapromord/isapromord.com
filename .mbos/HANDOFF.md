@@ -12,7 +12,7 @@
 > - 📄 **Propuesta Demo Interactiva (Anonimizada & Blindada):** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_leads` y `agency_clients`.  
-> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva anonimizada ("Tu Negocio / Empresa") con degradado corregido y contraste 100/100.
+> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva con URL oficial propia (`/propuestas/demo/`), filas de clientes clickeables, botón 'Control' retirado, etiquetas corregidas a 'Propuestas', símbolos dobles saneados y navegación SPA estándar vía HTML5 History API (el botón Atrás navega dentro del Dashboard sin expulsar a la landing page).
 
 ---
 

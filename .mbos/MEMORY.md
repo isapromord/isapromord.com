@@ -917,3 +917,27 @@
   - Píldoras individuales con micro-tarjetas oscuras (`bg-slate-900/50 p-3 rounded-xl border border-slate-800/80`) para cada métrica clave.
   - Glow ambiental controlado (`bg-cyan-500/10` y `bg-emerald-500/10`) sin lavado de texto. Legibilidad y contraste 100/100 en mobile y desktop.
 
+## [2026-10-08] - Dashboard UX Overhaul: Rows Clickeables, Remoción de Botón Control, Navegación SPA History API y Redirección Demo
+
+### 1. Diagnóstico de UX y Usabilidad
+- **Etiqueta Imprecisa ("Presupuesto"):** El botón en las filas de clientes decía "Presupuesto", término comercialmente inferior a "Propuestas" dentro del ecosistema de cotizaciones interactivas de la agencia.
+- **Botón Redundante ("Control"):** Existía un botón "Control" en cada fila que saturaba el espacio visual. En UX de clase mundial (Stripe, Linear), toda la fila del cliente debe actuar como disparador del drawer/dossier de detalle.
+- **Símbolos Dobles:** El botón de retroceso en el Drilldown contenía `<svg>` + `← Volver al Directorio`, renderizando `← ← Volver al Directorio`.
+- **Falta de Botón de Retorno en Creador de Propuestas:** En la pestaña de Armar Propuesta Digital Interactiva, el usuario no tenía un botón de regreso rápido al directorio.
+- **Expulsión al Landing Page por el Botón "Atrás" del Navegador:** Al navegar dentro de una SPA sin integración con la History API, presionar la flecha "Atrás" de Chrome o Edge expulsaba al usuario del Dashboard hacia la Landing Page.
+- **Aislamiento de URL Demo:** La ruta antigua `/propuestas/pasionpecuaria/` seguía existiendo como archivo estático independiente, permitiendo que la URL mantuviera el nombre del cliente en lugar de su propia ruta limpia `/propuestas/demo/`.
+
+### 2. Remediaciones Implementadas
+- **Filas de Clientes 100% Clickeables:**
+  - Se eliminó el botón `Control`.
+  - Se convirtió el contenedor completo del row (`client-card-row`) en botón clickeable (`onclick="selectClientDrilldown('${client.id}')"` con `cursor-pointer` y hover refinado).
+  - Se aplicó `event.stopPropagation()` a los botones de acción rápida internos (Auditoría, Edición, Propuestas, URL del dominio).
+  - Se renombró el botón "Presupuesto" a "Propuestas".
+- **Limpieza de Símbolos Dobles:** Se removió el carácter `←` repetido del texto del botón de retroceso, dejando una única flecha SVG nítida.
+- **Botón "Volver al Directorio" en Propuestas:** Se agregó un botón primario con icono SVG y llamada `switchDashboardTab('clients')` al lado del acceso a la plantilla demo.
+- **Navegación SPA con HTML5 History API (Industry Standard):**
+  - Implementación de `history.pushState` y `history.replaceState` en cambios de pestañas (`#proposals`, `#accounting`, `#referrals`, `#hq`, `#directorio`) y selección de clientes (`#client-[id]`).
+  - Listener global de `window.addEventListener('popstate')`: cierra modales activos primero, retrocede de drilldown a overview, y alterna entre pestañas de forma fluida sin expulsar al usuario del Dashboard.
+- **Redirección Canónica Automática a Demo:** `propuestas/pasionpecuaria/index.html` ahora ejecuta una redirección instantánea hacia `../demo/`, garantizando que la propuesta demo mantenga exclusivamente su propia URL dedicada `isapromord.github.io/propuestas/demo/`.
+
+

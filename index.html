@@ -1779,21 +1779,59 @@
         <div class="absolute -left-20 -top-20 w-80 h-80 bg-[#00d2ff]/15 rounded-full blur-3xl pointer-events-none"></div>
         
         <div class="relative z-10 max-w-2xl mx-auto">
-          <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-6">
+          <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
             ¿Sabes en qué puesto está tu negocio en Google Maps hoy?
           </h3>
           <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-            Escríbenos por WhatsApp y te enviamos un video personalizado de 15 minutos analizando tu posición y la de tu competencia en Santo Domingo sin costo ni compromiso.
+            Te enviamos un video personalizado de 15 minutos analizando tu posición y la de tu competencia en Santo Domingo sin costo ni compromiso.
           </p>
-          <a class="inline-flex items-center justify-center gap-3 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl text-white font-black text-base sm:text-lg transition-all shadow-[0_0_35px_-5px_rgba(37,211,102,0.5)] hover:scale-105 active:scale-95" 
-             data-purpose="request-audit-button" 
-             href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20quiero%20mi%20video-auditor%C3%ADa%20gratis%20de%20Google%20Maps" 
-             rel="noopener noreferrer" 
-             target="_blank" 
-             style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%); color: rgb(255, 255, 255); box-shadow: rgba(37, 211, 102, 0.45) 0px 8px 28px -3px, rgba(255, 255, 255, 0.3) 0px 1px 0px inset; border: 1px solid rgba(37, 211, 102, 0.4);">
-            <span>Pedir Video-Auditoría Gratis</span>
-            <span class="text-xl">→</span>
-          </a>
+
+          <!-- Mini-Captador Híbrido (Supabase Lead + WhatsApp Directo) -->
+          <form id="auditQuickForm" onsubmit="handleQuickAuditSubmit(event)" class="space-y-4 max-w-xl mx-auto bg-[#0b101b]/80 p-5 sm:p-7 rounded-2xl border border-emerald-500/30 backdrop-blur-sm shadow-xl">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-left">
+              <div>
+                <label for="auditBusinessName" class="block text-xs font-mono text-cyan-300 mb-1.5 font-bold uppercase tracking-wider">
+                  🏢 1. Tu Negocio o Web:
+                </label>
+                <input 
+                  type="text" 
+                  id="auditBusinessName" 
+                  required 
+                  placeholder="Ej: Ferretería Central o miweb.do" 
+                  class="w-full px-4 py-3 rounded-xl bg-[#080d16] border border-cyan-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
+                />
+              </div>
+              <div>
+                <label for="auditWhatsapp" class="block text-xs font-mono text-emerald-300 mb-1.5 font-bold uppercase tracking-wider">
+                  📱 2. Tu WhatsApp:
+                </label>
+                <input 
+                  type="tel" 
+                  id="auditWhatsapp" 
+                  required 
+                  placeholder="Ej: 829-455-4783" 
+                  class="w-full px-4 py-3 rounded-xl bg-[#080d16] border border-emerald-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all font-sans"
+                />
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              id="auditSubmitBtn" 
+              class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black text-base transition-all shadow-[0_0_35px_-5px_rgba(37,211,102,0.5)] hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
+              style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%); box-shadow: rgba(37, 211, 102, 0.45) 0px 8px 28px -3px, rgba(255, 255, 255, 0.3) 0px 1px 0px inset; border: 1px solid rgba(37, 211, 102, 0.4);"
+            >
+              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
+              <span>Solicitar Video-Auditoría de 15 Min →</span>
+            </button>
+            <div class="flex items-center justify-center gap-4 text-[11px] text-slate-400 font-mono pt-1">
+              <span>🔒 Datos protegidos (Ley 172-13)</span>
+              <span>•</span>
+              <span>⚡ Respuesta en minutos</span>
+              <span>•</span>
+              <span>Cero spam</span>
+            </div>
+          </form>
         </div>
 
       </div>
@@ -1826,7 +1864,7 @@
           <address class="not-italic text-sm text-slate-400 space-y-2.5">
             <p class="flex items-start gap-2">
               <span class="text-[#00d2ff]">📍</span>
-              <span>Torre Empresarial Piantini, Av. Abraham Lincoln, Santo Domingo, D.N.</span>
+              <span>Torre Empresarial Piantini, Av. Abraham Lincoln, Santo Domingo, D.N. <span class="block text-[11px] text-slate-400 mt-1 font-mono">Oficina Corporativa (Atención presencial ejecutiva previa cita • Cobertura técnica y desarrollo remoto nacional)</span></span>
             </p>
             <p class="flex items-center gap-2">
               <span class="text-[#10b981]">📱</span>
@@ -1857,7 +1895,9 @@
         <div>
           © 2026 ISAPromoRD. Todos los derechos reservados. Santo Domingo, República Dominicana.
         </div>
-        <div class="flex items-center gap-6">
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+          <a class="hover:text-cyan-400 transition-colors" href="privacidad/">Política de Privacidad</a>
+          <a class="hover:text-cyan-400 transition-colors" href="terminos/">Términos y Condiciones</a>
           <a class="hover:text-slate-300 transition-colors" href="#precios">Garantía Local</a>
           <a href="dashboard/" class="text-slate-500 hover:text-cyan-400 transition-colors flex items-center gap-1 font-mono" title="Panel de Clientes & Proyectos">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
@@ -2374,6 +2414,69 @@
         torch.style.opacity = '0';
       }, { passive: true });
     })();
+
+    // ========================================================
+    // MINI-CAPTADOR HÍBRIDO (SUPABASE LEAD + WHATSAPP INSTANTÁNEO)
+    // ========================================================
+    async function handleQuickAuditSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById("auditSubmitBtn");
+      const origHtml = btn ? btn.innerHTML : "Solicitar Video-Auditoría de 15 Min →";
+      const businessName = document.getElementById("auditBusinessName").value.trim();
+      const whatsapp = document.getElementById("auditWhatsapp").value.trim();
+
+      if (!businessName || !whatsapp) return;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `
+          <svg class="w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <span>Conectando con Supabase y WhatsApp...</span>
+        `;
+      }
+
+      // 1. Guardar silenciosamente en Supabase Cloud
+      try {
+        const payload = {
+          name: businessName,
+          category: "Lead Video-Auditoría Maps",
+          status: "lead",
+          fee: "Prospecto Entrante",
+          tasks: [
+            { id: "t1", title: "Grabar video-auditoría personalizada de 15 min", done: false },
+            { id: "t2", title: "Enviar análisis de Google Maps y competencia por WhatsApp", done: false }
+          ],
+          liveUrl: businessName.includes(".") ? (businessName.startsWith("http") ? businessName : `https://${businessName}`) : "",
+          notes: `WhatsApp: ${whatsapp} • Solicitud de Video-Auditoría de 15 minutos captada desde isapromord.com.`
+        };
+
+        fetch("https://biomfntvqbhjmmmggxzj.supabase.co/rest/v1/agency_clients", {
+          method: "POST",
+          headers: {
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(payload)
+        }).catch(err => console.debug("Supabase background save:", err));
+      } catch (err) {
+        console.debug("Lead capture error:", err);
+      }
+
+      // 2. Abrir WhatsApp inmediatamente con mensaje pre-armado
+      const msg = `Hola ISAPromoRD, deseo mi video-auditoría personalizada de 15 minutos para mi negocio "${businessName}". Mi WhatsApp de contacto es ${whatsapp}.`;
+      const waUrl = `https://wa.me/18294554783?text=${encodeURIComponent(msg)}`;
+
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<span>✓ ¡Solicitud Enviada a WhatsApp!</span>`;
+          setTimeout(() => { btn.innerHTML = origHtml; }, 3500);
+        }
+        window.open(waUrl, "_blank");
+      }, 400);
+    }
   </script>
 </body>
 </html>

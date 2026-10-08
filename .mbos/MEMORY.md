@@ -940,4 +940,20 @@
   - Listener global de `window.addEventListener('popstate')`: cierra modales activos primero, retrocede de drilldown a overview, y alterna entre pestañas de forma fluida sin expulsar al usuario del Dashboard.
 - **Redirección Canónica Automática a Demo:** `propuestas/pasionpecuaria/index.html` ahora ejecuta una redirección instantánea hacia `../demo/`, garantizando que la propuesta demo mantenga exclusivamente su propia URL dedicada `isapromord.github.io/propuestas/demo/`.
 
+## [2026-10-08] - Mini-Captador Híbrido, Páginas Legales E-E-A-T (Privacidad & Términos) y Diferenciación NAP
+
+### 1. Diagnóstico Estratégico y Legal
+- **Ubicación Física vs. Google Maps Embed:** Se clarificó la distinción entre mantener el domicilio legal NAP en texto/Schema (indispensable para Google y legitimidad fiscal en RD) y embeber un iframe interactivo de Google Maps (desaconsejado para empresas con modelo online/remoto sin storefront público para evitar reportes en GBP y pérdida de velocidad). Se añadió aclaración en el footer sobre oficina corporativa con atención presencial previa cita.
+- **Factor E-E-A-T (Trust):** La ausencia de páginas dedicadas de Privacidad y Términos restaba puntaje de confianza ante Googlebot y motores de IA, además de ser un bloqueo técnico para futuras pautas en Google Ads / Meta Ads.
+
+### 2. Implementaciones Realizadas
+- **Mini-Captador Híbrido de Video-Auditoría:**
+  - En la sección de auditoría en Maps (`index.html`), se integró un formulario de 2 campos rápidos: `[ 🏢 1. Tu Negocio o Web ]` + `[ 📱 2. Tu WhatsApp ]`.
+  - Al enviar: dispara un `fetch` POST en background hacia Supabase (`agency_clients` con `status: 'lead'`) para registrar el prospecto en el Dashboard, y abre inmediatamente WhatsApp con el mensaje pre-redactado para maximizar el cierre.
+- **Páginas Legales Dedicadas:**
+  - `/privacidad/index.html`: Política de Privacidad conforme a la Ley No. 172-13 de República Dominicana sobre Protección de Datos Personales y derechos ARCO.
+  - `/terminos/index.html`: Términos y Condiciones formales estipulando el esquema 50/50, NCF B01, propiedad total de activos y Garantía de Satisfacción de 60 días.
+  - Enlaces canónicos integrados en el Footer de `index.html` e indexados en `sitemap.xml`.
+
+
 

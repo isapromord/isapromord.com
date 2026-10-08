@@ -11,8 +11,9 @@
 > - 💼 **Suite Contable & CFO:** [https://isapromord.github.io/dashboard/](https://isapromord.github.io/dashboard/) (Tab 4: "Finanzas & Contabilidad")  
 > - 📄 **Propuesta Demo Interactiva (Anonimizada & Blindada):** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
+> - 📄 **Páginas Legales Oficiales:** [Privacidad](https://isapromord.github.io/privacidad/) (Ley 172-13) • [Términos](https://isapromord.github.io/terminos/) (50/50, NCF B01)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_leads` y `agency_clients`.  
-> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva con URL oficial propia (`/propuestas/demo/`), filas de clientes clickeables, botón 'Control' retirado, etiquetas corregidas a 'Propuestas', símbolos dobles saneados y navegación SPA estándar vía HTML5 History API (el botón Atrás navega dentro del Dashboard sin expulsar a la landing page).
+> **Estado del Sistema:** 100% en línea, base de datos multi-tenant conectada, arquitectura multi-página Hub & Spoke activa, propuesta interactiva con URL oficial propia (`/propuestas/demo/`), mini-captador híbrido conectado directo a Supabase, páginas legales E-E-A-T activas, filas de clientes clickeables y navegación SPA estándar vía HTML5 History API.
 
 ---
 

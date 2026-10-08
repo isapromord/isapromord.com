@@ -1001,3 +1001,28 @@
 - **Desacoplamiento de Microlink:** Eliminación de los 3 requests pesados secundarios de Chromium. Se integró Cloudflare DNS-over-HTTPS (`cloudflare-dns.com`) para validación instantánea de infraestructura (<300ms, ilimitado y sin CORS) + fallback en cascada con proxy CORS ligero (`allorigins.win`).
 - **Sanitización Estricta de Metadatos:** `ogImage` garantizado como string nativo antes de cualquier operación de subcadena o minúsculas.
 - **Sincronización:** Reflejado de forma idéntica en `dashboard/index.html` y `dashboard.html`.
+
+## [2026-10-08] - Corrección Crítica en Drilldown: escapeHtml Global y Protocolo Satélite Autónomo
+
+### 1. Diagnóstico de Causa Raíz
+- **Botón `+ Gestionar / Añadir` no respondía:**
+  - La función `renderClientDrilldown` ejecutaba múltiples llamadas a `escapeHtml(chip)`.
+  - La función `escapeHtml` nunca había sido declarada en el ámbito global del script.
+  - Al renderizar el drilldown de cualquier cliente, JavaScript lanzaba un error no capturado `ReferenceError: escapeHtml is not defined`, deteniendo la ejecución del hilo principal.
+  - Al hacer clic en `+ Gestionar / Añadir`, `openRoadmapManagementModal()` invocaba `renderRoadmapProposalsTab()`, la cual volvía a llamar a `escapeHtml(client.name)` y fallaba silenciosamente antes de retirar la clase `hidden`.
+- **Botones de Archivos Satélite abrían `dashboard/#` y pedían PIN:**
+  - Los 3 enlaces (`robots.txt`, `sitemap.xml`, `llms.txt`) en el HTML base tenían `href="#" target="_blank"`.
+  - Al romperse la ejecución del drilldown por el fallo de `escapeHtml`, las líneas finales que actualizaban los `href` con la URL canónica del cliente jamás se ejecutaban.
+  - Al hacer clic, el navegador abría `https://isapromord.github.io/dashboard/#` en una pestaña nueva. Como esa pestaña no compartía la sesión en memoria (`sessionStorage`), el dashboard se bloqueaba y solicitaba el PIN de seguridad.
+
+### 2. Solución Aplicada y Validada
+- **Declaración Global de `escapeHtml(str)`:**
+  - Implementada en el nivel superior del runtime de `dashboard/index.html` y `dashboard.html` con saneamiento estricto de entidades HTML (`&`, `<`, `>`, `"`, `'`).
+- **Desacoplamiento Autónomo de Archivos Satélite con `openSatelliteFile(fileType)`:**
+  - Se eliminó la dependencia pasiva de mutación de enlaces en el DOM.
+  - Cada botón ahora invoca directamente `openSatelliteFile('robots.txt')`, etc., con `href="javascript:void(0)"`.
+  - El handler extrae la URL real del cliente seleccionado (`currentDrilldownClientId`), resuelve el `origin` canónico de forma segura (con fallback a `https://`) y ejecuta `window.open(origin + '/' + fileType, '_blank')`.
+- **Paridad y Despliegue:**
+  - Validado en sandbox Node.js (0 excepciones en carga de drilldown, modal y resolución de URLs).
+  - Paridad de hash 100% entre `dashboard/index.html` y `dashboard.html`.
+  - Desplegado en GitHub `origin` (`main`, `gh-pages`) y `pages` (`main`, `gh-pages`).

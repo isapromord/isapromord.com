@@ -104,72 +104,82 @@
        ======================================================== -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-8">
 
-    <div id="contractDocumentArea" class="bg-white text-slate-900 rounded-2xl shadow-2xl p-6 sm:p-12 space-y-8 border border-slate-200 print-exact">
+    <div id="contractDocumentArea" class="bg-white text-slate-900 rounded-sm shadow-md p-6 sm:p-12 space-y-7 border border-slate-300 print-exact">
       
-      <!-- MEMBRETE OFICIAL ISAPROMORD -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b-2 border-slate-900 gap-4">
-        <div class="flex items-center gap-3.5">
-          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-14 h-14 object-contain" />
-          <div>
-            <span class="text-2xl font-black text-slate-950 tracking-tight">ISA<span class="text-slate-600">Promo</span><span class="text-indigo-600">RD</span></span>
-            <p class="text-xs text-slate-600 font-bold">Desarrollo de Software, Infraestructura Cloud & Soluciones Digitales</p>
-            <p class="text-[11px] text-slate-500 font-mono">Santo Domingo, Distrito Nacional, República Dominicana • RNC: Registrado</p>
+      <!-- MEMBRETE OFICIAL ISAPROMORD (ESTILO FACTURA EJECUTIVA) -->
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-6 border-b border-slate-300 gap-6">
+        <div class="flex items-start gap-3.5">
+          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-12 h-12 object-contain shrink-0 mt-0.5" />
+          <div class="space-y-0.5">
+            <span class="text-2xl font-black text-slate-950 tracking-tight">ISA<span class="text-slate-500">Promo</span><span class="text-indigo-600">RD</span></span>
+            <p class="text-xs text-slate-600 font-semibold">Agencia de Ingeniería Web & Software</p>
+            <p class="text-[11px] text-slate-500">Santo Domingo, República Dominicana</p>
           </div>
         </div>
-        <div class="text-left sm:text-right font-mono text-xs text-slate-600 space-y-1">
-          <div class="inline-block px-3 py-1 rounded bg-slate-950 text-white font-bold uppercase tracking-wider text-[11px]">
+
+        <div class="text-left sm:text-right font-mono text-xs text-slate-700 space-y-1 shrink-0 min-w-[280px]">
+          <div class="inline-block px-2.5 py-0.5 bg-slate-900 text-white font-bold uppercase tracking-wider text-[10px] rounded-xs mb-1">
             CONTRATO DE SERVICIOS
           </div>
-          <div><strong class="text-slate-900">No. Contrato:</strong> <span id="contractDocNumber" class="text-indigo-600 font-bold">CTR-2026-001</span></div>
-          <div><strong class="text-slate-900">Fecha de Emisión:</strong> <span id="contractDocDate">--</span></div>
-          <div><strong class="text-slate-900">Estado Legal:</strong> <span id="contractDocStatusBadge" class="font-bold text-amber-600">🟡 PENDIENTE DE FIRMA</span></div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+            <span class="text-slate-500">No. Contrato:</span>
+            <span id="contractDocNumber" class="text-indigo-700 font-bold whitespace-nowrap">CTR-2026-001</span>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+            <span class="text-slate-500">Fecha de Emisión:</span>
+            <span id="contractDocDate" class="font-medium whitespace-nowrap">--</span>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+            <span class="text-slate-500">Estado Legal:</span>
+            <span id="contractDocStatusBadge" class="font-bold text-amber-600 whitespace-nowrap">🟡 Pendiente de Firma</span>
+          </div>
         </div>
       </div>
 
       <!-- TÍTULO FORMAL -->
-      <div class="text-center space-y-1 pt-2">
-        <h1 class="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-wide">
-          Contrato de Prestación de Servicios Digitales y Desarrollo Tecnológico
+      <div class="text-center space-y-1.5 pt-1">
+        <h1 class="text-lg sm:text-xl font-black text-slate-950 uppercase tracking-wider">
+          Contrato de Prestación de Servicios Tecnológicos
         </h1>
-        <p class="text-xs text-slate-500 font-serif italic">
-          Bajo régimen de contratación privada mercantil y Ley No. 126-02 sobre Comercio Electrónico y Firmas Digitales
+        <p class="text-xs text-slate-500 italic">
+          Régimen de contratación privada mercantil y desarrollo tecnológico
         </p>
       </div>
 
-      <!-- COMPARECIENCIA DE LAS PARTES -->
-      <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm leading-relaxed space-y-3">
+      <!-- COMPARECENCIA DE LAS PARTES -->
+      <div class="p-4 sm:p-5 rounded-sm bg-slate-50/70 border border-slate-300 text-xs sm:text-[13px] leading-relaxed space-y-2.5 text-slate-700">
         <p>
-          De una parte, <strong>ISAPromoRD</strong> (en lo sucesivo denominada <strong>"EL PRESTADOR"</strong>), agencia de tecnología y desarrollo web con domicilio operativo en Altos de Arroyo Hondo III, Santo Domingo, D.N., República Dominicana, contacto oficial vía WhatsApp: <strong>+1 (829) 455-4783</strong> y web: <strong>isapromord.com</strong>;
+          De una parte, <strong>ISAPromoRD</strong> (en lo sucesivo denominada <strong>"EL PRESTADOR"</strong>), prestador de servicios de tecnología, desarrollo web e infraestructura cloud con domicilio operativo en Santo Domingo, D.N., República Dominicana, contacto oficial vía WhatsApp: <strong>+1 (829) 455-4783</strong> y web: <strong>isapromord.com</strong>;
         </p>
         <p>
-          Y de la otra parte, <strong id="partClientName">[Nombre del Cliente / Empresa]</strong>, titular del RNC/Cédula <strong id="partClientRnc">[RNC/Cédula]</strong>, representada en este acto por <strong id="partClientRepresentative">[Representante Legal]</strong>, con teléfono/WhatsApp <strong id="partClientPhone">[Teléfono]</strong> y correo electrónico <strong id="partClientEmail">[Correo]</strong> (en lo sucesivo denominada <strong>"EL CLIENTE"</strong>).
+          Y de la otra parte, <strong id="partClientName">[Nombre del Cliente / Empresa]</strong><span id="partClientRncSpan">, con Cédula/RNC <strong id="partClientRnc">[RNC/Cédula]</strong></span>, representada en este acto por <strong id="partClientRepresentative">[Representante Legal]</strong>, con teléfono/WhatsApp <strong id="partClientPhone">[Teléfono]</strong> y correo electrónico <strong id="partClientEmail">[Correo]</strong> (en lo sucesivo denominada <strong>"EL CLIENTE"</strong>).
         </p>
-        <p class="font-semibold text-slate-800">
-          Ambas partes se reconocen mutuamente capacidad jurídica suficiente para obligarse y suscribir el presente Contrato, el cual se regirá por las siguientes:
+        <p class="font-medium text-slate-800 pt-1 border-t border-slate-200">
+          Ambas partes se reconocen recíprocamente capacidad legal y comercial suficiente para celebrar el presente acuerdo privado, el cual se regirá por las siguientes cláusulas:
         </p>
       </div>
 
       <!-- CLÁUSULA PRIMERA: OBJETO Y SERVICIOS CONTRATADOS -->
-      <div class="space-y-3">
-        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+      <div class="space-y-3.5">
+        <h2 class="text-sm font-black text-slate-950 uppercase tracking-wider border-b border-slate-300 pb-1.5">
           Cláusula Primera: Objeto del Contrato y Desglose de Entregables
         </h2>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-          EL PRESTADOR se compromete a diseñar, desarrollar, configurar e implementar para EL CLIENTE los servicios tecnológicos acordados, con las especificaciones y entregables que se detallan a continuación:
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
+          EL PRESTADOR se compromete a diseñar, desarrollar, configurar e implementar para EL CLIENTE los servicios y módulos tecnológicos acordados, con las especificaciones técnicas que se detallan a continuación:
         </p>
 
-        <!-- TABLA DE SERVICIOS -->
-        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-xs">
+        <!-- TABLA DE SERVICIOS TIPO FACTURA -->
+        <div class="overflow-x-auto rounded-sm border border-slate-300">
           <table class="w-full text-left text-xs">
-            <thead class="bg-slate-900 text-white font-mono uppercase text-[10px]">
+            <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[11px] border-b border-slate-300 tracking-wider">
               <tr>
                 <th class="p-3">Servicio / Módulo Contratado</th>
-                <th class="p-3">Tipo</th>
+                <th class="p-3">Modalidad</th>
                 <th class="p-3">Entregables Técnicos Clave</th>
                 <th class="p-3 text-right">Inversión (RD$)</th>
               </tr>
             </thead>
-            <tbody id="contractServicesTableBody" class="divide-y divide-slate-200 text-slate-800 font-sans">
+            <tbody id="contractServicesTableBody" class="divide-y divide-slate-200 text-slate-800 text-xs">
               <!-- Inyectado por JS -->
             </tbody>
           </table>
@@ -177,39 +187,39 @@
       </div>
 
       <!-- CLÁUSULA SEGUNDA: ESQUEMA ECONÓMICO Y FORMA DE PAGO 50/50 -->
-      <div class="space-y-3">
-        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+      <div class="space-y-3.5">
+        <h2 class="text-sm font-black text-slate-950 uppercase tracking-wider border-b border-slate-300 pb-1.5">
           Cláusula Segunda: Condiciones Económicas y Esquema de Pago (50 / 50)
         </h2>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
           Las partes pactan de mutuo acuerdo el esquema financiero de ejecución bajo la modalidad estándar de la industria <strong>Cincuenta por Ciento Inicial y Cincuenta por Ciento Contra Entrega (50/50)</strong>:
         </p>
 
-        <!-- CUADRO FINANCIERO -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-900 text-white font-mono text-xs">
-          <div class="space-y-1">
-            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Inversión Total Setup</span>
-            <span id="finTotalSetup" class="text-lg font-black text-white">RD$ 0</span>
+        <!-- CUADRO FINANCIERO TIPO FACTURA EJECUTIVA -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-sm bg-slate-50 border border-slate-300 text-slate-900 text-xs">
+          <div class="p-3 rounded-sm bg-white border border-slate-300 space-y-1">
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold block">Inversión Total Setup</span>
+            <span id="finTotalSetup" class="text-lg font-black text-slate-950 font-mono">RD$ 0</span>
           </div>
-          <div class="space-y-1 p-2.5 rounded-lg bg-indigo-950/80 border border-indigo-500/40">
-            <span class="text-[10px] text-indigo-300 uppercase tracking-wider font-bold block">1. Anticipo Inicio (50%)</span>
-            <span id="finDepositAmount" class="text-lg font-black text-indigo-300">RD$ 0</span>
-            <span class="text-[9px] text-slate-300 block font-sans">Requerido para comenzar</span>
+          <div class="p-3 rounded-sm bg-indigo-50/80 border border-indigo-200 space-y-1">
+            <span class="text-[10px] text-indigo-700 uppercase tracking-wider font-bold block">1. Anticipo Inicio (50%)</span>
+            <span id="finDepositAmount" class="text-lg font-black text-indigo-900 font-mono">RD$ 0</span>
+            <span class="text-[10px] text-indigo-600 block">Requerido para iniciar trabajos</span>
           </div>
-          <div class="space-y-1 p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-500/40">
-            <span class="text-[10px] text-emerald-300 uppercase tracking-wider font-bold block">2. Contra Entrega (50%)</span>
-            <span id="finCompletionAmount" class="text-lg font-black text-emerald-300">RD$ 0</span>
-            <span class="text-[9px] text-slate-300 block font-sans">Contra entrega a satisfacción</span>
+          <div class="p-3 rounded-sm bg-emerald-50/80 border border-emerald-200 space-y-1">
+            <span class="text-[10px] text-emerald-700 uppercase tracking-wider font-bold block">2. Contra Entrega (50%)</span>
+            <span id="finCompletionAmount" class="text-lg font-black text-emerald-900 font-mono">RD$ 0</span>
+            <span class="text-[10px] text-emerald-600 block">Liquidación a satisfacción final</span>
           </div>
         </div>
 
-        <div id="finMonthlyRow" class="hidden p-3 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-950 text-xs flex items-center justify-between">
+        <div id="finMonthlyRow" class="hidden p-3 rounded-sm bg-cyan-50/70 border border-cyan-200 text-cyan-950 text-xs flex items-center justify-between">
           <span class="font-bold">Mantenimiento Web, Hosting Anycast & Soporte Mensual:</span>
           <span id="finMonthlyFee" class="font-mono font-black text-sm">RD$ 0 / mes</span>
         </div>
 
-        <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1.5 leading-relaxed">
-          <li><strong>Condición de Inicio:</strong> El cómputo del plazo de entrega iniciará <em>exclusivamente</em> a partir de la confirmación de recepción y acreditación en cuenta bancaria del <strong>cincuenta por ciento (50%) de anticipo</strong>. Dicho anticipo no es reembolsable, pues se destina a la reserva de servidores, adquisición de licencias y tiempo de ingeniería.</li>
+        <ul class="list-disc pl-5 text-xs text-slate-700 space-y-2 leading-relaxed">
+          <li><strong>Condición Previa de Inicio:</strong> El cómputo del plazo de entrega iniciará <em>exclusivamente</em> a partir de la confirmación de recepción y acreditación en cuenta bancaria del <strong>cincuenta por ciento (50%) de anticipo</strong>. Dicho anticipo no es reembolsable, pues se destina a la reserva de servidores, adquisición de licencias y tiempo de ingeniería.</li>
           <li><strong>Saldo Contra Entrega:</strong> El <strong>cincuenta por ciento (50%) restante</strong> deberá ser liquidado por EL CLIENTE al completarse el desarrollo y verificarse la conformidad de los entregables a su satisfacción en el entorno de pruebas o pre-producción.</li>
           <li><strong>Cuentas Bancarias Oficiales:</strong> Banco Popular Dominicano (Cta. Ahorros: 8294554783 a nombre de Howard Isaac Taveras).</li>
         </ul>
@@ -217,54 +227,57 @@
 
       <!-- CLÁUSULA TERCERA: PLAZOS Y PERÍODO DE GRACIA -->
       <div class="space-y-3">
-        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+        <h2 class="text-sm font-black text-slate-950 uppercase tracking-wider border-b border-slate-300 pb-1.5">
           Cláusula Tercera: Plazos de Ejecución y Período de Gracia
         </h2>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
           El tiempo estimado de entrega del proyecto es de <strong id="contractDeliveryDays">10 a 15 días laborables</strong> contados tras la recepción del anticipo y la entrega de los insumos requeridos (textos, logos, catálogo o productos).
         </p>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
           Una vez notificada la culminación de los trabajos y presentada la web o sistema en línea, EL CLIENTE dispondrá de un <strong>Período de Gracia de cinco (5) días laborables</strong> para emitir observaciones finales y realizar el pago del 50% restante acordado.
         </p>
       </div>
 
       <!-- CLÁUSULA CUARTA: SUSPENSIÓN POR MORA (TAKE DOWN CLAUSE) -->
-      <div class="space-y-3 p-4 rounded-xl bg-amber-50 border-l-4 border-amber-500 text-amber-950">
-        <h2 class="text-sm sm:text-base font-black uppercase tracking-wider">
-          Cláusula Cuarta: Cláusula de Suspensión por Mora y Retiro Temporal de Servicios
+      <div class="space-y-2.5 p-4 rounded-sm bg-amber-50/70 border-l-4 border-amber-500 text-amber-950">
+        <h2 class="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-900">
+          Cláusula Cuarta: Suspensión Preventiva por Mora
         </h2>
-        <p class="text-xs sm:text-sm leading-relaxed">
+        <p class="text-xs sm:text-[13px] leading-relaxed">
           En la eventualidad de que EL CLIENTE no liquide el completivo del cincuenta por ciento (50%) restante dentro del lapso de los cinco (5) días laborables de gracia, <strong>EL PRESTADOR (ISAPromoRD) se reserva formal y expresamente el derecho de suspender de forma temporal e inmediata la visibilidad de la plataforma web, dar de baja los servidores cloud, apagar instancias de API/IA y suspender credenciales de acceso hasta tanto el pago adeudado haya sido recibido y liquidado en su totalidad</strong>.
         </p>
-        <p class="text-xs leading-relaxed text-amber-900 font-medium">
-          Dicha suspensión cautelar no generará ningún tipo de penalidad o reclamo por lucro cesante, daños o perjuicios comerciales a cargo de ISAPromoRD, constituyendo un mecanismo legítimo de tutela contractual ante el incumplimiento de la obligación principal de pago.
+        <p class="text-[11px] leading-relaxed text-amber-900 font-medium">
+          Dicha suspensión cautelar no generará ningún tipo de penalidad o reclamo a cargo de ISAPromoRD, constituyendo un mecanismo legítimo de tutela contractual ante el incumplimiento de la obligación principal de pago.
         </p>
       </div>
 
       <!-- CLÁUSULA QUINTA: RETENCIÓN DE TITULARIDAD Y DERECHOS INTELECTUALES -->
       <div class="space-y-3">
-        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+        <h2 class="text-sm font-black text-slate-950 uppercase tracking-wider border-b border-slate-300 pb-1.5">
           Cláusula Quinta: Retención de Titularidad y Código Fuente
         </h2>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
           La titularidad de los accesos maestros a dominios, bases de datos, credenciales definitivas y repositorio de código fuente se transferirá formalmente a EL CLIENTE <strong>única y exclusivamente una vez haya sido saldado el 100% del valor total acordado</strong>. Hasta ese momento, la propiedad de los desarrollos tecnológicos permanece bajo custodia y reserva de ISAPromoRD.
         </p>
       </div>
 
-      <!-- CLÁUSULA SEXTA: FACTURACIÓN FISCAL Y LEY APLICABLE -->
+      <!-- CLÁUSULA SEXTA: COMPROBANTES DE PAGO Y JURISDICCIÓN (SIN DGII NI NCF) -->
       <div class="space-y-3">
-        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
-          Cláusula Sexta: Comprobantes Fiscales DGII y Jurisdicción
+        <h2 class="text-sm font-black text-slate-950 uppercase tracking-wider border-b border-slate-300 pb-1.5">
+          Cláusula Sexta: Comprobantes de Pago, Validez Contractual y Jurisdicción
         </h2>
-        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
-          ISAPromoRD emitirá a solicitud de EL CLIENTE la factura con el correspondiente Número de Comprobante Fiscal (NCF) de tipo B01 (Crédito Fiscal) o B02 (Consumo), conforme a la normativa de la Dirección General de Impuestos Internos (DGII). Para todo lo no previsto en este contrato, las partes se remiten a las leyes de la República Dominicana, sometiéndose a los tribunales del Distrito Nacional.
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
+          Las partes acuerdan que los desembolsos se respaldarán mediante <strong>Recibo Digital de Liquidación Comercial emitido por EL PRESTADOR acompañado de la confirmación electrónica o volante de transferencia bancaria</strong>.
+        </p>
+        <p class="text-xs sm:text-[13px] text-slate-700 leading-relaxed">
+          El presente acuerdo constituye un contrato privado de prestación de servicios mercantiles con plena fuerza obligatoria entre las partes. Para todo lo no previsto expresamente, las partes se remiten a las normas de contratación del derecho común de la República Dominicana, sometiéndose a los tribunales del Distrito Nacional.
         </p>
       </div>
 
       <!-- ========================================================
            SECCIÓN DE FIRMAS DIGITALES
            ======================================================== -->
-      <div class="pt-6 border-t-2 border-slate-900 space-y-6">
+      <div class="pt-6 border-t border-slate-300 space-y-6">
         <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider text-center">
           Ratificación y Aceptación Electrónica de las Partes
         </h2>
@@ -272,33 +285,33 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           <!-- FIRMA DEL PRESTADOR (ISAPROMORD) -->
-          <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+          <div class="p-5 rounded-sm border border-slate-300 bg-slate-50 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Por EL PRESTADOR:</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">✓ Ratificado Oficial</span>
+              <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Por EL PRESTADOR:</span>
+              <span class="px-2 py-0.5 rounded-xs bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200">✓ Ratificado Oficial</span>
             </div>
             <div class="h-24 flex items-center justify-center border-b border-dashed border-slate-300">
               <div class="text-center">
-                <span class="font-serif italic text-lg sm:text-xl font-bold text-slate-800">Howard Isaac Taveras</span>
-                <span class="block text-[10px] text-slate-400 font-mono">Firma Digital Autorizada • ISAPromoRD</span>
+                <span class="font-serif italic text-xl font-bold text-slate-800">Howard Isaac Taveras</span>
+                <span class="block text-[10px] text-slate-500 font-mono mt-0.5">Firma Autorizada • ISAPromoRD</span>
               </div>
             </div>
-            <div class="text-[11px] text-slate-600 font-mono space-y-0.5">
+            <div class="text-[11px] text-slate-600 font-mono space-y-1">
               <div><strong>Representante:</strong> Howard Isaac Taveras</div>
-              <div><strong>Cargo:</strong> Director General de Ingeniería & Operaciones</div>
-              <div><strong>RNC / Cédula:</strong> Registrado en DGII</div>
+              <div><strong>Cargo:</strong> Dirección General de Operaciones & Tecnología</div>
+              <div><strong>Contacto:</strong> WhatsApp +1 (829) 455-4783 • isapromord.com</div>
             </div>
           </div>
 
           <!-- FIRMA DEL CLIENTE -->
-          <div id="clientSignatureCard" class="p-5 rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 space-y-3">
+          <div id="clientSignatureCard" class="p-5 rounded-sm border border-indigo-200 bg-indigo-50/30 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider">Por EL CLIENTE:</span>
-              <span id="clientSignStatusPill" class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-mono font-bold">🟡 Pendiente de Firma</span>
+              <span class="text-xs font-bold text-indigo-950 uppercase tracking-wider">Por EL CLIENTE:</span>
+              <span id="clientSignStatusPill" class="px-2 py-0.5 rounded-xs bg-amber-100 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">🟡 Pendiente de Firma</span>
             </div>
 
             <!-- SI ESTÁ FIRMADO: SELLO VISIBLE -->
-            <div id="signedStampBox" class="hidden h-24 flex flex-col items-center justify-center border-b border-dashed border-emerald-400 bg-emerald-50/60 rounded-lg p-2 text-center">
+            <div id="signedStampBox" class="hidden h-24 flex flex-col items-center justify-center border-b border-dashed border-emerald-400 bg-emerald-50 rounded-xs p-2 text-center">
               <img id="signedStampImage" class="max-h-14 max-w-full object-contain mb-1" alt="Firma Electrónica Cliente" />
               <span class="text-[10px] font-mono font-bold text-emerald-800" id="signedStampDate">Firmado Electrónicamente</span>
             </div>
@@ -307,29 +320,39 @@
             <div id="interactiveSignatureForm" class="space-y-3 no-print">
               <div>
                 <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nombre Completo del Firmante *</label>
-                <input type="text" id="signerNameInput" placeholder="Ej: Dr. Ramón Pérez" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-xs font-semibold focus:ring-2 focus:ring-indigo-600 focus:outline-none" />
+                <input type="text" id="signerNameInput" placeholder="Ej: Dr. Ramón Pérez" class="w-full px-3 py-2 rounded-xs border border-slate-300 bg-white text-xs font-semibold focus:ring-1 focus:ring-indigo-600 focus:outline-none" />
               </div>
               <div>
-                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Cédula o RNC del Firmante *</label>
-                <input type="text" id="signerDocInput" placeholder="Ej: 001-1234567-8" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-xs font-mono focus:ring-2 focus:ring-indigo-600 focus:outline-none" />
+                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Cédula o Identificación *</label>
+                <input type="text" id="signerDocInput" placeholder="Ej: 001-1234567-8" class="w-full px-3 py-2 rounded-xs border border-slate-300 bg-white text-xs font-mono focus:ring-1 focus:ring-indigo-600 focus:outline-none" />
               </div>
 
-              <!-- Canvas Pad -->
-              <div>
-                <div class="flex items-center justify-between mb-1">
-                  <label class="block text-[11px] font-bold text-slate-700 uppercase">Firma Táctil o con Mouse *</label>
-                  <button type="button" onclick="clearSignatureCanvas()" class="text-[10px] text-rose-600 hover:underline font-bold">Limpiar</button>
+              <!-- OPCIONES DE FIRMA: TÁCTIL O 1-CLIC -->
+              <div class="space-y-1.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] font-bold text-slate-700 uppercase">Firma del Documento:</span>
+                  <div class="flex items-center gap-2">
+                    <button type="button" onclick="generate1ClickSignature()" class="text-[11px] text-indigo-700 hover:text-indigo-900 font-bold hover:underline flex items-center gap-1 cursor-pointer" title="Generar firma caligráfica con tu nombre">
+                      <span>✨ Firma 1-Clic</span>
+                    </button>
+                    <span class="text-slate-300">•</span>
+                    <button type="button" onclick="clearSignatureCanvas()" class="text-[11px] text-slate-500 hover:text-rose-600 font-semibold cursor-pointer">Limpiar</button>
+                  </div>
                 </div>
-                <div class="border border-slate-300 rounded-lg bg-white overflow-hidden shadow-inner">
+
+                <div class="border border-slate-300 rounded-xs bg-white overflow-hidden">
                   <canvas id="signatureCanvas" width="380" height="110" class="w-full h-24 signature-canvas bg-white cursor-crosshair"></canvas>
                 </div>
-                <span class="text-[10px] text-slate-400 font-sans block mt-0.5">Dibuja tu firma con el dedo en móvil o ratón en PC.</span>
+                <div class="flex items-center justify-between text-[10px] text-slate-500 pt-0.5">
+                  <span>Dibuja con el dedo/ratón o pulsa "Firma 1-Clic".</span>
+                  <span id="signatureTypeBadge" class="font-mono text-indigo-600"></span>
+                </div>
               </div>
 
               <!-- Checkbox Legal -->
               <label class="flex items-start gap-2 pt-1 cursor-pointer">
-                <input type="checkbox" id="termsAcceptedCheckbox" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
-                <span class="text-[11px] text-slate-600 leading-tight">
+                <input type="checkbox" id="termsAcceptedCheckbox" class="mt-0.5 rounded-xs text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer" />
+                <span class="text-[11px] text-slate-700 leading-tight">
                   He leído, comprendido y acepto todas las cláusulas, la política de pago 50/50 y los entregables estipulados en este contrato formal.
                 </span>
               </label>
@@ -338,7 +361,7 @@
                 type="button" 
                 onclick="submitClientSignature()" 
                 id="signContractBtn" 
-                class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-md shadow-emerald-600/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                class="w-full py-2.5 px-4 rounded-xs bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>✍️ Ratificar y Firmar Contrato Digitalmente</span>
               </button>
@@ -519,15 +542,15 @@
         return `
           <tr class="hover:bg-slate-50 transition-colors">
             <td class="p-3 font-bold text-slate-900 align-top">${s.name}</td>
-            <td class="p-3 align-top font-mono text-[11px]">
-              <span class="px-2 py-0.5 rounded font-bold ${s.type === 'monthly' ? 'bg-cyan-100 text-cyan-800' : 'bg-indigo-100 text-indigo-800'}">
+            <td class="p-3 align-top text-[11px]">
+              <span class="px-2 py-0.5 rounded-xs font-semibold border ${s.type === 'monthly' ? 'bg-cyan-50 text-cyan-800 border-cyan-200' : 'bg-slate-100 text-slate-800 border-slate-300'}">
                 ${s.type === 'monthly' ? 'Recurrente Mensual' : 'Setup Único'}
               </span>
             </td>
             <td class="p-3 text-[11px] text-slate-600 leading-relaxed align-top">
               ${delivsList || 'Entregables técnicos conforme a propuesta oficial.'}
             </td>
-            <td class="p-3 text-right font-mono font-bold text-slate-900 align-top">
+            <td class="p-3 text-right font-mono font-bold text-slate-900 align-top whitespace-nowrap">
               RD$ ${(s.price || 0).toLocaleString('es-DO')}${s.type === 'monthly' ? '/mes' : ''}
             </td>
           </tr>
@@ -562,10 +585,10 @@
       const interactiveForm = document.getElementById("interactiveSignatureForm");
 
       if (contract.status === "signed") {
-        statusBadge.textContent = "🟢 FIRMADO ELECTRÓNICAMENTE (VÁLIDO)";
-        statusBadge.className = "font-bold text-emerald-600";
+        statusBadge.textContent = "🟢 Firmado Digitalmente";
+        statusBadge.className = "font-bold text-emerald-700 whitespace-nowrap text-xs";
         clientPill.textContent = "✓ Firmado Electrónicamente";
-        clientPill.className = "px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold";
+        clientPill.className = "px-2 py-0.5 rounded-xs bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold border border-emerald-200";
 
         signedStampBox.classList.remove("hidden");
         if (contract.signatureData) {
@@ -583,10 +606,10 @@
           document.getElementById("metaSignerHash").textContent = contract.signatureHash;
         }
       } else {
-        statusBadge.textContent = "🟡 PENDIENTE DE FIRMA";
-        statusBadge.className = "font-bold text-amber-600";
+        statusBadge.textContent = "🟡 Pendiente de Firma";
+        statusBadge.className = "font-bold text-amber-600 whitespace-nowrap text-xs";
         clientPill.textContent = "🟡 Pendiente de Firma";
-        clientPill.className = "px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-mono font-bold";
+        clientPill.className = "px-2 py-0.5 rounded-xs bg-amber-100 text-amber-800 text-[10px] font-mono font-bold border border-amber-200";
 
         signedStampBox.classList.add("hidden");
         interactiveForm.classList.remove("hidden");
@@ -636,6 +659,8 @@
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
         hasSignature = true;
+        const badge = document.getElementById("signatureTypeBadge");
+        if (badge) badge.textContent = "✓ Trazo Manual Capturado";
       }
 
       function end() {
@@ -655,6 +680,53 @@
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       hasSignature = false;
+      const badge = document.getElementById("signatureTypeBadge");
+      if (badge) badge.textContent = "";
+    }
+
+    // Generar Firma Tipográfica Elegante con 1 Clic (Ideal para PC / sin pantalla táctil)
+    function generate1ClickSignature() {
+      const nameInput = document.getElementById("signerNameInput");
+      const name = nameInput ? nameInput.value.trim() : "";
+      if (!name) {
+        alert("Por favor ingresa primero el Nombre Completo del Firmante para generar su firma.");
+        if (nameInput) nameInput.focus();
+        return;
+      }
+
+      if (!canvas || !ctx) return;
+
+      // Limpiar y preparar canvas blanco
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Trazo cursivo formal tipo DocuSign
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "italic bold 26px 'Georgia', 'Times New Roman', serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(name, canvas.width / 2, (canvas.height / 2) - 8);
+
+      // Rúbrica caligráfica inferior
+      ctx.strokeStyle = "#4338ca";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      const textWidth = ctx.measureText(name).width;
+      const startX = Math.max(15, (canvas.width - textWidth) / 2);
+      const endX = Math.min(canvas.width - 15, (canvas.width + textWidth) / 2);
+      ctx.moveTo(startX, (canvas.height / 2) + 14);
+      ctx.lineTo(endX, (canvas.height / 2) + 14);
+      ctx.stroke();
+
+      // Sello de certificación 1-clic
+      ctx.fillStyle = "#64748b";
+      ctx.font = "9px monospace";
+      ctx.fillText("Firma Electrónica Verificada 1-Clic • ISAPromoRD", canvas.width / 2, canvas.height - 10);
+
+      hasSignature = true;
+      const badge = document.getElementById("signatureTypeBadge");
+      if (badge) badge.textContent = "✓ Firma Tipográfica 1-Clic Generada";
     }
 
     // Enviar y Registrar Firma Digital del Cliente
@@ -670,14 +742,14 @@
       }
 
       if (!signerDoc) {
-        alert("Por favor ingresa el número de Cédula o RNC del firmante.");
+        alert("Por favor ingresa el número de Cédula o Identificación del firmante.");
         document.getElementById("signerDocInput").focus();
         return;
       }
 
+      // Si el cliente está en PC o no dibujó trazo manual, generar automáticamente la firma tipográfica con 1 clic
       if (!hasSignature) {
-        alert("Por favor dibuja tu firma en el recuadro correspondiente.");
-        return;
+        generate1ClickSignature();
       }
 
       if (!accepted) {

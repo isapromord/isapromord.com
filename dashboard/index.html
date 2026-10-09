@@ -7102,10 +7102,10 @@ https://isapromord.github.io`;
         }
 
         // Helper seguro de fetch con timeout manual (funciona 100% en cualquier navegador)
-        const safeFetch = (url, timeoutMs = 4500) => {
+        const safeFetch = (url, timeoutMs = 4500, opts = {}) => {
           const ctrl = new AbortController();
           const tid = setTimeout(() => { try { ctrl.abort(); } catch(e){} }, timeoutMs);
-          return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(tid));
+          return fetch(url, { ...opts, signal: ctrl.signal }).finally(() => clearTimeout(tid));
         };
 
         // 1. Medir latencia directa al host (Ping perimetral real en vivo desde el navegador)
@@ -7118,50 +7118,35 @@ https://isapromord.github.io`;
           directPingMs = Math.max(45, Math.round(performance.now() - pingStart));
         }
 
-        // 2. Ejecutar Cloudflare DoH (Ultrarrápido <300ms, resolución A oficial)
-        try {
-          const dohRes = await safeFetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostName)}&type=A`, 3000);
-          if (dohRes && dohRes.ok) {
-            dohData = await dohRes.json();
-          }
-        } catch(e) {}
+        // 2 & 3. Ejecutar Cloudflare DoH y Captura de Metadatos en PARALELO (Alta velocidad <800ms)
+        const [dohSettled, microSettled, proxySettled] = await Promise.allSettled([
+          // Cloudflare DoH con header oficial 'accept: application/dns-json'
+          safeFetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostName)}&type=A`, 3000, {
+            headers: { 'accept': 'application/dns-json' }
+          }).then(r => r.ok ? r.json() : null),
 
-        // 3. Extraer HTML y metadatos con redundancia multinodo (sin variaciones espurias)
-        // Intento A: Proxy CORS directo codetabs / allorigins
-        try {
-          const proxyRes = await safeFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(currentAuditUrl)}`, 3500);
-          if (proxyRes && proxyRes.ok) {
-            const htmlText = await proxyRes.text();
-            if (htmlText && htmlText.length > 50) {
-              rawHtml = htmlText;
-            }
-          }
-        } catch(e) {}
+          // Microlink API ultrarrápido (<400ms para title, desc, og:image, server headers)
+          safeFetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}`, 3500)
+            .then(r => r.ok ? r.json() : null),
 
-        if (!rawHtml) {
-          try {
-            const proxyRes2 = await safeFetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(currentAuditUrl)}`, 3500);
-            if (proxyRes2 && proxyRes2.ok) {
-              const htmlText2 = await proxyRes2.text();
-              if (htmlText2 && htmlText2.length > 50) {
-                rawHtml = htmlText2;
-              }
-            }
-          } catch(e) {}
+          // Proxy CORS redundante para captura de HTML completo
+          safeFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(currentAuditUrl)}`, 3500)
+            .then(r => r.ok ? r.text() : null)
+        ]);
+
+        if (dohSettled.status === 'fulfilled' && dohSettled.value) {
+          dohData = dohSettled.value;
         }
 
-        // Intento B: Microlink optimizado para metadatos OpenGraph y fallback
-        try {
-          const microRes = await safeFetch(`https://api.microlink.io?url=${encodeURIComponent(currentAuditUrl)}&data.html.selector=html&data.html.type=html`, 4000);
-          if (microRes && microRes.ok) {
-            const d = await microRes.json();
-            if (d && d.status === "success" && d.data) {
-              meta = d.data;
-              meta.responseHeaders = d.headers || {};
-              if (!rawHtml && d.data.html) rawHtml = d.data.html;
-            }
-          }
-        } catch(e) {}
+        if (microSettled.status === 'fulfilled' && microSettled.value?.status === 'success' && microSettled.value?.data) {
+          meta = microSettled.value.data;
+          meta.responseHeaders = microSettled.value.headers || {};
+          if (meta.html && !rawHtml) rawHtml = meta.html;
+        }
+
+        if (proxySettled.status === 'fulfilled' && proxySettled.value && proxySettled.value.length > 50) {
+          rawHtml = proxySettled.value;
+        }
 
         // Latencia perimetral real: preferir directPingMs sobre el tiempo acumulado de scrapers
         latencyMs = directPingMs > 0 && directPingMs < 2500 ? directPingMs : Math.min(380, Math.round(performance.now() - startTime));

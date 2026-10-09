@@ -1089,3 +1089,18 @@
   - Eliminación segura con opción de Deshacer (Undo 6s estilo Gmail).
 - **Purga Total de Light Mode:**
   - Todos los modales del dashboard (`clientModal`, `reportModal`, `billingNoticeModal`, `backupModal`, `proposalResultModal`, `partnerSnippetModal`, `newPartnerModal`, `manualTransactionModal`) y tarjetas contables convertidos a Obsidian Cyber Luxe (`#0b0f17`, `#06080d`, `#0f172a`, bordes `border-white/10`, textos blancos/slate-300 y acentos Cyan/Emerald).
+
+## [2026-10-09] - Refinamiento Estético Tipo Factura, Purga DGII y Firma 1-Clic para PC
+
+### 1. Puntos Resueltos a Solicitud del Usuario
+- **Equilibrio del Membrete (Eliminación de Saltos Forzados en 2 Líneas):**
+  - Se sintetizó la columna izquierda (logo y subtítulo conciso) y se amplió el ancho mínimo de la columna derecha (`min-w-[280px]`), aplicando `whitespace-nowrap` a la fecha de emisión y estado legal. Los datos ahora se presentan alineados en 1 sola línea sin quiebres antiestéticos.
+- **Estética Tipo Factura Corporativa:**
+  - Se redujo el radio de curvatura (`rounded-sm`/`rounded-xs` en lugar de `rounded-2xl` y `rounded-xl`).
+  - Se eliminaron los bloques oscuros que contrastaban rígidamente con la hoja de papel; la tabla de servicios y el cuadro de 50/50 ahora usan cabeceras claras (`bg-slate-100`, bordes sutiles `border-slate-300` y tipografías oscuras nítidas) con espacio y altura de línea holgada (`leading-relaxed`).
+- **Eliminación Total de Riesgo Fiscal DGII / NCF B01:**
+  - El usuario aclaró que opera como desarrollador independiente y aún no está registrado formalmente en la DGII. Se eliminó la Cláusula Sexta que prometía emitir NCF B01/B02 y cualquier mención de "RNC Registrado en DGII" en el membrete y firma.
+  - Se sustituyó por una **Cláusula de Contratación Privada Mercantil y Recibos Digitales de Liquidación Comercial respaldados por transferencia bancaria**, con plena fuerza vinculante civil bajo las leyes de la República Dominicana.
+- **Firma Digital con 1 Clic para Usuarios en PC:**
+  - Se añadió la opción **`✨ Firma 1-Clic`** que genera de forma automática una firma caligráfica formal elegante con el nombre del cliente en el canvas.
+  - Además, si el cliente en computadora marca el checkbox y presiona "Ratificar y Firmar" sin haber dibujado con ratón, el sistema genera automáticamente su firma tipográfica para evitar que tenga que hacer dibujos forzados con mouse.

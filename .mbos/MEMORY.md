@@ -1059,3 +1059,33 @@
 - **Single Source of Truth:** `dashboard/index.html` es la única fuente de verdad donde reside toda la lógica y UI del Centro de Mando.
 - **0ms Canonical Redirect:** `dashboard.html` se redujo a una página liviana (<700 bytes) que ejecuta una redirección canónica instantánea preservando `search` y `hash` (`window.location.replace('./dashboard/' + window.location.search + window.location.hash)` + fallback `<meta http-equiv="refresh">`).
 - **Retrocompatibilidad Total:** Cualquier enlace previo, marcador o acceso móvil que apunte a `dashboard.html` sigue funcionando al 100%, pero aterriza de inmediato en la ruta canónica `/dashboard/`.
+
+## [2026-10-09] - Motor de Contratos de Servicios 50/50, Firma Digital Legal & Bóveda Documental
+
+### 1. Requerimiento de Negocio & Marco Legal
+- **Flujo Integral Cerrado:** Auditoría 360° → Creación de Propuesta → Aprobación de Cliente → Generación de Contrato en 1 clic → Firma Digital en pantalla/móvil → Descarga de PDF legal → Almacenamiento en Bóveda Documental de la cuenta.
+- **Cláusulas Formalizadas:**
+  1. *Esquema 50/50 Obligatorio:* 50% de anticipo previo a iniciar cualquier trabajo de ingeniería/código (no reembolsable); 50% restante contra entrega y satisfacción final.
+  2. *Período de Gracia:* 5 días laborables tras la entrega final para revisión y completivo del pago.
+  3. *Cláusula de Suspensión por Mora (Take-Down Clause):* Si transcurren los 5 días hábiles sin recibir el saldo, ISAPromoRD se reserva el derecho expreso e inmediato de suspender la plataforma web, dar de baja servidores cloud, apagar instancias de API/IA y revocar accesos hasta la liquidación total, sin penalidad para la agencia.
+  4. *Reserva de Dominio & Propiedad Intelectual:* Código fuente, llaves maestras y titularidad de servidores se transfieren única y exclusivamente tras el pago del 100%.
+  5. *Comprobantes Fiscales DGII:* Emisión de comprobantes B01 (Crédito Fiscal) o B02 (Consumidor Final) y jurisdicción en el Distrito Nacional.
+
+### 2. Implementación Técnica
+- **Página de Contrato Legal (`contrato/index.html`):**
+  - Membrete ejecutivo ISAPromoRD (Altos de Arroyo Hondo III, RNC, Santo Domingo).
+  - Tabla de servicios y entregables detallados con desglose 50/50 y cuota mensual recurrente.
+  - Firma interactiva HTML5 Canvas con soporte táctil para móviles y ratón.
+  - Generador de Hash criptográfico de verificación legal (`VAL-DOM-...`).
+  - Generador de PDF en 1 clic vía `html2pdf.js` en formato A4.
+  - Botón interactivo de compartir vía WhatsApp con mensaje pre-llenado.
+  - Soporte de transporte Base64 en URL Hash (`#btoa(...)`) para visualización instantánea y firma remota en GitHub Pages sin depender del localStorage del cliente.
+- **Canónicas y Unificación de Rutas:**
+  - `contrato.html` y `propuesta.html` convertidas en redirecciones canónicas 0ms preservando query params y hashes hacia `./contrato/` y `./propuesta/`.
+- **Integración en Centro de Mando (`dashboard/index.html`):**
+  - Pestaña "📜 Contratos & Bóveda" en el modal de Roadmap de cada cuenta con badge dinámico.
+  - Botón directo "+ Generar Contrato" en propuestas aprobadas (Cotizador e Historial).
+  - Modal editor de contratos (`#contractEditorModal`) 100% Obsidian Cyber Luxe con adición/eliminación dinámica de servicios y recálculo automático del 50/50.
+  - Eliminación segura con opción de Deshacer (Undo 6s estilo Gmail).
+- **Purga Total de Light Mode:**
+  - Todos los modales del dashboard (`clientModal`, `reportModal`, `billingNoticeModal`, `backupModal`, `proposalResultModal`, `partnerSnippetModal`, `newPartnerModal`, `manualTransactionModal`) y tarjetas contables convertidos a Obsidian Cyber Luxe (`#0b0f17`, `#06080d`, `#0f172a`, bordes `border-white/10`, textos blancos/slate-300 y acentos Cyan/Emerald).

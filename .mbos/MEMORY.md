@@ -1044,3 +1044,18 @@
   - Sintaxis probada en Node.js (0 errores).
   - Paridad de hash 100% entre `dashboard/index.html` y `dashboard.html`.
   - Sincronización idéntica entre `propuesta/index.html` y `propuestas/demo/index.html`.
+
+## [2026-10-09] - Arquitectura Canónica Definitiva: Erradicación de Duplicación en dashboard.html
+
+### 1. Diagnóstico y Deuda Técnica Erradicada
+- **Problema Previo:** Existían dos copias idénticas del dashboard (~550 KB cada una): `dashboard.html` en raíz y `dashboard/index.html` en subdirectorio.
+- **Riesgos Eliminados:**
+  1. *Code Drift:* Desincronización silenciosa si se actualizaba un archivo y no el otro.
+  2. *Relative Path Conflict:* Diferencias de nivel de profundidad para assets (`assets/` vs `../assets/`).
+  3. *Split Caching:* Caché dividida en navegadores y móviles.
+  4. *Git Bloat:* Transferencia de 1.1 MB por cada cambio menor.
+
+### 2. Solución Estándar Industrial Implementada
+- **Single Source of Truth:** `dashboard/index.html` es la única fuente de verdad donde reside toda la lógica y UI del Centro de Mando.
+- **0ms Canonical Redirect:** `dashboard.html` se redujo a una página liviana (<700 bytes) que ejecuta una redirección canónica instantánea preservando `search` y `hash` (`window.location.replace('./dashboard/' + window.location.search + window.location.hash)` + fallback `<meta http-equiv="refresh">`).
+- **Retrocompatibilidad Total:** Cualquier enlace previo, marcador o acceso móvil que apunte a `dashboard.html` sigue funcionando al 100%, pero aterriza de inmediato en la ruta canónica `/dashboard/`.

@@ -5699,9 +5699,17 @@
         key: "web-fast",
         icon: "🌐",
         name: "Desarrollo de Landing Page Transaccional (<1s)",
-        badge: "Pago Único (RD$ 20,000)",
-        summary: "Desarrollo en React/Vite con carga ultra-rápida en 4G RD, diseño responsive y botón WhatsApp transaccional.",
+        badge: "Pago Único (RD$ 28,000)",
+        summary: "Desarrollo en React/Vite con carga ultra-rápida (<0.4s) en 4G RD, diseño responsive y botón WhatsApp transaccional.",
         details: "1. Estructura HTML5 semántica y Tailwind CSS minificado.\n2. Optimización de imágenes en formato WebP/AVIF.\n3. Integración de botón interactivo de WhatsApp con mensaje transaccional pre-llenado.\n4. Certificación de carga <0.8s en PageSpeed."
+      },
+      {
+        key: "web-corporate",
+        icon: "🏛️",
+        name: "Web Corporativa Multi-Página (Hasta 5 Subpáginas)",
+        badge: "Pago Único (RD$ 55,000)",
+        summary: "Estructura completa para empresas con múltiples líneas de servicio, arquitectura Spoke, SEO profundo y Schema JSON-LD.",
+        details: "1. Arquitectura de silos Hub & Spoke con hasta 5 páginas internas optimizadas.\n2. Optimización semántica y Schema JSON-LD multi-entidad.\n3. Indexación en motores generativos IA (llms.txt + sitemap.xml).\n4. Entrega en 10 a 14 días laborables con garantía 100/100 Core Web Vitals."
       },
       {
         key: "maps-setup",
@@ -5740,8 +5748,24 @@
         icon: "📊",
         name: "CRM Personalizado a Medida (Ventas & Clientes)",
         badge: "Setup (RD$ 35,000)",
-        summary: "Sistema centralizado para prospectos, clientes, catálogo y renovaciones sin costo por usuario.",
+        summary: "Sistema centralizado a la medida. Incluye hasta 3 módulos estándar (Contactos, Pipeline, Cobros). Módulos adicionales se cotizan aparte.",
         details: "1. Modelado de base de datos en Supabase con persistencia en tiempo real.\n2. Tablero de control de embudo de ventas y cotizaciones.\n3. Gestión de cartera de clientes y cuentas por cobrar.\n4. Capacitación del equipo comercial para adopción ágil."
+      },
+      {
+        key: "crm-ncf",
+        icon: "🧾",
+        name: "Módulo CRM: Facturas & Cotizaciones PDF con NCF (B01)",
+        badge: "Setup Único (RD$ 15,000)",
+        summary: "Generación de facturas formales con logo corporativo, desglose de ITBIS (18%) y correlativo de comprobantes fiscales DGII.",
+        details: "1. Plantilla ejecutiva PDF con logo corporativo.\n2. Numeración secuencial de NCF DGII (B01, B02, etc.).\n3. Desglose automático de ITBIS 18% y subtotal.\n4. Envío directo al WhatsApp o correo del cliente."
+      },
+      {
+        key: "crm-inventory",
+        icon: "📦",
+        name: "Módulo CRM: Control de Inventario & Alertas de Stock",
+        badge: "Setup Único (RD$ 15,000)",
+        summary: "Entradas, salidas, alertas de stock mínimo automático vía WhatsApp y cálculo de inventario en tiempo real.",
+        details: "1. Catálogo de productos con SKU y categorías.\n2. Registro de entradas, salidas y mermas.\n3. Alertas automáticas de stock crítico por WhatsApp.\n4. Valuación de inventario en tiempo real."
       },
       {
         key: "cloud-maintenance",
@@ -8658,10 +8682,18 @@ ${aiActionInstructions}`;
       {
         id: "landing-page",
         name: "🌐 Landing Page Transaccional de Alta Conversión (<1s)",
-        description: "Desarrollo web ultra-rápido en React/Vite, catálogo interactivo de servicios/productos, diseño adaptable a móviles y botón directo a WhatsApp.",
-        price: 20000,
+        description: "Desarrollo web ultra-rápido en React/Vite (Ingeniería de Ultra Velocidad no WordPress), catálogo interactivo, diseño responsive y botón WhatsApp.",
+        price: 28000,
         type: "onetime",
         checked: true
+      },
+      {
+        id: "web-corporate",
+        name: "🏛️ Web Corporativa Multi-Página (Hasta 5 Subpáginas)",
+        description: "Estructura completa para empresas con múltiples líneas de servicio o productos, arquitectura Spoke, SEO On-Page profundo y Schemas.",
+        price: 55000,
+        type: "onetime",
+        checked: false
       },
       {
         id: "web-maintenance",
@@ -8722,10 +8754,26 @@ ${aiActionInstructions}`;
       {
         id: "crm-custom",
         name: "💼 CRM Personalizado a las Necesidades del Negocio",
-        description: "Sistema de gestión a la medida diseñado específicamente para tu flujo: control de clientes, prospectos, inventario y ventas sin mensualidades por usuario.",
+        description: "Sistema de gestión a la medida (Supabase/PostgreSQL). Incluye hasta 3 módulos estándar (Contactos, Pipeline, Cobros). Módulos adicionales se cotizan aparte.",
         price: 35000,
         type: "onetime",
         checked: true
+      },
+      {
+        id: "crm-ncf",
+        name: "🧾 Módulo CRM: Facturas & Cotizaciones PDF con NCF (B01)",
+        description: "Facturación formal con logo corporativo, desglose de ITBIS (18%) y correlativo de comprobantes fiscales DGII.",
+        price: 15000,
+        type: "onetime",
+        checked: false
+      },
+      {
+        id: "crm-inventory",
+        name: "📦 Módulo CRM: Control de Inventario & Alertas de Stock",
+        description: "Entradas, salidas, alertas de stock mínimo automático vía WhatsApp y cálculo de inventario en tiempo real.",
+        price: 15000,
+        type: "onetime",
+        checked: false
       },
       {
         id: "crm-monthly",

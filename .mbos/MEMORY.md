@@ -1026,3 +1026,21 @@
   - Validado en sandbox Node.js (0 excepciones en carga de drilldown, modal y resolución de URLs).
   - Paridad de hash 100% entre `dashboard/index.html` y `dashboard.html`.
   - Desplegado en GitHub `origin` (`main`, `gh-pages`) y `pages` (`main`, `gh-pages`).
+
+## [2026-10-09] - Sincronización Unificada de Precios y Catálogos en Dashboard y Propuestas
+
+### 1. Diagnóstico de Discrepancia de Precios
+- **Problema Detectado por el Usuario:** Durante la creación de las páginas Spoke (`diseno-web-santo-domingo`, etc.) se actualizaron los precios a los estándares oficiales de ISAPromoRD (Web Transaccional a RD$ 28,000 en rango RD$ 25k–35k, Web Corporativa Multi-Página a RD$ 55,000, y limitación del CRM de RD$ 35,000 a 3 módulos estándar con cotización aparte de módulos extra).
+- Sin embargo, dentro del Dashboard (`dashboard.html`, `dashboard/index.html`) en `OFFICIAL_CATALOG_SERVICES` y `PROPOSAL_ADDONS`, así como en el motor de propuestas (`propuesta/index.html` y `propuestas/demo/index.html`) en `SERVICE_CATALOG`, la Landing Page seguía fijada en el valor desfasado de RD$ 20,000, no existía la opción de Web Corporativa (RD$ 55,000), y el CRM carecía de la especificación explícita de módulos y de sus add-ons complementarios (Facturación NCF e Inventario a RD$ 15,000 c/u).
+
+### 2. Acciones Ejecutadas
+- **Alineación de Landing Page Transaccional (<1s):** Actualizada a **RD$ 28,000** de forma unificada en todo el sistema (`OFFICIAL_CATALOG_SERVICES`, `PROPOSAL_ADDONS` y `SERVICE_CATALOG`), con la descripción de ingeniería ultra-rápida (no WordPress).
+- **Inclusión de Web Corporativa Multi-Página:** Añadida a **RD$ 55,000** en el catálogo de servicios de Roadmap y en el cotizador interactivo.
+- **Formalización de Alcance de CRM:** Se fijó en la descripción del CRM de RD$ 35,000 la cláusula: *"Incluye hasta 3 módulos estándar (Contactos, Pipeline, Cobros). Módulos adicionales se cotizan aparte"*.
+- **Add-ons Oficiales de CRM Agregados:** Se crearon como servicios estándar y cotizables:
+  - Módulo Facturación & Cotizaciones PDF con NCF B01: **RD$ 15,000** setup.
+  - Módulo Control de Inventario & Alertas Stock WhatsApp: **RD$ 15,000** setup.
+- **Validación y Paridad:**
+  - Sintaxis probada en Node.js (0 errores).
+  - Paridad de hash 100% entre `dashboard/index.html` y `dashboard.html`.
+  - Sincronización idéntica entre `propuesta/index.html` y `propuestas/demo/index.html`.

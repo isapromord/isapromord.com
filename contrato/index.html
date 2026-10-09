@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="es-DO" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Contrato de Prestación de Servicios Digitales | ISAPromoRD</title>
+  
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="../assets/favicon.png" />
+  <link rel="shortcut icon" href="../assets/favicon.ico" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf.js for client-side direct PDF downloads -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-exact {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+    .signature-canvas {
+      touch-action: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- ========================================================
+       BARRA SUPERIOR CORPORATIVA
+       ======================================================== -->
+  <header class="bg-[#0b0f17]/95 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 no-print">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-8 h-8 object-contain drop-shadow-sm" />
+        <span class="text-base sm:text-lg font-black tracking-tight text-white">
+          ISA<span class="text-slate-400">Promo</span><span class="text-cyan-400">RD</span>
+        </span>
+        <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 text-[10px] font-mono font-bold uppercase tracking-wider border border-cyan-500/20">
+          Acuerdo Comercial & Contrato
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="downloadPdfBtn" onclick="downloadContractPdf()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 border border-white/10 shadow-sm transition-all cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span id="downloadBtnLabel">Descargar PDF</span>
+        </button>
+        <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-white/10 transition-colors cursor-pointer" title="Imprimir documento">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <span class="hidden sm:inline">Imprimir</span>
+        </button>
+        <a href="https://wa.me/18294554783" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+          <span>WhatsApp Legal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       DOCUMENTO DEL CONTRATO (PRINT & VIEW CONTAINER)
+       ======================================================== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex-1 w-full space-y-8">
+
+    <div id="contractDocumentArea" class="bg-white text-slate-900 rounded-2xl shadow-2xl p-6 sm:p-12 space-y-8 border border-slate-200 print-exact">
+      
+      <!-- MEMBRETE OFICIAL ISAPROMORD -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b-2 border-slate-900 gap-4">
+        <div class="flex items-center gap-3.5">
+          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-14 h-14 object-contain" />
+          <div>
+            <span class="text-2xl font-black text-slate-950 tracking-tight">ISA<span class="text-slate-600">Promo</span><span class="text-indigo-600">RD</span></span>
+            <p class="text-xs text-slate-600 font-bold">Desarrollo de Software, Infraestructura Cloud & Soluciones Digitales</p>
+            <p class="text-[11px] text-slate-500 font-mono">Santo Domingo, Distrito Nacional, República Dominicana • RNC: Registrado</p>
+          </div>
+        </div>
+        <div class="text-left sm:text-right font-mono text-xs text-slate-600 space-y-1">
+          <div class="inline-block px-3 py-1 rounded bg-slate-950 text-white font-bold uppercase tracking-wider text-[11px]">
+            CONTRATO DE SERVICIOS
+          </div>
+          <div><strong class="text-slate-900">No. Contrato:</strong> <span id="contractDocNumber" class="text-indigo-600 font-bold">CTR-2026-001</span></div>
+          <div><strong class="text-slate-900">Fecha de Emisión:</strong> <span id="contractDocDate">--</span></div>
+          <div><strong class="text-slate-900">Estado Legal:</strong> <span id="contractDocStatusBadge" class="font-bold text-amber-600">🟡 PENDIENTE DE FIRMA</span></div>
+        </div>
+      </div>
+
+      <!-- TÍTULO FORMAL -->
+      <div class="text-center space-y-1 pt-2">
+        <h1 class="text-xl sm:text-2xl font-black text-slate-950 uppercase tracking-wide">
+          Contrato de Prestación de Servicios Digitales y Desarrollo Tecnológico
+        </h1>
+        <p class="text-xs text-slate-500 font-serif italic">
+          Bajo régimen de contratación privada mercantil y Ley No. 126-02 sobre Comercio Electrónico y Firmas Digitales
+        </p>
+      </div>
+
+      <!-- COMPARECIENCIA DE LAS PARTES -->
+      <div class="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm leading-relaxed space-y-3">
+        <p>
+          De una parte, <strong>ISAPromoRD</strong> (en lo sucesivo denominada <strong>"EL PRESTADOR"</strong>), agencia de tecnología y desarrollo web con domicilio operativo en Altos de Arroyo Hondo III, Santo Domingo, D.N., República Dominicana, contacto oficial vía WhatsApp: <strong>+1 (829) 455-4783</strong> y web: <strong>isapromord.com</strong>;
+        </p>
+        <p>
+          Y de la otra parte, <strong id="partClientName">[Nombre del Cliente / Empresa]</strong>, titular del RNC/Cédula <strong id="partClientRnc">[RNC/Cédula]</strong>, representada en este acto por <strong id="partClientRepresentative">[Representante Legal]</strong>, con teléfono/WhatsApp <strong id="partClientPhone">[Teléfono]</strong> y correo electrónico <strong id="partClientEmail">[Correo]</strong> (en lo sucesivo denominada <strong>"EL CLIENTE"</strong>).
+        </p>
+        <p class="font-semibold text-slate-800">
+          Ambas partes se reconocen mutuamente capacidad jurídica suficiente para obligarse y suscribir el presente Contrato, el cual se regirá por las siguientes:
+        </p>
+      </div>
+
+      <!-- CLÁUSULA PRIMERA: OBJETO Y SERVICIOS CONTRATADOS -->
+      <div class="space-y-3">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Cláusula Primera: Objeto del Contrato y Desglose de Entregables
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          EL PRESTADOR se compromete a diseñar, desarrollar, configurar e implementar para EL CLIENTE los servicios tecnológicos acordados, con las especificaciones y entregables que se detallan a continuación:
+        </p>
+
+        <!-- TABLA DE SERVICIOS -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-xs">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 text-white font-mono uppercase text-[10px]">
+              <tr>
+                <th class="p-3">Servicio / Módulo Contratado</th>
+                <th class="p-3">Tipo</th>
+                <th class="p-3">Entregables Técnicos Clave</th>
+                <th class="p-3 text-right">Inversión (RD$)</th>
+              </tr>
+            </thead>
+            <tbody id="contractServicesTableBody" class="divide-y divide-slate-200 text-slate-800 font-sans">
+              <!-- Inyectado por JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CLÁUSULA SEGUNDA: ESQUEMA ECONÓMICO Y FORMA DE PAGO 50/50 -->
+      <div class="space-y-3">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Cláusula Segunda: Condiciones Económicas y Esquema de Pago (50 / 50)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          Las partes pactan de mutuo acuerdo el esquema financiero de ejecución bajo la modalidad estándar de la industria <strong>Cincuenta por Ciento Inicial y Cincuenta por Ciento Contra Entrega (50/50)</strong>:
+        </p>
+
+        <!-- CUADRO FINANCIERO -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-900 text-white font-mono text-xs">
+          <div class="space-y-1">
+            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Inversión Total Setup</span>
+            <span id="finTotalSetup" class="text-lg font-black text-white">RD$ 0</span>
+          </div>
+          <div class="space-y-1 p-2.5 rounded-lg bg-indigo-950/80 border border-indigo-500/40">
+            <span class="text-[10px] text-indigo-300 uppercase tracking-wider font-bold block">1. Anticipo Inicio (50%)</span>
+            <span id="finDepositAmount" class="text-lg font-black text-indigo-300">RD$ 0</span>
+            <span class="text-[9px] text-slate-300 block font-sans">Requerido para comenzar</span>
+          </div>
+          <div class="space-y-1 p-2.5 rounded-lg bg-emerald-950/80 border border-emerald-500/40">
+            <span class="text-[10px] text-emerald-300 uppercase tracking-wider font-bold block">2. Contra Entrega (50%)</span>
+            <span id="finCompletionAmount" class="text-lg font-black text-emerald-300">RD$ 0</span>
+            <span class="text-[9px] text-slate-300 block font-sans">Contra entrega a satisfacción</span>
+          </div>
+        </div>
+
+        <div id="finMonthlyRow" class="hidden p-3 rounded-lg bg-cyan-50 border border-cyan-200 text-cyan-950 text-xs flex items-center justify-between">
+          <span class="font-bold">Mantenimiento Web, Hosting Anycast & Soporte Mensual:</span>
+          <span id="finMonthlyFee" class="font-mono font-black text-sm">RD$ 0 / mes</span>
+        </div>
+
+        <ul class="list-disc pl-5 text-xs text-slate-700 space-y-1.5 leading-relaxed">
+          <li><strong>Condición de Inicio:</strong> El cómputo del plazo de entrega iniciará <em>exclusivamente</em> a partir de la confirmación de recepción y acreditación en cuenta bancaria del <strong>cincuenta por ciento (50%) de anticipo</strong>. Dicho anticipo no es reembolsable, pues se destina a la reserva de servidores, adquisición de licencias y tiempo de ingeniería.</li>
+          <li><strong>Saldo Contra Entrega:</strong> El <strong>cincuenta por ciento (50%) restante</strong> deberá ser liquidado por EL CLIENTE al completarse el desarrollo y verificarse la conformidad de los entregables a su satisfacción en el entorno de pruebas o pre-producción.</li>
+          <li><strong>Cuentas Bancarias Oficiales:</strong> Banco Popular Dominicano (Cta. Ahorros: 8294554783 a nombre de Howard Isaac Taveras).</li>
+        </ul>
+      </div>
+
+      <!-- CLÁUSULA TERCERA: PLAZOS Y PERÍODO DE GRACIA -->
+      <div class="space-y-3">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Cláusula Tercera: Plazos de Ejecución y Período de Gracia
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          El tiempo estimado de entrega del proyecto es de <strong id="contractDeliveryDays">10 a 15 días laborables</strong> contados tras la recepción del anticipo y la entrega de los insumos requeridos (textos, logos, catálogo o productos).
+        </p>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          Una vez notificada la culminación de los trabajos y presentada la web o sistema en línea, EL CLIENTE dispondrá de un <strong>Período de Gracia de cinco (5) días laborables</strong> para emitir observaciones finales y realizar el pago del 50% restante acordado.
+        </p>
+      </div>
+
+      <!-- CLÁUSULA CUARTA: SUSPENSIÓN POR MORA (TAKE DOWN CLAUSE) -->
+      <div class="space-y-3 p-4 rounded-xl bg-amber-50 border-l-4 border-amber-500 text-amber-950">
+        <h2 class="text-sm sm:text-base font-black uppercase tracking-wider">
+          Cláusula Cuarta: Cláusula de Suspensión por Mora y Retiro Temporal de Servicios
+        </h2>
+        <p class="text-xs sm:text-sm leading-relaxed">
+          En la eventualidad de que EL CLIENTE no liquide el completivo del cincuenta por ciento (50%) restante dentro del lapso de los cinco (5) días laborables de gracia, <strong>EL PRESTADOR (ISAPromoRD) se reserva formal y expresamente el derecho de suspender de forma temporal e inmediata la visibilidad de la plataforma web, dar de baja los servidores cloud, apagar instancias de API/IA y suspender credenciales de acceso hasta tanto el pago adeudado haya sido recibido y liquidado en su totalidad</strong>.
+        </p>
+        <p class="text-xs leading-relaxed text-amber-900 font-medium">
+          Dicha suspensión cautelar no generará ningún tipo de penalidad o reclamo por lucro cesante, daños o perjuicios comerciales a cargo de ISAPromoRD, constituyendo un mecanismo legítimo de tutela contractual ante el incumplimiento de la obligación principal de pago.
+        </p>
+      </div>
+
+      <!-- CLÁUSULA QUINTA: RETENCIÓN DE TITULARIDAD Y DERECHOS INTELECTUALES -->
+      <div class="space-y-3">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Cláusula Quinta: Retención de Titularidad y Código Fuente
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          La titularidad de los accesos maestros a dominios, bases de datos, credenciales definitivas y repositorio de código fuente se transferirá formalmente a EL CLIENTE <strong>única y exclusivamente una vez haya sido saldado el 100% del valor total acordado</strong>. Hasta ese momento, la propiedad de los desarrollos tecnológicos permanece bajo custodia y reserva de ISAPromoRD.
+        </p>
+      </div>
+
+      <!-- CLÁUSULA SEXTA: FACTURACIÓN FISCAL Y LEY APLICABLE -->
+      <div class="space-y-3">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Cláusula Sexta: Comprobantes Fiscales DGII y Jurisdicción
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+          ISAPromoRD emitirá a solicitud de EL CLIENTE la factura con el correspondiente Número de Comprobante Fiscal (NCF) de tipo B01 (Crédito Fiscal) o B02 (Consumo), conforme a la normativa de la Dirección General de Impuestos Internos (DGII). Para todo lo no previsto en este contrato, las partes se remiten a las leyes de la República Dominicana, sometiéndose a los tribunales del Distrito Nacional.
+        </p>
+      </div>
+
+      <!-- ========================================================
+           SECCIÓN DE FIRMAS DIGITALES
+           ======================================================== -->
+      <div class="pt-6 border-t-2 border-slate-900 space-y-6">
+        <h2 class="text-sm sm:text-base font-black text-slate-950 uppercase tracking-wider text-center">
+          Ratificación y Aceptación Electrónica de las Partes
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- FIRMA DEL PRESTADOR (ISAPROMORD) -->
+          <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Por EL PRESTADOR:</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold">✓ Ratificado Oficial</span>
+            </div>
+            <div class="h-24 flex items-center justify-center border-b border-dashed border-slate-300">
+              <div class="text-center">
+                <span class="font-serif italic text-lg sm:text-xl font-bold text-slate-800">Howard Isaac Taveras</span>
+                <span class="block text-[10px] text-slate-400 font-mono">Firma Digital Autorizada • ISAPromoRD</span>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-600 font-mono space-y-0.5">
+              <div><strong>Representante:</strong> Howard Isaac Taveras</div>
+              <div><strong>Cargo:</strong> Director General de Ingeniería & Operaciones</div>
+              <div><strong>RNC / Cédula:</strong> Registrado en DGII</div>
+            </div>
+          </div>
+
+          <!-- FIRMA DEL CLIENTE -->
+          <div id="clientSignatureCard" class="p-5 rounded-xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider">Por EL CLIENTE:</span>
+              <span id="clientSignStatusPill" class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-mono font-bold">🟡 Pendiente de Firma</span>
+            </div>
+
+            <!-- SI ESTÁ FIRMADO: SELLO VISIBLE -->
+            <div id="signedStampBox" class="hidden h-24 flex flex-col items-center justify-center border-b border-dashed border-emerald-400 bg-emerald-50/60 rounded-lg p-2 text-center">
+              <img id="signedStampImage" class="max-h-14 max-w-full object-contain mb-1" alt="Firma Electrónica Cliente" />
+              <span class="text-[10px] font-mono font-bold text-emerald-800" id="signedStampDate">Firmado Electrónicamente</span>
+            </div>
+
+            <!-- SI NO ESTÁ FIRMADO: FORMULARIO INTERACTIVO (VISIBLE ONLINE) -->
+            <div id="interactiveSignatureForm" class="space-y-3 no-print">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Nombre Completo del Firmante *</label>
+                <input type="text" id="signerNameInput" placeholder="Ej: Dr. Ramón Pérez" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-xs font-semibold focus:ring-2 focus:ring-indigo-600 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-700 uppercase mb-1">Cédula o RNC del Firmante *</label>
+                <input type="text" id="signerDocInput" placeholder="Ej: 001-1234567-8" class="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-xs font-mono focus:ring-2 focus:ring-indigo-600 focus:outline-none" />
+              </div>
+
+              <!-- Canvas Pad -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-[11px] font-bold text-slate-700 uppercase">Firma Táctil o con Mouse *</label>
+                  <button type="button" onclick="clearSignatureCanvas()" class="text-[10px] text-rose-600 hover:underline font-bold">Limpiar</button>
+                </div>
+                <div class="border border-slate-300 rounded-lg bg-white overflow-hidden shadow-inner">
+                  <canvas id="signatureCanvas" width="380" height="110" class="w-full h-24 signature-canvas bg-white cursor-crosshair"></canvas>
+                </div>
+                <span class="text-[10px] text-slate-400 font-sans block mt-0.5">Dibuja tu firma con el dedo en móvil o ratón en PC.</span>
+              </div>
+
+              <!-- Checkbox Legal -->
+              <label class="flex items-start gap-2 pt-1 cursor-pointer">
+                <input type="checkbox" id="termsAcceptedCheckbox" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4" />
+                <span class="text-[11px] text-slate-600 leading-tight">
+                  He leído, comprendido y acepto todas las cláusulas, la política de pago 50/50 y los entregables estipulados en este contrato formal.
+                </span>
+              </label>
+
+              <button 
+                type="button" 
+                onclick="submitClientSignature()" 
+                id="signContractBtn" 
+                class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs shadow-md shadow-emerald-600/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>✍️ Ratificar y Firmar Contrato Digitalmente</span>
+              </button>
+            </div>
+
+            <!-- METADATOS DEL FIRMANTE -->
+            <div id="signerMetadataBox" class="text-[11px] text-slate-600 font-mono space-y-0.5">
+              <div><strong>Firmante:</strong> <span id="metaSignerName">Pendiente</span></div>
+              <div><strong>Documento:</strong> <span id="metaSignerDoc">Pendiente</span></div>
+              <div id="metaHashRow" class="hidden"><strong>Hash Criptográfico:</strong> <span id="metaSignerHash" class="text-[9px] text-indigo-600 break-all">--</span></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER LEGAL DE AUDITORÍA -->
+      <div class="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400 font-mono">
+        Documento mercantil generado y asegurado por el Ecosistema Digital ISAPromoRD • Santo Domingo, R.D. • Validez Jurídica Digital
+      </div>
+
+    </div>
+
+    <!-- ACCIONES FLOTANTES / BOTTOM BAR (NO-PRINT) -->
+    <div class="no-print p-4 rounded-2xl bg-[#0b0f17] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="space-y-0.5 text-center sm:text-left">
+        <span class="text-xs text-white font-bold block">¿Preguntas sobre este contrato?</span>
+        <span class="text-[11px] text-slate-400">Atención personalizada y validación legal directa por WhatsApp.</span>
+      </div>
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <button onclick="downloadContractPdf()" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-white/10 flex items-center justify-center gap-2 transition-colors cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          <span>Descargar PDF</span>
+        </button>
+        <button onclick="shareContractWhatsapp()" class="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer">
+          <span>💬 Notificar por WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================
+       LÓGICA JAVASCRIPT DEL CONTRATO
+       ======================================================== -->
+  <script>
+    const STORAGE_KEY_CONTRACTS = "isapromord_contracts_v1";
+
+    let contract = null;
+    let canvas = null;
+    let ctx = null;
+    let isDrawing = false;
+    let hasSignature = false;
+
+    // Inicializar al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+      initCanvas();
+      loadContractData();
+    });
+
+    // Cargar contrato desde URL o localStorage
+    function loadContractData() {
+      // 1. Intentar cargar desde URL Hash (Base64 codificado o ID)
+      const hash = window.location.hash ? window.location.hash.substring(1) : "";
+      const searchParams = new URLSearchParams(window.location.search);
+      const contractId = searchParams.get("id") || hash;
+
+      // Primero chequear si viene Base64 JSON en el hash
+      if (hash && hash.length > 50) {
+        try {
+          const decoded = decodeURIComponent(escape(atob(hash)));
+          contract = JSON.parse(decoded);
+        } catch (e) {
+          console.warn("No se pudo decodificar payload Base64, intentando por ID:", e);
+        }
+      }
+
+      // Si no cargó por base64, buscar en localStorage por ID
+      if (!contract && contractId) {
+        const storedList = getStoredContracts();
+        contract = storedList.find(c => c.id === contractId || c.contractNumber === contractId);
+      }
+
+      // Si aún no hay contrato, usar plantilla por defecto de demostración
+      if (!contract) {
+        contract = {
+          id: "ctr-demo-2026",
+          contractNumber: "CTR-2026-001",
+          clientId: "client-pasion-pecuaria",
+          clientName: "Pasión Pecuaria RD",
+          clientRnc: "1-32-98471-2",
+          clientRepresentative: "Dr. Veterinario / Dirección General",
+          clientPhone: "+1 (829) 396-1318",
+          clientEmail: "pasionpecuariard@gmail.com",
+          date: new Date().toLocaleDateString('es-DO', { year: 'numeric', month: 'long', day: 'numeric' }),
+          status: "sent",
+          deliveryDays: "10 a 15 días laborables",
+          services: [
+            {
+              name: "🌐 Landing Page Transaccional de Alta Conversión (<1s)",
+              type: "onetime",
+              price: 28000,
+              deliverables: [
+                "Desarrollo frontend en React 18 + Vite con arquitectura de ultra-velocidad.",
+                "Catálogo interactivo con filtrado dinámico y carrito de cotización directo a WhatsApp.",
+                "SEO On-Page y Schemas Schema.org JSON-LD para Google Search y Maps.",
+                "Despliegue Anycast Global con certificado SSL de grado bancario."
+              ]
+            },
+            {
+              name: "🛡️ Mantenimiento Web, Hosting Anycast & Soporte Continuo",
+              type: "monthly",
+              price: 4500,
+              deliverables: [
+                "Alojamiento de alta velocidad Anycast CDN 24/7.",
+                "Monitoreo continuo de uptime y seguridad preventiva.",
+                "Actualizaciones mensuales de contenido y catálogo de productos."
+              ]
+            }
+          ],
+          totalSetup: 28000,
+          totalMonthly: 4500,
+          depositAmount: 14000,
+          completionAmount: 14000
+        };
+      }
+
+      renderContractView();
+    }
+
+    function getStoredContracts() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY_CONTRACTS) || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveContractLocally(c) {
+      const list = getStoredContracts();
+      const idx = list.findIndex(item => item.id === c.id);
+      if (idx !== -1) {
+        list[idx] = c;
+      } else {
+        list.unshift(c);
+      }
+      localStorage.setItem(STORAGE_KEY_CONTRACTS, JSON.stringify(list));
+    }
+
+    // Renderizar los datos en el documento legal
+    function renderContractView() {
+      if (!contract) return;
+
+      document.title = `Contrato ${contract.contractNumber || 'Oficial'} | ${contract.clientName} - ISAPromoRD`;
+      document.getElementById("contractDocNumber").textContent = contract.contractNumber || "CTR-2026-001";
+      document.getElementById("contractDocDate").textContent = contract.date || new Date().toLocaleDateString('es-DO');
+
+      // Partes
+      document.getElementById("partClientName").textContent = contract.clientName || "[Nombre del Cliente]";
+      document.getElementById("partClientRnc").textContent = contract.clientRnc || "No especificado";
+      document.getElementById("partClientRepresentative").textContent = contract.clientRepresentative || contract.contactPerson || "Representante Designado";
+      document.getElementById("partClientPhone").textContent = contract.clientPhone || contract.phone || "No especificado";
+      document.getElementById("partClientEmail").textContent = contract.clientEmail || contract.email || "No especificado";
+
+      // Días
+      if (contract.deliveryDays) {
+        document.getElementById("contractDeliveryDays").textContent = contract.deliveryDays;
+      }
+
+      // Tabla de Servicios
+      const tbody = document.getElementById("contractServicesTableBody");
+      const services = contract.services || [];
+
+      tbody.innerHTML = services.map(s => {
+        const delivsList = (s.deliverables || []).map(d => `• ${d}`).join('<br>');
+        return `
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="p-3 font-bold text-slate-900 align-top">${s.name}</td>
+            <td class="p-3 align-top font-mono text-[11px]">
+              <span class="px-2 py-0.5 rounded font-bold ${s.type === 'monthly' ? 'bg-cyan-100 text-cyan-800' : 'bg-indigo-100 text-indigo-800'}">
+                ${s.type === 'monthly' ? 'Recurrente Mensual' : 'Setup Único'}
+              </span>
+            </td>
+            <td class="p-3 text-[11px] text-slate-600 leading-relaxed align-top">
+              ${delivsList || 'Entregables técnicos conforme a propuesta oficial.'}
+            </td>
+            <td class="p-3 text-right font-mono font-bold text-slate-900 align-top">
+              RD$ ${(s.price || 0).toLocaleString('es-DO')}${s.type === 'monthly' ? '/mes' : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Cálculos Financieros
+      const totalSetup = contract.totalSetup !== undefined ? contract.totalSetup : 
+        services.filter(s => s.type !== 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+      
+      const deposit = contract.depositAmount !== undefined ? contract.depositAmount : (totalSetup * 0.5);
+      const completion = contract.completionAmount !== undefined ? contract.completionAmount : (totalSetup * 0.5);
+      
+      const totalMonthly = contract.totalMonthly !== undefined ? contract.totalMonthly : 
+        services.filter(s => s.type === 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+
+      document.getElementById("finTotalSetup").textContent = `RD$ ${totalSetup.toLocaleString('es-DO')}`;
+      document.getElementById("finDepositAmount").textContent = `RD$ ${deposit.toLocaleString('es-DO')}`;
+      document.getElementById("finCompletionAmount").textContent = `RD$ ${completion.toLocaleString('es-DO')}`;
+
+      if (totalMonthly > 0) {
+        document.getElementById("finMonthlyRow").classList.remove("hidden");
+        document.getElementById("finMonthlyFee").textContent = `RD$ ${totalMonthly.toLocaleString('es-DO')} / mes`;
+      } else {
+        document.getElementById("finMonthlyRow").classList.add("hidden");
+      }
+
+      // Estado Legal y Firma
+      const statusBadge = document.getElementById("contractDocStatusBadge");
+      const clientPill = document.getElementById("clientSignStatusPill");
+      const signedStampBox = document.getElementById("signedStampBox");
+      const interactiveForm = document.getElementById("interactiveSignatureForm");
+
+      if (contract.status === "signed") {
+        statusBadge.textContent = "🟢 FIRMADO ELECTRÓNICAMENTE (VÁLIDO)";
+        statusBadge.className = "font-bold text-emerald-600";
+        clientPill.textContent = "✓ Firmado Electrónicamente";
+        clientPill.className = "px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-mono font-bold";
+
+        signedStampBox.classList.remove("hidden");
+        if (contract.signatureData) {
+          document.getElementById("signedStampImage").src = contract.signatureData;
+        }
+        document.getElementById("signedStampDate").textContent = `Ratificado: ${contract.signedAt || contract.date}`;
+
+        interactiveForm.classList.add("hidden");
+
+        // Metadatos
+        document.getElementById("metaSignerName").textContent = contract.signedBy || contract.clientRepresentative || "Firmado";
+        document.getElementById("metaSignerDoc").textContent = contract.signerDocId || contract.clientRnc || "Verificado";
+        if (contract.signatureHash) {
+          document.getElementById("metaHashRow").classList.remove("hidden");
+          document.getElementById("metaSignerHash").textContent = contract.signatureHash;
+        }
+      } else {
+        statusBadge.textContent = "🟡 PENDIENTE DE FIRMA";
+        statusBadge.className = "font-bold text-amber-600";
+        clientPill.textContent = "🟡 Pendiente de Firma";
+        clientPill.className = "px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[10px] font-mono font-bold";
+
+        signedStampBox.classList.add("hidden");
+        interactiveForm.classList.remove("hidden");
+
+        // Pre-cargar nombre y doc si existen
+        if (contract.clientRepresentative) {
+          document.getElementById("signerNameInput").value = contract.clientRepresentative;
+        }
+        if (contract.clientRnc) {
+          document.getElementById("signerDocInput").value = contract.clientRnc;
+        }
+      }
+    }
+
+    // Canvas de Firma
+    function initCanvas() {
+      canvas = document.getElementById("signatureCanvas");
+      if (!canvas) return;
+      ctx = canvas.getContext("2d");
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "#1e1b4b"; // deep indigo
+
+      function getPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (canvas.width / rect.width),
+          y: (clientY - rect.top) * (canvas.height / rect.height)
+        };
+      }
+
+      function start(e) {
+        e.preventDefault();
+        isDrawing = true;
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      function move(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        hasSignature = true;
+      }
+
+      function end() {
+        isDrawing = false;
+      }
+
+      canvas.addEventListener("mousedown", start);
+      canvas.addEventListener("mousemove", move);
+      window.addEventListener("mouseup", end);
+
+      canvas.addEventListener("touchstart", start, { passive: false });
+      canvas.addEventListener("touchmove", move, { passive: false });
+      window.addEventListener("touchend", end);
+    }
+
+    function clearSignatureCanvas() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSignature = false;
+    }
+
+    // Enviar y Registrar Firma Digital del Cliente
+    function submitClientSignature() {
+      const signerName = document.getElementById("signerNameInput").value.trim();
+      const signerDoc = document.getElementById("signerDocInput").value.trim();
+      const accepted = document.getElementById("termsAcceptedCheckbox").checked;
+
+      if (!signerName) {
+        alert("Por favor ingresa el nombre completo del firmante autorizado.");
+        document.getElementById("signerNameInput").focus();
+        return;
+      }
+
+      if (!signerDoc) {
+        alert("Por favor ingresa el número de Cédula o RNC del firmante.");
+        document.getElementById("signerDocInput").focus();
+        return;
+      }
+
+      if (!hasSignature) {
+        alert("Por favor dibuja tu firma en el recuadro correspondiente.");
+        return;
+      }
+
+      if (!accepted) {
+        alert("Debes marcar la casilla aceptando las cláusulas, entregables y esquema de pago 50/50.");
+        return;
+      }
+
+      const sigBase64 = canvas.toDataURL("image/png");
+      const timestamp = new Date().toISOString();
+      const friendlyDate = new Date().toLocaleDateString('es-DO', { 
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+      });
+
+      // Generar hash de verificación legal
+      const rawString = `${contract.id}-${signerName}-${signerDoc}-${timestamp}`;
+      let hash = 0;
+      for (let i = 0; i < rawString.length; i++) {
+        hash = ((hash << 5) - hash) + rawString.charCodeAt(i);
+        hash |= 0;
+      }
+      const signatureHash = "VAL-DOM-" + Math.abs(hash).toString(16).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
+
+      contract.status = "signed";
+      contract.signedAt = friendlyDate;
+      contract.signedBy = signerName;
+      contract.signerDocId = signerDoc;
+      contract.signatureData = sigBase64;
+      contract.signatureHash = signatureHash;
+
+      // Guardar en almacenamiento local
+      saveContractLocally(contract);
+
+      // Re-renderizar
+      renderContractView();
+
+      alert("🎉 ¡Contrato firmado exitosamente! Tu aceptación ha sido registrada formalmente con validez legal. Ya puedes descargar tu copia en PDF.");
+    }
+
+    // Descarga Directa en PDF de Grado Legal
+    function downloadContractPdf() {
+      const btn = document.getElementById("downloadPdfBtn");
+      const label = document.getElementById("downloadBtnLabel");
+      const originalText = label.textContent;
+
+      label.textContent = "Generando PDF...";
+      btn.disabled = true;
+
+      const element = document.getElementById("contractDocumentArea");
+
+      const opt = {
+        margin: [8, 8, 8, 8],
+        filename: `Contrato_${contract.contractNumber || 'ISAPromoRD'}_${(contract.clientName || 'Cliente').replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        label.textContent = originalText;
+        btn.disabled = false;
+      }).catch(err => {
+        console.error("Error al generar PDF:", err);
+        label.textContent = originalText;
+        btn.disabled = false;
+        window.print();
+      });
+    }
+
+    // Compartir Notificación de Firma o Contrato vía WhatsApp
+    function shareContractWhatsapp() {
+      const isSigned = contract.status === "signed";
+      let msg = "";
+
+      if (isSigned) {
+        msg = 
+`📜 *CONTRATO FORMAL FIRMADO DIGITALMENTE | ISAPromoRD*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 *Empresa:* ${contract.clientName}
+📄 *No. Contrato:* ${contract.contractNumber}
+✍️ *Firmado Por:* ${contract.signedBy} (Céd/RNC: ${contract.signerDocId})
+🕒 *Fecha/Hora:* ${contract.signedAt}
+🔒 *Hash de Validación:* ${contract.signatureHash}
+
+💰 *Condiciones Financieras Acordadas (50/50):*
+• *Inversión Total Setup:* RD$ ${(contract.totalSetup || 0).toLocaleString('es-DO')}
+• *Anticipo para Inicio (50%):* RD$ ${(contract.depositAmount || 0).toLocaleString('es-DO')}
+• *Saldo Contra Entrega (50%):* RD$ ${(contract.completionAmount || 0).toLocaleString('es-DO')}
+${contract.totalMonthly ? `• *Mantenimiento Mensual:* RD$ ${contract.totalMonthly.toLocaleString('es-DO')} / mes\n` : ''}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+El contrato ha sido ratificado electrónicamente. Favor coordinar recepción de comprobante bancario del 50% de anticipo para inicio formal de la ingeniería.`;
+      } else {
+        msg = 
+`📜 *CONTRATO DE SERVICIOS DIGITALES PENDIENTE DE REVISIÓN*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 *Empresa:* ${contract.clientName}
+📄 *No. Contrato:* ${contract.contractNumber}
+🔗 *Enlace de Revisión y Firma Digital:* ${window.location.href}
+
+Favor acceder al enlace para revisar los entregables, verificar las cláusulas 50/50 y ratificar la firma digitalmente.`;
+      }
+
+      window.open(`https://wa.me/18294554783?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+  </script>
+</body>
+</html>

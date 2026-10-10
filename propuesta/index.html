@@ -1303,9 +1303,32 @@ ${selectedList.join('\n')}
 Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo con ISAPromoRD.`;
       }
 
-      const encoded = encodeURIComponent(message);
-      window.open(`https://wa.me/18294554783?text=${encoded}`, '_blank');
-    }
+      // Sincronizar selección aprobada por el cliente en almacenamiento local
+        try {
+          if (proposal && proposal.id) {
+            const storedKey = "proposal_" + proposal.id;
+            const currentData = JSON.parse(localStorage.getItem(storedKey) || "{}");
+            currentData.status = "approved";
+            currentData.approvedOption = chosenOption;
+            currentData.approvedAt = new Date().toISOString();
+            if (isComparisonMode && chosenOption === 'package') {
+              const pkg = proposal.offeredPackage || proposal.basePackage || {};
+              currentData.offeredPackage = pkg;
+              currentData.proposalSetup = proposal.packageTotals ? proposal.packageTotals.setup : (pkg.price || 0);
+              currentData.proposalMonthly = proposal.packageTotals ? proposal.packageTotals.monthly : (pkg.monthlyPrice || 0);
+            } else if (isComparisonMode && chosenOption === 'alacarte') {
+              const sList = proposal.selectedServices || proposal.addons || [];
+              currentData.selectedServices = sList;
+              currentData.proposalSetup = proposal.alacarteTotals ? proposal.alacarteTotals.setup : sList.filter(s => s.type !== 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+              currentData.proposalMonthly = proposal.alacarteTotals ? proposal.alacarteTotals.monthly : sList.filter(s => s.type === 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+            }
+            localStorage.setItem(storedKey, JSON.stringify(currentData));
+          }
+        } catch (e) {}
+
+        const encoded = encodeURIComponent(message);
+        window.open(`https://wa.me/18294554783?text=${encoded}`, '_blank');
+      }
 
     function openAdjustModal() {
       document.getElementById("adjustModal").classList.remove("hidden");

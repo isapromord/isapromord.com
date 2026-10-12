@@ -1104,3 +1104,27 @@
 - **Firma Digital con 1 Clic para Usuarios en PC:**
   - Se añadió la opción **`✨ Firma 1-Clic`** que genera de forma automática una firma caligráfica formal elegante con el nombre del cliente en el canvas.
   - Además, si el cliente en computadora marca el checkbox y presiona "Ratificar y Firmar" sin haber dibujado con ratón, el sistema genera automáticamente su firma tipográfica para evitar que tenga que hacer dibujos forzados con mouse.
+
+## [2026-10-12] - Corrección de Persistencia Nube: Sincronización Bidireccional Resiliente y Auto-Guardado de Auditorías
+
+### 1. Causa Raíz de la Discrepancia Identificada
+- **Sobrescritura Destructiva Unilateral en `initCloudSync()`**:
+  - Al iniciar sesión o cargar el dashboard, `initCloudSync()` consultaba la tabla `agency_clients` en Supabase.
+  - La lógica anterior solo iteraba sobre los registros remotos devueltos por Supabase y reemplazaba ciegamente el arreglo local (`clients = uniqueClients; saveClientsToStorage(false);`).
+  - Cualquier cliente o URL añadido localmente que no hubiese terminado de sincronizarse a Supabase (por fallo de red, bloqueador de anuncios tipo Brave/uBlock sobre CDNs o cierre de ventana) **era eliminado permanentemente de `localStorage` al hacer login o recargar**.
+- **Colisión de Deduplicación por URL en Map**:
+  - La clave `normKey = normUrl || c.id` eliminaba registros que compartieran la misma URL raíz o subdominio.
+- **Auditorías 360° Volátiles (Sin Guardado Automático)**:
+  - Al auditar una URL en el Header o en la Auditoría 360°, los resultados residían solo en memoria del modal; si el usuario no abría manualmente el formulario multi-campo de "Convertir en Cliente" y hacía clic en "Guardar", la URL no se preservaba como registro del CRM.
+
+### 2. Soluciones Implementadas
+- **Fusión Bidireccional de Unión (`Union Merge`) en `initCloudSync()`**:
+  - `initCloudSync` ahora preserva todos los clientes remotos Y todos los clientes locales.
+  - Si un cliente existe localmente pero no en Supabase, se mantiene en la lista y se dispara su subida automática inmediata a Supabase en background.
+  - Deduplicación depurada estrictamente por ID único (`client.id`).
+- **Sincronización Directa Inmediata en `saveClient()`**:
+  - Al guardar un cliente, además del guardado en `localStorage`, se ejecuta directamente `syncClientToCloud(targetClient)` con reintento para garantizar persistencia instantánea en Supabase.
+- **Botón `⚡ Guardar Cliente (1 Clic)` en Modal de Auditoría 360°**:
+  - Permite guardar cualquier URL externa auditada directamente en la base de datos de clientes y en Supabase con 1 solo clic, extrayendo nombre, categoría, score y tareas de remediación sin obligar a llenar 10 campos a mano.
+- **Bóveda Histórica de URLs Auditadas (`isapromo_audited_history_v1`)**:
+  - Cada URL analizada queda registrada con fecha, score y metadatos para nunca perder el rastro de prospectos escaneados.

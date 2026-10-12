@@ -3205,8 +3205,11 @@
               <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
                 <span>🚀 Aplicar al Roadmap del Cliente</span>
               </button>
-              <button onclick="convertAuditToClientWithPrefill()" id="auditConvertClientBtn" class="hidden px-3.5 py-1.5 rounded bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-cyan-600/25 transition-all">
-                <span>➕ Convertir en Cliente (Pre-llenar Datos)</span>
+              <button onclick="quickSaveAuditAsClient()" id="auditQuickSaveClientBtn" class="hidden px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-emerald-500/25 transition-all">
+                <span>⚡ Guardar Cliente (1 Clic)</span>
+              </button>
+              <button onclick="convertAuditToClientWithPrefill()" id="auditConvertClientBtn" class="hidden px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-white/10 flex items-center gap-1.5 transition-all">
+                <span>✏️ Ficha Completa</span>
               </button>
               <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
@@ -4489,33 +4492,57 @@
           const PURGED_CLIENT_IDS = ['client-synkrd', 'client-nextcrmrd', 'client-vet-metropolitana'];
           const rawRemote = data.map(dbRowToClient).filter(c => !PURGED_CLIENT_IDS.includes(c.id) && !c.id.includes('synkrd') && !c.id.includes('nextcrm') && !c.id.includes('vetmetropolitana'));
           
-          // Deduplicación estricta por ID y por URL normalizada
-          const deduplicatedMap = new Map();
+          // Map consolidado bidireccional indexado por ID
+          const clientMap = new Map();
 
-          rawRemote.forEach(c => {
-            // Preservar puntajes locales auditados si son más específicos que el valor por defecto
-            const localC = (clients || []).find(lc => lc.id === c.id || (lc.liveUrl && c.liveUrl && lc.liveUrl.toLowerCase() === c.liveUrl.toLowerCase()));
-            if (localC && typeof localC.healthScore === "number") {
-              if (c.healthScore === null || c.healthScore === undefined || (c.healthScore === 100 && localC.healthScore !== 100)) {
-                c.healthScore = localC.healthScore;
+          // 1. Insertar clientes remotos de Supabase
+          rawRemote.forEach(remoteC => {
+            clientMap.set(remoteC.id, remoteC);
+          });
+
+          // 2. Fusionar clientes locales (GARANTÍA: ¡Nunca borrar clientes locales que aún no hayan subido a la nube!)
+          const localOnlyToSync = [];
+          (clients || []).forEach(localC => {
+            if (!localC || !localC.id) return;
+            if (PURGED_CLIENT_IDS.includes(localC.id) || localC.id.includes('synkrd') || localC.id.includes('nextcrm') || localC.id.includes('vetmetropolitana')) return;
+
+            if (clientMap.has(localC.id)) {
+              // El cliente existe en ambos: enriquecer con métricas locales si son más precisas
+              const remoteC = clientMap.get(localC.id);
+              if (typeof localC.healthScore === "number" && (remoteC.healthScore === null || remoteC.healthScore === 100)) {
+                remoteC.healthScore = localC.healthScore;
               }
-            }
-            const normUrl = (c.liveUrl || "").toLowerCase().replace(/\/$/, "");
-            const normKey = normUrl || c.id;
-            if (!deduplicatedMap.has(c.id) && !deduplicatedMap.has(normKey)) {
-              deduplicatedMap.set(c.id, c);
-              if (normKey) deduplicatedMap.set(normKey, c);
+              if (localC.tasks && localC.tasks.length > (remoteC.tasks ? remoteC.tasks.length : 0)) {
+                remoteC.tasks = localC.tasks;
+              }
+              if (localC.notes && !remoteC.notes) {
+                remoteC.notes = localC.notes;
+              }
+              if (localC.lastAuditSummary && !remoteC.lastAuditSummary) {
+                remoteC.lastAuditSummary = localC.lastAuditSummary;
+              }
+            } else {
+              // ¡Cliente local nuevo no existente en Supabase! Preservar y encolar para respaldar en la nube
+              clientMap.set(localC.id, localC);
+              localOnlyToSync.push(localC);
             }
           });
 
           // Consolidar lista única de clientes
-          const uniqueClients = Array.from(new Set(deduplicatedMap.values()));
-
-          clients = uniqueClients;
-          saveClientsToStorage(false); // Guardar en localStorage sin re-disparar cloud sync redundante
+          clients = Array.from(clientMap.values());
+          saveClientsToStorage(false); // Guardar en localStorage inmediatamente
           renderClients();
           updateKpis();
-          updateCloudSyncBadge("synced", `☁️ ${clients.length} Clientes en Nube`);
+
+          // Si habían clientes locales pendientes de subir, sincronizarlos a Supabase
+          if (localOnlyToSync.length > 0) {
+            console.log(`[CloudSync] Subiendo ${localOnlyToSync.length} clientes locales pendientes a Supabase...`);
+            for (const pendingClient of localOnlyToSync) {
+              await syncClientToCloud(pendingClient);
+            }
+          }
+
+          updateCloudSyncBadge("synced", `☁️ ${clients.length} Clientes Sincronizados`);
         } else {
           // La base de datos en la nube está vacía: sembrar los clientes actuales en Supabase
           updateCloudSyncBadge("syncing", "☁️ Sembrando Nube...");
@@ -4599,19 +4626,16 @@
 
           // Preservar puntajes reales de auditoría (sin sobrescritura forzada)
 
-          // Purgar duplicados acumulados en localStorage por ID o URL
+          // Purgar duplicados acumulados en localStorage estrictamente por ID único
           const localDedupMap = new Map();
           clients.forEach(c => {
-            const normUrl = (c.liveUrl || "").toLowerCase().replace(/\/$/, "");
-            const normKey = normUrl || c.id;
-            if (!localDedupMap.has(c.id) && !localDedupMap.has(normKey)) {
+            if (c && c.id && !localDedupMap.has(c.id)) {
               localDedupMap.set(c.id, c);
-              if (normKey) localDedupMap.set(normKey, c);
             } else {
               updated = true;
             }
           });
-          clients = Array.from(new Set(localDedupMap.values()));
+          clients = Array.from(localDedupMap.values());
 
           // Sanitizar cualquier estado transitorio residual de red
           clients.forEach(c => {
@@ -7566,7 +7590,11 @@
         });
       }
 
-      saveClientsToStorage();
+      const targetClient = id ? clients.find(c => c.id === id) : clients[0];
+      saveClientsToStorage(true);
+      if (targetClient) {
+        syncClientToCloud(targetClient);
+      }
       closeClientModal();
       renderClients();
       updateKpis();
@@ -8645,20 +8673,41 @@ https://isapromord.github.io`;
 
       // Alternar botones de acción según si es cliente del CRM o prospecto/externo
       const syncBtn = document.getElementById("auditSyncRoadmapBtn");
+      const quickBtn = document.getElementById("auditQuickSaveClientBtn");
       const convertBtn = document.getElementById("auditConvertClientBtn");
       if (currentAuditClient) {
         if (syncBtn) {
           syncBtn.classList.remove("hidden");
           syncBtn.innerHTML = `<span>🚀 Aplicar al Roadmap (${currentAuditClient.name})</span>`;
         }
+        if (quickBtn) quickBtn.classList.add("hidden");
         if (convertBtn) convertBtn.classList.add("hidden");
       } else {
         if (syncBtn) syncBtn.classList.add("hidden");
+        if (quickBtn) {
+          quickBtn.classList.remove("hidden");
+          quickBtn.innerHTML = `<span>⚡ Guardar Cliente (1 Clic)</span>`;
+        }
         if (convertBtn) {
           convertBtn.classList.remove("hidden");
-          convertBtn.innerHTML = `<span>➕ Convertir en Cliente (Pre-llenar Datos)</span>`;
+          convertBtn.innerHTML = `<span>✏️ Ficha Completa</span>`;
         }
       }
+
+      // Persistir URL escaneada en historial de auditorías
+      try {
+        const histKey = "isapromo_audited_history_v1";
+        const currentHist = JSON.parse(localStorage.getItem(histKey) || "[]");
+        const histEntry = {
+          url: results.url,
+          score: results.score,
+          title: results.meta?.title || results.url,
+          testedAt: new Date().toISOString()
+        };
+        const filteredHist = currentHist.filter(h => h.url !== results.url);
+        filteredHist.unshift(histEntry);
+        localStorage.setItem(histKey, JSON.stringify(filteredHist.slice(0, 50)));
+      } catch(e){}
 
       // Renderizar tarjetas de servicios
       const listEl = document.getElementById("auditServicesList");
@@ -8792,6 +8841,129 @@ https://isapromord.github.io`;
       } else {
         convertAuditToClientWithPrefill();
       }
+    }
+
+    async function quickSaveAuditAsClient() {
+      if (!currentAuditResults) return;
+      const res = currentAuditResults;
+      const url = res.url || currentAuditUrl;
+      let domain = "";
+      try {
+        domain = new URL(url).hostname;
+      } catch(e) {
+        domain = url.replace(/^https?:\/\//, '').split('/')[0];
+      }
+
+      // Nombre comercial limpio
+      let clientName = "";
+      if (res.meta && res.meta.publisher && !res.meta.publisher.includes(".") && res.meta.publisher.length > 2) {
+        clientName = res.meta.publisher;
+      } else if (res.meta && res.meta.title) {
+        const parts = res.meta.title.split(/[|\-—–•]/).map(p => p.trim()).filter(Boolean);
+        if (parts.length > 0) clientName = parts[0];
+      }
+      if (!clientName || clientName.length < 2) {
+        clientName = domain.replace(/^www\./, '').split('.')[0];
+        clientName = clientName.charAt(0).toUpperCase() + clientName.slice(1);
+      }
+
+      // Nicho / Categoría
+      const combinedText = ((res.meta?.title || "") + " " + (res.meta?.description || "")).toLowerCase();
+      let detectedCat = "Servicios Profesionales";
+      if (/apartamento|torre|inmueble|bienes ra[íi]ces|realty|penthouse|residencial/i.test(combinedText)) {
+        detectedCat = "Bienes Raíces & Inmobiliaria";
+      } else if (/veterinari|pecuari|ganader|agrop|finca|animal/i.test(combinedText)) {
+        detectedCat = "Agropecuaria & Tienda Online";
+      } else if (/dent|odont|cl[íi]nic|m[ée]dic|salud|doctor|est[ée]tic/i.test(combinedText)) {
+        detectedCat = "Salud & Especialidades Médicas";
+      } else if (/log[íi]stic|transporte|carga|flete|despacho|aduan/i.test(combinedText)) {
+        detectedCat = "Logística & Transporte de Carga";
+      } else if (/restauran|caf[ée]|comida|bar|gourmet|pizza/i.test(combinedText)) {
+        detectedCat = "Gastronomía & Restaurante";
+      }
+
+      const platform = res.detectedCms ? res.detectedCms : (res.meta?.responseHeaders?.server || "Hosting Cloud");
+      const today = new Date().toISOString().split('T')[0];
+      const gaps = res.services.filter(s => s.status !== 'passed');
+
+      const initialTasks = [
+        {
+          id: 1,
+          title: "Auditoría inicial 360° ejecutada con éxito",
+          done: true,
+          date: today,
+          guide: {
+            summary: `Diagnóstico completado con Health Score de ${res.score}/100.`,
+            details: "Inspección de SEO, Maps, OpenGraph, IA y arquitectura realizada."
+          }
+        },
+        ...gaps.map((g, idx) => ({
+          id: idx + 2,
+          title: `Remediación: ${g.title}`,
+          done: false,
+          date: today,
+          guide: {
+            summary: g.needed,
+            details: `${g.findings} Solución recomendada por ISAPromoRD: ${g.solution}`
+          }
+        }))
+      ];
+
+      const newClient = {
+        id: "client-" + Date.now(),
+        name: clientName,
+        category: detectedCat,
+        liveUrl: url,
+        platform: platform,
+        contactPerson: "",
+        phone: "",
+        email: "",
+        status: "lead",
+        fee: "RD$ 4,500 / mes",
+        renewalDate: null,
+        repoUrl: "",
+        notes: `Cliente registrado automáticamente desde Auditoría 360° (${url}).`,
+        joinedDate: today,
+        healthScore: res.score,
+        latencyMs: res.latencyMs || 350,
+        optimizationMatrix: {
+          seo: res.score >= 80 ? "85%" : "65%",
+          whatsapp: "80%",
+          geo: "70%",
+          ai: "60%"
+        },
+        tasks: initialTasks,
+        uptimeStatus: "online",
+        lastAuditSummary: {
+          score: res.score,
+          testedAt: new Date().toISOString(),
+          latencyMs: res.latencyMs,
+          detectedCms: res.detectedCms
+        }
+      };
+
+      clients.unshift(newClient);
+      saveClientsToStorage(true);
+      currentAuditClient = newClient;
+
+      // Sync inmediato garantizado a Supabase
+      syncClientToCloud(newClient);
+
+      renderClients();
+      updateKpis();
+
+      // Actualizar UI del modal para reflejar vinculación directa
+      const syncBtn = document.getElementById("auditSyncRoadmapBtn");
+      const quickBtn = document.getElementById("auditQuickSaveClientBtn");
+      const convertBtn = document.getElementById("auditConvertClientBtn");
+      if (quickBtn) quickBtn.classList.add("hidden");
+      if (convertBtn) convertBtn.classList.add("hidden");
+      if (syncBtn) {
+        syncBtn.classList.remove("hidden");
+        syncBtn.innerHTML = `<span>🚀 Roadmap Vinculado (${clientName})</span>`;
+      }
+
+      showToast(`⚡ ¡"${clientName}" guardado y respaldado en la nube con éxito!`, "success");
     }
 
     function convertAuditToClientWithPrefill() {

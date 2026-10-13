@@ -94,7 +94,17 @@ import {
   openProposalForClient,
   goToProposalBuilderForClient,
   createContractFromCurrentResultProposal,
-  activateCurrentProposalInRoadmap
+  activateCurrentProposalInRoadmap,
+  getPackageData,
+  updateCustomPackagePrice,
+  resetCurrentPackagePrice,
+  syncPackageCustomizerUI,
+  updatePackageCardDisplay,
+  toggleEditProposalAddon,
+  updateProposalAddonField,
+  addCustomProposalService,
+  deleteCustomProposalService,
+  resetProposalAddonsCatalog
 } from './proposals.js';
 import {
   getBankDetails,
@@ -315,6 +325,16 @@ const windowBridge = {
   finalizeProposalDelete,
   createContractFromCurrentResultProposal,
   activateCurrentProposalInRoadmap,
+  getPackageData,
+  updateCustomPackagePrice,
+  resetCurrentPackagePrice,
+  syncPackageCustomizerUI,
+  updatePackageCardDisplay,
+  toggleEditProposalAddon,
+  updateProposalAddonField,
+  addCustomProposalService,
+  deleteCustomProposalService,
+  resetProposalAddonsCatalog,
 
   // Contracts (50/50 Architecture)
   openContractEditorModal,

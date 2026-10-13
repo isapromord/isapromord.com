@@ -8,9 +8,22 @@ import { supabaseClient } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
 let currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
+let customPackageOverrides = {};
 let lastGeneratedProposalUrl = "";
 let lastGeneratedProposalData = null;
 const pendingProposalDeletions = new Map();
+
+export function getPackageData(pkgKey) {
+  const base = PROPOSAL_BASE_PACKAGES[pkgKey] || PROPOSAL_BASE_PACKAGES["pack-crm"];
+  const override = customPackageOverrides[pkgKey] || {};
+  return {
+    ...base,
+    ...override,
+    price: override.price !== undefined ? override.price : base.price,
+    monthlyPrice: override.monthlyPrice !== undefined ? override.monthlyPrice : base.monthlyPrice,
+    title: override.title !== undefined ? override.title : base.title
+  };
+}
 
 export function initProposalBuilder() {
   const select = document.getElementById("proposalClientSelect");
@@ -59,15 +72,173 @@ export function handleProposalClientSelect() {
   }
 }
 
+export function syncPackageCustomizerUI() {
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const customizerEl = document.getElementById("proposalPackageCustomizer");
+  if (!customizerEl) return;
+
+  if (selectedBaseKey === 'pack-none') {
+    customizerEl.classList.add("hidden");
+    return;
+  }
+
+  customizerEl.classList.remove("hidden");
+  const pkg = getPackageData(selectedBaseKey);
+
+  const titleInput = document.getElementById("pkgCustomTitle");
+  const setupInput = document.getElementById("pkgCustomSetupPrice");
+  const monthlyInput = document.getElementById("pkgCustomMonthlyPrice");
+  const activeTitle = document.getElementById("pkgCustomizerActiveTitle");
+  const badge = document.getElementById("pkgCustomModifiedBadge");
+
+  if (titleInput) titleInput.value = pkg.title || "";
+  if (setupInput) setupInput.value = pkg.price !== undefined ? pkg.price : "";
+  if (monthlyInput) monthlyInput.value = pkg.monthlyPrice !== undefined ? pkg.monthlyPrice : "";
+  if (activeTitle) activeTitle.textContent = pkg.title || "";
+
+  const isModified = !!customPackageOverrides[selectedBaseKey]?.isCustom;
+  if (badge) {
+    if (isModified) badge.classList.remove("hidden");
+    else badge.classList.add("hidden");
+  }
+}
+
+export function updatePackageCardDisplay(pkgKey) {
+  const pkg = getPackageData(pkgKey);
+  const priceEl = document.getElementById(`pkgCardPrice_${pkgKey}`);
+  const monthlyEl = document.getElementById(`pkgCardMonthly_${pkgKey}`);
+  const titleEl = document.getElementById(`pkgCardTitle_${pkgKey}`);
+
+  if (priceEl && pkg.price !== undefined) {
+    priceEl.innerHTML = `RD$ ${pkg.price.toLocaleString('es-DO')} <span class="text-xs font-normal text-slate-400">setup</span>`;
+  }
+  if (monthlyEl && pkg.monthlyPrice !== undefined) {
+    monthlyEl.innerHTML = `+ RD$ ${pkg.monthlyPrice.toLocaleString('es-DO')} <span class="font-normal text-[11px] text-slate-400">/ mes</span>`;
+  }
+  if (titleEl && pkg.title) {
+    titleEl.textContent = pkg.title;
+  }
+}
+
+export function updateCustomPackagePrice(setupPrice, monthlyPrice, customTitle) {
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  if (selectedBaseKey === 'pack-none') return;
+
+  if (!customPackageOverrides[selectedBaseKey]) {
+    customPackageOverrides[selectedBaseKey] = {};
+  }
+
+  if (setupPrice !== undefined && setupPrice !== null && setupPrice !== '') {
+    customPackageOverrides[selectedBaseKey].price = Math.max(0, Number(setupPrice) || 0);
+  }
+  if (monthlyPrice !== undefined && monthlyPrice !== null && monthlyPrice !== '') {
+    customPackageOverrides[selectedBaseKey].monthlyPrice = Math.max(0, Number(monthlyPrice) || 0);
+  }
+  if (customTitle !== undefined && customTitle !== null) {
+    customPackageOverrides[selectedBaseKey].title = customTitle.trim();
+  }
+  customPackageOverrides[selectedBaseKey].isCustom = true;
+
+  updatePackageCardDisplay(selectedBaseKey);
+  syncPackageCustomizerUI();
+  updateProposalTotals();
+}
+
+export function resetCurrentPackagePrice() {
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  if (customPackageOverrides[selectedBaseKey]) {
+    delete customPackageOverrides[selectedBaseKey];
+  }
+  const original = PROPOSAL_BASE_PACKAGES[selectedBaseKey];
+  if (original) {
+    updatePackageCardDisplay(selectedBaseKey);
+  }
+  syncPackageCustomizerUI();
+  updateProposalTotals();
+  showToast("Precio y título del paquete restaurados a los valores oficiales.", "info");
+}
+
 export function renderProposalAddonsList() {
   const container = document.getElementById("proposalAddonsList");
   if (!container) return;
 
   const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
-  const basePkg = PROPOSAL_BASE_PACKAGES[selectedBaseKey];
+  const basePkg = getPackageData(selectedBaseKey);
   const includedIds = basePkg?.includedAddonIds || [];
 
   container.innerHTML = currentProposalAddons.map(addon => {
+    const isEditing = !!addon.isEditing;
+
+    if (isEditing) {
+      return `
+        <div class="p-3.5 rounded-lg bg-[#0d1424] border border-cyan-500/40 shadow-lg space-y-3 animate-in fade-in duration-150">
+          <div class="flex items-center justify-between gap-2 border-b border-white/[0.06] pb-2">
+            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+              <span>✏️</span> Editando Servicio: <strong class="text-white">${escapeHtml(addon.name)}</strong>
+            </span>
+            <div class="flex items-center gap-2">
+              ${addon.isCustom ? `
+                <button type="button" onclick="deleteCustomProposalService('${addon.id}')" class="px-2 py-1 rounded bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-[11px] font-bold transition-all cursor-pointer" title="Eliminar servicio">
+                  🗑️ Eliminar
+                </button>
+              ` : ''}
+              <button type="button" onclick="toggleEditProposalAddon('${addon.id}')" class="px-3 py-1 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all cursor-pointer shadow-md shadow-cyan-500/20">
+                ✓ Listo
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre / Título del Servicio *</label>
+              <input 
+                type="text" 
+                value="${escapeHtml(addon.name)}" 
+                oninput="updateProposalAddonField('${addon.id}', 'name', this.value)" 
+                placeholder="Nombre del servicio o módulo" 
+                class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none"
+              />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Precio RD$ *</label>
+                <input 
+                  type="number" 
+                  min="0" 
+                  step="500" 
+                  value="${addon.price !== undefined ? addon.price : 0}" 
+                  oninput="updateProposalAddonField('${addon.id}', 'price', this.value)" 
+                  class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tipo de Cobro *</label>
+                <select 
+                  onchange="updateProposalAddonField('${addon.id}', 'type', this.value)" 
+                  class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:ring-1 focus:ring-cyan-400 focus:outline-none cursor-pointer"
+                >
+                  <option value="onetime" ${addon.type === 'onetime' ? 'selected' : ''}>Pago Único</option>
+                  <option value="monthly" ${addon.type === 'monthly' ? 'selected' : ''}>Mensual (/mes)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Descripción del Servicio / Entregable</label>
+            <textarea 
+              rows="2" 
+              oninput="updateProposalAddonField('${addon.id}', 'description', this.value)" 
+              placeholder="Detalle de qué incluye este servicio..." 
+              class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-300 focus:ring-1 focus:ring-cyan-400 focus:outline-none"
+            >${escapeHtml(addon.description || '')}</textarea>
+          </div>
+        </div>
+      `;
+    }
+
     const typeBadge = addon.type === "monthly" 
       ? '<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/30">Mensual</span>' 
       : '<span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[10px] font-bold border border-cyan-500/30">Pago Único</span>';
@@ -76,9 +247,13 @@ export function renderProposalAddonsList() {
       ? '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">✓ En Combo</span>'
       : '';
 
+    const customBadge = addon.isCustom
+      ? '<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-bold border border-purple-500/30">Personalizado</span>'
+      : '';
+
     return `
-      <label class="proposal-addon-row ${addon.checked ? 'is-checked' : ''} p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer">
-        <div class="flex items-start gap-3 flex-1 min-w-0">
+      <div class="proposal-addon-row ${addon.checked ? 'is-checked' : ''} p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group transition-all">
+        <label class="flex items-start gap-3 flex-1 min-w-0 cursor-pointer">
           <input 
             type="checkbox" 
             ${addon.checked ? 'checked' : ''} 
@@ -90,17 +265,107 @@ export function renderProposalAddonsList() {
               <span class="text-xs font-bold text-white stitch-title">${escapeHtml(addon.name)}</span>
               ${typeBadge}
               ${inComboBadge}
+              ${customBadge}
             </div>
             <p class="text-[11px] text-slate-400">${escapeHtml(addon.description)}</p>
           </div>
+        </label>
+
+        <div class="flex items-center gap-3 shrink-0 pl-7 sm:pl-0 self-end sm:self-auto">
+          <div class="text-right font-mono font-bold text-xs text-white stitch-title">
+            RD$ ${(addon.price || 0).toLocaleString('es-DO')}
+            <span class="text-[10px] font-normal text-slate-400 block">${addon.type === 'monthly' ? '/ mes' : 'único'}</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button 
+              type="button" 
+              onclick="toggleEditProposalAddon('${addon.id}')" 
+              class="px-2 py-1 rounded bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-slate-700 hover:border-cyan-500/40 text-[11px] font-bold transition-all cursor-pointer shadow-sm active:scale-95" 
+              title="Editar título, descripción y precio de este servicio"
+            >
+              ✏️ Editar
+            </button>
+            ${addon.isCustom ? `
+              <button 
+                type="button" 
+                onclick="deleteCustomProposalService('${addon.id}')" 
+                class="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer active:scale-95" 
+                title="Eliminar este servicio"
+              >
+                🗑️
+              </button>
+            ` : ''}
+          </div>
         </div>
-        <div class="text-left sm:text-right shrink-0 pl-7 sm:pl-0 font-mono font-bold text-xs text-white stitch-title">
-          RD$ ${(addon.price || 0).toLocaleString('es-DO')}
-          <span class="text-[10px] font-normal text-slate-400 block">${addon.type === 'monthly' ? '/ mes' : 'único'}</span>
-        </div>
-      </label>
+      </div>
     `;
   }).join('');
+}
+
+export function toggleEditProposalAddon(id) {
+  const addon = currentProposalAddons.find(a => a.id === id);
+  if (addon) {
+    addon.isEditing = !addon.isEditing;
+    renderProposalAddonsList();
+  }
+}
+
+export function updateProposalAddonField(id, field, value) {
+  const addon = currentProposalAddons.find(a => a.id === id);
+  if (!addon) return;
+
+  if (field === 'price') {
+    addon.price = Math.max(0, Number(value) || 0);
+  } else if (field === 'type') {
+    addon.type = value === 'monthly' ? 'monthly' : 'onetime';
+  } else if (field === 'name') {
+    addon.name = value;
+  } else if (field === 'description') {
+    addon.description = value;
+  }
+
+  if (field === 'price' || field === 'type') {
+    updateProposalTotals();
+  }
+}
+
+export function addCustomProposalService() {
+  const newId = "custom-" + Date.now();
+  currentProposalAddons.unshift({
+    id: newId,
+    name: "Servicio Personalizado Adicional",
+    description: "Detalle y alcance del servicio acordado con el cliente.",
+    price: 15000,
+    type: "onetime",
+    checked: true,
+    isCustom: true,
+    isEditing: true
+  });
+  renderProposalAddonsList();
+  updateProposalTotals();
+  showToast("✨ Nuevo servicio creado. Puedes personalizar su título y precio.", "success");
+}
+
+export function deleteCustomProposalService(id) {
+  const index = currentProposalAddons.findIndex(a => a.id === id);
+  if (index !== -1) {
+    currentProposalAddons.splice(index, 1);
+    renderProposalAddonsList();
+    updateProposalTotals();
+    showToast("Servicio eliminado de la propuesta.", "info");
+  }
+}
+
+export function resetProposalAddonsCatalog() {
+  currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
+  customPackageOverrides = {};
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  ['pack-crm', 'pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
+  handlePackageSelect(selectedBaseKey);
+  renderProposalAddonsList();
+  updateProposalTotals();
+  showToast("↺ Catálogo y precios de paquetes restaurados a los valores oficiales.", "success");
 }
 
 export function handlePackageSelect(pkgKey) {
@@ -111,6 +376,7 @@ export function handlePackageSelect(pkgKey) {
     });
     renderProposalAddonsList();
   }
+  syncPackageCustomizerUI();
   updateProposalTotals();
 }
 
@@ -128,8 +394,8 @@ export function updateProposalTotals() {
 
   currentProposalAddons.forEach(a => {
     if (a.checked) {
-      if (a.type === "monthly") alacarteMonthly += a.price;
-      else alacarteSetup += a.price;
+      if (a.type === "monthly") alacarteMonthly += (a.price || 0);
+      else alacarteSetup += (a.price || 0);
     }
   });
 
@@ -139,7 +405,7 @@ export function updateProposalTotals() {
   }
 
   const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
-  const basePkg = PROPOSAL_BASE_PACKAGES[selectedBaseKey] || PROPOSAL_BASE_PACKAGES["pack-crm"];
+  const basePkg = getPackageData(selectedBaseKey);
 
   const elCompAlacarteTotal = document.getElementById("compAlacarteTotal");
   const elCompAlacarteMonthly = document.getElementById("compAlacarteMonthly");
@@ -163,7 +429,7 @@ export function updateProposalTotals() {
     finalSetup = alacarteSetup;
     finalMonthly = alacarteMonthly;
   } else {
-    const pkgSetup = basePkg.price;
+    const pkgSetup = basePkg.price !== undefined ? basePkg.price : 0;
     const pkgMonthly = basePkg.monthlyPrice || 0;
 
     if (elCompPackageTotal) elCompPackageTotal.textContent = `RD$ ${pkgSetup.toLocaleString('es-DO')}`;
@@ -209,20 +475,20 @@ export function handleGenerateProposal(e) {
   const catEl = document.getElementById("proposalCategory");
   const category = catEl?.value.trim() || "Servicios Comerciales";
   const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
-  const basePkg = PROPOSAL_BASE_PACKAGES[selectedBaseKey] || PROPOSAL_BASE_PACKAGES["pack-crm"];
+  const basePkg = getPackageData(selectedBaseKey);
 
-  const selectedServices = currentProposalAddons.filter(a => a.checked).map(a => ({ ...a }));
+  const selectedServices = currentProposalAddons.filter(a => a.checked).map(a => ({ ...a, isEditing: false }));
 
   let alacarteSetup = 0;
   let alacarteMonthly = 0;
   selectedServices.forEach(a => {
-    if (a.type === "monthly") alacarteMonthly += a.price;
-    else alacarteSetup += a.price;
+    if (a.type === "monthly") alacarteMonthly += (a.price || 0);
+    else alacarteSetup += (a.price || 0);
   });
 
   const isComparison = selectedBaseKey !== 'pack-none';
   const offeredPkg = isComparison ? basePkg : null;
-  const pkgSetup = isComparison ? basePkg.price : alacarteSetup;
+  const pkgSetup = isComparison ? (basePkg.price || 0) : alacarteSetup;
   const pkgMonthly = isComparison ? (basePkg.monthlyPrice || 0) : alacarteMonthly;
 
   const diffSetup = isComparison ? Math.max(0, alacarteSetup - pkgSetup) : 0;
@@ -253,6 +519,8 @@ export function handleGenerateProposal(e) {
       setup: diffSetup,
       monthly: diffMonthly
     },
+    proposalSetup: isComparison ? pkgSetup : alacarteSetup,
+    proposalMonthly: isComparison ? pkgMonthly : alacarteMonthly,
     basePackage: isComparison ? basePkg : { id: 'pack-custom', title: 'Cotización A la Carta', price: alacarteSetup, monthlyPrice: alacarteMonthly, deliverables: [] },
     addons: selectedServices
   };
@@ -272,7 +540,9 @@ export function handleGenerateProposal(e) {
     fullUrl = `${origin}${pathname}/propuestas/pasionpecuaria/`;
   } else {
     const shortPlan = selectedBaseKey.replace(/^pack-/, '');
-    fullUrl = `${origin}${pathname}/propuesta/?cliente=${encodeURIComponent(clientName)}&plan=${shortPlan}`;
+    const jsonStr = JSON.stringify(proposalPayload);
+    const dataParam = btoa(unescape(encodeURIComponent(jsonStr)));
+    fullUrl = `${origin}${pathname}/propuesta/?cliente=${encodeURIComponent(clientName)}&plan=${shortPlan}&id=${proposalPayload.id}&d=${dataParam}`;
   }
   
   const downloadPdfUrl = fullUrl.includes('?') ? `${fullUrl}&download=1` : `${fullUrl}?download=1`;

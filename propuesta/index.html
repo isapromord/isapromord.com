@@ -819,6 +819,17 @@
         }
       }
 
+      // 1b. Decodificar payload completo si viene por parámetro 'd' (WhatsApp / otros dispositivos)
+      if (dataParam) {
+        try {
+          const jsonStr = decodeURIComponent(escape(atob(dataParam)));
+          proposal = JSON.parse(jsonStr);
+          return;
+        } catch (e) {
+          console.warn("No se pudo decodificar el parámetro 'd' de la URL, continuando con fallback", e);
+        }
+      }
+
       // 2. Esquema corto y legible de URL
       if (rawClient || rawPkg || svcIds) {
         const resolvedClient = rawClient || "Cliente Estimado";

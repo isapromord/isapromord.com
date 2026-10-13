@@ -613,68 +613,53 @@
       },
       "pack-esencial": {
         id: "pack-esencial",
-        title: "Presencia & Captación Local (Web + Maps con Placa)",
-        description: "Landing page transaccional ultra-rápida (<1s) y gestión activa de Google Maps (GBP) con Placa Inteligente NFC/QR para captar llamadas y reseñas continuas.",
+        title: "Presencia & Captación Local (Web + Maps con Placa + Correos)",
+        description: "Landing page transaccional ultra-rápida (<1s), gestión activa de Google Maps (GBP) con Placa Inteligente NFC/QR y Correos Corporativos oficiales incluidos de cortesía.",
         price: 30000,
         type: "onetime",
         monthlyPrice: 8000,
         deliverables: [
           "Diseño y desarrollo web transaccional mobile-first (<1s de carga en redes 4G RD).",
           "Setup completo de Google Business Profile + Placa Inteligente NFC/QR para mostrador.",
+          "Configuración de Correos Corporativos (@tuempresa.com) con registros SPF/DKIM/DMARC (Cortesía incluida).",
           "Gestión activa mensual: publicaciones semanales y respuesta a reseñas con SEO local.",
           "Mantenimiento web cloud Anycast, certificado SSL y hasta 3 cambios mensuales de contenido vía WhatsApp.",
           "Estructuración de datos Schema.org y reporte mensual de llamadas y clientes ganados."
         ],
-        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer"]
-      },
-      "pack-crm": {
-        id: "pack-crm",
-        title: "Crecimiento & Control Operativo (Web + Maps + CRM)",
-        description: "Web transaccional, Google Maps con Placa Inteligente y tu propio CRM a la medida para gestionar ventas, clientes y pedidos sin pagar licencias por usuario.",
-        price: 60000,
-        type: "onetime",
-        monthlyPrice: 15000,
-        deliverables: [
-          "Diseño y desarrollo web transaccional mobile-first (<1s de carga en redes 4G RD).",
-          "Setup de Google Business Profile con Placa Inteligente NFC/QR para el negocio.",
-          "Gestión activa mensual de Google Maps para canalizar tráfico local constante.",
-          "CRM personalizado desarrollado a la medida de tu flujo de clientes, catálogo y ventas.",
-          "Servidor cloud dedicado para el CRM, base de datos en tiempo real y copias de seguridad diarias.",
-          "Capacitación de uso para tu equipo y soporte prioritario por WhatsApp."
-        ],
-        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "crm-custom", "crm-monthly"]
+        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "corp-emails"]
       },
       "pack-ia": {
         id: "pack-ia",
-        title: "Negocio Inteligente (Web + Maps + Agente IA 24/7)",
-        description: "Web de alta conversión y Google Maps con Asistente de Inteligencia Artificial para ventas y citas 24/7 en WhatsApp y Web.",
+        title: "Negocio Inteligente (Web + Maps + Agente IA 24/7 + Correos)",
+        description: "Web de alta conversión, Google Maps con Placa Inteligente, Correos Corporativos y Asistente de Inteligencia Artificial para ventas y citas 24/7 en WhatsApp y Web.",
         price: 48000,
         type: "onetime",
         monthlyPrice: 14000,
         deliverables: [
-          "Todo el paquete de Presencia & Captación Local (Web + Maps + Placa NFC/QR).",
+          "Todo el paquete de Presencia & Captación Local (Web + Maps + Placa NFC/QR + Correos Corporativos).",
           "Agente de Inteligencia Artificial para Ventas y Citas 24/7 (WhatsApp o Web).",
           "Entrenamiento continuo de la IA con preguntas frecuentes, catálogo y políticas del negocio.",
           "Agendamiento automático de citas o reservas en el calendario del negocio.",
           "Servidor cloud para la IA, bolsa mensual de mensajes y calibración continua de respuestas."
         ],
-        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "ai-agent", "ai-agent-monthly"]
+        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "ai-agent", "ai-agent-monthly", "corp-emails"]
       },
       "pack-ecosistema": {
         id: "pack-ecosistema",
-        title: "Ecosistema Digital Completo (Web + Maps + IA + CRM)",
-        description: "Solución integral para empresas que buscan automatizar la captación, atención por IA y el control operativo con un CRM a la medida.",
-        price: 80000,
+        title: "Ecosistema Digital 360° (Web + Maps + IA + CRM + Correos)",
+        description: "Solución integral corporativa para empresas que buscan automatizar la captación, atención por IA y el control operativo con un CRM a la medida.",
+        price: 75000,
         type: "onetime",
-        monthlyPrice: 22000,
+        monthlyPrice: 20000,
         deliverables: [
           "Solución 360° integral: Web de alta conversión + Google Maps activo con Placa Inteligente.",
+          "Correos corporativos oficiales configurados para todo el equipo directivo.",
           "Agente de Inteligencia Artificial 24/7 para atención y agendamiento automático.",
           "CRM personalizado a la medida de los procesos de la empresa sin costos por usuario.",
           "Infraestructura cloud dedicada, base de datos en tiempo real y copias de seguridad diarias.",
           "Mantenimiento web, soporte prioritario por WhatsApp y optimización continua."
         ],
-        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "ai-agent", "ai-agent-monthly", "crm-custom", "crm-monthly"]
+        includedAddonIds: ["landing-page", "web-maintenance", "google-maps-pack", "google-maps-retainer", "ai-agent", "ai-agent-monthly", "crm-custom", "crm-monthly", "corp-emails"]
       }
     };
 
@@ -697,77 +682,84 @@
           checked: true
         },
         {
-          id: "google-maps-setup",
-          name: "📍 Reclamación & Optimización Google Business Profile",
-          description: "Auditoría, verificación oficial, categorías y optimización GEO para búsquedas locales en Google Maps.",
-          price: 15000,
+          id: "google-maps-pack",
+          name: "⭐ Setup Google Maps Comercial + Placa Inteligente (NFC + QR)",
+          description: "Setup digital completo de Google Business Profile + Placa acrílica de mostrador personalizada con chip NFC y QR.",
+          price: 8000,
           type: "onetime",
           checked: true
         },
         {
-          id: "google-maps-monthly",
-          name: "⭐ Gestión Activa de Perfil en Maps & Reseñas",
-          description: "Publicaciones semanales con fotos y productos, respuesta a reseñas y monitoreo de posicionamiento local.",
-          price: 4500,
+          id: "google-maps-retainer",
+          name: "📈 Retainer Mensual Google Maps (Posicionamiento Local Continuo)",
+          description: "Publicaciones semanales, fotos, gestión estratégica de reseñas y reporte de llamadas ganadas.",
+          price: 5000,
           type: "monthly",
           checked: true
         },
         {
-          id: "crm-custom",
-          name: "📊 Sistema CRM a la Medida (Sin Licencias por Usuario)",
-          description: "Base de datos y flujo operativo para cotizaciones, clientes, pedidos e inventario adaptado a tu empresa.",
-          price: 45000,
+          id: "ai-agent",
+          name: "🤖 Agente de IA para Ventas & Citas 24/7 (WhatsApp / Web)",
+          description: "Asistente con Inteligencia Artificial entrenado para responder en segundos, calificar prospectos y agendar citas.",
+          price: 20000,
           type: "onetime",
           checked: true
         },
         {
-          id: "crm-hosting-monthly",
-          name: "☁️ Servidor Cloud Dedicado & Soporte Técnico para CRM",
-          description: "Infraestructura cloud, backups diarios automatizados y soporte técnico directo vía WhatsApp.",
-          price: 15500,
+          id: "ai-agent-monthly",
+          name: "⚡ Mantenimiento Mensual IA (Tokens & Servidor Dedicado)",
+          description: "Servidor cloud en tiempo real, calibración continua y bolsa mensual de mensajes/tokens sin límites.",
+          price: 7000,
           type: "monthly",
+          checked: true
+        },
+        {
+          id: "corp-emails",
+          name: "📧 Correos Corporativos Profesionales (@tuempresa.com)",
+          description: "Configuración técnica completa de registros DNS (SPF, DKIM, DMARC) con Titan Mail o Google Workspace.",
+          price: 3500,
+          type: "onetime",
           checked: true
         }
       ],
       alacarteTotals: {
-        setup: 85000,
-        monthly: 20000
+        setup: 56500,
+        monthly: 16000
       },
       offeredPackage: {
-        id: "pack-crm",
-        title: "Crecimiento & Control Operativo (Web + Maps + CRM a Medida)",
-        description: "Web transaccional, Google Maps con Placa Inteligente y tu propio CRM a la medida para gestionar ventas, clientes y pedidos sin pagar licencias por usuario.",
-        price: 60000,
-        monthlyPrice: 15000,
+        id: "pack-ia",
+        title: "Negocio Inteligente (Web + Maps + Agente IA 24/7 + Correos)",
+        description: "Web de alta conversión, Google Maps con Placa Inteligente, Correos Corporativos y Asistente de Inteligencia Artificial para ventas y citas 24/7.",
+        price: 48000,
+        monthlyPrice: 14000,
         type: "onetime",
         deliverables: [
           "Diseño y desarrollo web transaccional mobile-first (<1s de carga en redes 4G RD).",
-          "Setup de Google Business Profile con Placa Inteligente NFC/QR para el negocio.",
-          "Gestión activa mensual de Google Maps para canalizar tráfico local constante.",
-          "CRM personalizado desarrollado a la medida de tu flujo de clientes, catálogo y ventas.",
-          "Servidor cloud dedicado para el CRM, base de datos en tiempo real y copias de seguridad diarias.",
-          "Capacitación de uso para tu equipo y soporte prioritario por WhatsApp."
+          "Setup completo de Google Business Profile + Placa Inteligente NFC/QR para mostrador.",
+          "Configuración de Correos Corporativos (@tuempresa.com) incluida sin costo.",
+          "Agente de Inteligencia Artificial para Ventas y Citas 24/7 (WhatsApp o Web).",
+          "Mantenimiento web, copias de seguridad continuas y soporte prioritario por WhatsApp."
         ]
       },
       packageTotals: {
-        setup: 60000,
-        monthly: 15000
+        setup: 48000,
+        monthly: 14000
       },
       savings: {
-        setup: 25000,
-        monthly: 5000
+        setup: 8500,
+        monthly: 2000
       },
       basePackage: {
-        id: "pack-crm",
-        title: "Crecimiento & Control Operativo (Web + Maps + CRM a Medida)",
-        description: "Web transaccional + Maps con Placa Inteligente + CRM a la medida.",
-        price: 60000,
-        monthlyPrice: 15000,
+        id: "pack-ia",
+        title: "Negocio Inteligente (Web + Maps + Agente IA 24/7 + Correos)",
+        description: "Web de alta conversión, Google Maps con Placa Inteligente, Correos Corporativos y Asistente de IA.",
+        price: 48000,
+        monthlyPrice: 14000,
         deliverables: [
           "Diseño y desarrollo web transaccional mobile-first (<1s).",
-          "Optimización profesional de perfil en Google Maps (GBP).",
-          "CRM personalizado a la medida de tus operaciones.",
-          "Servidor cloud dedicado y backups diarios."
+          "Setup completo de Google Maps con Placa Inteligente NFC/QR.",
+          "Correos corporativos profesionales incluidos.",
+          "Agente de Inteligencia Artificial para Ventas y Citas 24/7."
         ]
       },
       addons: []
@@ -840,13 +832,13 @@
       // 2. Esquema corto y legible de URL
       if (rawClient || rawPkg || svcIds) {
         const resolvedClient = rawClient || "Cliente Estimado";
-        let resolvedPkgId = "pack-crm";
+        let resolvedPkgId = "pack-ia";
         if (rawPkg) {
           resolvedPkgId = rawPkg.startsWith('pack-') ? rawPkg : ('pack-' + rawPkg);
         } else if (mode === 'alacarte') {
           resolvedPkgId = 'pack-none';
         }
-        const offeredPackage = PACKAGE_CATALOG[resolvedPkgId] || PACKAGE_CATALOG["pack-crm"];
+        const offeredPackage = PACKAGE_CATALOG[resolvedPkgId] || PACKAGE_CATALOG["pack-ia"] || PACKAGE_CATALOG["pack-esencial"];
         
         const selectedServices = [];
         let alacarteSetup = 0;

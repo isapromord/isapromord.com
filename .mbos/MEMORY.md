@@ -1218,3 +1218,19 @@
   - **Combos:** `pack-esencial` (RD$ 30k setup / RD$ 8k mes), `pack-crm` (RD$ 60k setup / RD$ 15k mes), `pack-ia` (RD$ 48k setup / RD$ 14k mes), `pack-ecosistema` (RD$ 80k setup / RD$ 22k mes).
   - **Purga de Promesa DGII:** En la landing page se corrigió la mención fiscal a *"Canales de Pago Locales & Liquidación Digital con contrato privado de prestación de servicios"*.
 - **Test Suite:** 12/12 pruebas unitarias pasando al 100% (`npm test`).
+
+## [2026-10-13] - Consolidación a la Arquitectura Comercial de 3 Niveles (Good - Better - Best)
+- **Diagnóstico Comercial:**
+  - El usuario detectó certeramente que 4 paquetes divididos (`pack-esencial`, `pack-crm`, `pack-ia`, `pack-ecosistema`) generaban parálisis por análisis y canibalización de ventas frente a los precios individuales actualizados.
+  - El `pack-crm` combinaba forzadamente una placa acrílica de mostrador (para negocios con tráfico a pie) con un CRM de oficina (para distribuidoras o empresas B2B). Además, un CRM no es un producto genérico empaquetado, sino un desarrollo a la medida (cotizable 100% a la carta).
+  - Cobrar RD$ 3,500 extra por correos corporativos después de vender un paquete de 30k o 48k provocaba una sensación de cobro fragmentado ("nickel and diming").
+- **Solución Estratégica Implementada (Everywhere Sync):**
+  1. **Eliminación Definitiva de `pack-crm` en Combos Fijos:** El CRM se mantiene como servicio estrella "A la Carta" (RD$ 35,000 setup / RD$ 8,000 mensual + módulos opcionales) y en el Ecosistema Completo.
+  2. **Inclusión de Correos Corporativos (@tuempresa.com) de Cortesía en TODOS los Paquetes:** Valor percibido de RD$ 3,500 bonificado gratis, aumentando dramáticamente la tasa de cierre.
+  3. **Los 3 Niveles Definitivos:**
+     - **1. Presencia & Captación Local (`pack-esencial`):** Web + Maps con Placa NFC/QR + Correos Corporativos gratis. RD$ 30,000 setup / RD$ 8,000 mes.
+     - **2. Negocio Inteligente con IA (`pack-ia` - Recomendado / Más Popular):** Web + Maps con Placa + Agente IA 24/7 (WhatsApp/Web) + Correos Corporativos. RD$ 48,000 setup / RD$ 14,000 mes.
+     - **3. Ecosistema Digital 360° (`pack-ecosistema` - Corporativo):** Solución total Web + Maps + Placa + IA 24/7 + CRM propio sin licencias por usuario + Correos. Armonizado a **RD$ 75,000 setup** (antes 80k) / **RD$ 20,000 mes** (antes 22k) para romper barreras psicológicas en juntas directivas.
+     - **4. A la Carta (`pack-none`):** Para clientes que solo desean un módulo individual o un CRM custom.
+  4. **Archivos Sincronizados:** `dashboard/src/state.js`, `dashboard/index.html`, `dashboard/src/proposals.js`, `propuesta/index.html`, `propuestas/demo/index.html`, `scratch/test_suite.js`.
+  5. **Verificación:** 12/12 pruebas unitarias pasando al 100%. Cachebuster actualizado a `v2.2.1`.

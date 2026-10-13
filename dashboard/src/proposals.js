@@ -14,7 +14,7 @@ let lastGeneratedProposalData = null;
 const pendingProposalDeletions = new Map();
 
 export function getPackageData(pkgKey) {
-  const base = PROPOSAL_BASE_PACKAGES[pkgKey] || PROPOSAL_BASE_PACKAGES["pack-crm"];
+  const base = PROPOSAL_BASE_PACKAGES[pkgKey] || PROPOSAL_BASE_PACKAGES["pack-ia"] || PROPOSAL_BASE_PACKAGES["pack-esencial"];
   const override = customPackageOverrides[pkgKey] || {};
   return {
     ...base,
@@ -44,7 +44,7 @@ export function initProposalBuilder() {
     if (phoneInput) phoneInput.value = clients[0].phone || "";
   }
 
-  handlePackageSelect('pack-crm');
+  handlePackageSelect('pack-ia');
   renderProposalsHistory();
 }
 
@@ -73,7 +73,7 @@ export function handleProposalClientSelect() {
 }
 
 export function syncPackageCustomizerUI() {
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   const customizerEl = document.getElementById("proposalPackageCustomizer");
   if (!customizerEl) return;
 
@@ -121,7 +121,7 @@ export function updatePackageCardDisplay(pkgKey) {
 }
 
 export function updateCustomPackagePrice(setupPrice, monthlyPrice, customTitle) {
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   if (selectedBaseKey === 'pack-none') return;
 
   if (!customPackageOverrides[selectedBaseKey]) {
@@ -145,7 +145,7 @@ export function updateCustomPackagePrice(setupPrice, monthlyPrice, customTitle) 
 }
 
 export function resetCurrentPackagePrice() {
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   if (customPackageOverrides[selectedBaseKey]) {
     delete customPackageOverrides[selectedBaseKey];
   }
@@ -162,7 +162,7 @@ export function renderProposalAddonsList() {
   const container = document.getElementById("proposalAddonsList");
   if (!container) return;
 
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   const basePkg = getPackageData(selectedBaseKey);
   const includedIds = basePkg?.includedAddonIds || [];
 
@@ -360,8 +360,8 @@ export function deleteCustomProposalService(id) {
 export function resetProposalAddonsCatalog() {
   currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
   customPackageOverrides = {};
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
-  ['pack-crm', 'pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
+  ['pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
   handlePackageSelect(selectedBaseKey);
   renderProposalAddonsList();
   updateProposalTotals();
@@ -404,7 +404,7 @@ export function updateProposalTotals() {
     badge.textContent = `A la Carta: RD$ ${alacarteSetup.toLocaleString('es-DO')} setup + RD$ ${alacarteMonthly.toLocaleString('es-DO')}/mes`;
   }
 
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   const basePkg = getPackageData(selectedBaseKey);
 
   const elCompAlacarteTotal = document.getElementById("compAlacarteTotal");
@@ -474,7 +474,7 @@ export function handleGenerateProposal(e) {
 
   const catEl = document.getElementById("proposalCategory");
   const category = catEl?.value.trim() || "Servicios Comerciales";
-  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-crm";
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
   const basePkg = getPackageData(selectedBaseKey);
 
   const selectedServices = currentProposalAddons.filter(a => a.checked).map(a => ({ ...a, isEditing: false }));

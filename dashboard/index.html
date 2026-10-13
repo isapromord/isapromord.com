@@ -2147,65 +2147,51 @@
               <p class="text-[11px] text-slate-400">Selecciona el paquete que le ofrecerás al cliente para contrastar su ahorro inmediato vs comprar módulos individuales.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 pt-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
 
-              <!-- 1. Crecimiento & CRM (MÁS POPULAR) -->
-              <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
-                <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-crm" checked onchange="handlePackageSelect('pack-crm')" class="w-4 h-4 text-emerald-500 focus:ring-emerald-400" />
-                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase tracking-wider">Más Popular ⭐</span>
-                </div>
-                <div id="pkgCardTitle_pack-crm" class="font-bold text-sm text-white stitch-title">Crecimiento & Control Operativo</div>
-                <div class="text-xs text-slate-400 leading-tight">Web + Maps con Placa NFC/QR + CRM a medida sin costo por usuario.</div>
-                <div class="space-y-0.5 pt-1">
-                  <div id="pkgCardPrice_pack-crm" class="font-black text-base text-emerald-400 font-mono">RD$ 60,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div id="pkgCardMonthly_pack-crm" class="text-xs font-bold text-slate-300 font-mono">+ RD$ 15,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
-                </div>
-              </label>
-
-              <!-- 2. Esencial -->
+              <!-- 1. Esencial -->
               <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-esencial" onchange="handlePackageSelect('pack-esencial')" class="w-4 h-4 text-cyan-500 focus:ring-cyan-400" />
                   <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[10px] font-black uppercase">Esencial</span>
                 </div>
                 <div id="pkgCardTitle_pack-esencial" class="font-bold text-sm text-white stitch-title">Presencia & Captación Local</div>
-                <div class="text-xs text-slate-400 leading-tight">Landing page transaccional + Maps activo con Placa Inteligente NFC/QR.</div>
+                <div class="text-xs text-slate-400 leading-tight">Landing page ultra-rápida + Maps activo con Placa NFC/QR + Correos corporativos gratis.</div>
                 <div class="space-y-0.5 pt-1">
                   <div id="pkgCardPrice_pack-esencial" class="font-black text-base text-cyan-400 font-mono">RD$ 30,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
                   <div id="pkgCardMonthly_pack-esencial" class="text-xs font-bold text-slate-300 font-mono">+ RD$ 8,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
-              <!-- 3. Automatización IA -->
+              <!-- 2. Automatización IA (MÁS POPULAR) -->
               <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-ia" onchange="handlePackageSelect('pack-ia')" class="w-4 h-4 text-purple-500 focus:ring-purple-400" />
-                  <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-bold uppercase">Automatización IA</span>
+                  <input type="radio" name="basePkg" value="pack-ia" checked onchange="handlePackageSelect('pack-ia')" class="w-4 h-4 text-purple-500 focus:ring-purple-400" />
+                  <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black uppercase tracking-wider">Más Popular ⭐</span>
                 </div>
                 <div id="pkgCardTitle_pack-ia" class="font-bold text-sm text-white stitch-title">Negocio Inteligente con IA</div>
-                <div class="text-xs text-slate-400 leading-tight">Web + Maps activo + Agente IA 24/7 para citas y ventas continuas.</div>
+                <div class="text-xs text-slate-400 leading-tight">Web + Maps con Placa + Agente IA 24/7 (WhatsApp/Web) + Correos corporativos.</div>
                 <div class="space-y-0.5 pt-1">
                   <div id="pkgCardPrice_pack-ia" class="font-black text-base text-purple-400 font-mono">RD$ 48,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
                   <div id="pkgCardMonthly_pack-ia" class="text-xs font-bold text-slate-300 font-mono">+ RD$ 14,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
-              <!-- 4. Ecosistema Total -->
+              <!-- 3. Ecosistema Total -->
               <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
-                  <input type="radio" name="basePkg" value="pack-ecosistema" onchange="handlePackageSelect('pack-ecosistema')" class="w-4 h-4 text-pink-500 focus:ring-pink-400" />
-                  <span class="px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/40 text-[10px] font-black uppercase">Ecosistema Total</span>
+                  <input type="radio" name="basePkg" value="pack-ecosistema" onchange="handlePackageSelect('pack-ecosistema')" class="w-4 h-4 text-emerald-500 focus:ring-emerald-400" />
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-black uppercase tracking-wider">Corporativo 🚀</span>
                 </div>
-                <div id="pkgCardTitle_pack-ecosistema" class="font-bold text-sm text-white stitch-title">Ecosistema Completo + CRM</div>
-                <div class="text-xs text-slate-400 leading-tight">Web + Maps con Placa + IA 24/7 + CRM adaptado al flujo de la empresa.</div>
+                <div id="pkgCardTitle_pack-ecosistema" class="font-bold text-sm text-white stitch-title">Ecosistema Digital 360°</div>
+                <div class="text-xs text-slate-400 leading-tight">Web + Maps con Placa + IA 24/7 + CRM propio sin licencias por usuario + Correos.</div>
                 <div class="space-y-0.5 pt-1">
-                  <div id="pkgCardPrice_pack-ecosistema" class="font-black text-base text-pink-400 font-mono">RD$ 80,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
-                  <div id="pkgCardMonthly_pack-ecosistema" class="text-xs font-bold text-slate-300 font-mono">+ RD$ 22,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
+                  <div id="pkgCardPrice_pack-ecosistema" class="font-black text-base text-emerald-400 font-mono">RD$ 75,000 <span class="text-xs font-normal text-slate-400">setup</span></div>
+                  <div id="pkgCardMonthly_pack-ecosistema" class="text-xs font-bold text-slate-300 font-mono">+ RD$ 20,000 <span class="font-normal text-[11px] text-slate-400">/ mes</span></div>
                 </div>
               </label>
 
-              <!-- 5. Sin Paquete / Solo A la Carta -->
+              <!-- 4. Sin Paquete / Solo A la Carta -->
               <label class="proposal-pkg-card relative p-4 cursor-pointer space-y-2 block">
                 <div class="flex items-center justify-between">
                   <input type="radio" name="basePkg" value="pack-none" onchange="handlePackageSelect('pack-none')" class="w-4 h-4 text-slate-400 focus:ring-slate-400" />
@@ -4219,7 +4205,7 @@
   <!-- ========================================================
        ARQUITECTURA MODULAR ES MODULES (V2.0 HIGH PERFORMANCE)
        ======================================================== -->
-  <script type="module" src="./src/main.js?v=2.2.0"></script>
+  <script type="module" src="./src/main.js?v=2.2.1"></script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 

@@ -6,7 +6,7 @@
 
 import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud } from './sync.js';
-import { openNewClientModal } from './directory.js';
+import { openNewClientModal, openClientDrawer } from './directory.js';
 
 export function openDirectAuditModal() {
   state.currentAuditClient = null;
@@ -732,10 +732,30 @@ export function displayAuditResults(results) {
   if (warnEl) warnEl.textContent = results.warningCount;
   if (failEl) failEl.textContent = results.failedCount;
 
-  // Botones de acción
+  // Botones de acción y Banner de Conversión
   const syncBtn = document.getElementById("auditSyncRoadmapBtn");
   const quickBtn = document.getElementById("auditQuickSaveClientBtn");
   const convertBtn = document.getElementById("auditConvertClientBtn");
+  const headerQuickBtn = document.getElementById("auditHeaderQuickSaveBtn");
+  const ctaBanner = document.getElementById("auditClientCtaBanner");
+  const ctaTitle = document.getElementById("auditCtaTitle");
+  const ctaSub = document.getElementById("auditCtaSubtitle");
+  const bannerQuickBtn = document.getElementById("auditQuickSaveBannerBtn");
+  const bannerConvertBtn = document.getElementById("auditConvertBannerBtn");
+
+  let detectedName = "";
+  if (results.meta?.publisher && !results.meta.publisher.includes(".") && results.meta.publisher.length > 2) {
+    detectedName = results.meta.publisher;
+  } else if (results.meta?.title) {
+    detectedName = results.meta.title.split(/[|\-—–•]/)[0].trim();
+  }
+  if (!detectedName) {
+    try {
+      detectedName = new URL(results.url).hostname.replace(/^www\./, '');
+    } catch(e) {
+      detectedName = results.url;
+    }
+  }
 
   if (state.currentAuditClient) {
     if (syncBtn) {
@@ -744,6 +764,22 @@ export function displayAuditResults(results) {
     }
     if (quickBtn) quickBtn.classList.add("hidden");
     if (convertBtn) convertBtn.classList.add("hidden");
+    if (headerQuickBtn) headerQuickBtn.classList.add("hidden");
+
+    if (ctaTitle) ctaTitle.textContent = `Cliente vinculado: ${state.currentAuditClient.name}`;
+    if (ctaSub) ctaSub.textContent = "Puedes inyectar las brechas de este diagnóstico directamente a su roadmap de trabajo.";
+    if (bannerQuickBtn) {
+      bannerQuickBtn.innerHTML = `<span>🚀 Inyectar Brechas al Roadmap</span>`;
+      bannerQuickBtn.onclick = () => window.syncAuditGapsToClientRoadmap ? window.syncAuditGapsToClientRoadmap() : null;
+    }
+    if (bannerConvertBtn) {
+      bannerConvertBtn.innerHTML = `<span>👁️ Ver Ficha de Cliente</span>`;
+      bannerConvertBtn.onclick = () => {
+        closeServicesAuditModal();
+        if (typeof openClientDrawer === 'function') openClientDrawer(state.currentAuditClient.id);
+        else if (window.openClientDrawer) window.openClientDrawer(state.currentAuditClient.id);
+      };
+    }
   } else {
     if (syncBtn) syncBtn.classList.add("hidden");
     if (quickBtn) {
@@ -753,6 +789,18 @@ export function displayAuditResults(results) {
     if (convertBtn) {
       convertBtn.classList.remove("hidden");
       convertBtn.innerHTML = `<span>✏️ Ficha Completa</span>`;
+    }
+    if (headerQuickBtn) headerQuickBtn.classList.remove("hidden");
+
+    if (ctaTitle) ctaTitle.textContent = `¿Agregar "${detectedName}" a tu cartera de clientes?`;
+    if (ctaSub) ctaSub.textContent = "Guarda este dominio con sus métricas y las tareas de remediación listas para cotizar y ejecutar.";
+    if (bannerQuickBtn) {
+      bannerQuickBtn.innerHTML = `<span>⚡ Guardar Cliente (1 Clic)</span>`;
+      bannerQuickBtn.onclick = () => quickSaveAuditAsClient();
+    }
+    if (bannerConvertBtn) {
+      bannerConvertBtn.innerHTML = `<span>✏️ Ficha Completa</span>`;
+      bannerConvertBtn.onclick = () => convertAuditToClientWithPrefill();
     }
   }
 

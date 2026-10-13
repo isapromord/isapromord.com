@@ -498,6 +498,32 @@ export function handleGenerateProposal(e) {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const dateFormatted = today.toLocaleDateString('es-DO', options);
 
+  const focusMode = document.getElementById("proposalFocusOption")?.value || "auto";
+  let hideStrategicFocus = false;
+  let customFocusTitle = "";
+  let customFocusSubtitle = "";
+  let customFocusBody = "";
+
+  if (focusMode === "hidden") {
+    hideStrategicFocus = true;
+  } else if (focusMode === "custom") {
+    customFocusTitle = document.getElementById("proposalFocusCustomTitle")?.value.trim() || "";
+    customFocusSubtitle = document.getElementById("proposalFocusCustomSub")?.value.trim() || "";
+    customFocusBody = document.getElementById("proposalFocusCustomBody")?.value.trim() || "";
+  } else if (focusMode === "web") {
+    customFocusTitle = "Enfoque Comercial: Plataforma Web de Alta Conversión & Velocidad";
+    customFocusSubtitle = `Diseñado para proyectar la identidad de ${clientName} y maximizar conversiones directas.`;
+    customFocusBody = `Más del <strong>80% de los visitantes abandona un sitio web si tarda más de 3 segundos en cargar</strong>. Esta propuesta implementa una plataforma digital moderna, ultrarrápida (<1s) y optimizada para dispositivos móviles, diseñada para proyectar la máxima exclusividad y canalizar cada interacción directamente a compras y consultas vía WhatsApp.`;
+  } else if (focusMode === "google") {
+    customFocusTitle = "Enfoque Comercial: Posicionamiento en Google & Retorno de Inversión";
+    customFocusSubtitle = "Diseñado para captar clientes con alta intención de compra en República Dominicana.";
+    customFocusBody = `En República Dominicana, el <strong>92% de los usuarios de smartphones</strong> busca servicios locales en Google y el <strong>75% genera una llamada, mensaje de WhatsApp o visita en menos de 24 horas</strong>. Esta propuesta está diseñada para posicionar tu negocio en las primeras posiciones de Google Search y Google Maps, canalizando la demanda transaccional directamente hacia tu WhatsApp y equipo de ventas.`;
+  } else if (focusMode === "crm") {
+    customFocusTitle = "Enfoque Operativo: Control, Automatización & Eficiencia";
+    customFocusSubtitle = `Optimización de procesos comerciales y gestión de operaciones para ${clientName}.`;
+    customFocusBody = `Esta propuesta está diseñada para <strong>eliminar tiempos muertos, centralizar información y automatizar flujos operativos</strong>. Permite a tu equipo registrar clientes, controlar inventarios y dar seguimiento a pedidos con trazabilidad total y métricas en tiempo real.`;
+  }
+
   const proposalPayload = {
     id: "prop-" + Date.now(),
     clientName: clientName,
@@ -522,7 +548,12 @@ export function handleGenerateProposal(e) {
     proposalSetup: isComparison ? pkgSetup : alacarteSetup,
     proposalMonthly: isComparison ? pkgMonthly : alacarteMonthly,
     basePackage: isComparison ? basePkg : { id: 'pack-custom', title: 'Cotización A la Carta', price: alacarteSetup, monthlyPrice: alacarteMonthly, deliverables: [] },
-    addons: selectedServices
+    addons: selectedServices,
+    strategicFocusMode: focusMode,
+    hideStrategicFocus: hideStrategicFocus,
+    customFocusTitle: customFocusTitle,
+    customFocusSubtitle: customFocusSubtitle,
+    customFocusBody: customFocusBody
   };
 
   lastGeneratedProposalData = proposalPayload;

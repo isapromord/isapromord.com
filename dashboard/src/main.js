@@ -184,7 +184,10 @@ import {
   drawerRunAudit,
   drawerEditClient,
   toggleClientAccordion,
-  toggleAllClientsCollapse
+  toggleAllClientsCollapse,
+  toggleArchiveClient,
+  deleteCurrentModalClient,
+  archiveCurrentModalClient
 } from './directory.js';
 import {
   toggleClientViewMode,
@@ -273,6 +276,9 @@ const windowBridge = {
   closeClientModal,
   saveClient,
   deleteClient,
+  toggleArchiveClient,
+  deleteCurrentModalClient,
+  archiveCurrentModalClient,
   openClientDrawer,
   closeClientDrawer,
   handleDrawerBackdropClick,

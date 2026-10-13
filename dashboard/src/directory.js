@@ -34,7 +34,7 @@ export function setClientViewMode(mode) {
 export function setQuickFilter(filterKey) {
   state.quickTrafficFilter = filterKey;
   
-  const filters = ["all", "active", "maintenance", "pending_billing"];
+  const filters = ["all", "active", "maintenance", "pending_billing", "archived"];
   filters.forEach(k => {
     const el = document.getElementById(`qf-${k}`);
     if (!el) return;
@@ -50,7 +50,9 @@ export function setQuickFilter(filterKey) {
 
 export function updateQuickFilterCounts() {
   const clients = state.clients || [];
-  const allCount = clients.length;
+  const archivedCount = clients.filter(c => c.status === "archived").length;
+  const nonArchived = clients.filter(c => c.status !== "archived");
+  const allCount = nonArchived.length;
   const activeCount = clients.filter(c => c.status === "active").length;
   const maintCount = clients.filter(c => c.status === "maintenance").length;
   const billingCount = clients.filter(c => {
@@ -69,6 +71,9 @@ export function updateQuickFilterCounts() {
 
   const elBilling = document.getElementById("qf-count-billing");
   if (elBilling) elBilling.textContent = billingCount;
+
+  const elArchived = document.getElementById("qf-count-archived");
+  if (elArchived) elArchived.textContent = archivedCount;
 }
 
 export function renderClients(clientsToRender = state.clients) {
@@ -91,7 +96,8 @@ export function renderClients(clientsToRender = state.clients) {
     active: { text: "🟢 Activo", bg: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" },
     maintenance: { text: "🟡 Mantenimiento", bg: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
     pending_payment: { text: "🔴 Cobro Pendiente", bg: "bg-rose-500/15 text-rose-300 border-rose-500/30" },
-    lead: { text: "⚪ Prospecto", bg: "bg-slate-700/50 text-slate-300 border-slate-600" }
+    lead: { text: "⚪ Prospecto", bg: "bg-slate-700/50 text-slate-300 border-slate-600" },
+    archived: { text: "📁 Archivado", bg: "bg-slate-800 text-slate-400 border-slate-700" }
   };
 
   container.innerHTML = clientsToRender.map(client => {
@@ -282,12 +288,24 @@ export function renderClients(clientsToRender = state.clients) {
                 <span>📜 Contrato 50/50</span>
               </button>
             </div>
-            <div class="flex items-center gap-2">
-              <button onclick="event.stopPropagation(); editClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
-                <span>✏️ Editar Ficha</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <button onclick="event.stopPropagation(); editClient('${client.id}')" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                <span>✏️ Editar</span>
+              </button>
+              ${client.status === 'archived' ? `
+                <button onclick="event.stopPropagation(); toggleArchiveClient('${client.id}')" class="px-3 py-2 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer" title="Restaurar cliente a estado Activo">
+                  <span>📂 Desarchivar</span>
+                </button>
+              ` : `
+                <button onclick="event.stopPropagation(); toggleArchiveClient('${client.id}')" class="px-3 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer" title="Archivar cliente (se mueve a la pestaña Archivados)">
+                  <span>📁 Archivar</span>
+                </button>
+              `}
+              <button onclick="event.stopPropagation(); deleteClient('${client.id}')" class="px-3 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer" title="Eliminar cliente permanentemente de la cartera">
+                <span>🗑️ Borrar</span>
               </button>
               <button onclick="event.stopPropagation(); openClientDrawer('${client.id}')" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm">
-                <span>📂 Expediente Completo</span>
+                <span>📂 Expediente</span>
               </button>
             </div>
           </div>
@@ -420,6 +438,11 @@ export function filterClients(explicitSearchTerm) {
     } else if (state.quickTrafficFilter === "pending_billing" || state.quickTrafficFilter === "pending_payment") {
       const b = getBillingStatus(c.renewalDate);
       matchesStatus = (c.status === "pending_payment" || b.status === "overdue" || b.status === "due_soon");
+    } else if (state.quickTrafficFilter === "archived") {
+      matchesStatus = c.status === "archived";
+    } else {
+      // Default: pestaña 'all' / todos excluye los archivados para mantener la vista limpia
+      matchesStatus = c.status !== "archived";
     }
 
     let matchesDate = true;
@@ -631,6 +654,9 @@ export function openNewClientModal() {
     feedback.textContent = "";
   }
 
+  const dangerActions = document.getElementById("modalClientDangerActions");
+  if (dangerActions) dangerActions.classList.add("hidden");
+
   const modal = document.getElementById("clientModal");
   if (modal) {
     modal.classList.remove("hidden");
@@ -676,6 +702,15 @@ export function editClient(id) {
   const feedback = document.getElementById("autoScanFeedback");
   if (feedback) feedback.classList.add("hidden");
 
+  const dangerActions = document.getElementById("modalClientDangerActions");
+  if (dangerActions) {
+    dangerActions.classList.remove("hidden");
+    const archiveTxt = document.getElementById("modalArchiveBtnText");
+    if (archiveTxt) {
+      archiveTxt.textContent = client.status === 'archived' ? '📂 Desarchivar' : '📁 Archivar Cliente';
+    }
+  }
+
   const modal = document.getElementById("clientModal");
   if (modal) {
     modal.classList.remove("hidden");
@@ -684,6 +719,9 @@ export function editClient(id) {
 }
 
 export function closeClientModal() {
+  const dangerActions = document.getElementById("modalClientDangerActions");
+  if (dangerActions) dangerActions.classList.add("hidden");
+
   const modal = document.getElementById("clientModal");
   if (modal) {
     modal.classList.add("hidden");
@@ -840,14 +878,53 @@ export function deleteClient(id) {
   const client = state.clients.find(c => c.id === id);
   if (!client) return;
 
-  if (confirm(`¿Estás seguro de que deseas eliminar el registro de "${client.name}"?`)) {
+  if (confirm(`¿Estás seguro de que deseas eliminar permanentemente el registro de "${client.name}"? Esta acción borrará su ficha de la cartera.`)) {
     state.clients = state.clients.filter(c => c.id !== id);
     saveClientsToStorage(false);
     deleteClientFromCloud(id);
     renderClients();
     updateKpis();
-    showToast(`Cliente eliminado de la cartera`, 'info');
+    showToast(`Cliente "${client.name}" eliminado de la cartera`, 'info');
   }
+}
+
+export function toggleArchiveClient(id) {
+  const client = state.clients.find(c => c.id === id);
+  if (!client) return;
+
+  if (client.status === 'archived') {
+    client.status = 'active';
+    saveClientsToStorage(false);
+    syncClientToCloud(client);
+    renderClients();
+    updateKpis();
+    showToast(`Cliente "${client.name}" restaurado a Activo`, 'success');
+  } else {
+    if (confirm(`¿Deseas archivar a "${client.name}"? Se moverá a la pestaña 'Archivados' pero conservarás todo su expediente y contratos intactos.`)) {
+      client.status = 'archived';
+      saveClientsToStorage(false);
+      syncClientToCloud(client);
+      renderClients();
+      updateKpis();
+      showToast(`Cliente "${client.name}" archivado correctamente`, 'info');
+    }
+  }
+}
+
+export function deleteCurrentModalClient() {
+  const idInput = document.getElementById("clientId");
+  const id = idInput ? idInput.value : null;
+  if (!id) return;
+  closeClientModal();
+  deleteClient(id);
+}
+
+export function archiveCurrentModalClient() {
+  const idInput = document.getElementById("clientId");
+  const id = idInput ? idInput.value : null;
+  if (!id) return;
+  closeClientModal();
+  toggleArchiveClient(id);
 }
 
 // ==========================================
@@ -900,7 +977,8 @@ export function openClientDrawer(clientId, forceModal = false) {
     active: { text: "🟢 Activo en Producción", bg: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30" },
     maintenance: { text: "🟡 En Mantenimiento", bg: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
     pending_payment: { text: "🔴 Cobro Pendiente", bg: "bg-rose-500/15 text-rose-300 border-rose-500/30" },
-    lead: { text: "⚪ Prospecto / Cotización", bg: "bg-slate-700/50 text-slate-300 border-slate-600" }
+    lead: { text: "⚪ Prospecto / Cotización", bg: "bg-slate-700/50 text-slate-300 border-slate-600" },
+    archived: { text: "📁 Cliente Archivado", bg: "bg-slate-800 text-slate-400 border-slate-700" }
   };
   const badge = statusBadges[client.status] || statusBadges.active;
   const statusBadgeEl = document.getElementById("drawerClientStatusBadge");

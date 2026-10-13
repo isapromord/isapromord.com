@@ -1537,6 +1537,14 @@
               >
                 <span>Cobro</span> (<span id="qf-count-billing">0</span>)
               </button>
+
+              <button 
+                onclick="setQuickFilter('archived')" 
+                id="qf-archived" 
+                class="px-3 py-1.5 rounded text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all shrink-0"
+              >
+                <span>📁 Archivados</span> (<span id="qf-count-archived">0</span>)
+              </button>
             </div>
 
             <!-- Buscador Integrado y Filtros por Fecha -->
@@ -2090,6 +2098,45 @@
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp del Cliente (Para Enviar)</label>
               <input type="tel" id="proposalClientPhone" placeholder="Ej: 8293961318" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Enfoque Comercial Estratégico (Argumentario de Venta Adaptable) -->
+          <div class="p-3.5 rounded-lg bg-[#0e1626]/80 border border-slate-800 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-sm">🎯</span>
+                <div>
+                  <label class="block text-xs font-bold text-white uppercase tracking-wider">Enfoque Comercial de la Propuesta</label>
+                  <p class="text-[11px] text-slate-400">Argumentario de valor visible en el encabezado de la cotización</p>
+                </div>
+              </div>
+              <select id="proposalFocusOption" onchange="window.handleProposalFocusModeChange ? window.handleProposalFocusModeChange(this.value) : (document.getElementById('proposalCustomFocusFields').className = this.value === 'custom' ? 'space-y-2 pt-2 border-t border-white/[0.06]' : 'hidden')" class="px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-cyan-300 font-semibold focus:ring-1 focus:ring-cyan-400 focus:outline-none">
+                <option value="auto">🤖 Automático (según servicios cotizados)</option>
+                <option value="web">⚡ Plataforma Web & Alta Conversión (Sin mención Google)</option>
+                <option value="google">📍 Posicionamiento Google & SEO Local</option>
+                <option value="crm">⚙️ Eficiencia Operativa & Software CRM</option>
+                <option value="custom">✏️ Personalizado (Escribir título y texto)</option>
+                <option value="hidden">🚫 Ocultar este bloque en la propuesta</option>
+              </select>
+            </div>
+
+            <!-- Campos para modo personalizado -->
+            <div id="proposalCustomFocusFields" class="hidden space-y-2 pt-2 border-t border-white/[0.06]">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Título del Enfoque</label>
+                <input type="text" id="proposalFocusCustomTitle" placeholder="Ej: Enfoque Comercial: Presencia Exclusiva & Ventas WhatsApp" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Subtítulo Corto</label>
+                  <input type="text" id="proposalFocusCustomSub" placeholder="Ej: Diseñado para captar compradores directos y proyectar calidad premium." class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Párrafo de Argumentario</label>
+                  <textarea id="proposalFocusCustomBody" rows="2" placeholder="Escribe el argumento de venta o estadísticas clave que verá el cliente..." class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none"></textarea>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -2962,6 +3009,7 @@
               <option value="maintenance">🟡 En Mantenimiento</option>
               <option value="pending_payment">🔴 Cobro Pendiente</option>
               <option value="lead">⚪ Prospecto</option>
+              <option value="archived">📁 Archivado</option>
             </select>
           </div>
 
@@ -2984,9 +3032,19 @@
           <textarea id="clientNotes" rows="3" placeholder="Detalles de la web, funcionalidades instaladas, credenciales o acuerdos..." class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 focus:outline-none"></textarea>
         </div>
 
-        <div class="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeClientModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm transition-colors cursor-pointer">Cancelar</button>
-          <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">Guardar Cliente</button>
+        <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div id="modalClientDangerActions" class="hidden flex items-center gap-2">
+            <button type="button" onclick="archiveCurrentModalClient()" class="px-3 py-2 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer" title="Archivar o Desarchivar cliente">
+              <span id="modalArchiveBtnText">📁 Archivar Cliente</span>
+            </button>
+            <button type="button" onclick="deleteCurrentModalClient()" class="px-3 py-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer" title="Eliminar este cliente permanentemente">
+              <span>🗑️ Eliminar</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-end gap-3 ml-auto">
+            <button type="button" onclick="closeClientModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm transition-colors cursor-pointer">Cancelar</button>
+            <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">Guardar Cliente</button>
+          </div>
         </div>
       </form>
 

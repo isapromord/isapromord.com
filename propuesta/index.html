@@ -203,17 +203,17 @@
     </div>
 
     <!-- NOTA INTRODUCTORIA / ENFOQUE DE RESULTADOS -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4 break-inside-avoid">
+    <div id="proposalStrategicFocusBox" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4 break-inside-avoid">
       <div class="flex items-center gap-3 text-brand-600">
         <div class="w-10 h-10 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
         </div>
         <div>
-          <h2 class="text-lg font-black text-slate-900">Enfoque Comercial: Posicionamiento en Google & Retorno de Inversión</h2>
-          <p class="text-xs text-slate-500">Diseñado para captar clientes con alta intención de compra en República Dominicana.</p>
+          <h2 id="proposalFocusTitle" class="text-lg font-black text-slate-900">Enfoque Comercial: Posicionamiento en Google & Retorno de Inversión</h2>
+          <p id="proposalFocusSubtitle" class="text-xs text-slate-500">Diseñado para captar clientes con alta intención de compra en República Dominicana.</p>
         </div>
       </div>
-      <p class="text-sm text-slate-600 leading-relaxed">
+      <p id="proposalFocusBody" class="text-sm text-slate-600 leading-relaxed">
         En República Dominicana, el <strong>92% de los usuarios de smartphones</strong> busca servicios locales en Google y el <strong>75% genera una llamada, mensaje de WhatsApp o visita en menos de 24 horas</strong>. Esta propuesta está diseñada para posicionar tu negocio en las primeras posiciones de Google Search y Google Maps, canalizando la demanda transaccional directamente hacia tu WhatsApp y equipo de ventas.
       </p>
     </div>
@@ -930,6 +930,54 @@
       document.getElementById("clientCategoryHeader").textContent = proposal.clientCategory || "Estrategia Digital Local";
       document.getElementById("proposalDate").textContent = `Fecha: ${proposal.dateStr || 'Octubre 2026'}`;
       document.getElementById("validityDays").textContent = proposal.validity || "15 Días Hábiles";
+
+      // Renderizar Enfoque Comercial Dinámico y Adaptable
+      const focusBox = document.getElementById("proposalStrategicFocusBox");
+      const focusTitle = document.getElementById("proposalFocusTitle");
+      const focusSub = document.getElementById("proposalFocusSubtitle");
+      const focusBody = document.getElementById("proposalFocusBody");
+
+      if (focusBox) {
+        if (proposal.hideStrategicFocus === true || proposal.hideStrategicFocus === "true") {
+          focusBox.classList.add("hidden");
+        } else {
+          focusBox.classList.remove("hidden");
+
+          if (proposal.customFocusTitle && proposal.customFocusBody) {
+            if (focusTitle) focusTitle.textContent = proposal.customFocusTitle;
+            if (focusSub) focusSub.textContent = proposal.customFocusSubtitle || `Estrategia de crecimiento para ${proposal.clientName}`;
+            if (focusBody) focusBody.innerHTML = proposal.customFocusBody;
+          } else {
+            // Detección automática por servicios contratados
+            const serviceTokens = [
+              ...(proposal.selectedServices || []).map(s => (s.name || '') + ' ' + (s.description || '')),
+              ...(proposal.addons || []).filter(a => a.selected).map(a => (a.name || '') + ' ' + (a.description || '')),
+              proposal.offeredPackage?.title || '',
+              proposal.offeredPackage?.description || '',
+              proposal.basePackage?.title || '',
+              proposal.basePackage?.description || ''
+            ].join(' ').toLowerCase();
+
+            const hasGoogle = serviceTokens.includes('google') || serviceTokens.includes('maps') || serviceTokens.includes('map') || serviceTokens.includes('posicionamiento') || serviceTokens.includes('seo');
+            const hasCrm = serviceTokens.includes('crm') || serviceTokens.includes('inventario') || serviceTokens.includes('software') || serviceTokens.includes('sistema');
+
+            if (hasGoogle) {
+              if (focusTitle) focusTitle.textContent = "Enfoque Comercial: Posicionamiento en Google & Retorno de Inversión";
+              if (focusSub) focusSub.textContent = "Diseñado para captar clientes con alta intención de compra en República Dominicana.";
+              if (focusBody) focusBody.innerHTML = `En República Dominicana, el <strong>92% de los usuarios de smartphones</strong> busca servicios locales en Google y el <strong>75% genera una llamada, mensaje de WhatsApp o visita en menos de 24 horas</strong>. Esta propuesta está diseñada para posicionar tu negocio en las primeras posiciones de Google Search y Google Maps, canalizando la demanda transaccional directamente hacia tu WhatsApp y equipo de ventas.`;
+            } else if (hasCrm) {
+              if (focusTitle) focusTitle.textContent = "Enfoque Operativo: Control, Automatización & Eficiencia";
+              if (focusSub) focusSub.textContent = `Optimización de procesos comerciales y gestión de operaciones para ${proposal.clientName}.`;
+              if (focusBody) focusBody.innerHTML = `Esta propuesta está diseñada para <strong>eliminar tiempos muertos, centralizar información y automatizar flujos operativos</strong>. Permite a tu equipo registrar clientes, controlar inventarios y dar seguimiento a pedidos con trazabilidad total y métricas en tiempo real.`;
+            } else {
+              // Landing Page / Web de Alta Conversión y Marca (como La Capra Cigars)
+              if (focusTitle) focusTitle.textContent = "Enfoque Comercial: Plataforma Web de Alta Conversión & Velocidad";
+              if (focusSub) focusSub.textContent = `Diseñado para proyectar la identidad de ${proposal.clientName} y maximizar compras y contactos directos.`;
+              if (focusBody) focusBody.innerHTML = `Más del <strong>80% de los visitantes abandona un sitio web si tarda más de 3 segundos en cargar</strong>. Esta propuesta implementa una plataforma digital moderna, ultrarrápida (<1s) y optimizada para dispositivos móviles, diseñada para proyectar la máxima exclusividad y canalizar cada visita directamente a conversaciones y ventas vía WhatsApp.`;
+            }
+          }
+        }
+      }
 
       const compSection = document.getElementById("comparisonSection");
       const baseSection = document.getElementById("basePackageSection");

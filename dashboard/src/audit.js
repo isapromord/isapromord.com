@@ -6,6 +6,7 @@
 
 import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud } from './sync.js';
+import { openNewClientModal } from './directory.js';
 
 export function openDirectAuditModal() {
   state.currentAuditClient = null;
@@ -32,6 +33,9 @@ export function openDirectAuditModal() {
   if (resultsEl) resultsEl.classList.add("hidden");
   if (inputEl) inputEl.focus();
 }
+
+// Alias for backwards compatibility
+export const openServicesAuditModal = openDirectAuditModal;
 
 export function closeServicesAuditModal() {
   const modal = document.getElementById("servicesAuditModal");
@@ -1084,3 +1088,94 @@ export function copyAuditReportForAntigravity() {
     showToast("✓ Reporte técnico para AntiGravity copiado al portapapeles", "success");
   });
 }
+
+export function convertAuditToClientWithPrefill() {
+  if (!state.currentAuditResults) return;
+
+  const res = state.currentAuditResults;
+  const url = res.url || state.currentAuditUrl;
+  let domain = "";
+  try {
+    domain = new URL(url).hostname;
+  } catch(e) {
+    domain = (url || "").replace(/^https?:\/\//, '').split('/')[0];
+  }
+
+  // 1. Extraer nombre comercial limpio
+  let clientName = "";
+  if (res.meta && res.meta.publisher && !res.meta.publisher.includes(".") && res.meta.publisher.length > 2) {
+    clientName = res.meta.publisher;
+  } else if (res.meta && res.meta.title) {
+    const parts = res.meta.title.split(/[|\-—–•]/).map(p => p.trim()).filter(Boolean);
+    if (parts.length > 0) clientName = parts[0];
+  }
+  if (!clientName || clientName.length < 2) {
+    clientName = domain.replace(/^www\./, '').split('.')[0];
+    clientName = clientName ? clientName.charAt(0).toUpperCase() + clientName.slice(1) : "Nuevo Cliente";
+  }
+
+  // 2. Extraer Categoría / Nicho detectado
+  const combinedText = ((res.meta?.title || "") + " " + (res.meta?.description || "")).toLowerCase();
+  let detectedCat = "Servicios Profesionales";
+  if (/apartamento|torre|inmueble|bienes ra[íi]ces|realty|penthouse|residencial/i.test(combinedText)) {
+    detectedCat = "Bienes Raíces & Inmobiliaria";
+  } else if (/veterinari|pecuari|ganader|agrop|finca|animal/i.test(combinedText)) {
+    detectedCat = "Agropecuaria & Tienda Online";
+  } else if (/dent|odont|cl[íi]nic|m[ée]dic|salud|doctor|est[ée]tic/i.test(combinedText)) {
+    detectedCat = "Salud & Especialidades Médicas";
+  } else if (/log[íi]stic|transporte|carga|flete|despacho|aduan/i.test(combinedText)) {
+    detectedCat = "Logística & Transporte de Carga";
+  } else if (/abogad|legal|jur[íi]dic|notar/i.test(combinedText)) {
+    detectedCat = "Servicios Legales & Consultoría";
+  } else if (/restauran|caf[ée]|comida|bar|gourmet|pizza/i.test(combinedText)) {
+    detectedCat = "Gastronomía & Restaurante";
+  } else if (/hotel|resort|turis|viaje|hospedaje/i.test(combinedText)) {
+    detectedCat = "Turismo & Hospitalidad";
+  } else if (/tienda|shop|compra|producto|ropa|calzado/i.test(combinedText)) {
+    detectedCat = "Comercio Electrónico / Retail";
+  }
+
+  // 3. Plataforma detectada
+  const platform = res.detectedCms ? res.detectedCms : (res.meta?.responseHeaders?.server || "Hosting Cloud");
+
+  // 4. Cerrar auditoría y abrir modal de nuevo cliente
+  closeServicesAuditModal();
+  if (typeof openNewClientModal === 'function') {
+    openNewClientModal();
+  } else if (window.openNewClientModal) {
+    window.openNewClientModal();
+  }
+
+  // 5. Pre-llenar campos en el formulario
+  const liveUrlInput = document.getElementById("clientLiveUrl");
+  const nameInput = document.getElementById("clientName");
+  const catInput = document.getElementById("clientCategory");
+  const platInput = document.getElementById("clientPlatform");
+  const feeInput = document.getElementById("clientFee");
+  const statusInput = document.getElementById("clientStatus");
+
+  if (liveUrlInput) liveUrlInput.value = url;
+  if (nameInput) nameInput.value = clientName;
+  if (catInput) catInput.value = detectedCat;
+  if (platInput) platInput.value = platform;
+  if (feeInput) feeInput.value = "RD$ 4,500 / mes";
+  if (statusInput) statusInput.value = "lead";
+
+  // 6. Preparar brechas para inyectarlas directamente al guardar
+  const gaps = res.services ? res.services.filter(s => s.status !== 'passed') : [];
+  window._pendingAuditGapsForNewClient = {
+    score: res.score,
+    latencyMs: res.latencyMs,
+    gaps: gaps.map(s => ({
+      taskTitle: `Remediación: ${s.title}`,
+      needed: s.needed,
+      findings: s.findings,
+      solution: s.solution
+    }))
+  };
+
+  const feedback = document.getElementById("autoScanFeedback");
+  if (feedback) feedback.classList.add("hidden");
+  if (nameInput) nameInput.focus();
+}
+

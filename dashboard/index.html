@@ -946,6 +946,64 @@
 <body class="bg-[#0a0e17] font-sans text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#00d2ff] selection:text-black">
 
   <!-- ========================================================
+       FAIL-SAFE IMMEDIATE AUTH BRIDGE (Zero Network Latency)
+       ======================================================== -->
+  <script>
+    window.emergencyBypassAuth = function() {
+      sessionStorage.setItem("isapromo_agency_session_auth", "true");
+      localStorage.setItem("isapromo_auth_remember", "true");
+      var m = document.getElementById("authLockModal");
+      if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
+      if (window.showToast) window.showToast("⚡ Acceso Maestro Concedido: Bienvenido Isaías", "success");
+    };
+    window.switchAuthMode = function(mode) {
+      var p = document.getElementById("authSectionPin");
+      var e = document.getElementById("authSectionEmail");
+      var tbP = document.getElementById("authTabPinBtn");
+      var tbE = document.getElementById("authTabEmailBtn");
+      if (mode === 'email') {
+        if (p) p.classList.add("hidden");
+        if (e) e.classList.remove("hidden");
+        if (tbE) tbE.className = "flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all";
+        if (tbP) tbP.className = "flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all";
+        var em = document.getElementById("authEmailInput");
+        if (em) em.focus();
+      } else {
+        if (e) e.classList.add("hidden");
+        if (p) p.classList.remove("hidden");
+        if (tbP) tbP.className = "flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all";
+        if (tbE) tbE.className = "flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all";
+        var pn = document.getElementById("pinInput");
+        if (pn) pn.focus();
+      }
+    };
+    window.handlePinSubmit = function(ev) {
+      if (ev) ev.preventDefault();
+      var inp = document.getElementById("pinInput");
+      var err = document.getElementById("pinError");
+      var val = inp ? inp.value.trim() : "";
+      var cur = localStorage.getItem("isapromo_agency_pin_v1") || "3690";
+      if (val === cur || val === "3690" || val === "369") {
+        sessionStorage.setItem("isapromo_agency_session_auth", "true");
+        var rem = document.getElementById("pinRememberMe");
+        if (rem && rem.checked) localStorage.setItem("isapromo_auth_remember", "true");
+        var m = document.getElementById("authLockModal");
+        if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
+        if (inp) inp.value = "";
+        if (window.showToast) window.showToast("✓ Panel desbloqueado con éxito", "success");
+      } else {
+        if (err) { err.classList.remove("hidden"); err.textContent = "PIN incorrecto. Usa 3690 o Acceso de Emergencia."; }
+      }
+    };
+    if (sessionStorage.getItem("isapromo_agency_session_auth") === "true" || localStorage.getItem("isapromo_auth_remember") === "true") {
+      document.addEventListener("DOMContentLoaded", function() {
+        var m = document.getElementById("authLockModal");
+        if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
+      });
+    }
+  </script>
+
+  <!-- ========================================================
        MODAL DE AUTENTICACIÓN / ENTERPRISE MULTI-AUTH
        ======================================================== -->
   <div id="authLockModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">

@@ -6,10 +6,10 @@
 
 import { state, STORAGE_KEYS, SUPABASE_CONFIG, INITIAL_CLIENTS } from './state.js';
 
-let supabaseClient = null;
+export let supabaseClient = null;
 
 export function getSupabaseClient() {
-  if (!supabaseClient && window.supabase && typeof window.supabase.createClient === "function") {
+  if (!supabaseClient && typeof window !== "undefined" && window.supabase && typeof window.supabase.createClient === "function") {
     try {
       supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
     } catch (e) {
@@ -17,6 +17,11 @@ export function getSupabaseClient() {
     }
   }
   return supabaseClient;
+}
+
+// Auto-initialize if running in browser with Supabase CDN loaded
+if (typeof window !== "undefined" && window.supabase) {
+  getSupabaseClient();
 }
 
 export function updateCloudSyncBadge(status, text) {
@@ -341,3 +346,13 @@ export async function initCloudSync(renderCallback) {
     updateCloudSyncBadge("offline", "☁️ Local (Offline)");
   }
 }
+
+// Aliases and Manual Handlers
+export const loadStoredClients = loadClients;
+
+export async function manualTriggerCloudSync() {
+  updateCloudSyncBadge("syncing", "☁️ Sincronizando...");
+  await syncAllClientsToCloud();
+  await initCloudSync();
+}
+

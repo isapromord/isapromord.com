@@ -140,10 +140,10 @@ export function toggleThemeMode() {
 export function applyTheme(theme) {
   const icon = document.getElementById('themeIcon');
   if (theme === 'light') {
-    document.body.classList.add('light-theme');
+    if (document.body) document.body.classList.add('light-theme');
     if (icon) icon.textContent = '☀️';
   } else {
-    document.body.classList.remove('light-theme');
+    if (document.body) document.body.classList.remove('light-theme');
     if (icon) icon.textContent = '🌙';
   }
 }

@@ -78,20 +78,211 @@ export function selectClientDrilldown(clientId, pushToHistory = true) {
   }
 }
 
-export function openSatelliteFile(fileType) {
+let currentSatelliteFileType = 'robots.txt';
+
+export function openSatelliteFile(fileType = 'robots.txt') {
+  currentSatelliteFileType = fileType;
   const client = state.clients.find(c => c.id === state.currentDrilldownClientId);
-  if (!client || !client.liveUrl) {
-    showToast("Este cliente no tiene una URL asignada para comprobar archivos satélite", "warning");
+  if (!client) {
+    showToast("Selecciona un cliente para generar sus archivos satélite", "warning");
     return;
   }
-  let base = client.liveUrl.trim();
-  if (!base.startsWith('http')) base = 'https://' + base;
-  try {
-    const u = new URL(base);
-    window.open(`${u.origin}/${fileType}`, '_blank');
-  } catch (e) {
-    window.open(`${base.replace(/\/+$/, '')}/${fileType}`, '_blank');
+
+  const modal = document.getElementById("satelliteGeneratorModal");
+  if (!modal) {
+    showToast("Modal de archivos satélite no encontrado", "error");
+    return;
   }
+
+  const titleEl = document.getElementById("satelliteModalClientTitle");
+  if (titleEl) titleEl.textContent = `Protocolos para ${client.name}`;
+
+  switchSatelliteTab(fileType);
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+export function closeSatelliteModal() {
+  const modal = document.getElementById("satelliteGeneratorModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+}
+
+export function switchSatelliteTab(fileType) {
+  currentSatelliteFileType = fileType;
+  const client = state.clients.find(c => c.id === state.currentDrilldownClientId);
+  if (!client) return;
+
+  let origin = "https://isapromord.com";
+  if (client.liveUrl) {
+    try {
+      const uStr = client.liveUrl.trim();
+      const uObj = new URL(uStr.startsWith('http') ? uStr : 'https://' + uStr);
+      origin = uObj.origin;
+    } catch(e) {
+      origin = client.liveUrl.replace(/\/+$/, '');
+      if (!origin.startsWith('http')) origin = 'https://' + origin;
+    }
+  }
+
+  // Actualizar estilos de las pestañas
+  const tabs = [
+    { key: 'robots.txt', id: 'satTabRobots' },
+    { key: 'sitemap.xml', id: 'satTabSitemap' },
+    { key: 'llms.txt', id: 'satTabLlms' }
+  ];
+  tabs.forEach(t => {
+    const btn = document.getElementById(t.id);
+    if (!btn) return;
+    if (t.key === fileType) {
+      btn.className = "px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm";
+    } else {
+      btn.className = "px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent";
+    }
+  });
+
+  const pathBadge = document.getElementById("satelliteFilePathBadge");
+  const specsBadge = document.getElementById("satelliteFileSpecs");
+  const codeArea = document.getElementById("satelliteCodeArea");
+  const lineCount = document.getElementById("satelliteLineCount");
+  const liveLink = document.getElementById("satelliteLiveTestLink");
+  const dlBtn = document.getElementById("satelliteDownloadBtnText");
+
+  if (liveLink) liveLink.href = `${origin}/${fileType}`;
+  if (dlBtn) dlBtn.textContent = `Descargar ${fileType}`;
+
+  let code = "";
+  if (fileType === "robots.txt") {
+    if (pathBadge) pathBadge.textContent = "/public/robots.txt (Raíz)";
+    if (specsBadge) specsBadge.textContent = "Autoriza Googlebot + Motores IA (GPTBot, Perplexity, Claude, Applebot)";
+    code = `# robots.txt para ${client.name}
+# Generado por ISAPromoRD Platform (Optimizado para Google Search + GEO / Indexación IA)
+
+User-agent: *
+Allow: /
+
+# Rastreo de Inteligencia Artificial & Motores Generativos (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Recursos e imágenes
+User-agent: Googlebot-Image
+Allow: /
+
+# Mapa de Sitio Oficial
+Sitemap: ${origin}/sitemap.xml
+`;
+  } else if (fileType === "sitemap.xml") {
+    if (pathBadge) pathBadge.textContent = "/public/sitemap.xml (Raíz)";
+    if (specsBadge) specsBadge.textContent = "XML Sitemap estándar sitemaps.org con prioridad de indexación";
+    const todayIso = new Date().toISOString().split('T')[0];
+    code = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Página Principal / Landing Transaccional -->
+  <url>
+    <loc>${origin}/</loc>
+    <lastmod>${todayIso}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority>
+  </url>
+  <!-- Secciones Principales y Conversión -->
+  <url>
+    <loc>${origin}/#servicios</loc>
+    <lastmod>${todayIso}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>${origin}/#contacto</loc>
+    <lastmod>${todayIso}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+</urlset>`;
+  } else if (fileType === "llms.txt") {
+    if (pathBadge) pathBadge.textContent = "/public/llms.txt (Estándar llmstxt.org)";
+    if (specsBadge) specsBadge.textContent = "Formato estructurado para ChatGPT, Claude, Perplexity y Gemini";
+    const cleanPhone = client.phone || '+1 (829) 396-1318';
+    const rawDigits = (client.phone || '').replace(/\D/g, '') || '18293961318';
+    code = `# ${client.name}
+
+> ${client.notes ? client.notes.split('\n')[0] : `Presencia digital y plataforma oficial de ${client.name}.`}
+
+## Información de la Empresa
+- **Nombre Comercial:** ${client.name}
+- **Sector / Industria:** ${client.category || 'Servicios Especializados'}
+- **Sitio Web Oficial:** ${origin}
+- **Teléfono / WhatsApp:** ${cleanPhone}
+- **Región:** República Dominicana
+
+## Descripción del Proyecto & Alcance
+${client.notes || `${client.name} ofrece soluciones y productos de alta calidad en República Dominicana.`}
+
+## Canales de Atención Directa
+- Enlace Web Directo: ${origin}
+- WhatsApp Comercial: https://wa.me/${rawDigits}
+- Tiempo de Respuesta: Menos de 24 horas
+
+## Protocolo de Indexación IA
+Este archivo llms.txt proporciona contexto estructurado para motores generativos de Inteligencia Artificial (ChatGPT, Perplexity, Gemini, Claude). La información es pública y está auditada bajo la plataforma ISAPromoRD.
+`;
+  }
+
+  if (codeArea) codeArea.value = code;
+  if (lineCount) {
+    const lines = code.trim().split('\n').length;
+    lineCount.textContent = `${lines} líneas`;
+  }
+}
+
+export function copySatelliteCode() {
+  const codeArea = document.getElementById("satelliteCodeArea");
+  if (!codeArea) return;
+  navigator.clipboard.writeText(codeArea.value).then(() => {
+    showToast(`Código de ${currentSatelliteFileType} copiado al portapapeles`, 'success');
+  }).catch(() => {
+    codeArea.select();
+    document.execCommand('copy');
+    showToast(`Código copiado al portapapeles`, 'success');
+  });
+}
+
+export function downloadCurrentSatelliteFile() {
+  const codeArea = document.getElementById("satelliteCodeArea");
+  if (!codeArea) return;
+  const content = codeArea.value;
+  const filename = currentSatelliteFileType;
+  const mimeType = filename.endsWith('.xml') ? 'application/xml' : 'text/plain';
+
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast(`Archivo "${filename}" descargado exitosamente`, 'success');
 }
 
 export function convertAuditGapsToTasks(clientId) {
@@ -358,9 +549,6 @@ export function renderClientDrilldown() {
   const llmLink = document.getElementById("ddLlmsLink");
   const detectedCmsLabel = document.getElementById("ddDetectedCmsLabel");
 
-  if (robLink && origin) robLink.href = origin + "/robots.txt";
-  if (siteLink && origin) siteLink.href = origin + "/sitemap.xml";
-  if (llmLink && origin) llmLink.href = origin + "/llms.txt";
   if (detectedCmsLabel) detectedCmsLabel.textContent = detectedServer;
 
   // 5. Checklist de Tareas & Roadmap (Columna Derecha)

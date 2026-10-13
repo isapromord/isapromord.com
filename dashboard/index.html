@@ -1928,18 +1928,18 @@
 
               <!-- Grid de archivos satélite reales -->
               <div class="grid grid-cols-3 gap-2 text-center font-mono text-xs" id="ddSatelliteFilesGrid">
-                <a id="ddRobotsLink" href="javascript:void(0)" onclick="openSatelliteFile('robots.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
-                  <div class="font-bold text-[11px]">robots.txt</div>
-                  <div id="ddRobotsStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
-                </a>
-                <a id="ddSitemapLink" href="javascript:void(0)" onclick="openSatelliteFile('sitemap.xml')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
-                  <div class="font-bold text-[11px]">sitemap.xml</div>
-                  <div id="ddSitemapStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
-                </a>
-                <a id="ddLlmsLink" href="javascript:void(0)" onclick="openSatelliteFile('llms.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer">
-                  <div class="font-bold text-[11px]">llms.txt (IA)</div>
-                  <div id="ddLlmsStatus" class="text-[10px] text-cyan-400 mt-0.5">Abrir ↗</div>
-                </a>
+                <button type="button" id="ddRobotsLink" onclick="openSatelliteFile('robots.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer group w-full text-center" title="Generar código y protocolo robots.txt">
+                  <div class="font-bold text-[11px] group-hover:text-cyan-300">robots.txt</div>
+                  <div id="ddRobotsStatus" class="text-[10px] text-cyan-400 mt-0.5 font-bold">Crear Código ⚡</div>
+                </button>
+                <button type="button" id="ddSitemapLink" onclick="openSatelliteFile('sitemap.xml')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer group w-full text-center" title="Generar mapa de sitio XML oficial">
+                  <div class="font-bold text-[11px] group-hover:text-cyan-300">sitemap.xml</div>
+                  <div id="ddSitemapStatus" class="text-[10px] text-cyan-400 mt-0.5 font-bold">Crear Código ⚡</div>
+                </button>
+                <button type="button" id="ddLlmsLink" onclick="openSatelliteFile('llms.txt')" class="p-2.5 rounded bg-[#0a0e17] border border-white/10 hover:border-cyan-500/40 text-slate-300 transition-colors block cursor-pointer group w-full text-center" title="Generar archivo llms.txt para motores de IA (ChatGPT, Gemini, Claude)">
+                  <div class="font-bold text-[11px] group-hover:text-cyan-300">llms.txt (IA)</div>
+                  <div id="ddLlmsStatus" class="text-[10px] text-cyan-400 mt-0.5 font-bold">Crear Código ⚡</div>
+                </button>
               </div>
 
               <div class="flex items-center justify-between text-xs font-mono text-slate-300 pt-1.5 border-t border-white/[0.05]">
@@ -3752,6 +3752,78 @@
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
           <span>Copiar Código</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL: GENERADOR DE ARCHIVOS SATÉLITE & PROTOCOLOS
+       ======================================================== -->
+  <div id="satelliteGeneratorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl p-5 sm:p-7 max-w-2xl w-full shadow-2xl border border-white/10 space-y-4 text-slate-200 my-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">Generador de Archivos Satélite & Protocolos</span>
+          </div>
+          <h3 class="text-lg font-black text-white mt-0.5" id="satelliteModalClientTitle">Protocolo para Cliente</h3>
+        </div>
+        <button onclick="closeSatelliteModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Pestañas de Archivo -->
+      <div class="flex items-center gap-2 border-b border-white/[0.08] pb-2 overflow-x-auto">
+        <button type="button" id="satTabRobots" onclick="switchSatelliteTab('robots.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+          <span>🤖 robots.txt</span>
+        </button>
+        <button type="button" id="satTabSitemap" onclick="switchSatelliteTab('sitemap.xml')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
+          <span>🗺️ sitemap.xml</span>
+        </button>
+        <button type="button" id="satTabLlms" onclick="switchSatelliteTab('llms.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
+          <span>🧠 llms.txt (IA - GEO)</span>
+        </button>
+      </div>
+
+      <!-- Resumen y Ruta de Destino -->
+      <div class="p-3 rounded-lg bg-[#06080d] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+        <div>
+          <span class="text-slate-400">Ruta de despliegue sugerida: </span>
+          <span id="satelliteFilePathBadge" class="text-emerald-400 font-bold">/public/robots.txt</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="satelliteFileSpecs" class="text-[11px] text-slate-400">Permite indexación y bots IA</span>
+        </div>
+      </div>
+
+      <!-- Visor de Código -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider font-mono" id="satelliteCodeLabel">Código Generado:</label>
+          <span class="text-[10px] text-cyan-400/80 font-mono" id="satelliteLineCount">18 líneas</span>
+        </div>
+        <textarea id="satelliteCodeArea" readonly rows="12" class="w-full p-3.5 bg-[#06080d] text-emerald-400 font-mono text-xs rounded-lg border border-white/10 leading-relaxed focus:outline-none focus:ring-1 focus:ring-cyan-400 selection:bg-cyan-500 selection:text-black"></textarea>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-white/10">
+        <a id="satelliteLiveTestLink" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold font-mono flex items-center justify-center gap-1.5 transition-colors cursor-pointer border border-white/10" title="Verificar si el archivo ya responde en la URL pública">
+          <span>🌐 Comprobar en Vivo</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+
+        <div class="flex items-center gap-2 justify-end">
+          <button type="button" onclick="downloadCurrentSatelliteFile()" class="px-4 py-2 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span id="satelliteDownloadBtnText">Descargar Archivo</span>
+          </button>
+          <button type="button" onclick="copySatelliteCode()" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-cyan-500/20 active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            <span>Copiar Código</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

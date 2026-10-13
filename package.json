@@ -1,0 +1,26 @@
+{
+  "name": "isapromord.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dashboard/src/main.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "node scratch/test_suite.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isapromord/isapromord.com.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isapromord/isapromord.com/issues"
+  },
+  "homepage": "https://github.com/isapromord/isapromord.com#readme",
+  "devDependencies": {
+    "vite": "^8.3.4"
+  }
+}

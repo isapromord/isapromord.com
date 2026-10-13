@@ -1164,3 +1164,11 @@
   - **Soporte Multi-Proveedor Oficial:** Integración de Supabase Auth para acceso mediante Correo Corporativo + Contraseña, Enlace Mágico sin contraseña (Magic Link por email) y botón oficial de Google OAuth.
   - **Bypass de Emergencia Permanente:** Adición de botón con credencial de emergencia `⚡ Acceso de Emergencia (Isaías Santana)` que desbloquea la plataforma instantáneamente en caso de contingencia o pérdida de contraseña, garantizando 100% que el dueño nunca quede bloqueado de su propio sistema.
   - **Bootstrap Resiliente:** El orquestador `main.js` ahora valida `document.readyState === 'loading'`, ejecutando la inicialización inmediatamente si el DOM ya está listo.
+
+### 3. Directorio de Clientes con Acordeón Colapsable (Carga Cerrada por Defecto)
+- **Problema de UX:** Mostrar todas las tarjetas de clientes completamente expandidas desde el inicio generaba fatiga visual y un scroll extenso para inspeccionar la cartera.
+- **Solución Implementada:**
+  - `state.expandedClientIds` inicializado como un `Set()` vacío para que el 100% de los clientes cargue en estado cerrado/compacto.
+  - El encabezado de cada cliente funciona como un acordeón reactivo con indicador de chevron animado que rota al abrirse.
+  - Al abrirse, revela en un contenedor aislado los 4 pilares de optimización, el roadmap operativo con barra de progreso, datos de contacto con botón directo de WhatsApp y accesos a auditoría, cotización, expediente y contrato.
+  - Se añadió la función global `toggleAllClientsCollapse()` con botón en la barra superior para alternar la vista entre expandida y colapsada en 1 solo clic.

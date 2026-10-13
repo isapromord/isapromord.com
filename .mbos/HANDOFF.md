@@ -32,3 +32,7 @@
    - Soporte para Supabase Auth (Email & Password, Magic Link sin contraseña, Google OAuth) junto con el PIN Rápido (`3690`).
    - Botón de rescate de emergencia `⚡ Acceso de Emergencia (Isaías Santana)` que desbloquea la plataforma instantáneamente en caso de contingencia.
    - Bootstrap resiliente a estados del DOM (`readyState !== 'loading'`) eliminando pantallas de bloqueo por retrasos de carga de scripts.
+6. **Directorio de Clientes con Acordeón Colapsable (Carga Limpia & Cero Fatiga Visual):**
+   - Todos los clientes cargan cerrados/colapsados por defecto en filas ejecutivas compactas.
+   - Al hacer clic en cualquier cliente, se despliegan suavemente sus 4 pilares, contacto, roadmap y accesos directos; al hacer clic de nuevo, se contrae.
+   - Botón global 'Expandir Todos / Colapsar Todos' en la barra de control para alternar todas las tarjetas en 1 clic.

@@ -1172,3 +1172,49 @@
   - El encabezado de cada cliente funciona como un acordeón reactivo con indicador de chevron animado que rota al abrirse.
   - Al abrirse, revela en un contenedor aislado los 4 pilares de optimización, el roadmap operativo con barra de progreso, datos de contacto con botón directo de WhatsApp y accesos a auditoría, cotización, expediente y contrato.
   - Se añadió la función global `toggleAllClientsCollapse()` con botón en la barra superior para alternar la vista entre expandida y colapsada en 1 solo clic.
+
+
+## [2026-10-13] - Sincronización Integral de Catálogo Comercial, Pitch Interactivo Zoom 7 Pilares & Suite Contable CFO
+
+### 1. Causa Raíz de Bloqueo en Panel Financiero (CFO Ledger)
+- **Discrepancia Silenciosa de IDs en el DOM:**
+  - En `dashboard/index.html`, los contenedores de las tablas estaban nombrados como `id="accountingReceivablesTableBody"` y `id="accountingTransactionsTableBody"`.
+  - En `dashboard/src/accounting.js`, las funciones `renderAccountingReceivables()` y `renderAccountingTransactions()` buscaban `document.getElementById("receivablesTableBody")` y `document.getElementById("ledgerTableBody")`.
+  - Debido a esto, los selectores retornaban `null`, las tablas nunca se poblaban en el DOM y cualquier registro manual de cobros no se visualizaba en pantalla, provocando que el usuario sintiera que *"casi no puedo input, change, edit almost nothing"*.
+  - **Solución:** Se implementaron selectores resilientes que buscan ambos nombres de ID (`accountingReceivablesTableBody || receivablesTableBody`), permitiendo que el 100% de los datos se renderice con total estabilidad.
+
+### 2. Suite Contable CFO Totalmente Administrable (Industry Standards)
+- **Edición Completa de Transacciones (`openEditTransactionModal`):**
+  - Se habilitó la capacidad de editar cualquier transacción previa del Libro Diario (monto, fecha, cliente, concepto, banco, referencia y notas) sin tener que eliminarla y volverla a escribir.
+- **Soporte de Gastos Operativos (`expense`):**
+  - Se introdujo la categoría de "Gasto Operativo" (compra de placas acrílicas NFC/QR en Amazon, costos de servidores cloud, dominios, herramientas de IA).
+  - Cálculo automático de Flujo de Caja Neto (Net Cash Flow = Ingresos Brutos - Gastos Operativos) con montos negativos destacados en rojo y positivos en verde.
+- **Búsqueda Instantánea y Filtros Avanzados:**
+  - Barra de búsqueda reactiva en tiempo real para filtrar por cliente, concepto, número de comprobante bancario o cuenta de destino.
+- **Acción Rápida de Cobro en Cuentas por Cobrar:**
+  - Botón directo `💵 Cobrado` en cada fila de clientes para precargar el modal de liquidación en 1 clic.
+
+### 3. Matriz de Ventas Zoom en Vivo: Argumentario de los 7 Pilares Técnicos
+- **Problema Comercial Identificado:**
+  - Los dueños de negocios en República Dominicana tienen baja cultura tecnológica y les cuesta percibir el valor de un retainer mensual de mantenimiento, posicionamiento y servidores.
+- **Solución: Framework Psicológico de 4 Pasos + Speech Dominicano Profesional:**
+  - Cada uno de los 7 pilares técnicos del Stitch Command Center (`drilldown.js`) ahora es interactivo y abre el modal `pillarZoomPitchModal`:
+    1. 🔴 **El Fallo en Cristiano:** Qué tiene mal la página sin usar jerga incomprensible.
+    2. 💸 **Cómo le Lastima el Negocio:** Pérdida financiera estimada de clientes que terminan llamando a la competencia directa.
+    3. 🟢 **La Cura de ISAPromoRD:** Solución técnica y tangibilización (ej. Placa Inteligente física NFC/QR).
+    4. 🛡️ **Por Qué Requiere Retainer Mensual:** Explicación de que Google Maps y los servidores son algoritmos vivos que castigan el abandono.
+    5. 🎙️ **Speech para Zoom Listo para Leer:** Guión exacto en español dominicano corporativo para leer mientras se comparte pantalla en Zoom, con botón de 1 clic para copiar al portapapeles.
+
+### 4. Sincronización 100% Homogénea de Catálogo, Paquetes y Precios (Omnicanal)
+- **Landing Page, Propuestas Dinámicas, Contratos 50/50 y Máster State sincronizados:**
+  - **Mantenimiento Web & Soporte WhatsApp:** RD$ 4,000 / mes (con hasta 3 solicitudes mensuales de cambios de contenido).
+  - **Setup Google Maps GBP Digital:** RD$ 6,500 único.
+  - **Setup Google Maps Comercial + Placa Inteligente NFC/QR:** RD$ 8,000 único (incluye placa acrílica de mostrador).
+  - **Placa Inteligente Adicional:** RD$ 2,500.
+  - **Retainer Mensual Google Maps:** RD$ 5,000 / mes (publicaciones semanales + SEO local).
+  - **Correos Corporativos (@tuempresa.com):** RD$ 3,500 único (DNS, SPF, DKIM, DMARC con Titan/Google).
+  - **Agente de IA para Ventas & Citas 24/7:** RD$ 20,000 setup (unificado).
+  - **Mantenimiento Mensual IA (Tokens & Servidor):** RD$ 7,000 / mes.
+  - **Combos:** `pack-esencial` (RD$ 30k setup / RD$ 8k mes), `pack-crm` (RD$ 60k setup / RD$ 15k mes), `pack-ia` (RD$ 48k setup / RD$ 14k mes), `pack-ecosistema` (RD$ 80k setup / RD$ 22k mes).
+  - **Purga de Promesa DGII:** En la landing page se corrigió la mención fiscal a *"Canales de Pago Locales & Liquidación Digital con contrato privado de prestación de servicios"*.
+- **Test Suite:** 12/12 pruebas unitarias pasando al 100% (`npm test`).

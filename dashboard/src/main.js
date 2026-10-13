@@ -127,7 +127,9 @@ import {
   adjustForecastPlan,
   updateForecastSimulation,
   registerClientPayment,
-  drawerRegisterPayment
+  drawerRegisterPayment,
+  openEditTransactionModal,
+  openManualTransactionForClient
 } from './accounting.js';
 import {
   openReportModal,
@@ -202,7 +204,11 @@ import {
   renderClientDrilldown,
   drilldownRunAudit,
   drilldownOpenWhatsapp,
-  drilldownOpenDrawer
+  drilldownOpenDrawer,
+  openPillarPitchModal,
+  closePillarPitchModal,
+  copyPillarSpeech,
+  PILLAR_PITCH_DICTIONARY
 } from './drilldown.js';
 import {
   runServicesAudit,
@@ -306,6 +312,9 @@ const windowBridge = {
   drilldownRunAudit,
   drilldownOpenWhatsapp,
   drilldownOpenDrawer,
+  openPillarPitchModal,
+  closePillarPitchModal,
+  copyPillarSpeech,
 
   // Network & Uptime
   pingSingleClient,
@@ -386,6 +395,8 @@ const windowBridge = {
   // Accounting & Ledger
   openManualTransactionModal,
   closeManualTransactionModal,
+  openEditTransactionModal,
+  openManualTransactionForClient,
   handleTxClientSelectChange,
   saveManualTransaction,
   deleteLedgerTransaction,

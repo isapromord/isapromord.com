@@ -1,6 +1,6 @@
 /**
  * ISAPromoRD - Finance & CFO Dashboard (Accounting Ledger)
- * Double-entry cash inflows, MRR/ARR analytics, bank balances reconciliation
+ * Double-entry cash inflows, expenses, MRR/ARR analytics, bank balances reconciliation
  * (Banco Popular Dominicano & Banreservas / BHD), transaction exports, and revenue forecasting.
  */
 import { state, STORAGE_KEYS, INITIAL_ACCOUNTING_LEDGER, DEFAULT_BANK_DETAILS } from './state.js';
@@ -8,11 +8,14 @@ import { saveClientsToStorage } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis } from './ui.js';
 
 export const forecastState = {
-  web: 1,       // RD$ 4,500/m (Setup 20,000)
-  esencial: 2,  // RD$ 15,000/m (Setup 30,000)
-  crm: 3,       // RD$ 20,000/m (Setup 65,000)
-  ecosistema: 1 // RD$ 30,000/m (Setup 85,000)
+  web: 1,       // RD$ 4,000/m (Setup 25,000)
+  esencial: 2,  // RD$ 8,000/m (Setup 30,000)
+  crm: 3,       // RD$ 15,000/m (Setup 60,000)
+  ecosistema: 1 // RD$ 22,000/m (Setup 80,000)
 };
+
+const getReceivablesTbody = () => document.getElementById("accountingReceivablesTableBody") || document.getElementById("receivablesTableBody");
+const getLedgerTbody = () => document.getElementById("accountingTransactionsTableBody") || document.getElementById("ledgerTableBody");
 
 export function getBankDetails() {
   return localStorage.getItem(STORAGE_KEYS.bank) || DEFAULT_BANK_DETAILS;
@@ -79,16 +82,23 @@ export function updateAccountingKpis() {
 
   let currentMonthInflow = 0;
   let allTimeCollected = 0;
+  let totalExpenses = 0;
+
   (state.accountingLedger || []).forEach(tx => {
-    const amt = Number(tx.amount) || 0;
-    allTimeCollected += amt;
+    const rawAmt = Number(tx.amount) || 0;
+    const isExpense = tx.type === "expense";
+    const netAmt = isExpense ? -rawAmt : rawAmt;
+
+    allTimeCollected += netAmt;
+    if (isExpense) totalExpenses += rawAmt;
+
     if (tx.date) {
       const parts = tx.date.split('-');
       if (parts.length === 3) {
         const txYear = parseInt(parts[0], 10);
         const txMonth = parseInt(parts[1], 10) - 1;
         if (txYear === currentYear && txMonth === currentMonth) {
-          currentMonthInflow += amt;
+          currentMonthInflow += netAmt;
         }
       }
     }
@@ -144,14 +154,17 @@ export function renderAccountingBankBalances() {
   let balanceCash = 0;
 
   (state.accountingLedger || []).forEach(tx => {
-    const amt = Number(tx.amount) || 0;
+    const rawAmt = Number(tx.amount) || 0;
+    const isExpense = tx.type === "expense";
+    const netAmt = isExpense ? -rawAmt : rawAmt;
     const acc = (tx.account || "").toLowerCase();
+
     if (acc.includes("popular")) {
-      balancePopular += amt;
+      balancePopular += netAmt;
     } else if (acc.includes("bhd") || acc.includes("reservas")) {
-      balanceBhd += amt;
+      balanceBhd += netAmt;
     } else {
-      balanceCash += amt;
+      balanceCash += netAmt;
     }
   });
 
@@ -166,7 +179,7 @@ export function renderAccountingBankBalances() {
 }
 
 export function renderAccountingReceivables() {
-  const tbody = document.getElementById("receivablesTableBody");
+  const tbody = getReceivablesTbody();
   if (!tbody) return;
 
   const clients = state.clients || [];
@@ -180,18 +193,21 @@ export function renderAccountingReceivables() {
     const feeStr = state.presentationMode ? "•••••" : (client.fee || "RD$ 0 / mes");
 
     return `
-      <tr class="hover:bg-slate-50/80 transition-colors">
-        <td class="py-3 px-4 font-bold text-slate-900">${escapeHtml(client.name)}</td>
-        <td class="py-3 px-4 font-mono text-slate-600">${feeStr}</td>
-        <td class="py-3 px-4 font-mono text-slate-500">${client.renewalDate || '—'}</td>
+      <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
+        <td class="py-3 px-4 font-bold text-white">${escapeHtml(client.name)}</td>
+        <td class="py-3 px-4 font-mono text-cyan-300">${feeStr}</td>
+        <td class="py-3 px-4 font-mono text-slate-400">${client.renewalDate || '—'}</td>
         <td class="py-3 px-4">
           <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${billing.badgeClass}">
             ${billing.text}
           </span>
         </td>
-        <td class="py-3 px-4 text-right">
-          <button onclick="openBillingNoticeModal('${client.id}')" class="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 text-white text-[11px] font-bold transition-all shadow-xs" title="Enviar estado de cuenta">
-            Cobrar ↗
+        <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
+          <button onclick="openManualTransactionForClient('${client.id}')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold transition-all shadow-xs inline-flex items-center gap-1 cursor-pointer" title="Registrar pago recibido de este cliente">
+            <span>💵</span><span>Cobrado</span>
+          </button>
+          <button onclick="openBillingNoticeModal('${client.id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-[11px] font-bold transition-all shadow-xs inline-flex items-center gap-1 cursor-pointer" title="Enviar estado de cuenta por WhatsApp">
+            <span>📲</span><span>Cobrar ↗</span>
           </button>
         </td>
       </tr>
@@ -200,7 +216,7 @@ export function renderAccountingReceivables() {
 }
 
 export function renderAccountingTransactions(listToRender = state.accountingLedger) {
-  const tbody = document.getElementById("ledgerTableBody");
+  const tbody = getLedgerTbody();
   if (!tbody) return;
 
   if (!listToRender || listToRender.length === 0) {
@@ -209,31 +225,40 @@ export function renderAccountingTransactions(listToRender = state.accountingLedg
   }
 
   const typeBadges = {
-    setup: { text: "Setup / Anticipo", class: "bg-blue-50 text-blue-700 border-blue-200" },
-    retainer: { text: "Retainer Mensual", class: "bg-emerald-50 text-emerald-700 border-emerald-200" },
-    addon: { text: "Servicio Extra", class: "bg-purple-50 text-purple-700 border-purple-200" },
-    other: { text: "Otro Ingreso", class: "bg-slate-100 text-slate-700 border-slate-200" }
+    setup: { text: "Setup 50% / Inicio", class: "bg-blue-500/10 text-blue-300 border-blue-500/30" },
+    settlement: { text: "Liquidación 50% Final", class: "bg-indigo-500/10 text-indigo-300 border-indigo-500/30" },
+    retainer: { text: "Retainer Mensual", class: "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" },
+    alacarte: { text: "Servicio A la Carta", class: "bg-purple-500/10 text-purple-300 border-purple-500/30" },
+    addon: { text: "Servicio Extra", class: "bg-purple-500/10 text-purple-300 border-purple-500/30" },
+    expense: { text: "🔴 Gasto Operativo", class: "bg-rose-500/10 text-rose-300 border-rose-500/30" },
+    other: { text: "Otro Movimiento", class: "bg-slate-700/30 text-slate-300 border-slate-600/30" }
   };
 
   tbody.innerHTML = listToRender.map(tx => {
     const badge = typeBadges[tx.type] || typeBadges.other;
+    const isExpense = tx.type === "expense";
     const formattedAmount = state.presentationMode ? "••••••" : Number(tx.amount || 0).toLocaleString('es-DO');
 
     return `
-      <tr class="hover:bg-slate-50/80 transition-colors">
-        <td class="py-3.5 px-4 font-mono text-slate-600">${tx.date}</td>
-        <td class="py-3.5 px-4 font-bold text-slate-900">${escapeHtml(tx.clientName || 'Cliente')}</td>
-        <td class="py-3.5 px-4 text-slate-700 max-w-xs truncate" title="${escapeHtml(tx.concept)}">${escapeHtml(tx.concept)}</td>
-        <td class="py-3.5 px-4">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${badge.class}">
+      <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
+        <td class="py-3 px-4 font-mono text-slate-400 text-xs">${tx.date}</td>
+        <td class="py-3 px-4 font-bold text-white text-xs">${escapeHtml(tx.clientName || 'Cliente')}</td>
+        <td class="py-3 px-4 text-slate-300 text-xs max-w-xs truncate" title="${escapeHtml(tx.concept)}">${escapeHtml(tx.concept)}</td>
+        <td class="py-3 px-4">
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold border ${badge.class}">
             ${badge.text}
           </span>
         </td>
-        <td class="py-3.5 px-4 text-slate-600">${escapeHtml(tx.account || 'Banco')}</td>
-        <td class="py-3.5 px-4 font-mono text-slate-400">${escapeHtml(tx.reference || '—')}</td>
-        <td class="py-3.5 px-4 text-right font-black text-emerald-600">RD$ ${formattedAmount}</td>
-        <td class="py-3.5 px-4 text-right">
-          <button onclick="deleteLedgerTransaction('${tx.id}')" class="text-rose-400 hover:text-rose-600 p-1" title="Eliminar transacción">
+        <td class="py-3 px-4 text-slate-400 text-xs">${escapeHtml(tx.account || 'Banco')}</td>
+        <td class="py-3 px-4 font-mono text-slate-500 text-xs">${escapeHtml(tx.reference || '—')}</td>
+        <td class="py-3 px-4 text-right font-black font-mono text-xs ${isExpense ? 'text-rose-400' : 'text-emerald-400'}">
+          ${isExpense ? '-' : '+'} RD$ ${formattedAmount}
+        </td>
+        <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+          <button onclick="openEditTransactionModal('${tx.id}')" class="p-1.5 rounded text-indigo-400 hover:text-white hover:bg-indigo-500/20 transition-colors cursor-pointer" title="Editar esta transacción">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </button>
+          <button onclick="deleteLedgerTransaction('${tx.id}')" class="p-1.5 rounded text-rose-400 hover:text-white hover:bg-rose-500/20 transition-colors cursor-pointer" title="Eliminar transacción">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           </button>
         </td>
@@ -245,26 +270,132 @@ export function renderAccountingTransactions(listToRender = state.accountingLedg
 export function filterLedgerTransactions() {
   const typeEl = document.getElementById("ledgerFilterType");
   const type = typeEl ? typeEl.value : "all";
-  if (type === "all") {
-    renderAccountingTransactions(state.accountingLedger);
-  } else {
-    const filtered = (state.accountingLedger || []).filter(tx => tx.type === type);
-    renderAccountingTransactions(filtered);
+  const searchEl = document.getElementById("ledgerSearchInput");
+  const query = searchEl ? searchEl.value.trim().toLowerCase() : "";
+
+  let list = state.accountingLedger || [];
+
+  if (type !== "all") {
+    if (type === "income") {
+      list = list.filter(tx => tx.type !== "expense");
+    } else {
+      list = list.filter(tx => tx.type === type);
+    }
   }
+
+  if (query) {
+    list = list.filter(tx => {
+      const cName = (tx.clientName || '').toLowerCase();
+      const conc = (tx.concept || '').toLowerCase();
+      const ref = (tx.reference || '').toLowerCase();
+      const acc = (tx.account || '').toLowerCase();
+      return cName.includes(query) || conc.includes(query) || ref.includes(query) || acc.includes(query);
+    });
+  }
+
+  renderAccountingTransactions(list);
 }
 
 export function openManualTransactionModal() {
   populateTxClientSelect();
   const form = document.getElementById("manualTransactionForm");
   if (form) form.reset();
+
+  const editIdInput = document.getElementById("txEditingId");
+  if (editIdInput) editIdInput.value = "";
+
+  const titleEl = document.getElementById("manualTxModalTitle");
+  if (titleEl) titleEl.textContent = "Registrar Entrada / Cobro";
+
+  const subtitleEl = document.getElementById("manualTxModalSubtitle");
+  if (subtitleEl) subtitleEl.textContent = "Asentar cobro o movimiento en el Libro Diario de ISAPromoRD";
+
+  const submitBtn = document.getElementById("manualTxSubmitBtn");
+  if (submitBtn) submitBtn.textContent = "Guardar en Libro Diario";
+
   const dateInput = document.getElementById("txDate");
   if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+
   const customInput = document.getElementById("txClientCustomName");
   if (customInput) customInput.classList.add("hidden");
+
   const modal = document.getElementById("manualTransactionModal");
   if (modal) {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+  }
+}
+
+export function openEditTransactionModal(txId) {
+  const tx = (state.accountingLedger || []).find(t => t.id === txId);
+  if (!tx) {
+    showToast("Transacción no encontrada", "error");
+    return;
+  }
+
+  populateTxClientSelect();
+
+  const editIdInput = document.getElementById("txEditingId");
+  if (editIdInput) editIdInput.value = tx.id;
+
+  const titleEl = document.getElementById("manualTxModalTitle");
+  if (titleEl) titleEl.textContent = "✏️ Editar Transacción";
+
+  const subtitleEl = document.getElementById("manualTxModalSubtitle");
+  if (subtitleEl) subtitleEl.textContent = `Modificando registro ID: ${tx.id}`;
+
+  const submitBtn = document.getElementById("manualTxSubmitBtn");
+  if (submitBtn) submitBtn.textContent = "Actualizar en Libro Diario";
+
+  const select = document.getElementById("txClientSelect");
+  const customInput = document.getElementById("txClientCustomName");
+  if (select) {
+    if (tx.clientId && state.clients.some(c => c.id === tx.clientId)) {
+      select.value = tx.clientId;
+      if (customInput) customInput.classList.add("hidden");
+    } else {
+      select.value = "custom";
+      if (customInput) {
+        customInput.classList.remove("hidden");
+        customInput.value = tx.clientName || "";
+      }
+    }
+  }
+
+  const conceptInput = document.getElementById("txConcept");
+  if (conceptInput) conceptInput.value = tx.concept || "";
+
+  const typeInput = document.getElementById("txType");
+  if (typeInput) typeInput.value = tx.type || "retainer";
+
+  const amountInput = document.getElementById("txAmount");
+  if (amountInput) amountInput.value = tx.amount || "";
+
+  const dateInput = document.getElementById("txDate");
+  if (dateInput) dateInput.value = tx.date || new Date().toISOString().split('T')[0];
+
+  const accountInput = document.getElementById("txAccount");
+  if (accountInput) accountInput.value = tx.account || "Banco Popular Dominicano";
+
+  const refInput = document.getElementById("txReference");
+  if (refInput) refInput.value = tx.reference !== "—" ? (tx.reference || "") : "";
+
+  const notesInput = document.getElementById("txNotes");
+  if (notesInput) notesInput.value = tx.notes || "";
+
+  const modal = document.getElementById("manualTransactionModal");
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  }
+}
+
+export function openManualTransactionForClient(clientId) {
+  openManualTransactionModal();
+  const select = document.getElementById("txClientSelect");
+  if (select) {
+    select.value = clientId;
+    handleTxClientSelectChange();
   }
 }
 
@@ -284,7 +415,7 @@ export function populateTxClientSelect() {
   select.innerHTML = `
     <option value="">-- Seleccionar Cliente --</option>
     ${clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)} (${c.fee || 'Sin tarifa'})</option>`).join('')}
-    <option value="custom">✏️ Otro Cliente / Prospecto Nuevo...</option>
+    <option value="custom">✏️ Otro Cliente / Prospecto Nuevo / Gasto Operativo...</option>
   `;
 }
 
@@ -323,7 +454,7 @@ export function saveManualTransaction(e) {
 
   if (select.value === "custom") {
     const customEl = document.getElementById("txClientCustomName");
-    clientName = customEl ? customEl.value.trim() : "Cliente Externo";
+    clientName = customEl ? customEl.value.trim() : "Externo / Operativo";
     clientId = "client-custom-" + Date.now();
   } else if (select.value) {
     const found = state.clients.find(c => c.id === select.value);
@@ -332,7 +463,7 @@ export function saveManualTransaction(e) {
       clientName = found.name;
     }
   } else {
-    alert("Por favor selecciona o escribe el cliente.");
+    showToast("Por favor selecciona o escribe el cliente.", "warning");
     return;
   }
 
@@ -343,6 +474,35 @@ export function saveManualTransaction(e) {
   const account = document.getElementById("txAccount")?.value || "Banco Popular Dominicano";
   const reference = document.getElementById("txReference")?.value.trim() || "—";
   const notes = document.getElementById("txNotes")?.value.trim() || "";
+
+  const editIdInput = document.getElementById("txEditingId");
+  const editingId = editIdInput ? editIdInput.value.trim() : "";
+
+  if (editingId) {
+    const idx = (state.accountingLedger || []).findIndex(t => t.id === editingId);
+    if (idx !== -1) {
+      state.accountingLedger[idx] = {
+        ...state.accountingLedger[idx],
+        clientId,
+        clientName,
+        concept,
+        type,
+        amount,
+        date,
+        account,
+        reference,
+        notes
+      };
+      saveAccountingLedger();
+      updateAccountingKpis();
+      renderAccountingBankBalances();
+      renderAccountingTransactions();
+      updateKpis();
+      closeManualTransactionModal();
+      showToast(`✅ Transacción actualizada correctamente (RD$ ${amount.toLocaleString('es-DO')})`, 'success');
+      return;
+    }
+  }
 
   addAccountingTransaction({
     id: "tx-" + Date.now(),
@@ -372,6 +532,7 @@ export function deleteLedgerTransaction(txId) {
     renderAccountingBankBalances();
     renderAccountingTransactions();
     updateKpis();
+    showToast("Transacción eliminada del Libro Diario", "info");
   }
 }
 
@@ -385,7 +546,9 @@ export function exportAccountingReport() {
   state.accountingLedger.forEach(t => {
     const safeName = (t.clientName || '').replace(/"/g, '""');
     const safeConcept = (t.concept || '').replace(/"/g, '""');
-    csv += `"${t.id}","${t.date}","${safeName}","${safeConcept}","${t.type}","${t.account}","${t.reference}",${t.amount}\n`;
+    const isExpense = t.type === "expense";
+    const amt = isExpense ? -Number(t.amount || 0) : Number(t.amount || 0);
+    csv += `"${t.id}","${t.date}","${safeName}","${safeConcept}","${t.type}","${t.account}","${t.reference}",${amt}\n`;
   });
 
   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -412,10 +575,10 @@ export function adjustForecastPlan(planKey, delta) {
 
 export function updateForecastSimulation() {
   const planPrices = {
-    web: { monthly: 4500, setup: 20000 },
-    esencial: { monthly: 15000, setup: 30000 },
-    crm: { monthly: 20000, setup: 65000 },
-    ecosistema: { monthly: 30000, setup: 85000 }
+    web: { monthly: 4000, setup: 25000 },
+    esencial: { monthly: 8000, setup: 30000 },
+    crm: { monthly: 15000, setup: 60000 },
+    ecosistema: { monthly: 22000, setup: 80000 }
   };
 
   let simMrr = 0;
@@ -448,69 +611,42 @@ export function registerClientPayment(id) {
 
   let nextRenewalDate;
   if (client.renewalDate) {
-    const parts = client.renewalDate.split('-');
-    if (parts.length === 3) {
-      const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-      d.setMonth(d.getMonth() + 1);
-      nextRenewalDate = d.toISOString().split('T')[0];
-    }
-  }
-  if (!nextRenewalDate) {
-    const nextMonth = new Date(today);
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-    nextRenewalDate = nextMonth.toISOString().split('T')[0];
+    const d = new Date(client.renewalDate);
+    d.setMonth(d.getMonth() + 1);
+    nextRenewalDate = d.toISOString().split('T')[0];
+  } else {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 1);
+    nextRenewalDate = d.toISOString().split('T')[0];
   }
 
-  const confirmMsg = `¿Confirmas registrar el pago de ${client.name}?\n\n• Monto: ${client.fee || 'Tarifa mensual'}\n• Fecha de Pago: ${todayStr}\n• Nueva fecha de renovación: ${nextRenewalDate}\n\nSe actualizará el estado del cliente a "Activo" y se extenderá su ciclo de facturación.`;
+  client.renewalDate = nextRenewalDate;
+  saveClientsToStorage();
 
-  if (confirm(confirmMsg)) {
-    client.lastPaymentDate = todayStr;
-    client.renewalDate = nextRenewalDate;
-    client.status = "active";
-    
-    if (!client.paymentHistory) client.paymentHistory = [];
-    client.paymentHistory.push({
-      date: todayStr,
-      amount: client.fee || "Tarifa Mensual",
-      renewalTo: nextRenewalDate
-    });
-
-    if (!client.tasks) client.tasks = [];
-    client.tasks.unshift({
-      id: Date.now(),
-      title: `Pago mensual confirmado (${client.fee || 'Retainer'})`,
-      done: true,
-      date: todayStr
-    });
-
-    let numAmount = 4500;
-    if (client.fee) {
-      const match = client.fee.match(/[\d,]+/);
-      if (match) numAmount = parseInt(match[0].replace(/,/g, ''), 10) || 4500;
-    }
-
-    addAccountingTransaction({
-      id: "tx-" + Date.now(),
-      clientId: client.id,
-      clientName: client.name,
-      concept: `Retainer Mensual — Mantenimiento & Hosting (${nextRenewalDate})`,
-      type: "retainer",
-      amount: numAmount,
-      date: todayStr,
-      account: "Banco Popular Dominicano",
-      reference: `REC-${Date.now().toString().slice(-6)}`,
-      notes: `Pago mensual registrado en ciclo de facturación`
-    });
-
-    saveClientsToStorage(true);
-    if (window.renderClients) window.renderClients();
-    updateKpis();
-    showToast(`✅ Pago registrado para ${client.name}. Próxima renovación: ${nextRenewalDate}`, 'success');
+  let feeNum = 4000;
+  if (client.fee) {
+    const m = client.fee.match(/[\d,]+/);
+    if (m) feeNum = parseInt(m[0].replace(/,/g, ''), 10) || 4000;
   }
+
+  addAccountingTransaction({
+    id: "tx-" + Date.now(),
+    clientId: client.id,
+    clientName: client.name,
+    concept: `Cobro Mensualidad Retainer (${todayStr})`,
+    type: "retainer",
+    amount: feeNum,
+    date: todayStr,
+    account: "Banco Popular Dominicano",
+    reference: `REN-${Date.now().toString().slice(-6)}`,
+    notes: `Ciclo extendido automáticamente hasta ${nextRenewalDate}`
+  });
+
+  renderAccountingReceivables();
+  showToast(`✅ Pago de RD$ ${feeNum.toLocaleString('es-DO')} asentado para ${client.name}`, 'success');
 }
 
 export function drawerRegisterPayment() {
-  if (state.currentDrawerClientId) {
-    registerClientPayment(state.currentDrawerClientId);
-  }
+  if (!state.currentDrawerClientId) return;
+  registerClientPayment(state.currentDrawerClientId);
 }

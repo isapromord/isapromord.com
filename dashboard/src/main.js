@@ -172,7 +172,9 @@ import {
   switchDrawerTab,
   renderDrawerContent,
   drawerRunAudit,
-  drawerEditClient
+  drawerEditClient,
+  toggleClientAccordion,
+  toggleAllClientsCollapse
 } from './directory.js';
 import {
   toggleClientViewMode,
@@ -248,6 +250,8 @@ const windowBridge = {
   // Directory & Clients
   setClientViewMode,
   toggleClientViewMode,
+  toggleClientAccordion,
+  toggleAllClientsCollapse,
   setQuickFilter,
   filterClients,
   toggleClientOptimizationPillar,

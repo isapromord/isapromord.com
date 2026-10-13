@@ -94,161 +94,292 @@ export function renderClients(clientsToRender = state.clients) {
     lead: { text: "⚪ Prospecto", bg: "bg-slate-700/50 text-slate-300 border-slate-600" }
   };
 
-  if (state.clientViewMode === "compact") {
-    container.innerHTML = clientsToRender.map(client => {
-      const currentBadge = statusBadges[client.status] || statusBadges.active;
-      const score = client.healthScore !== undefined ? client.healthScore : 100;
-      const healthColor = score >= 85 ? "text-emerald-400" : (score >= 60 ? "text-amber-400" : "text-rose-400");
+  container.innerHTML = clientsToRender.map(client => {
+    const currentBadge = statusBadges[client.status] || statusBadges.active;
+    const score = client.healthScore !== undefined ? client.healthScore : 100;
+    const healthColor = score >= 85 ? "text-emerald-400" : (score >= 60 ? "text-amber-400" : "text-rose-400");
+    const completedTasks = (client.tasks || []).filter(t => t.done).length;
+    const totalTasks = (client.tasks || []).length;
+    const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const isExpanded = state.expandedClientIds && state.expandedClientIds.has(client.id);
 
-      let uptimeDot = client.uptimeStatus === "offline" 
-        ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
-        : (client.uptimeStatus === "checking" 
-            ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`
-            : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '380'}ms</span>`);
+    let uptimeBadge = client.uptimeStatus === "offline" 
+      ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
+      : (client.uptimeStatus === "checking" 
+          ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`
+          : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '380'}ms</span>`);
 
-      return `
-        <div onclick="selectClientDrilldown('${client.id}')" class="client-card-row p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 group cursor-pointer hover:border-cyan-500/50 hover:bg-[#131c2e] transition-all">
+    return `
+      <!-- TARJETA CLIENTE PLEGABLE (ACCORDION) -->
+      <div 
+        id="client-card-${client.id}" 
+        class="bg-[#101726] rounded-xl border ${isExpanded ? 'border-cyan-500/50' : 'border-slate-700/70'} shadow-lg hover:border-cyan-500/40 transition-all overflow-hidden text-slate-100 group"
+      >
+        <!-- ENCABEZADO CLICABLE (CARGA CERRADO POR DEFECTO) -->
+        <div 
+          onclick="toggleClientAccordion('${client.id}')"
+          class="p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer select-none bg-gradient-to-r from-transparent via-white/[0.01] to-white/[0.02] hover:bg-white/[0.03] transition-colors"
+          title="Clic para expandir o colapsar detalles"
+        >
+          <!-- Identidad y Dominio -->
           <div class="flex items-center gap-3 min-w-0 flex-1">
-            <div class="min-w-0 space-y-1 flex-1">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-sm shrink-0 group-hover:scale-105 transition-transform">
+              ${escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
+            </div>
+            <div class="min-w-0 flex-1 space-y-0.5">
               <div class="flex items-center gap-2 flex-wrap">
-                <h4 class="text-base sm:text-lg font-bold text-white group-hover:text-cyan-300 transition-colors stitch-title">
+                <h4 class="text-base sm:text-lg font-black text-white group-hover:text-cyan-300 transition-colors">
                   ${escapeHtml(client.name)}
                 </h4>
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-xs font-bold ${currentBadge.bg} border shrink-0">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold ${currentBadge.bg} border shrink-0">
                   ${currentBadge.text}
                 </span>
-                ${uptimeDot}
+                ${uptimeBadge}
               </div>
-              <div class="flex items-center gap-2 text-xs sm:text-sm font-mono text-slate-400 truncate stitch-subtext">
-                <a href="${client.liveUrl}" target="_blank" onclick="event.stopPropagation()" class="text-slate-300 hover:text-cyan-400 hover:underline truncate">${client.liveUrl ? escapeHtml(client.liveUrl.replace(/^https?:\/\//, '')) : 'Sin Dominio'}</a>
+              <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate">
+                <a 
+                  href="${client.liveUrl}" 
+                  target="_blank" 
+                  onclick="event.stopPropagation()" 
+                  class="text-cyan-400/90 hover:text-cyan-300 hover:underline truncate"
+                  title="Visitar sitio web oficial"
+                >
+                  ${client.liveUrl ? escapeHtml(client.liveUrl.replace(/^https?:\/\//, '')) : 'Sin Dominio'} ↗
+                </a>
                 <span class="text-slate-600">•</span>
                 <span class="text-slate-400 font-sans truncate">${escapeHtml(client.category || 'General')}</span>
               </div>
             </div>
           </div>
 
-          <div class="flex items-center justify-between md:justify-end gap-3 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-white/[0.05]">
+          <!-- Métricas, Botones y Chevron de Despliegue -->
+          <div class="flex items-center justify-between md:justify-end gap-3 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-white/[0.06]">
             <div class="flex flex-col items-start md:items-end">
-              <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300">HEALTH SCORE</span>
-              <span class="text-sm sm:text-base font-black font-mono ${healthColor} mt-0.5">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">SALUD</span>
+              <span class="text-sm font-black font-mono ${healthColor}">
                 ${score}/100
               </span>
             </div>
 
             <div class="flex flex-col items-start md:items-end">
-              <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-300">RETAINER MENSUAL</span>
-              <span class="text-sm sm:text-base font-black font-mono text-white mt-0.5 stitch-title">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">RETAINER</span>
+              <span class="text-sm font-black font-mono text-white">
                 ${state.presentationMode ? '•••••' : (client.fee ? client.fee.replace(' / mes', '') : 'RD$ 0')}
               </span>
             </div>
 
+            <!-- Botones de Acción Rápida -->
             <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
-              <button onclick="event.stopPropagation(); runServicesAudit('${client.id}')" class="p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition-colors" title="Auditar Servicios">
+              <button 
+                onclick="event.stopPropagation(); runServicesAudit('${client.id}')" 
+                class="p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition-all cursor-pointer" 
+                title="Auditoría 360°"
+              >
                 <span>⚡</span>
               </button>
-              <button onclick="event.stopPropagation(); openProposalForClient('${client.id}')" class="p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-colors" title="Propuesta">
+              <button 
+                onclick="event.stopPropagation(); openProposalForClient('${client.id}')" 
+                class="p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-all cursor-pointer" 
+                title="Generar Propuesta"
+              >
                 <span>📝</span>
               </button>
-              <button onclick="event.stopPropagation(); editClient('${client.id}')" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors" title="Editar">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+              <button 
+                onclick="event.stopPropagation(); openClientDrawer('${client.id}')" 
+                class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all cursor-pointer" 
+                title="Expediente Completo"
+              >
+                <span>📂</span>
+              </button>
+            </div>
+
+            <!-- Indicador Chevron (Rota al Desplegar) -->
+            <div 
+              id="client-chevron-${client.id}" 
+              class="w-7 h-7 rounded-lg bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 text-xs transition-transform duration-200 shrink-0 ${isExpanded ? 'rotate-180' : ''}"
+              title="${isExpanded ? 'Cerrar detalle' : 'Abrir detalle'}"
+            >
+              ▼
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL DETALLADO PLEGABLE (CERRADO POR DEFECTO) -->
+        <div 
+          id="client-detail-${client.id}" 
+          class="${isExpanded ? '' : 'hidden'} border-t border-slate-800/80 p-5 sm:p-6 bg-[#0c1322]/80 space-y-5 animate-in fade-in duration-150"
+        >
+          <!-- Grid Operativo: Contacto + Hosting + Roadmap -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+            <!-- Contacto y WhatsApp -->
+            <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">👤 Contacto Directo</span>
+              <div class="font-bold text-white">${escapeHtml(client.contactPerson || 'Sin contacto')}</div>
+              ${client.phone ? `
+                <a href="https://wa.me/${client.phone.replace(/\D/g, '')}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 px-2.5 py-1 rounded border border-emerald-700/50 transition-colors text-xs">
+                  <span>💬 WhatsApp: ${escapeHtml(client.phone)}</span>
+                </a>
+              ` : '<span class="text-slate-500">Sin teléfono</span>'}
+              ${client.email ? `<div class="text-slate-400 font-mono text-[11px] truncate">✉️ ${escapeHtml(client.email)}</div>` : ''}
+            </div>
+
+            <!-- Infraestructura y Cloud -->
+            <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">☁️ Infraestructura Web</span>
+              <div class="font-bold text-cyan-300 truncate">${escapeHtml(client.platform || 'Hosting Cloud')}</div>
+              <div class="text-slate-400 font-mono text-[11px]">Latencia Anycast: <strong class="text-emerald-400">${client.latencyMs || '380'} ms</strong></div>
+              ${client.repoUrl ? `
+                <a href="${client.repoUrl}" target="_blank" onclick="event.stopPropagation()" class="text-slate-400 hover:text-cyan-300 text-[11px] font-mono underline block truncate">
+                  🐙 Repo GitHub ↗
+                </a>
+              ` : ''}
+            </div>
+
+            <!-- Roadmap Operativo -->
+            <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">🚀 Roadmap de Entregables</span>
+                <span class="font-mono text-xs font-bold text-cyan-300">${completedTasks}/${totalTasks} (${progressPct}%)</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 rounded-full transition-all" style="width: ${progressPct}%"></div>
+              </div>
+              <button onclick="event.stopPropagation(); openRoadmapManagementModal('${client.id}')" class="text-cyan-400 hover:text-cyan-300 text-[11px] font-bold transition-colors cursor-pointer">
+                Gestionar Entregables →
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Pilares de Optimización Interactivos -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">Matriz de Optimización (Clic en cualquier pilar para alternar):</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              ${renderPillarBadge(client, 'seo', '🔍 SEO Orgánico')}
+              ${renderPillarBadge(client, 'whatsapp', '💬 WhatsApp CRM')}
+              ${renderPillarBadge(client, 'geo', '📍 Google Maps / GEO')}
+              ${renderPillarBadge(client, 'ai', '🤖 Visibilidad IA')}
+            </div>
+          </div>
+
+          <!-- Notas de Misión -->
+          ${client.notes ? `
+            <div class="p-3.5 rounded-lg bg-[#080d19]/80 border border-slate-800/80 text-xs text-slate-300 leading-relaxed">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-1">📝 Notas & Alcance del Proyecto:</span>
+              ${escapeHtml(client.notes)}
+            </div>
+          ` : ''}
+
+          <!-- Botonera de Acciones Completa -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800">
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="event.stopPropagation(); runServicesAudit('${client.id}')" class="px-3.5 py-2 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                <span>⚡ Auditar 360°</span>
+              </button>
+              <button onclick="event.stopPropagation(); openProposalForClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                <span>📝 Crear Cotización</span>
+              </button>
+              <button onclick="event.stopPropagation(); openNewContractForClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                <span>📜 Contrato 50/50</span>
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="event.stopPropagation(); editClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+                <span>✏️ Editar Ficha</span>
+              </button>
+              <button onclick="event.stopPropagation(); openClientDrawer('${client.id}')" class="px-3.5 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm">
+                <span>📂 Expediente Completo</span>
               </button>
             </div>
           </div>
         </div>
-      `;
-    }).join('');
-  } else {
-    // Vista Expandida (Tarjetas HQ)
-    container.innerHTML = clientsToRender.map(client => {
-      const currentBadge = statusBadges[client.status] || statusBadges.active;
-      const completedTasks = (client.tasks || []).filter(t => t.done).length;
-      const totalTasks = (client.tasks || []).length;
-      const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      </div>
+    `;
+  }).join('');
+}
 
-      let uptimeMarkup = client.uptimeStatus === "offline" 
-        ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Inaccesible</span>`
-        : (client.uptimeStatus === "checking" 
-            ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-400 border border-slate-700"><span class="w-2 h-2 rounded-full bg-slate-400 animate-ping"></span>Verificando...</span>`
-            : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>Online (${client.latencyMs || '380'}ms)</span>`);
+function renderPillarBadge(client, pillarKey, label) {
+  const matrix = client.optimizationMatrix || { seo: "65%", whatsapp: "70%", geo: "60%", ai: "50%" };
+  const valStr = matrix[pillarKey] || "60%";
+  const valNum = parseInt(valStr, 10) || 60;
+  const isHigh = valNum >= 80;
+  const colorClass = isHigh 
+    ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/25" 
+    : "bg-amber-500/15 text-amber-300 border-amber-500/30 hover:bg-amber-500/25";
 
-      return `
-        <div onclick="selectClientDrilldown('${client.id}')" class="bg-[#101726] rounded-lg p-6 sm:p-7 border border-slate-700/80 shadow-2xl hover:border-cyan-500/50 hover:bg-[#131c2e] transition-all relative overflow-hidden text-slate-100 cursor-pointer group">
-          <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-7">
-            <div class="space-y-4 flex-1">
-              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3.5">
-                <div class="flex flex-wrap items-center gap-3">
-                  <h3 class="text-2xl font-black text-white tracking-tight group-hover:text-cyan-300 transition-colors">${escapeHtml(client.name)}</h3>
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold ${currentBadge.bg} border">
-                    ${currentBadge.text}
-                  </span>
-                  ${uptimeMarkup}
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    ⚡ Madurez Digital: ${client.healthScore !== undefined ? client.healthScore : 100}/100
-                  </span>
-                </div>
-                
-                <div class="flex items-center gap-2" onclick="event.stopPropagation()">
-                  <button onclick="event.stopPropagation(); runServicesAudit('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer" title="Auditoría 360° de servicios ISAPromoRD">
-                    <span>⚡ Auditar Servicios</span>
-                  </button>
-                  <button onclick="event.stopPropagation(); openProposalForClient('${client.id}')" class="px-3.5 py-2 rounded bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-95 cursor-pointer" title="Crear propuesta para ${escapeHtml(client.name)}">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span>Propuestas</span>
-                  </button>
-                  <button onclick="event.stopPropagation(); editClient('${client.id}')" class="px-3.5 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer">
-                    <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                    <span>Editar</span>
-                  </button>
-                </div>
-              </div>
+  return `
+    <button 
+      type="button" 
+      onclick="event.stopPropagation(); toggleClientOptimizationPillar('${client.id}', '${pillarKey}')"
+      class="p-2.5 rounded-lg border ${colorClass} text-left transition-all cursor-pointer group"
+      title="Clic para actualizar estado del pilar ${label}"
+    >
+      <div class="text-[10px] font-mono text-slate-400 font-bold uppercase truncate">${label}</div>
+      <div class="text-xs font-black font-mono flex items-center justify-between mt-1">
+        <span>${valStr}</span>
+        <span class="text-[10px] ${isHigh ? 'text-emerald-400' : 'text-amber-400'}">${isHigh ? '✓ Óptimo' : '⚠️ Pendiente'}</span>
+      </div>
+    </button>
+  `;
+}
 
-              <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-300">
-                <span class="flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                  ${escapeHtml(client.category || 'General')}
-                </span>
-                <span class="flex items-center gap-1.5">
-                  <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                  ${escapeHtml(client.contactPerson || 'Sin contacto')}
-                </span>
-                ${client.phone ? `
-                  <a href="https://wa.me/${client.phone.replace(/\D/g, '')}" target="_blank" class="flex items-center gap-1.5 font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-950/50 px-2.5 py-1 rounded-lg border border-emerald-700/60 hover:border-emerald-500 transition-colors">
-                    <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
-                    <span>${escapeHtml(client.phone)}</span>
-                  </a>
-                ` : '<span class="font-mono text-slate-400">Sin teléfono</span>'}
-              </div>
-
-              <div class="p-3 bg-[#090e1a] rounded border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div class="flex items-center gap-2 overflow-hidden">
-                  <span class="font-mono text-slate-400 font-bold">URL:</span>
-                  <a href="${client.liveUrl}" target="_blank" class="font-mono font-semibold text-cyan-400 hover:text-cyan-300 hover:underline truncate">
-                    ${escapeHtml(client.liveUrl)}
-                  </a>
-                </div>
-                <span class="px-2.5 py-0.5 bg-slate-800 border border-slate-700 rounded-md font-mono text-[11px] text-slate-300 shrink-0">
-                  ${escapeHtml(client.platform || 'Hosting')}
-                </span>
-              </div>
-
-              <div class="pt-2 space-y-2.5">
-                <div class="flex items-center justify-between text-xs font-bold text-white">
-                  <span class="flex items-center gap-2">
-                    <span class="text-cyan-400 font-mono">🚀</span>
-                    <span>Roadmap Operativo</span>
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                      ${completedTasks}/${totalTasks} (${progressPct}%)
-                    </span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
+export function toggleClientAccordion(clientId) {
+  if (!state.expandedClientIds) {
+    state.expandedClientIds = new Set();
   }
+  const isCurrentlyOpen = state.expandedClientIds.has(clientId);
+  const detailEl = document.getElementById(`client-detail-${clientId}`);
+  const chevronEl = document.getElementById(`client-chevron-${clientId}`);
+  const cardEl = document.getElementById(`client-card-${clientId}`);
+
+  if (isCurrentlyOpen) {
+    state.expandedClientIds.delete(clientId);
+    if (detailEl) detailEl.classList.add("hidden");
+    if (chevronEl) chevronEl.classList.remove("rotate-180");
+    if (cardEl) cardEl.classList.remove("border-cyan-500/50");
+  } else {
+    state.expandedClientIds.add(clientId);
+    if (detailEl) detailEl.classList.remove("hidden");
+    if (chevronEl) chevronEl.classList.add("rotate-180");
+    if (cardEl) cardEl.classList.add("border-cyan-500/50");
+  }
+}
+
+export function toggleAllClientsCollapse(forceState) {
+  if (!state.expandedClientIds) {
+    state.expandedClientIds = new Set();
+  }
+  const allIds = (state.clients || []).map(c => c.id);
+  const shouldOpen = forceState !== undefined 
+    ? forceState 
+    : (state.expandedClientIds.size < allIds.length);
+
+  const iconEl = document.getElementById("btnToggleAllCollapseIcon");
+  const textEl = document.getElementById("btnToggleAllCollapseText");
+
+  if (shouldOpen) {
+    allIds.forEach(id => state.expandedClientIds.add(id));
+    if (iconEl) iconEl.textContent = "🔼";
+    if (textEl) textEl.textContent = "Colapsar Todos";
+  } else {
+    state.expandedClientIds.clear();
+    if (iconEl) iconEl.textContent = "🔽";
+    if (textEl) textEl.textContent = "Expandir Todos";
+  }
+
+  allIds.forEach(id => {
+    const detailEl = document.getElementById(`client-detail-${id}`);
+    const chevronEl = document.getElementById(`client-chevron-${id}`);
+    const cardEl = document.getElementById(`client-card-${id}`);
+    if (shouldOpen) {
+      if (detailEl) detailEl.classList.remove("hidden");
+      if (chevronEl) chevronEl.classList.add("rotate-180");
+      if (cardEl) cardEl.classList.add("border-cyan-500/50");
+    } else {
+      if (detailEl) detailEl.classList.add("hidden");
+      if (chevronEl) chevronEl.classList.remove("rotate-180");
+      if (cardEl) cardEl.classList.remove("border-cyan-500/50");
+    }
+  });
 }
 
 export function filterClients(explicitSearchTerm) {

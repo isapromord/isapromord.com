@@ -542,6 +542,7 @@ export const state = {
   viewMode: "compact", // 'compact' o 'expanded'
   statusFilter: "all",
   searchQuery: "",
+  expandedClientIds: new Set(),
   isCloudSyncing: false,
   isCloudOnline: true
 };

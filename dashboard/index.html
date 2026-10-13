@@ -1578,13 +1578,23 @@
                 <option value="lead">lead</option>
               </select>
 
-              <!-- Botones Compact/Expanded de Vista -->
-              <div class="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded p-0.5">
-                <button id="btnViewCompact" onclick="setClientViewMode('compact')" class="p-1 rounded-lg bg-cyan-600 text-white text-xs" title="Vista Lista Compacta">
+              <!-- Botones Compact/Expanded de Vista y Acordeón Global -->
+              <div class="hidden sm:flex items-center bg-slate-900 border border-slate-800 rounded p-0.5 gap-1">
+                <button id="btnViewCompact" onclick="setClientViewMode('compact')" class="p-1 rounded-lg text-slate-400 hover:text-white text-xs transition-colors" title="Vista Lista">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
-                <button id="btnViewExpanded" onclick="setClientViewMode('expanded')" class="p-1 rounded-lg text-slate-400 hover:text-white text-xs" title="Vista Expandida">
+                <button id="btnViewExpanded" onclick="setClientViewMode('expanded')" class="p-1 rounded-lg bg-cyan-600 text-white text-xs transition-colors" title="Vista Tarjetas Plegables">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                </button>
+                <button 
+                  id="btnToggleAllCollapse" 
+                  type="button"
+                  onclick="toggleAllClientsCollapse()" 
+                  class="px-2 py-0.5 rounded text-[11px] font-bold text-slate-400 hover:text-cyan-300 transition-colors flex items-center gap-1 border-l border-slate-800 pl-1.5 cursor-pointer"
+                  title="Abrir o Cerrar Todos los Clientes al mismo tiempo"
+                >
+                  <span id="btnToggleAllCollapseIcon">🔽</span>
+                  <span id="btnToggleAllCollapseText" class="hidden md:inline">Expandir Todos</span>
                 </button>
               </div>
 

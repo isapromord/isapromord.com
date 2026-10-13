@@ -82,7 +82,9 @@ let currentSatelliteFileType = 'robots.txt';
 
 export function openSatelliteFile(fileType = 'robots.txt') {
   currentSatelliteFileType = fileType;
-  const client = state.clients.find(c => c.id === state.currentDrilldownClientId);
+  const client = (state.clients && state.clients.length > 0)
+    ? (state.clients.find(c => c.id === state.currentDrilldownClientId) || state.clients[0])
+    : null;
   if (!client) {
     showToast("Selecciona un cliente para generar sus archivos satélite", "warning");
     return;
@@ -113,7 +115,9 @@ export function closeSatelliteModal() {
 
 export function switchSatelliteTab(fileType) {
   currentSatelliteFileType = fileType;
-  const client = state.clients.find(c => c.id === state.currentDrilldownClientId);
+  const client = (state.clients && state.clients.length > 0)
+    ? (state.clients.find(c => c.id === state.currentDrilldownClientId) || state.clients[0])
+    : null;
   if (!client) return;
 
   let origin = "https://isapromord.com";

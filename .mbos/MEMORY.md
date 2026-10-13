@@ -1128,3 +1128,30 @@
   - Permite guardar cualquier URL externa auditada directamente en la base de datos de clientes y en Supabase con 1 solo clic, extrayendo nombre, categoría, score y tareas de remediación sin obligar a llenar 10 campos a mano.
 - **Bóveda Histórica de URLs Auditadas (`isapromo_audited_history_v1`)**:
   - Cada URL analizada queda registrada con fecha, score y metadatos para nunca perder el rastro de prospectos escaneados.
+
+## [2026-10-12] - Refactorización Integral Modular (ES Modules v2.0) & Blindaje Total Anti-Fallas
+
+### 1. Descomposición del Monolito HTML (11,909 Líneas -> Arquitectura Modular)
+- **Eliminación Total del God-File:**
+  - Se eliminaron las 8,171 líneas de JavaScript inline embebidas en `dashboard/index.html`.
+  - La lógica se segregó en 15 submódulos limpios, testeables y de alto rendimiento en `dashboard/src/`:
+    - `state.js`: Estado reactivo central, claves de almacenamiento, clientes base y paquetes.
+    - `sync.js`: Sincronización bidireccional unión nube-local inmortal con Supabase.
+    - `auth.js`: PIN de seguridad, bloqueo de sesión y guardado de PIN.
+    - `ui.js`: Sistema de temas (Obsidian Cyber Luxe), reloj en vivo RD, toasts, KPIs y formateadores.
+    - `uptime.js`: Telemetría de red con Dual DoH (Google + Cloudflare) y sondeo HTTP resiliente.
+    - `roadmap.js`: Tareas de clientes, catálogo oficial de servicios y entregables de propuestas.
+    - `proposals.js`: Constructor de propuestas comerciales, simulador de ahorros y link de WhatsApp.
+    - `contracts.js`: Motor de contratos legales 50/50, firma digital, sellado hash y visor A4.
+    - `accounting.js`: Dashboard CFO, libro diario doble partida, balance bancario y simulador de ingresos.
+    - `reports.js`: Generador de reportes técnicos de WhatsApp y avisos de cobro de retainers.
+    - `referrals.js`: Telemetría de referidos y generador de insignias de atribución (React y HTML).
+    - `backup.js`: Exportación/importación segura de copias de seguridad en JSON.
+    - `directory.js`: Vistas de alta densidad (compacta y expandida), buscador y auto-scan de dominio.
+    - `drilldown.js`: Stitch Command Center 3 columnas con vista satélite y visor web.
+    - `audit.js`: Motor de auditoría 360° con Protocolo de la Verdad y guardado en 1 clic.
+    - `main.js`: Orquestador principal y puente a `window` para 87 manejadores DOM inline sin romper ningún botón.
+- **Resultados de Rendimiento & Robustez:**
+  - Reducción del tamaño de `dashboard/index.html` de 11,909 líneas a 3,741 líneas limpias.
+  - Test suite automatizado (`npm test`) ejecutando 5 validaciones críticas con 100% de éxito.
+  - Cero discrepancias en manejadores de eventos.

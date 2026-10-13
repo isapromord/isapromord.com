@@ -18,7 +18,12 @@ import {
   initAuth, 
   handlePinSubmit, 
   lockDashboard, 
-  saveNewPin 
+  saveNewPin,
+  emergencyBypassAuth,
+  handleEmailPasswordLogin,
+  handleGoogleLogin,
+  handleMagicLinkLogin,
+  switchAuthMode
 } from './auth.js';
 import {
   escapeHtml,
@@ -230,6 +235,11 @@ const windowBridge = {
   handlePinSubmit,
   lockDashboard,
   saveNewPin,
+  emergencyBypassAuth,
+  handleEmailPasswordLogin,
+  handleGoogleLogin,
+  handleMagicLinkLogin,
+  switchAuthMode,
 
   // Sync
   manualTriggerCloudSync,
@@ -393,7 +403,7 @@ window.ISAPromo = {
 // ==========================================
 // DOM READY & BOOTSTRAP INITIALIZATION
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+function bootstrap() {
   // 1. Theme Mode
   initThemeMode();
 
@@ -402,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateEdgePing();
   setInterval(updateEdgePing, 30000);
 
-  // 3. Security / PIN
+  // 3. Security / Multi-Auth System
   initAuth();
 
   // 4. Data Loading & Cloud Sync
@@ -434,4 +444,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1000);
 
   console.log("🚀 [ISAPromoRD] Plataforma modular v2.0 inicializada correctamente.");
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootstrap);
+} else {
+  bootstrap();
+}

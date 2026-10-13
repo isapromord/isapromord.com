@@ -15,13 +15,28 @@ export const STORAGE_KEYS = {
   ACCOUNTING: "isapromo_agency_accounting_ledger_v1",
   AUDIT_HISTORY: "isapromo_audited_history_v1",
   VIEW_MODE: "isapromo_view_mode",
-  THEME: "isapromo_theme"
+  THEME: "isapromo_theme",
+  // Lowercase aliases for robust cross-module imports
+  clients: "isapromo_agency_clients_v2",
+  pin: "isapromo_agency_pin_v1",
+  auth: "isapromo_agency_session_auth",
+  bank: "isapromo_agency_bank_details_v1",
+  proposals: "isapromo_agency_proposals_v1",
+  contracts: "isapromord_contracts_v1",
+  accounting: "isapromo_agency_accounting_ledger_v1",
+  auditHistory: "isapromo_audited_history_v1",
+  viewMode: "isapromo_view_mode",
+  theme: "isapromo_theme"
 };
 
 export const SUPABASE_CONFIG = {
   URL: "https://biomfntvqbhjmmmggxzj.supabase.co",
   ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
-  TABLE_CLIENTS: "agency_clients"
+  TABLE_CLIENTS: "agency_clients",
+  // Lowercase aliases
+  url: "https://biomfntvqbhjmmmggxzj.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+  tableClients: "agency_clients"
 };
 
 export const DEFAULT_BANK_DETAILS = `🏦 *Datos Bancarios para Transferencia:*

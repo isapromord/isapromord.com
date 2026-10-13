@@ -946,46 +946,157 @@
 <body class="bg-[#0a0e17] font-sans text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#00d2ff] selection:text-black">
 
   <!-- ========================================================
-       MODAL DE AUTENTICACIÓN / BLOQUEO PIN
+       MODAL DE AUTENTICACIÓN / ENTERPRISE MULTI-AUTH
        ======================================================== -->
-  <div id="authLockModal" class="fixed inset-0 z-50 bg-[#0a0e17]/90 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
-    <div class="bg-[#121824] rounded-lg p-8 max-w-sm w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-      <div class="w-16 h-16 rounded-md bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-4 shadow-inner">
-        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-10 h-10 object-contain" />
-      </div>
-      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#161f30] text-slate-300 text-xs font-bold uppercase tracking-wider mb-2 border border-[#222f46]">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Nodo MBOS Seguro
-      </div>
-      <h2 class="text-xl font-black text-white mb-1">ISAPromoRD Admin</h2>
-      <p class="text-xs text-slate-400 mb-6">Ingresa tu PIN de seguridad para acceder a la gestión de clientes y proyectos.</p>
+  <div id="authLockModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-[#121824] rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Ambient Glow Decorator -->
+      <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-24 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-      <form id="pinForm" onsubmit="handlePinSubmit(event)" class="space-y-4">
-        <div>
-          <input 
-            type="password" 
-            id="pinInput" 
-            maxlength="6" 
-            placeholder="••••" 
-            autocomplete="current-password"
-            class="w-full text-center text-2xl tracking-[0.5em] font-mono font-bold py-3 px-4 rounded border border-[#222f46] focus:outline-none focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] bg-[#0a0e17] text-white"
-            required
-            autofocus
-          />
-          <p id="pinError" class="text-rose-500 text-xs font-semibold mt-2 hidden">PIN incorrecto. Intenta de nuevo.</p>
-        </div>
-        <button 
-          type="submit" 
-          class="w-full py-3.5 px-5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] active:scale-[0.98] text-slate-950 font-black rounded shadow-glow-cyan transition-all text-sm flex items-center justify-center gap-2"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-          Desbloquear Panel
-        </button>
-      </form>
-      <div class="mt-5 pt-4 border-t border-[#222f46] flex items-center justify-between text-[11px] text-slate-400 font-mono">
-        <span>PIN de fábrica: <strong class="text-slate-200">3690</strong></span>
-        <a href="../" class="hover:text-[#00d2ff] transition-colors">Volver a la Web</a>
+      <!-- Brand Header -->
+      <div class="w-14 h-14 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-3 shadow-inner relative">
+        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-9 h-9 object-contain" />
       </div>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#161f30] text-slate-300 text-[11px] font-bold uppercase tracking-wider mb-2 border border-[#222f46]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Nodo MBOS Seguro • v2.0
+      </div>
+      <h2 class="text-xl font-black text-white mb-0.5">ISAPromoRD Admin</h2>
+      <p class="text-xs text-slate-400 mb-5">Centro de Control & Gestión de Clientes</p>
+
+      <!-- Selector de Modo de Autenticación -->
+      <div class="flex items-center p-1 bg-[#0a0e17] rounded-lg border border-[#222f46] mb-5 gap-1">
+        <button 
+          id="authTabPinBtn" 
+          type="button" 
+          onclick="switchAuthMode('pin')" 
+          class="flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all"
+        >
+          🔑 PIN Rápido
+        </button>
+        <button 
+          id="authTabEmailBtn" 
+          type="button" 
+          onclick="switchAuthMode('email')" 
+          class="flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all"
+        >
+          ✉️ Google & Correo
+        </button>
+      </div>
+
+      <!-- MODO 1: PIN RÁPIDO -->
+      <div id="authSectionPin" class="space-y-4">
+        <form id="pinForm" onsubmit="handlePinSubmit(event)" class="space-y-3">
+          <div>
+            <input 
+              type="password" 
+              id="pinInput" 
+              maxlength="6" 
+              placeholder="••••" 
+              autocomplete="current-password"
+              class="w-full text-center text-2xl tracking-[0.5em] font-mono font-bold py-3 px-4 rounded-lg border border-[#222f46] focus:outline-none focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] bg-[#0a0e17] text-white"
+              required
+              autofocus
+            />
+            <p id="pinError" class="text-rose-400 text-xs font-semibold mt-2 hidden">PIN incorrecto. Puedes usar 3690 o Acceso de Emergencia.</p>
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-400 px-1">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="pinRememberMe" class="rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-500" checked />
+              <span>Recordar este equipo</span>
+            </label>
+            <span class="text-[11px] font-mono text-slate-500">PIN: <strong class="text-slate-300">3690</strong></span>
+          </div>
+
+          <button 
+            type="submit" 
+            class="w-full py-3 px-5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] active:scale-[0.98] text-slate-950 font-black rounded-lg shadow-glow-cyan transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            Desbloquear con PIN
+          </button>
+        </form>
+      </div>
+
+      <!-- MODO 2: GOOGLE & CORREO SUPABASE -->
+      <div id="authSectionEmail" class="space-y-3 hidden text-left">
+        <!-- Botón Google OAuth -->
+        <button 
+          type="button" 
+          onclick="handleGoogleLogin()" 
+          class="w-full py-2.5 px-4 rounded-lg bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs flex items-center justify-center gap-2.5 transition-all shadow-sm"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.17 0 9.99 0 12s.45 3.83 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+          Continuar con Google
+        </button>
+
+        <div class="relative flex items-center justify-center my-2">
+          <div class="border-t border-[#222f46] w-full"></div>
+          <span class="bg-[#121824] px-2 text-[10px] text-slate-500 uppercase tracking-widest font-mono">o con correo</span>
+        </div>
+
+        <form id="authEmailForm" onsubmit="handleEmailPasswordLogin(event)" class="space-y-2.5">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Correo Electrónico</label>
+            <input 
+              type="email" 
+              id="authEmailInput" 
+              placeholder="admin@isapromord.com" 
+              autocomplete="email"
+              class="w-full text-xs py-2 px-3 rounded-lg border border-[#222f46] focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#0a0e17] text-white"
+            />
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Contraseña</label>
+            <input 
+              type="password" 
+              id="authPasswordInput" 
+              placeholder="••••••••" 
+              autocomplete="current-password"
+              class="w-full text-xs py-2 px-3 rounded-lg border border-[#222f46] focus:outline-none focus:ring-1 focus:ring-cyan-500 bg-[#0a0e17] text-white"
+            />
+          </div>
+          <p id="authEmailError" class="text-rose-400 text-xs font-semibold hidden"></p>
+
+          <button 
+            type="submit" 
+            id="authEmailSubmitBtn"
+            class="w-full py-2.5 px-4 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-bold rounded-lg transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+          >
+            Iniciar Sesión
+          </button>
+
+          <div class="text-center pt-1">
+            <button 
+              type="button" 
+              onclick="handleMagicLinkLogin()" 
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 underline underline-offset-2 transition-colors"
+            >
+              ✨ Enviar enlace de acceso directo (Magic Link)
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- CONTINGENCIA Y ACCESO DE EMERGENCIA GARANTIZADO -->
+      <div class="mt-5 pt-4 border-t border-[#222f46] space-y-2">
+        <button 
+          type="button" 
+          onclick="emergencyBypassAuth()" 
+          class="w-full py-2.5 px-3 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 hover:text-amber-200 text-xs font-bold transition-all flex items-center justify-center gap-2 group shadow-sm"
+          title="Acceso directo de contingencia garantizado para Isaías Santana"
+        >
+          <span class="text-amber-400 text-sm group-hover:scale-125 transition-transform">⚡</span>
+          <span>Acceso de Emergencia (Isaías Santana)</span>
+        </button>
+        <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono px-1">
+          <span class="text-slate-500">Nodo: <span class="text-slate-300">isapromord.com</span></span>
+          <a href="../" class="hover:text-[#00d2ff] transition-colors">Volver a la Web</a>
+        </div>
+      </div>
+
     </div>
   </div>
 

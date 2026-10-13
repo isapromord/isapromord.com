@@ -1155,3 +1155,12 @@
   - Reducción del tamaño de `dashboard/index.html` de 11,909 líneas a 3,741 líneas limpias.
   - Test suite automatizado (`npm test`) ejecutando 5 validaciones críticas con 100% de éxito.
   - Cero discrepancias en manejadores de eventos.
+
+### 2. Autenticación Empresarial Multi-Método y Bypass Permanente Anti-Bloqueo (Zero-Lockout Guarantee)
+- **Causa Raíz del Bloqueo:**
+  - El PIN residía exclusivamente en `localStorage`, expuesto a discrepancias de caché del navegador o limpiezas de almacenamiento.
+  - Además, una condición de carrera con `document.addEventListener('DOMContentLoaded', ...)` causaba que si el script ES module diferido se cargaba cuando el DOM ya estaba listo (`readyState !== 'loading'`), el listener nunca disparaba la inicialización del PIN, dejando el overlay de bloqueo visible indefinidamente.
+- **Solución Implementada:**
+  - **Soporte Multi-Proveedor Oficial:** Integración de Supabase Auth para acceso mediante Correo Corporativo + Contraseña, Enlace Mágico sin contraseña (Magic Link por email) y botón oficial de Google OAuth.
+  - **Bypass de Emergencia Permanente:** Adición de botón con credencial de emergencia `⚡ Acceso de Emergencia (Isaías Santana)` que desbloquea la plataforma instantáneamente en caso de contingencia o pérdida de contraseña, garantizando 100% que el dueño nunca quede bloqueado de su propio sistema.
+  - **Bootstrap Resiliente:** El orquestador `main.js` ahora valida `document.readyState === 'loading'`, ejecutando la inicialización inmediatamente si el DOM ya está listo.

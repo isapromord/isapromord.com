@@ -28,3 +28,7 @@
    - Cuando un sitio cuenta con firewall Cloudflare/Wordfence que bloquea scrapers, el motor audita Anycast, Latencia y SSL y marca el HTML interno como `"protected"` con advertencia explicativa, en lugar de atribuir falsos ceros técnicos.
 4. **Bóveda Documental y Contratos 50/50:**
    - Anticipo 50% al contratar, 50% restante a la entrega a satisfacción; 5 días de gracia laborables; cláusula de suspensión de servicio (Take-Down) tras el vencimiento; firma digital caligráfica y táctil; descargable en PDF legal y accesible vía URL cifrada.
+5. **Autenticación Empresarial Multi-Método y Bypass Permanente Anti-Bloqueo:**
+   - Soporte para Supabase Auth (Email & Password, Magic Link sin contraseña, Google OAuth) junto con el PIN Rápido (`3690`).
+   - Botón de rescate de emergencia `⚡ Acceso de Emergencia (Isaías Santana)` que desbloquea la plataforma instantáneamente en caso de contingencia.
+   - Bootstrap resiliente a estados del DOM (`readyState !== 'loading'`) eliminando pantallas de bloqueo por retrasos de carga de scripts.

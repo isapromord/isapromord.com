@@ -352,8 +352,6 @@ export function openContractEditorModal(contractId, prefill) {
     }
   }
 
-  const delBtn = document.getElementById("contractEditDeleteBtn");
-  const viewBtn = document.getElementById("contractEditViewBtn");
   if (contractId) {
     if (delBtn) delBtn.classList.remove("hidden");
     if (viewBtn) viewBtn.classList.remove("hidden");
@@ -362,7 +360,18 @@ export function openContractEditorModal(contractId, prefill) {
     if (viewBtn) viewBtn.classList.add("hidden");
   }
 
-  recalcContractAmounts();
+  if (data.totalSetup !== undefined && data.totalSetup !== null && data.totalSetup > 0) {
+    const totalSetupInput = document.getElementById("contractEditTotalSetup");
+    if (totalSetupInput) totalSetupInput.value = data.totalSetup;
+    handleManualTotalSetupChange();
+  } else {
+    recalcContractAmounts();
+  }
+
+  if (data.totalMonthly !== undefined && data.totalMonthly !== null) {
+    const totalMonthlyInput = document.getElementById("contractEditMonthlyFee");
+    if (totalMonthlyInput) totalMonthlyInput.value = data.totalMonthly;
+  }
 
   modal.classList.remove("hidden");
   modal.classList.add("flex");
@@ -462,6 +471,13 @@ export function recalcContractAmounts() {
   if (totalSetupInput) totalSetupInput.value = totalSetup;
   if (totalMonthlyInput) totalMonthlyInput.value = totalMonthly;
 
+  handleManualTotalSetupChange();
+}
+
+export function handleManualTotalSetupChange() {
+  const totalSetupInput = document.getElementById("contractEditTotalSetup");
+  const totalSetup = totalSetupInput ? (parseFloat(totalSetupInput.value) || 0) : 0;
+
   const deposit = Math.round(totalSetup * 0.5);
   const completion = totalSetup - deposit;
 
@@ -470,6 +486,10 @@ export function recalcContractAmounts() {
 
   if (depEl) depEl.textContent = `RD$ ${deposit.toLocaleString('es-DO')}`;
   if (compEl) compEl.textContent = `RD$ ${completion.toLocaleString('es-DO')}`;
+}
+
+export function handleManualMonthlyChange() {
+  // Permite edición libre de la mensualidad sin sobreescrituras automáticas
 }
 
 export function saveContractFromModal(e) {
@@ -643,8 +663,10 @@ export function createContractFromProposal(proposalId, clientId) {
   let totalMonthly = 4500;
 
   if (payload) {
-    const pkg = payload.offeredPackage || payload.basePackage;
-    if (pkg) {
+    const isCombo = payload.mode === 'comparison' && payload.offeredPackage && payload.offeredPackage.id !== 'pack-none' && payload.offeredPackage.id !== 'pack-custom';
+    
+    if (isCombo) {
+      const pkg = payload.offeredPackage;
       services.push({
         name: pkg.title || 'Desarrollo Web & Plataforma',
         type: 'onetime',
@@ -656,22 +678,43 @@ export function createContractFromProposal(proposalId, clientId) {
           'Despliegue Anycast Global con certificado SSL TLS 1.3'
         ]
       });
-    }
 
-    const addons = payload.selectedServices || payload.addons || [];
-    if (Array.isArray(addons)) {
-      addons.forEach(a => {
-        services.push({
-          name: a.name || 'Servicio Contratado',
-          type: a.type === 'monthly' ? 'monthly' : 'onetime',
-          price: Number(a.price || 0),
-          deliverables: a.description ? [a.description] : [a.name]
+      const includedIds = pkg.includedAddonIds || [];
+      const addons = payload.selectedServices || payload.addons || [];
+      if (Array.isArray(addons)) {
+        addons.forEach(a => {
+          if (!includedIds.includes(a.id)) {
+            services.push({
+              name: a.name || 'Servicio Contratado',
+              type: a.type === 'monthly' ? 'monthly' : 'onetime',
+              price: Number(a.price || 0),
+              deliverables: a.description ? [a.description] : [a.name]
+            });
+          }
         });
-      });
+      }
+    } else {
+      // Modo A la Carta: Solo los servicios y módulos individuales seleccionados
+      const addons = payload.selectedServices || payload.addons || [];
+      if (Array.isArray(addons)) {
+        addons.forEach(a => {
+          services.push({
+            name: a.name || 'Servicio Contratado',
+            type: a.type === 'monthly' ? 'monthly' : 'onetime',
+            price: Number(a.price || 0),
+            deliverables: a.description ? [a.description] : [a.name]
+          });
+        });
+      }
     }
 
-    if (payload.proposalSetup) totalSetup = Number(payload.proposalSetup);
-    if (payload.proposalMonthly) totalMonthly = Number(payload.proposalMonthly);
+    if (payload.proposalSetup !== undefined) totalSetup = Number(payload.proposalSetup);
+    else if (payload.packageTotals?.setup !== undefined) totalSetup = Number(payload.packageTotals.setup);
+    else if (payload.alacarteTotals?.setup !== undefined) totalSetup = Number(payload.alacarteTotals.setup);
+
+    if (payload.proposalMonthly !== undefined) totalMonthly = Number(payload.proposalMonthly);
+    else if (payload.packageTotals?.monthly !== undefined) totalMonthly = Number(payload.packageTotals.monthly);
+    else if (payload.alacarteTotals?.monthly !== undefined) totalMonthly = Number(payload.alacarteTotals.monthly);
   }
 
   const existingContracts = getStoredContracts();

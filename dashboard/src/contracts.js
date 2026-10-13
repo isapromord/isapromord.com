@@ -352,6 +352,9 @@ export function openContractEditorModal(contractId, prefill) {
     }
   }
 
+  const delBtn = document.getElementById("contractEditDeleteBtn");
+  const viewBtn = document.getElementById("contractEditViewBtn");
+
   if (contractId) {
     if (delBtn) delBtn.classList.remove("hidden");
     if (viewBtn) viewBtn.classList.remove("hidden");
@@ -657,6 +660,40 @@ export function createContractFromProposal(proposalId, clientId) {
     const raw = localStorage.getItem("proposal_" + proposalId);
     if (raw) payload = JSON.parse(raw);
   } catch (e) {}
+
+  if (!payload) {
+    try {
+      const history = JSON.parse(localStorage.getItem(STORAGE_KEYS.proposals) || "[]");
+      const foundInHist = history.find(h => h.id === proposalId);
+      if (foundInHist) {
+        payload = {
+          id: foundInHist.id,
+          clientName: foundInHist.clientName,
+          clientCategory: foundInHist.category,
+          proposalSetup: foundInHist.onetime,
+          proposalMonthly: foundInHist.monthly,
+          mode: 'alacarte',
+          selectedServices: [
+            {
+              name: `Servicios Contratados (${foundInHist.clientName})`,
+              type: 'onetime',
+              price: foundInHist.onetime || 0,
+              description: 'Entregables y servicios aprobados en la propuesta.'
+            }
+          ]
+        };
+        if (!clientId && foundInHist.clientId) {
+          clientId = foundInHist.clientId;
+          client = state.clients.find(c => c.id === clientId);
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (!client && payload?.clientName) {
+    const norm = payload.clientName.trim().toLowerCase();
+    client = state.clients.find(c => c.name && c.name.trim().toLowerCase() === norm);
+  }
 
   const services = [];
   let totalSetup = 28000;

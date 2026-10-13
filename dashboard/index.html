@@ -3846,11 +3846,13 @@
   <!-- ========================================================
        MODAL: EDITOR Y GENERADOR DE CONTRATO FORMAL (50/50)
        ======================================================== -->
-  <div id="contractEditorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-3xl w-full shadow-2xl border border-white/10 my-8 space-y-6 text-slate-200">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+  <div id="contractEditorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl p-5 sm:p-6 w-full max-w-6xl xl:max-w-7xl shadow-2xl border border-white/10 my-auto max-h-[96vh] flex flex-col space-y-3.5 text-slate-200">
+      
+      <!-- Encabezado del Modal -->
+      <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg font-bold">
+          <div class="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-lg font-bold shrink-0">
             📜
           </div>
           <div>
@@ -3858,105 +3860,123 @@
             <p class="text-xs text-slate-400">Esquema 50/50, entregables vinculantes y cláusula de suspensión por mora.</p>
           </div>
         </div>
-        <button onclick="closeContractEditorModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
+        <button type="button" onclick="closeContractEditorModal()" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer" title="Cerrar modal">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
-      <form id="contractEditorForm" onsubmit="saveContractFromModal(event)" class="space-y-5 text-xs">
+      <form id="contractEditorForm" onsubmit="saveContractFromModal(event)" class="space-y-3.5 text-xs flex flex-col flex-1 overflow-hidden">
         <input type="hidden" id="contractEditId" value="" />
         <input type="hidden" id="contractEditProposalId" value="" />
 
-        <!-- Datos Principales del Contrato -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <!-- 1. BARRA SUPERIOR HORIZONTAL DE METADATOS (6 COLUMNAS COMPACTAS) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 bg-[#06080d]/90 p-3 rounded-lg border border-white/[0.06] shrink-0">
           <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">No. de Contrato *</label>
-            <input type="text" id="contractEditNumber" required placeholder="CTR-2026-001" class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-cyan-300 font-mono text-xs font-bold focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">No. de Contrato *</label>
+            <input type="text" id="contractEditNumber" required placeholder="CTR-2026-001" class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-cyan-300 font-mono text-xs font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
           </div>
           <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Cliente Vinculado *</label>
-            <select id="contractEditClientSelect" onchange="handleContractClientSelectChange()" class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white font-semibold text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">Cliente Vinculado *</label>
+            <select id="contractEditClientSelect" onchange="handleContractClientSelectChange()" class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-white font-semibold text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none cursor-pointer">
               <!-- Clientes dinámicos -->
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Fecha de Emisión *</label>
-            <input type="text" id="contractEditDate" required class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white font-mono text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">Fecha de Emisión *</label>
+            <input type="text" id="contractEditDate" required class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-white font-mono text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">RNC o Cédula</label>
+            <input type="text" id="contractEditRnc" placeholder="1-32-12345-6" class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-white font-mono text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">Representante Legal</label>
+            <input type="text" id="contractEditRepresentative" placeholder="Nombre contacto" class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-white text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1 text-[10px]">Tiempo Estimado</label>
+            <input type="text" id="contractEditDeliveryDays" value="10 a 15 días laborables" class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-white/10 text-white text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">RNC o Cédula del Cliente</label>
-            <input type="text" id="contractEditRnc" placeholder="Ej: 1-32-12345-6" class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white font-mono text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Representante Legal / Contacto</label>
-            <input type="text" id="contractEditRepresentative" placeholder="Nombre completo" class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Tiempo Estimado de Entrega</label>
-            <input type="text" id="contractEditDeliveryDays" value="10 a 15 días laborables" class="w-full px-3 py-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-        </div>
-
-        <!-- Desglose de Servicios Contratados -->
-        <div class="space-y-2 pt-2 border-t border-white/10">
-          <div class="flex items-center justify-between">
-            <label class="block font-bold text-slate-200 uppercase tracking-wider">Servicios y Entregables Contratados</label>
-            <button type="button" onclick="addContractServiceRow()" class="px-2.5 py-1 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold cursor-pointer transition-colors">
-              + Agregar Servicio
-            </button>
-          </div>
+        <!-- 2. CUERPO PRINCIPAL: 2 COLUMNAS AMPLIAS (SERVICIOS A LA IZQUIERDA | FINANZAS & ACCIONES A LA DERECHA) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 overflow-hidden items-start">
           
-          <div id="contractServicesContainer" class="space-y-2.5 max-h-60 overflow-y-auto pr-1">
-            <!-- Filas dinámicas inyectadas por JS -->
-          </div>
-        </div>
-
-        <!-- Cuadro Resumen Financiero Automático -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-xl bg-[#06080d] border border-white/10 font-mono text-xs">
-          <div>
-            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Total Setup (RD$)</span>
-            <input type="number" id="contractEditTotalSetup" oninput="recalcContractAmounts()" class="w-full bg-transparent text-white font-black text-sm border-b border-white/20 focus:border-cyan-400 focus:outline-none" />
-          </div>
-          <div class="p-2 rounded bg-indigo-950/40 border border-indigo-500/30">
-            <span class="text-[10px] text-indigo-300 uppercase tracking-wider font-bold block">50% Anticipo Inicio</span>
-            <span id="contractEditDepositDisplay" class="text-sm font-black text-indigo-300 block">RD$ 0</span>
-          </div>
-          <div class="p-2 rounded bg-emerald-950/40 border border-emerald-500/30">
-            <span class="text-[10px] text-emerald-300 uppercase tracking-wider font-bold block">50% Contra Entrega</span>
-            <span id="contractEditCompletionDisplay" class="text-sm font-black text-emerald-300 block">RD$ 0</span>
-          </div>
-          <div>
-            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Mensualidad (RD$)</span>
-            <input type="number" id="contractEditMonthlyFee" oninput="recalcContractAmounts()" class="w-full bg-transparent text-cyan-300 font-bold text-sm border-b border-white/20 focus:border-cyan-400 focus:outline-none" />
-          </div>
-        </div>
-
-        <!-- Cláusula de Resguardo y Suspensión -->
-        <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] leading-relaxed">
-          <strong>⚖️ Cláusula de Cobro & Suspensión:</strong> 5 días laborables de gracia tras la entrega final. En caso de no recibirse el saldo del 50%, ISAPromoRD se reserva el derecho de suspender la plataforma web y servicios cloud hasta liquidación total.
-        </div>
-
-        <!-- Botones de Acción -->
-        <div class="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
-            <button type="button" id="contractEditDeleteBtn" onclick="deleteCurrentEditingContract()" class="px-3.5 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-rose-500/30 font-bold text-xs transition-colors hidden cursor-pointer">
-              Eliminar
-            </button>
-            <button type="button" id="contractEditViewBtn" onclick="viewCurrentEditingContract()" class="px-3.5 py-2 rounded-lg text-cyan-300 hover:text-white bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 font-bold text-xs transition-colors hidden cursor-pointer">
-              👁️ Abrir para Firma
-            </button>
+          <!-- COLUMNA IZQUIERDA: SERVICIOS Y ENTREGABLES CONTRATADOS (ESPACIOSO) -->
+          <div class="lg:col-span-7 xl:col-span-8 space-y-2 flex flex-col h-full overflow-hidden">
+            <div class="flex items-center justify-between pb-1 shrink-0">
+              <div class="flex items-center gap-2">
+                <span class="text-sm">📦</span>
+                <label class="block font-bold text-slate-200 uppercase tracking-wider text-xs">Servicios y Entregables Contratados</label>
+              </div>
+              <button type="button" onclick="addContractServiceRow()" class="px-2.5 py-1 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold cursor-pointer transition-all flex items-center gap-1 shadow-sm active:scale-95">
+                <span>+ Agregar Servicio</span>
+              </button>
+            </div>
+            
+            <div id="contractServicesContainer" class="space-y-2.5 max-h-[360px] overflow-y-auto pr-1.5 flex-1">
+              <!-- Filas dinámicas inyectadas por JS -->
+            </div>
           </div>
 
-          <div class="flex items-center gap-3 ml-auto">
-            <button type="button" onclick="closeContractEditorModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-xs transition-colors cursor-pointer">
-              Cancelar
-            </button>
-            <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">
-              💾 Guardar Contrato & Enlace
-            </button>
+          <!-- COLUMNA DERECHA: FINANZAS 50/50, CLÁUSULA LEGAL Y ACCIONES -->
+          <div class="lg:col-span-5 xl:col-span-4 space-y-3 shrink-0 flex flex-col justify-between">
+            
+            <!-- Resumen Financiero 50/50 -->
+            <div class="p-3.5 rounded-lg bg-[#06080d] border border-white/10 space-y-2.5 font-mono text-xs">
+              <div class="flex items-center justify-between border-b border-white/[0.06] pb-2 font-sans">
+                <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>💰</span> Resumen Financiero (Esquema 50/50)
+                </span>
+                <span class="text-[10px] text-cyan-400 font-mono font-semibold">Cálculo en Vivo</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-2.5 rounded bg-slate-900/90 border border-white/10">
+                  <span class="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">Total Setup (RD$)</span>
+                  <input type="number" id="contractEditTotalSetup" oninput="recalcContractAmounts()" class="w-full bg-transparent text-white font-black text-sm border-b border-white/20 focus:border-cyan-400 focus:outline-none" />
+                </div>
+                <div class="p-2.5 rounded bg-slate-900/90 border border-white/10">
+                  <span class="text-[10px] text-slate-400 uppercase tracking-wider block mb-0.5">Mensualidad (RD$)</span>
+                  <input type="number" id="contractEditMonthlyFee" oninput="recalcContractAmounts()" class="w-full bg-transparent text-cyan-300 font-bold text-sm border-b border-white/20 focus:border-cyan-400 focus:outline-none" />
+                </div>
+                <div class="p-2.5 rounded bg-indigo-950/50 border border-indigo-500/30">
+                  <span class="text-[10px] text-indigo-300 uppercase tracking-wider font-bold block">50% Anticipo Inicio</span>
+                  <span id="contractEditDepositDisplay" class="text-sm font-black text-indigo-300 block mt-0.5">RD$ 0</span>
+                </div>
+                <div class="p-2.5 rounded bg-emerald-950/50 border border-emerald-500/30">
+                  <span class="text-[10px] text-emerald-300 uppercase tracking-wider font-bold block">50% Contra Entrega</span>
+                  <span id="contractEditCompletionDisplay" class="text-sm font-black text-emerald-300 block mt-0.5">RD$ 0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cláusula de Cobro & Suspensión -->
+            <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] leading-relaxed">
+              <strong>⚖️ Cláusula de Cobro & Suspensión:</strong> 5 días laborables de gracia tras la entrega final. En caso de no recibirse el saldo del 50%, ISAPromoRD se reserva el derecho de suspender la plataforma y servicios cloud hasta liquidación total.
+            </div>
+
+            <!-- Botones de Acción Integrados -->
+            <div class="pt-2 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <button type="button" id="contractEditDeleteBtn" onclick="deleteCurrentEditingContract()" class="px-3 py-2 rounded-lg text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-rose-500/30 font-bold text-xs transition-colors hidden cursor-pointer" title="Eliminar este contrato">
+                  🗑️
+                </button>
+                <button type="button" id="contractEditViewBtn" onclick="viewCurrentEditingContract()" class="px-3 py-2 rounded-lg text-cyan-300 hover:text-white bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 font-bold text-xs transition-colors hidden cursor-pointer" title="Abrir para firma electrónica">
+                  👁️ Abrir Firma
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2 ml-auto">
+                <button type="button" onclick="closeContractEditorModal()" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-xs transition-colors cursor-pointer">
+                  Cancelar
+                </button>
+                <button type="submit" class="px-5 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">
+                  💾 Guardar Contrato
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
 

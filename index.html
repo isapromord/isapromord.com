@@ -1089,22 +1089,9 @@
              COLUMNA IZQUIERDA (STICKY TOP): PURE BORDERLESS CANVAS (6 COLS)
              ============================================== -->
         <div class="lg:col-span-6 sticky top-24 lg:top-28 z-20">
-          <!-- Floating borderless visual screen aligned to exact 3:2 aspect ratio matching user viewport boundary -->
-          <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/2] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
+          <!-- Floating borderless visual screen: square corners (no rounded corners), pure edge-to-edge image, no top/bottom banners -->
+          <div class="relative w-full rounded-none overflow-hidden aspect-[3/2] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
             
-            <!-- Floating Minimal Telemetry Pill (Non-invasive top badge) -->
-            <div class="absolute top-3.5 left-3.5 right-3.5 z-30 flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-cyan-500/25">
-              <div class="flex items-center gap-2 font-mono text-[10px] sm:text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span id="stickyStageLabel">PALANCA 01 / DESCUBRIR</span>
-              </div>
-              <div class="flex items-center gap-1 font-mono text-xs text-slate-300">
-                <span class="text-white font-bold text-sm" id="stickyCurrentStep">01</span>
-                <span>/</span>
-                <span>04</span>
-              </div>
-            </div>
-
             <!-- SLIDE 1: Google Maps Top 1 (Panned & Centrado 3:2 Retina) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
               <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
@@ -1151,12 +1138,6 @@
                   Centraliza clientes, cotizaciones en RD$ y cobros recurrentes sin pagar licencias mensuales por usuario.
                 </p>
               </div>
-            </div>
-
-            <!-- Floating Subtle Next Step Pill at bottom -->
-            <div class="absolute bottom-3 left-3 right-3 z-30 flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300">
-              <span id="stickyFooterNext">SIGUIENTE: VELOCIDAD WEB</span>
-              <span class="text-cyan-400 font-bold">⚡ SYNC ACTIVO</span>
             </div>
 
           </div>

@@ -1693,84 +1693,106 @@
       </div>
 
       <!-- ========================================================
-           ADICIÓN 3: TRANSPARENCIA FINANCIERA Y CANALES DE PAGO
+           COMPONENTE UNIFICADO: CÁPSULA FINANCIERA 50/50 & COTIZACIÓN A LA CARTA
+           (Fusiona redundancia en un panel de alta ingeniería estilo Linear/Fintech)
            ======================================================== -->
-      <div class="my-12 p-8 sm:p-10 rounded-3xl bg-[#0f131c] border border-cyan-500/20 max-w-4xl mx-auto relative overflow-hidden" data-purpose="financial-transparency-banner">
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 text-center md:text-left">
-          <div class="w-16 h-16 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-center text-3xl shrink-0">
-            🛡️
-          </div>
-          <div class="flex-grow space-y-4">
-            <div>
-              <span class="inline-block px-3 py-1 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-[#10b981] font-mono text-xs font-bold uppercase tracking-wider mb-2">
-                🛡️ ESQUEMA DE CONFIANZA 50/50 • CERO RIESGO COMERCIAL
-              </span>
-              <p class="text-sm sm:text-base text-slate-200 font-medium leading-relaxed">
-                Pagas el 50% para iniciar y el 50% restante solo cuando la plataforma esté completamente auditada a 100/100 Core Web Vitals y verificada en producción.
-              </p>
+      <div class="my-16 max-w-5xl mx-auto rounded-3xl bg-gradient-to-b from-[#131b2a] to-[#0c121e] border border-cyan-500/30 p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]" data-purpose="unified-financial-trust-capsule">
+        <!-- Glow accents -->
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          <!-- Lado Izquierdo (7 cols): Escudo de Garantía Técnica y Flujo de Pago 50/50 -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Garantía de Rendimiento Técnico 50/50 • Cero Riesgo
             </div>
 
-            <div class="pt-3 border-t border-slate-800">
-              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4">
-                <strong class="text-white">Canales de Pago Locales &amp; Liquidación Digital:</strong> Pagos directos vía transferencia bancaria con recibos digitales de liquidación y contrato privado de prestación de servicios.
-              </p>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+              Pagas solo cuando tu plataforma esté <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">100% verificada en producción</span>.
+            </h3>
 
-              <!-- BADGES BANCARIOS -->
-              <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 font-mono text-xs text-slate-300">
-                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500"></span> Banco Popular Dominicano
+            <!-- HUD Step Progress Bar -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+              <!-- Fase 1 -->
+              <div class="p-4 rounded-2xl bg-[#080d16]/90 border border-slate-800/80 hover:border-cyan-500/30 transition-all">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-[11px] font-mono text-cyan-400 font-bold tracking-wider uppercase">Fase 1 • Arranque</span>
+                  <span class="px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 text-[10px] font-mono font-bold">50% Anticipo</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Inicia la arquitectura técnica, diseño UX transaccional y estructura de bases de datos.
+                </p>
+              </div>
+
+              <!-- Fase 2 -->
+              <div class="p-4 rounded-2xl bg-[#080d16]/90 border border-emerald-500/30 hover:border-emerald-500/50 transition-all shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)]">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-[11px] font-mono text-emerald-400 font-bold tracking-wider uppercase">Fase 2 • Entrega Final</span>
+                  <span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 text-[10px] font-mono font-bold">50% Restante</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Abonas <strong class="text-white">SOLO</strong> tras auditar velocidad (&lt;1s Lighthouse), ficha Maps y Placa NFC/QR listas.
+                </p>
+              </div>
+            </div>
+
+            <!-- Canales Bancarios Dominicanos e Internacionales -->
+            <div class="pt-2">
+              <span class="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2.5">
+                Liquidación oficial con contrato privado de servicios:
+              </span>
+              <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-300">
+                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span> Popular
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
+                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Banreservas
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-cyan-500"></span> Banco BHD
+                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-cyan-500"></span> BHD
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#161b26] border border-slate-800 flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-purple-500"></span> Stripe / Tarjetas Internacionales
+                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-purple-400"></span> Stripe / Tarjetas
                 </span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Tarjeta Principal de Cotización Interactiva -->
-      <div class="p-8 sm:p-12 rounded-3xl bg-[#161f30] border-2 border-[#00d2ff]/50 shadow-glow-cyan text-center max-w-4xl mx-auto mb-12 relative overflow-hidden">
-        <h4 class="text-2xl sm:text-4xl font-black text-white tracking-tight mb-4">
-          ¿Deseas una cotización a la carta para tu empresa?
-        </h4>
-        <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed">
-          Cuéntanos sobre tu modelo de negocio y en minutos estructuramos tu propuesta interactiva personalizada con el desglose exacto de los módulos que necesitas y tiempos de entrega claros.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl text-white font-extrabold text-sm sm:text-base transition-all shadow-[0_0_30px_-5px_rgba(37,211,102,0.5)] hover:scale-[1.02] active:scale-[0.98]" 
-             href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20una%20cotizaci%C3%B3n%20a%20la%20carta%20para%20mi%20empresa" 
-             rel="noopener noreferrer" 
-             target="_blank"
-             style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);">
-            <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
-            <span>Pedir Cotización a la Carta por WhatsApp →</span>
-          </a>
-          <a class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-[#121824] hover:bg-[#1a2336] text-slate-300 hover:text-white border border-[#222f46] font-bold text-sm transition-all" 
-             href="propuestas/demo/" 
-             target="_blank">
-            <span>Ver Demo de Propuesta Interactiva</span>
-            <span>↗</span>
-          </a>
-        </div>
-      </div>
+          <!-- Lado Derecho (5 cols): Cotización a la Carta Directa -->
+          <div class="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-[#090e17]/95 border border-cyan-500/40 shadow-glow-cyan text-center flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl mx-auto mb-4">
+                📐
+              </div>
+              <h4 class="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
+                ¿Requieres una solución a la medida?
+              </h4>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                Estructuramos tu propuesta comercial interactiva en minutos con desglose transparente de módulos, integraciones y plazos.
+              </p>
+            </div>
 
-      <!-- Garantía de Rendimiento Técnico 50/50 & Entrega Verificada -->
-      <div class="max-w-4xl mx-auto p-6 rounded-2xl bg-[#0c121e] border-2 border-[#10b981]/40 shadow-glow-emerald">
-        <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-          <span class="text-4xl">🛡️</span>
-          <div>
-            <h5 class="text-sm font-bold text-[#10b981] font-mono uppercase tracking-wide mb-1">GARANTÍA DE RENDIMIENTO TÉCNICO 50/50 & ENTREGA VERIFICADA</h5>
-            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Cero riesgo para tu empresa: abonas el 50% de anticipo para iniciar el desarrollo, y el 50% restante <strong class="text-white">SOLO cuando tu plataforma esté 100% terminada</strong>, auditada a menos de 1 segundo de carga (<strong class="text-emerald-400">&lt;1s</strong>) en Google Lighthouse ante tus ojos, tu ficha de Google Maps configurada y tu Placa Inteligente NFC/QR entregada. Total transparencia y control.
-            </p>
+            <div class="space-y-3">
+              <a class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-white font-extrabold text-sm transition-all shadow-[0_0_25px_-5px_rgba(37,211,102,0.45)] hover:scale-[1.02] active:scale-[0.98]" 
+                 href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20una%20cotizaci%C3%B3n%20a%20la%20carta%20para%20mi%20empresa" 
+                 rel="noopener noreferrer" 
+                 target="_blank"
+                 style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);">
+                <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
+                <span>Cotizar a la Carta por WhatsApp</span>
+              </a>
+              <a class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-[#121824] hover:bg-[#182132] text-slate-300 hover:text-white border border-slate-800 font-bold text-xs transition-all" 
+                 href="propuestas/demo/" 
+                 target="_blank">
+                <span>Ver Demo de Propuesta Interactiva</span>
+                <span>↗</span>
+              </a>
+            </div>
           </div>
+
         </div>
       </div>
 
@@ -1778,74 +1800,96 @@
   </section>
 
   <!-- ========================================================
-       ADICIÓN 4: FAQ EXHAUSTIVO CON ACORDEONES DESPLEGABLES
+       ADICIÓN 4: FAQ TÉCNICO INTERACTIVO (SPLIT-LAYOUT ESTILO LINEAR)
        ======================================================== -->
-  <section class="py-24 relative border-t border-slate-800 bg-[#0b0f17]" data-purpose="technical-faq-section" id="faq-tecnico">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="py-24 relative border-t border-slate-800/80 bg-[#0a0e17]" data-purpose="technical-faq-section" id="faq-tecnico">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold mb-4">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#00d2ff]"></span>
-          CLARIDAD TÉCNICA • CERO AMBIGÜEDAD
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-          Ingeniería Sin Rodeos: Respuestas Técnicas y Comerciales
-        </h2>
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Resolvemos las dudas críticas de gerentes y propietarios antes de dar inicio a la ingeniería de su plataforma.
-        </p>
-      </div>
-
-      <!-- ACCORDION WRAPPER -->
-      <div class="space-y-4" id="isaFaqAccordion">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        <!-- ITEM 1 -->
-        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
-          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
-            <span class="text-base sm:text-lg">¿Por qué es tan crítico que mi página web cargue en menos de 0.5s en República Dominicana?</span>
-            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
-          </button>
-          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
-            En República Dominicana, más del 80% de los accesos a sitios web ocurren desde smartphones con redes móviles de Claro y Altice. Las conexiones en la calle o en interiores presentan fluctuaciones de señal. Si tu página tarda más de 2 segundos en responder, el 53% de los usuarios abandonan el sitio antes de ver tu oferta o pulsar el botón de WhatsApp. Al desarrollar con código limpio optimizado de última generación y servidores ultrarrápidos CDN en el Caribe y Miami, eliminamos las demoras de bases de datos pesadas, garantizando una apertura instantánea en menos de 0.5s y la máxima puntuación en Google.
+        <!-- Columna Izquierda Fija: Título & Micro-Badges de Confianza -->
+        <div class="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#00d2ff]"></span>
+            CLARIDAD TÉCNICA • CERO AMBIGÜEDAD
+          </div>
+          
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+            Ingeniería sin rodeos. Respuestas directas.
+          </h2>
+          
+          <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+            Resolvemos las dudas críticas de gerentes y directores comerciales antes de escribir la primera línea de código.
+          </p>
+
+          <div class="p-5 rounded-2xl bg-[#0f1420] border border-slate-800/80 space-y-3">
+            <div class="flex items-center gap-3 text-xs text-slate-300">
+              <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">✓</span>
+              <span>Auditoría en vivo de Core Web Vitals (&lt;1s)</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-slate-300">
+              <span class="w-6 h-6 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold">✓</span>
+              <span>Ficha Google Maps y Placa NFC/QR física</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-slate-300">
+              <span class="w-6 h-6 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">✓</span>
+              <span>Cobertura en Santo Domingo, Santiago y todo el país</span>
+            </div>
           </div>
         </div>
 
-        <!-- ITEM 2 -->
-        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
-          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
-            <span class="text-base sm:text-lg">¿Cuánto tiempo toma tener mi sitio web y Google Maps en producción?</span>
-            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
-          </button>
-          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
-            Nuestros tiempos de entrega son precisos y garantizados por contrato:
-            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-300">
-              <li><strong>Landing Transaccional (&lt;0.5s):</strong> De 7 a 10 días laborables completamente testeada en producción.</li>
-              <li><strong>Web Corporativa Multi-Página:</strong> De 10 a 14 días laborables incluyendo estructura para servicios y SEO On-Page.</li>
-              <li><strong>Configuración & Posicionamiento en Google Maps (GBP):</strong> De 5 a 7 días hábiles para la reestructuración completa de coordenadas, categorías comerciales de alto impacto, fotos geo-referenciadas y entrega de la Placa Inteligente NFC/QR.</li>
-            </ul>
+        <!-- Columna Derecha: Acordeones Refinados con Glow sutil -->
+        <div class="lg:col-span-7 space-y-3.5" id="isaFaqAccordion">
+          
+          <!-- ITEM 1 -->
+          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+            <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+              <span class="text-sm sm:text-base pr-2">¿Por qué es tan crítico que mi web cargue en menos de 0.5s en República Dominicana?</span>
+              <span class="w-7 h-7 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-base font-mono faq-icon">+</span>
+            </button>
+            <div class="hidden px-5 sm:px-6 pb-6 text-slate-300 text-xs sm:text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+              En RD, más del 80% del tráfico comercial se origina desde teléfonos móviles en redes de Claro y Altice con fluctuaciones de señal constantes. Si un sitio tarda más de 2 segundos, el 53% de los usuarios abandonan la página antes de interactuar. Con nuestra arquitectura CDN Anycast (Miami-Caribe) y código limpio compilado, tu página carga en menos de 0.5s, logrando retención inmediata y máxima posición en Google.
+            </div>
           </div>
-        </div>
 
-        <!-- ITEM 3 -->
-        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
-          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
-            <span class="text-base sm:text-lg">¿Trabajan únicamente con empresas de Santo Domingo o también en el interior del país?</span>
-            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
-          </button>
-          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
-            Ofrecemos cobertura técnica en todo el territorio nacional: Santo Domingo (Distrito Nacional, Santo Domingo Este, Norte y Oeste), Santiago de los Caballeros, San Francisco de Macorís, La Vega, Puerto Plata, Punta Cana, Bávaro y la región Sur. Asimismo, colaboramos frecuentemente con empresarios dominicanos radicados en Nueva York, Florida, Massachusetts y Puerto Rico que operan inversiones y negocios en RD.
+          <!-- ITEM 2 -->
+          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+            <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+              <span class="text-sm sm:text-base pr-2">¿Cuánto tiempo toma tener mi sitio web y Google Maps en producción?</span>
+              <span class="w-7 h-7 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-base font-mono faq-icon">+</span>
+            </button>
+            <div class="hidden px-5 sm:px-6 pb-6 text-slate-300 text-xs sm:text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+              Nuestros plazos están estipulados y garantizados por contrato:
+              <ul class="list-disc pl-5 mt-2.5 space-y-1.5 text-slate-300">
+                <li><strong>Landing Transaccional (&lt;0.5s):</strong> De 7 a 10 días hábiles completamente testeada en producción.</li>
+                <li><strong>Web Corporativa Multi-Página:</strong> De 10 a 14 días hábiles con arquitectura de servicios y SEO On-Page.</li>
+                <li><strong>Google Maps & Placa NFC:</strong> De 5 a 7 días hábiles para coordenadas, categorías comerciales, geolocalización de fotos y entrega física de la Placa NFC/QR.</li>
+              </ul>
+            </div>
           </div>
-        </div>
 
-        <!-- ITEM 4 -->
-        <div class="rounded-2xl bg-[#0f131c] border border-slate-800 overflow-hidden transition-colors faq-item">
-          <button type="button" class="w-full p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
-            <span class="text-base sm:text-lg">¿Cómo funciona la garantía de velocidad y el esquema de pago 50/50?</span>
-            <span class="w-8 h-8 rounded-full bg-[#161b26] flex items-center justify-center shrink-0 text-[#00d2ff] text-xl font-mono faq-icon">+</span>
-          </button>
-          <div class="hidden px-6 pb-6 text-slate-300 text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
-            Mantenemos una política de riesgo cero: abonas el 50% de anticipo para dar inicio formal al desarrollo, y el 50% restante solo cuando la web esté 100% terminada, auditada ante tus ojos a menos de 1 segundo de carga (&lt;1s) en Google Lighthouse y verificada en servidores de producción con tu ficha de Google Maps y Placa Inteligente NFC/QR listas. Si el proyecto no cumple con los estándares acordados, no realizas el segundo pago hasta que esté exactamente como se pactó.
+          <!-- ITEM 3 -->
+          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+            <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+              <span class="text-sm sm:text-base pr-2">¿Trabajan únicamente en Santo Domingo o también en el interior del país?</span>
+              <span class="w-7 h-7 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-base font-mono faq-icon">+</span>
+            </button>
+            <div class="hidden px-5 sm:px-6 pb-6 text-slate-300 text-xs sm:text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+              Damos cobertura técnica en todo el país: Distrito Nacional, Santo Domingo Este/Norte/Oeste, Santiago de los Caballeros, La Vega, San Francisco de Macorís, Puerto Plata y Punta Cana/Bávaro. Además, atendemos habitualmente a inversionistas dominicanos en EE.UU. (NY, Florida, Mass.) con negocios activos en RD.
+            </div>
           </div>
+
+          <!-- ITEM 4 -->
+          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+            <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
+              <span class="text-sm sm:text-base pr-2">¿Cómo opera el esquema 50/50 y la garantía de satisfacción?</span>
+              <span class="w-7 h-7 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-base font-mono faq-icon">+</span>
+            </button>
+            <div class="hidden px-5 sm:px-6 pb-6 text-slate-300 text-xs sm:text-sm leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
+              Abonas el 50% de anticipo para iniciar el proyecto, y el 50% final <strong class="text-white">solo cuando la plataforma esté lista y testeada ante tus ojos</strong> a menos de 1 segundo de carga (&lt;1s en Google Lighthouse) con tu perfil de Google Maps y Placa NFC operativa. Si algo no cumple lo pactado, no abonas el saldo hasta su total conformidad.
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -1873,7 +1917,8 @@
               if (otherContent) otherContent.classList.add('hidden');
               if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
               if (otherIcon) otherIcon.textContent = '+';
-              otherItem.classList.remove('border-cyan-500/40');
+              otherItem.classList.remove('border-cyan-500/50', 'bg-[#121927]');
+              otherItem.classList.add('bg-[#0f131c]');
             }
           });
 
@@ -1881,12 +1926,14 @@
             content.classList.add('hidden');
             this.setAttribute('aria-expanded', 'false');
             icon.textContent = '+';
-            item.classList.remove('border-cyan-500/40');
+            item.classList.remove('border-cyan-500/50', 'bg-[#121927]');
+            item.classList.add('bg-[#0f131c]');
           } else {
             content.classList.remove('hidden');
             this.setAttribute('aria-expanded', 'true');
             icon.textContent = '−';
-            item.classList.add('border-cyan-500/40');
+            item.classList.remove('bg-[#0f131c]');
+            item.classList.add('border-cyan-500/50', 'bg-[#121927]');
           }
         });
       });
@@ -1894,70 +1941,81 @@
   </script>
 
   <!-- ========================================================
-       BANNER DE VIDEO-AUDITORÍA GRATIS
+       BANNER DE VIDEO-AUDITORÍA GRATIS: RADAR SCANNER TERMINAL
+       (Estética HUD Aerospace sin pesadez visual)
        ======================================================== -->
-  <section class="py-20 bg-gradient-to-b from-[#0a0e17] via-[#121824] to-[#0a0e17]" data-purpose="video-audit-cta-section">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#161f30] to-[#0f1725] border-2 border-[#10b981]/50 shadow-glow-emerald overflow-hidden text-center">
-        
-        <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-[#10b981]/15 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-20 -top-20 w-80 h-80 bg-[#00d2ff]/15 rounded-full blur-3xl pointer-events-none"></div>
-        
-        <div class="relative z-10 max-w-2xl mx-auto">
-          <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-            ¿Sabes en qué puesto está tu negocio en Google Maps hoy?
-          </h3>
-          <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed">
-            Te enviamos un video personalizado de 15 minutos analizando tu posición y la de tu competencia en Santo Domingo sin costo ni compromiso.
-          </p>
+  <section class="py-20 bg-gradient-to-b from-[#0a0e17] via-[#0d131f] to-[#080b12] relative overflow-hidden" data-purpose="video-audit-cta-section">
+    <!-- Radar Grid Background Accents -->
+    <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"></div>
 
-          <!-- Mini-Captador Híbrido (Supabase Lead + WhatsApp Directo) -->
-          <form id="auditQuickForm" onsubmit="handleQuickAuditSubmit(event)" class="space-y-4 max-w-xl mx-auto bg-[#0b101b]/80 p-5 sm:p-7 rounded-2xl border border-emerald-500/30 backdrop-blur-sm shadow-xl">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-left">
-              <div>
-                <label for="auditBusinessName" class="block text-xs font-mono text-cyan-300 mb-1.5 font-bold uppercase tracking-wider">
-                  🏢 1. Tu Negocio o Web:
-                </label>
-                <input 
-                  type="text" 
-                  id="auditBusinessName" 
-                  required 
-                  placeholder="Ej: Ferretería Central o miweb.do" 
-                  class="w-full px-4 py-3 rounded-xl bg-[#080d16] border border-cyan-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
-                />
-              </div>
-              <div>
-                <label for="auditWhatsapp" class="block text-xs font-mono text-emerald-300 mb-1.5 font-bold uppercase tracking-wider">
-                  📱 2. Tu WhatsApp:
-                </label>
-                <input 
-                  type="tel" 
-                  id="auditWhatsapp" 
-                  required 
-                  placeholder="Ej: 829-455-4783" 
-                  class="w-full px-4 py-3 rounded-xl bg-[#080d16] border border-emerald-500/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all font-sans"
-                />
-              </div>
-            </div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-[#111827] via-[#0e1422] to-[#0a0e18] border border-emerald-500/40 shadow-[0_0_50px_-15px_rgba(16,185,129,0.25)] overflow-hidden text-center">
+        
+        <!-- Subtle Radar Sweep Accent -->
+        <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-24 -top-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-            <button 
-              type="submit" 
-              id="auditSubmitBtn" 
-              class="w-full inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl text-white font-black text-base transition-all shadow-[0_0_35px_-5px_rgba(37,211,102,0.5)] hover:scale-[1.01] active:scale-[0.98] cursor-pointer"
-              style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%); box-shadow: rgba(37, 211, 102, 0.45) 0px 8px 28px -3px, rgba(255, 255, 255, 0.3) 0px 1px 0px inset; border: 1px solid rgba(37, 211, 102, 0.4);"
-            >
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
-              <span>Solicitar Video-Auditoría de 15 Min →</span>
-            </button>
-            <div class="flex items-center justify-center gap-4 text-[11px] text-slate-400 font-mono pt-1">
-              <span>🔒 Datos protegidos (Ley 172-13)</span>
-              <span>•</span>
-              <span>⚡ Respuesta en minutos</span>
-              <span>•</span>
-              <span>Cero spam</span>
-            </div>
-          </form>
+        <!-- Telemetry Pill Header -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#080d16] border border-emerald-500/30 text-emerald-400 font-mono text-[11px] font-semibold mb-6">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          RADAR SATELITAL LOCAL • SANTO DOMINGO / RD
         </div>
+        
+        <h3 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
+          ¿En qué puesto exacto está tu negocio en Google Maps hoy?
+        </h3>
+        
+        <p class="text-slate-300 text-xs sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
+          Grabamos y te enviamos un video personalizado de 15 minutos analizando tu posición y la de tus 3 competidores más cercanos sin costo ni compromiso.
+        </p>
+
+        <!-- Mini-Captador Terminal Híbrido -->
+        <form id="auditQuickForm" onsubmit="handleQuickAuditSubmit(event)" class="space-y-4 max-w-xl mx-auto bg-[#070b12]/90 p-5 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+            <div>
+              <label for="auditBusinessName" class="block text-[11px] font-mono text-cyan-300 mb-1 font-bold uppercase tracking-wider">
+                🏢 1. Negocio o Web:
+              </label>
+              <input 
+                type="text" 
+                id="auditBusinessName" 
+                required 
+                placeholder="Ej: Ferretería Central" 
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#05080e] border border-cyan-500/25 text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
+              />
+            </div>
+            <div>
+              <label for="auditWhatsapp" class="block text-[11px] font-mono text-emerald-300 mb-1 font-bold uppercase tracking-wider">
+                📱 2. Tu WhatsApp:
+              </label>
+              <input 
+                type="tel" 
+                id="auditWhatsapp" 
+                required 
+                placeholder="Ej: 829-455-4783" 
+                class="w-full px-3.5 py-2.5 rounded-xl bg-[#05080e] border border-emerald-500/25 text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all font-sans"
+              />
+            </div>
+          </div>
+
+          <button 
+            type="submit" 
+            id="auditSubmitBtn" 
+            class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-white font-extrabold text-sm transition-all shadow-[0_4px_25px_-4px_rgba(37,211,102,0.45)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);"
+          >
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
+            <span>Solicitar Video-Auditoría Gratuita de 15 Min →</span>
+          </button>
+
+          <div class="flex items-center justify-center gap-3 text-[10px] text-slate-400 font-mono pt-0.5">
+            <span>🔒 Ley 172-13</span>
+            <span>•</span>
+            <span>⚡ Directo a tu WhatsApp</span>
+            <span>•</span>
+            <span>Cero compromiso</span>
+          </div>
+        </form>
 
       </div>
     </div>

@@ -1056,15 +1056,17 @@
        EDGE-TO-EDGE STICKY STORYTELLING: LOS 4 PILARES DEL SISTEMA
        (Arquitectura inspirada en Awwwards / Apple: Sticky Mockup Vertical + Continuous Scroll)
        ======================================================== -->
-  <section class="py-28 lg:py-36 relative border-y border-[#10b981]/20 overflow-hidden bg-[#070b12]" 
+  <section class="py-28 lg:py-36 relative border-y border-[#10b981]/20 bg-[#070b12]" 
            data-purpose="sticky-storytelling-pillars" 
            id="servicios">
     
-    <!-- Background Tech Glow Gradients -->
-    <div class="absolute top-1/4 -left-40 w-96 h-96 bg-[#00d2ff]/10 rounded-full blur-[100px] pointer-events-none"></div>
-    <div class="absolute bottom-1/4 -right-40 w-96 h-96 bg-[#10b981]/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <!-- Background Tech Glow Gradients (Contained without overflow-hidden on section) -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 -left-40 w-96 h-96 bg-[#00d2ff]/10 rounded-full blur-[100px]"></div>
+      <div class="absolute bottom-1/4 -right-40 w-96 h-96 bg-[#10b981]/10 rounded-full blur-[100px]"></div>
+    </div>
 
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
       
       <!-- Section Header con Escala Amplia -->
       <div class="text-center max-w-4xl mx-auto mb-20 lg:mb-28">
@@ -1086,11 +1088,11 @@
         <!-- ==============================================
              COLUMNA IZQUIERDA (STICKY TOP): MOCKUP VERTICAL HUD
              ============================================== -->
-        <div class="lg:col-span-5 lg:sticky lg:top-28 z-20">
-          <div class="rounded-3xl bg-gradient-to-b from-[#131b2a] via-[#0b1019] to-[#070a10] border-2 border-cyan-500/30 p-3 sm:p-4 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] relative overflow-hidden aspect-[4/5] flex flex-col justify-between">
+        <div class="lg:col-span-5 sticky top-28 lg:top-32 z-20">
+          <div class="rounded-3xl bg-gradient-to-b from-[#131b2a] via-[#0b1019] to-[#070a10] border-2 border-cyan-500/40 p-3 sm:p-4 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.3)] relative overflow-hidden aspect-[4/5] flex flex-col justify-between">
             
             <!-- Header Telemetry Pill inside Frame -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 px-2">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 px-2 relative z-10 bg-[#070a10]/80 backdrop-blur-sm rounded-t-xl">
               <div class="flex items-center gap-2 font-mono text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span id="stickyStageLabel">PALANCA 01 / DESCUBRIR</span>
@@ -1103,97 +1105,96 @@
             </div>
 
             <!-- Dynamic Interactive Visual Canvas -->
-            <div class="relative flex-grow my-3 rounded-2xl overflow-hidden border border-slate-800/90 bg-[#04070d] flex items-center justify-center p-4" id="stickyImageContainer">
+            <div class="relative flex-grow my-3 rounded-2xl overflow-hidden border border-slate-800/90 bg-[#04070d]" id="stickyImageContainer">
               
-              <!-- SLIDE 1: Google Maps Top 1 -->
-              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#0c1322] via-[#070b13] to-[#04070e] transition-all duration-700 opacity-100 scale-100" data-slide="1">
-                <div class="flex items-center justify-between">
-                  <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">RADAR ACTIVO</span>
-                  <span class="text-xs font-mono text-slate-400">18°29′ N · 69°56′ W</span>
-                </div>
-                <div class="my-auto text-center space-y-3">
-                  <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl mx-auto shadow-glow-cyan">
-                    📍
+              <!-- SLIDE 1: Google Maps Top 1 (con imagen original HD + HUD overlay) -->
+              <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
+                <img src="assets/pillar_maps.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.1]" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#04070e] via-[#04070e]/40 to-transparent flex flex-col justify-between p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-[10px] font-mono font-bold backdrop-blur-md">RADAR ACTIVO</span>
+                    <span class="text-xs font-mono text-slate-300 drop-shadow">18°29′ N · 69°56′ W</span>
                   </div>
-                  <div class="text-2xl font-black text-white">#1 en Google Maps</div>
-                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
-                    Aparición garantizada en el Local 3-Pack de Santo Domingo, Santiago y tu zona comercial.
-                  </p>
-                </div>
-                <div class="p-3 rounded-xl bg-[#0a0f1a] border border-cyan-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
-                  <span>Tráfico GEO Local</span>
-                  <span class="text-emerald-400 font-bold">+180 llamadas/mes</span>
+                  <div class="space-y-2">
+                    <div class="text-2xl font-black text-white drop-shadow-md">#1 en Google Maps</div>
+                    <p class="text-xs text-slate-200 line-clamp-2 drop-shadow">
+                      Presencia dominante en el Local 3-Pack de Santo Domingo, Santiago y Polígono Central.
+                    </p>
+                    <div class="p-2.5 rounded-xl bg-[#0a0f1a]/90 border border-cyan-500/30 flex items-center justify-between text-[11px] font-mono text-slate-200 backdrop-blur-md">
+                      <span>Tráfico GEO Local</span>
+                      <span class="text-emerald-400 font-bold">+180 llamadas/mes</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- SLIDE 2: Web Ultrarrápida -->
-              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#0b1624] via-[#070f1a] to-[#03070d] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
-                <div class="flex items-center justify-between">
-                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold">EDGE NETWORK</span>
-                  <span class="text-xs font-mono text-slate-400">CARIBE / MIAMI</span>
-                </div>
-                <div class="my-auto text-center space-y-3">
-                  <div class="w-20 h-20 rounded-full border-4 border-emerald-400/80 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.35)]">
-                    <span class="text-2xl font-black font-mono text-emerald-400">100</span>
+              <!-- SLIDE 2: Web Ultrarrápida (con imagen original HD + HUD overlay) -->
+              <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
+                <img src="assets/pillar_speed.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.1]" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#03070d] via-[#03070d]/40 to-transparent flex flex-col justify-between p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[10px] font-mono font-bold backdrop-blur-md">EDGE ANYCAST</span>
+                    <span class="text-xs font-mono text-slate-300 drop-shadow">CARIBE / MIAMI</span>
                   </div>
-                  <div class="text-2xl font-black text-white">&lt;0.4s en Redes RD</div>
-                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
-                    Carga relámpago en Claro y Altice. Máxima puntuación en Google Core Web Vitals.
-                  </p>
-                </div>
-                <div class="p-3 rounded-xl bg-[#0a0f1a] border border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
-                  <span>Velocidad de Carga</span>
-                  <span class="text-emerald-400 font-bold">0.38s (Instantáneo)</span>
+                  <div class="space-y-2">
+                    <div class="text-2xl font-black text-white drop-shadow-md">&lt;0.4s en Redes RD</div>
+                    <p class="text-xs text-slate-200 line-clamp-2 drop-shadow">
+                      Apertura instantánea en Claro y Altice. Máxima calificación 100/100 Core Web Vitals.
+                    </p>
+                    <div class="p-2.5 rounded-xl bg-[#0a0f1a]/90 border border-emerald-500/30 flex items-center justify-between text-[11px] font-mono text-slate-200 backdrop-blur-md">
+                      <span>Velocidad de Carga</span>
+                      <span class="text-emerald-400 font-bold">0.38s (Instantáneo)</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- SLIDE 3: WhatsApp con IA -->
-              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#091a18] via-[#071312] to-[#030a09] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
-                <div class="flex items-center justify-between">
-                  <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">IA CONVERSACIONAL</span>
-                  <span class="text-xs font-mono text-slate-400">24/7 ONLINE</span>
-                </div>
-                <div class="my-auto space-y-3 w-full">
-                  <!-- Chat bubble 1 -->
-                  <div class="p-3 rounded-2xl bg-slate-800/80 text-white text-xs max-w-[85%] rounded-tl-sm border border-slate-700/60">
-                    Hola, ¿tienen disponibilidad para una cotización de mi negocio hoy?
+              <!-- SLIDE 3: WhatsApp con IA (con imagen original HD + HUD overlay) -->
+              <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
+                <img src="assets/pillar_ai.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.1]" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#030a09] via-[#030a09]/40 to-transparent flex flex-col justify-between p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-[10px] font-mono font-bold backdrop-blur-md">IA CONVERSACIONAL</span>
+                    <span class="text-xs font-mono text-slate-300 drop-shadow">24/7 ONLINE</span>
                   </div>
-                  <!-- Chat bubble 2 (AI Response) -->
-                  <div class="p-3 rounded-2xl bg-emerald-600/90 text-white text-xs max-w-[85%] ml-auto rounded-tr-sm border border-emerald-400/40 shadow-md">
-                    ¡Hola! Con gusto. Aquí tienes nuestro catálogo de servicios y enlace de agendamiento inmediato.
+                  <div class="space-y-2">
+                    <div class="text-2xl font-black text-white drop-shadow-md">Ventas 24/7 WhatsApp</div>
+                    <p class="text-xs text-slate-200 line-clamp-2 drop-shadow">
+                      Calificación automática de prospectos, envío de catálogo y agendamiento en calendario.
+                    </p>
+                    <div class="p-2.5 rounded-xl bg-[#081210]/90 border border-emerald-500/30 flex items-center justify-between text-[11px] font-mono text-slate-200 backdrop-blur-md">
+                      <span>Respuesta Automática</span>
+                      <span class="text-emerald-400 font-bold">&lt; 3 segundos</span>
+                    </div>
                   </div>
-                </div>
-                <div class="p-3 rounded-xl bg-[#081210] border border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
-                  <span>Respuesta Automática</span>
-                  <span class="text-emerald-400 font-bold">&lt; 3 segundos</span>
                 </div>
               </div>
 
-              <!-- SLIDE 4: CRM Personalizado -->
-              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#121226] via-[#0c0d1c] to-[#05060f] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
-                <div class="flex items-center justify-between">
-                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[10px] font-mono font-bold">CLOUD CRM</span>
-                  <span class="text-xs font-mono text-slate-400">PANEL PROPIO</span>
-                </div>
-                <div class="my-auto text-center space-y-3">
-                  <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-3xl mx-auto shadow-[0_0_25px_rgba(168,85,247,0.3)]">
-                    📊
+              <!-- SLIDE 4: CRM Personalizado (con imagen original HD + HUD overlay) -->
+              <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
+                <img src="assets/pillar_crm.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-full object-cover object-center filter brightness-[0.75] contrast-[1.1]" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#05060f] via-[#05060f]/40 to-transparent flex flex-col justify-between p-6">
+                  <div class="flex items-center justify-between">
+                    <span class="px-2.5 py-1 rounded-md bg-purple-950/80 border border-purple-500/40 text-purple-300 text-[10px] font-mono font-bold backdrop-blur-md">CLOUD CRM PROPIO</span>
+                    <span class="text-xs font-mono text-slate-300 drop-shadow">0 COSTO / USUARIO</span>
                   </div>
-                  <div class="text-2xl font-black text-white">Control Total del Embudo</div>
-                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
-                    Centraliza clientes, cotizaciones en RD$ y solicitudes sin pagar licencias por usuario.
-                  </p>
-                </div>
-                <div class="p-3 rounded-xl bg-[#0d0f1c] border border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
-                  <span>Base de Clientes</span>
-                  <span class="text-purple-300 font-bold">Postgres Dedicado</span>
+                  <div class="space-y-2">
+                    <div class="text-2xl font-black text-white drop-shadow-md">Control Total del Embudo</div>
+                    <p class="text-xs text-slate-200 line-clamp-2 drop-shadow">
+                      Gestión de cotizaciones en RD$, pedidos, cobros y clientes centralizados en la nube.
+                    </p>
+                    <div class="p-2.5 rounded-xl bg-[#0d0f1c]/90 border border-purple-500/30 flex items-center justify-between text-[11px] font-mono text-slate-200 backdrop-blur-md">
+                      <span>Base de Clientes</span>
+                      <span class="text-purple-300 font-bold">PostgreSQL Cloud</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
             </div>
 
             <!-- Footer Telemetry Strip -->
-            <div class="flex items-center justify-between px-2 pt-2 border-t border-slate-800/80 text-[10px] font-mono text-slate-400">
+            <div class="flex items-center justify-between px-2 pt-2 border-t border-slate-800/80 text-[10px] font-mono text-slate-400 relative z-10 bg-[#070a10]/80 backdrop-blur-sm rounded-b-xl">
               <span id="stickyFooterNext">SIGUIENTE: VELOCIDAD WEB</span>
               <span class="text-cyan-400">⚡ LIVE SYNC</span>
             </div>
@@ -1204,7 +1205,7 @@
         <!-- ==============================================
              COLUMNA DERECHA: FLUJO CONTINUO DE HISTORIA (4 PASOS)
              ============================================== -->
-        <div class="lg:col-span-7 space-y-32 lg:space-y-40 pt-6">
+        <div class="lg:col-span-7 space-y-36 lg:space-y-48 pt-4 pb-16">
           
           <!-- PASO 01 -->
           <div class="story-step space-y-6" data-step="1">
@@ -1221,15 +1222,15 @@
             </p>
             <div class="space-y-3 pt-2">
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Posicionamiento exacto en el Local 3-Pack de Google Maps.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Placa Inteligente NFC/QR física para captar reseñas de 5 estrellas en tu mostrador.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Optimización para motores de IA (ChatGPT, Gemini y Perplexity).</span>
               </div>
             </div>
@@ -1250,15 +1251,15 @@
             </p>
             <div class="space-y-3 pt-2">
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-cyan-400 font-bold">+</span>
+                <span class="text-cyan-400 font-bold text-lg leading-none">+</span>
                 <span>Puntuación auditada de 100/100 en Google Lighthouse Móvil.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-cyan-400 font-bold">+</span>
+                <span class="text-cyan-400 font-bold text-lg leading-none">+</span>
                 <span>Diseño transaccional sin fricción con llamada directa a WhatsApp.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-cyan-400 font-bold">+</span>
+                <span class="text-cyan-400 font-bold text-lg leading-none">+</span>
                 <span>Infraestructura Anycast global con SSL corporativo y alta redundancia.</span>
               </div>
             </div>
@@ -1279,15 +1280,15 @@
             </p>
             <div class="space-y-3 pt-2">
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Cero clientes perdidos por responder tarde o fuera de horario.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Flujos personalizados y conexión a tu catálogo de productos.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-emerald-400 font-bold">+</span>
+                <span class="text-emerald-400 font-bold text-lg leading-none">+</span>
                 <span>Agendamiento automático en Google Calendar o calendario corporativo.</span>
               </div>
             </div>
@@ -1308,15 +1309,15 @@
             </p>
             <div class="space-y-3 pt-2">
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-purple-400 font-bold">+</span>
+                <span class="text-purple-400 font-bold text-lg leading-none">+</span>
                 <span>Embudo de ventas con seguimiento de cotizaciones pendientes.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-purple-400 font-bold">+</span>
+                <span class="text-purple-400 font-bold text-lg leading-none">+</span>
                 <span>Registro de clientes, historial de pedidos y cobros recurrentes.</span>
               </div>
               <div class="flex items-center gap-3 text-sm text-slate-200">
-                <span class="text-purple-400 font-bold">+</span>
+                <span class="text-purple-400 font-bold text-lg leading-none">+</span>
                 <span>Acceso seguro desde teléfonos y computadoras con base de datos propia.</span>
               </div>
             </div>
@@ -1331,52 +1332,61 @@
 
   <!-- Interactive Script for Sticky Storytelling -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const steps = document.querySelectorAll('.story-step');
-      const slides = document.querySelectorAll('.sticky-slide');
-      const stepCounter = document.getElementById('stickyCurrentStep');
-      const stageLabel = document.getElementById('stickyStageLabel');
-      const footerNext = document.getElementById('stickyFooterNext');
+    (function initStickyStorytelling() {
+      function activate() {
+        const steps = document.querySelectorAll('.story-step');
+        const slides = document.querySelectorAll('.sticky-slide');
+        const stepCounter = document.getElementById('stickyCurrentStep');
+        const stageLabel = document.getElementById('stickyStageLabel');
+        const footerNext = document.getElementById('stickyFooterNext');
 
-      const STAGE_META = {
-        '1': { label: 'PALANCA 01 / DESCUBRIR', next: 'SIGUIENTE: VELOCIDAD WEB' },
-        '2': { label: 'PALANCA 02 / CONVERTIR', next: 'SIGUIENTE: WHATSAPP IA' },
-        '3': { label: 'PALANCA 03 / RESPONDER', next: 'SIGUIENTE: CRM & SEGUIMIENTO' },
-        '4': { label: 'PALANCA 04 / ESCALAR', next: 'EVALUACIÓN: SISTEMA COMPLETO' }
-      };
+        const STAGE_META = {
+          '1': { label: 'PALANCA 01 / DESCUBRIR', next: 'SIGUIENTE: VELOCIDAD WEB' },
+          '2': { label: 'PALANCA 02 / CONVERTIR', next: 'SIGUIENTE: WHATSAPP IA' },
+          '3': { label: 'PALANCA 03 / RESPONDER', next: 'SIGUIENTE: CRM & SEGUIMIENTO' },
+          '4': { label: 'PALANCA 04 / ESCALAR', next: 'EVALUACIÓN: SISTEMA COMPLETO' }
+        };
 
-      if (!steps.length || !slides.length) return;
+        if (!steps.length || !slides.length) return;
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const stepNum = entry.target.getAttribute('data-step');
-            
-            // Switch slides
-            slides.forEach(slide => {
-              if (slide.getAttribute('data-slide') === stepNum) {
-                slide.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-                slide.classList.add('opacity-100', 'scale-100');
-              } else {
-                slide.classList.remove('opacity-100', 'scale-100');
-                slide.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-              }
-            });
+        function updateOnScroll() {
+          const triggerPoint = window.innerHeight * 0.45;
+          let activeIndex = 1;
 
-            // Update HUD Telemetry
-            if (stepCounter) stepCounter.textContent = `0${stepNum}`;
-            if (stageLabel && STAGE_META[stepNum]) stageLabel.textContent = STAGE_META[stepNum].label;
-            if (footerNext && STAGE_META[stepNum]) footerNext.textContent = STAGE_META[stepNum].next;
-          }
-        });
-      }, {
-        root: null,
-        rootMargin: '-30% 0px -40% 0px',
-        threshold: 0
-      });
+          steps.forEach(step => {
+            const rect = step.getBoundingClientRect();
+            if (rect.top <= triggerPoint) {
+              activeIndex = parseInt(step.getAttribute('data-step'), 10) || 1;
+            }
+          });
 
-      steps.forEach(step => observer.observe(step));
-    });
+          slides.forEach(slide => {
+            const slideNum = parseInt(slide.getAttribute('data-slide'), 10);
+            if (slideNum === activeIndex) {
+              slide.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+              slide.classList.add('opacity-100', 'scale-100');
+            } else {
+              slide.classList.remove('opacity-100', 'scale-100');
+              slide.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            }
+          });
+
+          if (stepCounter) stepCounter.textContent = `0${activeIndex}`;
+          if (stageLabel && STAGE_META[activeIndex]) stageLabel.textContent = STAGE_META[activeIndex].label;
+          if (footerNext && STAGE_META[activeIndex]) footerNext.textContent = STAGE_META[activeIndex].next;
+        }
+
+        window.addEventListener('scroll', updateOnScroll, { passive: true });
+        window.addEventListener('resize', updateOnScroll, { passive: true });
+        updateOnScroll();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', activate);
+      } else {
+        activate();
+      }
+    })();
   </script>
 
   <!-- ========================================================

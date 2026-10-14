@@ -753,7 +753,7 @@
            id="simulador" 
            style="background: radial-gradient(circle at 50% 40%, rgba(0, 210, 255, 0.07) 0%, transparent 65%), linear-gradient(rgb(16, 23, 38) 0%, rgb(13, 19, 31) 50%, rgb(10, 14, 23) 100%);">
     
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-12">
@@ -1053,103 +1053,331 @@
   </section>
 
   <!-- ========================================================
-       LOS 3 PILARES DEL ÉXITO COMERCIAL (CON IMÁGENES HD)
+       EDGE-TO-EDGE STICKY STORYTELLING: LOS 4 PILARES DEL SISTEMA
+       (Arquitectura inspirada en Awwwards / Apple: Sticky Mockup Vertical + Continuous Scroll)
        ======================================================== -->
-  <section class="py-24 relative border-y border-[#10b981]/20 overflow-hidden" 
-           data-purpose="core-pillars-section" 
-           id="servicios" 
-           style="background: radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(0, 210, 255, 0.06) 0%, transparent 55%), linear-gradient(rgb(14, 22, 38) 0%, rgb(17, 25, 39) 50%, rgb(10, 14, 23) 100%);">
+  <section class="py-28 lg:py-36 relative border-y border-[#10b981]/20 overflow-hidden bg-[#070b12]" 
+           data-purpose="sticky-storytelling-pillars" 
+           id="servicios">
     
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Background Tech Glow Gradients -->
+    <div class="absolute top-1/4 -left-40 w-96 h-96 bg-[#00d2ff]/10 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 -right-40 w-96 h-96 bg-[#10b981]/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
       
-      <div class="text-center max-w-3xl mx-auto mb-20">
-        <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Tecnología de punta diseñada para convertir
-        </h3>
+      <!-- Section Header con Escala Amplia -->
+      <div class="text-center max-w-4xl mx-auto mb-20 lg:mb-28">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-[#00d2ff] font-mono text-xs font-semibold mb-5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          ARQUITECTURA DE CONVERSIÓN CONECTADA
+        </div>
+        <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12] mb-6">
+          Cuatro engranajes sincronizados para <span class="bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981] bg-clip-text text-transparent">dominar tu mercado local</span>.
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
+          Cada etapa desbloquea la siguiente. Desde la primera búsqueda en Google hasta el cierre comercial y la administración en la nube.
+        </p>
       </div>
 
-      <div class="space-y-20">
+      <!-- STICKY TWO-COLUMN GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start relative">
         
-        <!-- Pilar 01 -->
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
-          <div class="order-2 lg:order-1">
-            <h4 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Páginas web de alta velocidad</h4>
-            <p class="text-slate-300 text-base leading-relaxed mb-6">
-              El cliente dominicano no espera. Si tu web tarda más de 2 segundos, ya se fue con otro. Optimizamos la entrega de datos para redes Claro y Altice 4G/5G, garantizando una puntuación de 100/100 en Google Core Web Vitals.
-            </p>
-            <div class="grid grid-cols-2 gap-4 text-xs font-mono text-slate-300">
-              <div class="p-3 bg-[#121824] rounded-lg border border-[#222f46]">
-                <div class="text-[#00d2ff] font-bold text-lg mb-1">0.38s</div>
-                <div>Primer Contenido Visible</div>
+        <!-- ==============================================
+             COLUMNA IZQUIERDA (STICKY TOP): MOCKUP VERTICAL HUD
+             ============================================== -->
+        <div class="lg:col-span-5 lg:sticky lg:top-28 z-20">
+          <div class="rounded-3xl bg-gradient-to-b from-[#131b2a] via-[#0b1019] to-[#070a10] border-2 border-cyan-500/30 p-3 sm:p-4 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] relative overflow-hidden aspect-[4/5] flex flex-col justify-between">
+            
+            <!-- Header Telemetry Pill inside Frame -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 px-2">
+              <div class="flex items-center gap-2 font-mono text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="stickyStageLabel">PALANCA 01 / DESCUBRIR</span>
               </div>
-              <div class="p-3 bg-[#121824] rounded-lg border border-[#222f46]">
-                <div class="text-[#10b981] font-bold text-lg mb-1">100/100</div>
-                <div>Lighthouse Móvil</div>
+              <div class="flex items-center gap-1 font-mono text-xs text-slate-400" id="stickyStepCounter">
+                <span class="text-white font-bold text-sm" id="stickyCurrentStep">01</span>
+                <span>/</span>
+                <span>04</span>
+              </div>
+            </div>
+
+            <!-- Dynamic Interactive Visual Canvas -->
+            <div class="relative flex-grow my-3 rounded-2xl overflow-hidden border border-slate-800/90 bg-[#04070d] flex items-center justify-center p-4" id="stickyImageContainer">
+              
+              <!-- SLIDE 1: Google Maps Top 1 -->
+              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#0c1322] via-[#070b13] to-[#04070e] transition-all duration-700 opacity-100 scale-100" data-slide="1">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">RADAR ACTIVO</span>
+                  <span class="text-xs font-mono text-slate-400">18°29′ N · 69°56′ W</span>
+                </div>
+                <div class="my-auto text-center space-y-3">
+                  <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-3xl mx-auto shadow-glow-cyan">
+                    📍
+                  </div>
+                  <div class="text-2xl font-black text-white">#1 en Google Maps</div>
+                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
+                    Aparición garantizada en el Local 3-Pack de Santo Domingo, Santiago y tu zona comercial.
+                  </p>
+                </div>
+                <div class="p-3 rounded-xl bg-[#0a0f1a] border border-cyan-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
+                  <span>Tráfico GEO Local</span>
+                  <span class="text-emerald-400 font-bold">+180 llamadas/mes</span>
+                </div>
+              </div>
+
+              <!-- SLIDE 2: Web Ultrarrápida -->
+              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#0b1624] via-[#070f1a] to-[#03070d] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold">EDGE NETWORK</span>
+                  <span class="text-xs font-mono text-slate-400">CARIBE / MIAMI</span>
+                </div>
+                <div class="my-auto text-center space-y-3">
+                  <div class="w-20 h-20 rounded-full border-4 border-emerald-400/80 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(16,185,129,0.35)]">
+                    <span class="text-2xl font-black font-mono text-emerald-400">100</span>
+                  </div>
+                  <div class="text-2xl font-black text-white">&lt;0.4s en Redes RD</div>
+                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
+                    Carga relámpago en Claro y Altice. Máxima puntuación en Google Core Web Vitals.
+                  </p>
+                </div>
+                <div class="p-3 rounded-xl bg-[#0a0f1a] border border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
+                  <span>Velocidad de Carga</span>
+                  <span class="text-emerald-400 font-bold">0.38s (Instantáneo)</span>
+                </div>
+              </div>
+
+              <!-- SLIDE 3: WhatsApp con IA -->
+              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#091a18] via-[#071312] to-[#030a09] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold">IA CONVERSACIONAL</span>
+                  <span class="text-xs font-mono text-slate-400">24/7 ONLINE</span>
+                </div>
+                <div class="my-auto space-y-3 w-full">
+                  <!-- Chat bubble 1 -->
+                  <div class="p-3 rounded-2xl bg-slate-800/80 text-white text-xs max-w-[85%] rounded-tl-sm border border-slate-700/60">
+                    Hola, ¿tienen disponibilidad para una cotización de mi negocio hoy?
+                  </div>
+                  <!-- Chat bubble 2 (AI Response) -->
+                  <div class="p-3 rounded-2xl bg-emerald-600/90 text-white text-xs max-w-[85%] ml-auto rounded-tr-sm border border-emerald-400/40 shadow-md">
+                    ¡Hola! Con gusto. Aquí tienes nuestro catálogo de servicios y enlace de agendamiento inmediato.
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl bg-[#081210] border border-emerald-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
+                  <span>Respuesta Automática</span>
+                  <span class="text-emerald-400 font-bold">&lt; 3 segundos</span>
+                </div>
+              </div>
+
+              <!-- SLIDE 4: CRM Personalizado -->
+              <div class="sticky-slide absolute inset-0 flex flex-col justify-between p-6 bg-gradient-to-br from-[#121226] via-[#0c0d1c] to-[#05060f] transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
+                <div class="flex items-center justify-between">
+                  <span class="px-2.5 py-1 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[10px] font-mono font-bold">CLOUD CRM</span>
+                  <span class="text-xs font-mono text-slate-400">PANEL PROPIO</span>
+                </div>
+                <div class="my-auto text-center space-y-3">
+                  <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-3xl mx-auto shadow-[0_0_25px_rgba(168,85,247,0.3)]">
+                    📊
+                  </div>
+                  <div class="text-2xl font-black text-white">Control Total del Embudo</div>
+                  <p class="text-xs text-slate-300 max-w-xs mx-auto">
+                    Centraliza clientes, cotizaciones en RD$ y solicitudes sin pagar licencias por usuario.
+                  </p>
+                </div>
+                <div class="p-3 rounded-xl bg-[#0d0f1c] border border-purple-500/20 flex items-center justify-between text-[11px] font-mono text-slate-300">
+                  <span>Base de Clientes</span>
+                  <span class="text-purple-300 font-bold">Postgres Dedicado</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Footer Telemetry Strip -->
+            <div class="flex items-center justify-between px-2 pt-2 border-t border-slate-800/80 text-[10px] font-mono text-slate-400">
+              <span id="stickyFooterNext">SIGUIENTE: VELOCIDAD WEB</span>
+              <span class="text-cyan-400">⚡ LIVE SYNC</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ==============================================
+             COLUMNA DERECHA: FLUJO CONTINUO DE HISTORIA (4 PASOS)
+             ============================================== -->
+        <div class="lg:col-span-7 space-y-32 lg:space-y-40 pt-6">
+          
+          <!-- PASO 01 -->
+          <div class="story-step space-y-6" data-step="1">
+            <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider">
+              <span>01</span>
+              <span>•</span>
+              <span>DESCUBRIR EN GOOGLE</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              Que te encuentren en Google Maps y búsqueda local.
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+              Optimizamos tu Perfil de Empresa en Google (GBP) con categorías comerciales precisas, geolocalización de coordenadas y datos estructurados GEO Schemas para que aparezcas de primero cuando busquen tus servicios en Santo Domingo, Santiago y toda RD.
+            </p>
+            <div class="space-y-3 pt-2">
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Posicionamiento exacto en el Local 3-Pack de Google Maps.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Placa Inteligente NFC/QR física para captar reseñas de 5 estrellas en tu mostrador.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Optimización para motores de IA (ChatGPT, Gemini y Perplexity).</span>
               </div>
             </div>
           </div>
-          <div class="order-1 lg:order-2 rounded-2xl overflow-hidden border border-[#222f46] shadow-glow-cyan">
-            <img src="assets/pillar_speed.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" width="1376" height="768" loading="lazy" />
-          </div>
-        </div>
 
-        <!-- Pilar 02 -->
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
-          <div class="rounded-2xl overflow-hidden border border-[#222f46] shadow-glow-cyan">
-            <img src="assets/pillar_maps.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" width="1376" height="768" loading="lazy" />
-          </div>
-          <div>
-            <h4 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Que te encuentren en Google Maps</h4>
-            <p class="text-slate-300 text-base leading-relaxed mb-6">
-              Quien busca tu servicio en Piantini, Naco o Santiago te encuentra en los primeros lugares de Google Maps. Además, estructuramos tus datos con GEO Schemas para que cuando pregunten a ChatGPT o Gemini por proveedores en RD, recomienden tu empresa.
+          <!-- PASO 02 -->
+          <div class="story-step space-y-6" data-step="2">
+            <div class="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider">
+              <span>02</span>
+              <span>•</span>
+              <span>CONVERTIR CON VELOCIDAD</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              Páginas web ultrarrápidas (&lt;0.5s) que no hacen esperar.
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+              El 53% de los usuarios dominicanos abandonan páginas que tardan más de 2 segundos. Desarrollamos con arquitectura limpia moderna y servidores CDN Edge en el Caribe para garantizar una apertura inmediata y la máxima puntuación en Google Core Web Vitals.
             </p>
-            <ul class="space-y-2 text-sm text-slate-300 font-medium">
-              <li class="flex items-center gap-2"><span class="text-[#10b981]">✔</span> Optimización total de ficha Google Business Profile</li>
-              <li class="flex items-center gap-2"><span class="text-[#10b981]">✔</span> Posicionamiento estratégico por sector comercial</li>
-              <li class="flex items-center gap-2"><span class="text-[#10b981]">✔</span> Indexación GEO Schemas para ChatGPT & Gemini</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Pilar 03 -->
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
-          <div class="order-2 lg:order-1">
-            <h4 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">Ventas 24/7 por WhatsApp con IA</h4>
-            <p class="text-slate-300 text-base leading-relaxed mb-6">
-              Respuestas instantáneas día y noche. Califica prospectos en caliente, envía tu catálogo de servicios y agenda citas directamente en tu calendario sin hacer esperar al cliente ni un minuto.
-            </p>
-            <div class="p-4 bg-[#121824] rounded-xl border border-[#222f46] text-sm text-slate-300 flex items-center justify-between">
-              <span class="font-mono text-xs">Tiempo de respuesta automática:</span>
-              <span class="text-[#10b981] font-bold font-mono">&lt; 3 segundos (inmediato)</span>
+            <div class="space-y-3 pt-2">
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-cyan-400 font-bold">+</span>
+                <span>Puntuación auditada de 100/100 en Google Lighthouse Móvil.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-cyan-400 font-bold">+</span>
+                <span>Diseño transaccional sin fricción con llamada directa a WhatsApp.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-cyan-400 font-bold">+</span>
+                <span>Infraestructura Anycast global con SSL corporativo y alta redundancia.</span>
+              </div>
             </div>
           </div>
-          <div class="order-1 lg:order-2 rounded-2xl overflow-hidden border border-[#222f46] shadow-glow-emerald">
-            <img src="assets/pillar_ai.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" width="1376" height="768" loading="lazy" />
-          </div>
-        </div>
 
-        <!-- Pilar 04 -->
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
-          <div class="rounded-2xl overflow-hidden border border-[#222f46] shadow-glow-cyan">
-            <img src="assets/pillar_crm.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" width="1376" height="768" loading="lazy" />
-          </div>
-          <div>
-            <h4 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">CRM Personalizado a Medida</h4>
-            <p class="text-slate-300 text-base leading-relaxed mb-6">
-              Deja de perder prospectos en chats dispersos de WhatsApp o libretas manuales. Desarrollamos un panel CRM exclusivo adaptado a tu flujo de trabajo para registrar contactos, cotizaciones, cobros y pedidos en la nube.
+          <!-- PASO 03 -->
+          <div class="story-step space-y-6" data-step="3">
+            <div class="inline-flex items-center gap-2 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+              <span>03</span>
+              <span>•</span>
+              <span>RESPONDER AL INSTANTE</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              Automatización de WhatsApp con IA y trato humano.
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+              Atiende consultas comerciales las 24 horas del día. Un asistente de inteligencia artificial entrenado con tu catálogo califica prospectos, responde dudas frecuentes y agenda citas en tu calendario en menos de 3 segundos, derivando al equipo humano cuando se requiere.
             </p>
-            <ul class="space-y-2 text-sm text-slate-300 font-medium">
-              <li class="flex items-center gap-2"><span class="text-[#00d2ff]">✔</span> Base de datos centralizada de clientes y prospectos</li>
-              <li class="flex items-center gap-2"><span class="text-[#00d2ff]">✔</span> Control de cotizaciones, embudo y cobros recurrentes</li>
-              <li class="flex items-center gap-2"><span class="text-[#00d2ff]">✔</span> Acceso seguro desde cualquier smartphone o computadora</li>
-            </ul>
+            <div class="space-y-3 pt-2">
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Cero clientes perdidos por responder tarde o fuera de horario.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Flujos personalizados y conexión a tu catálogo de productos.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-emerald-400 font-bold">+</span>
+                <span>Agendamiento automático en Google Calendar o calendario corporativo.</span>
+              </div>
+            </div>
           </div>
+
+          <!-- PASO 04 -->
+          <div class="story-step space-y-6" data-step="4">
+            <div class="inline-flex items-center gap-2 text-purple-400 font-mono text-xs font-bold uppercase tracking-wider">
+              <span>04</span>
+              <span>•</span>
+              <span>ESCALAR Y ORDENAR</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              CRM para ordenar prospectos, cotizaciones y cobros.
+            </h3>
+            <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
+              Centraliza tus clientes y cotizaciones en una plataforma en la nube exclusiva para tu empresa. Sin pagar licencias mensuales por cada usuario ni depender de hojas de cálculo dispersas.
+            </p>
+            <div class="space-y-3 pt-2">
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-purple-400 font-bold">+</span>
+                <span>Embudo de ventas con seguimiento de cotizaciones pendientes.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-purple-400 font-bold">+</span>
+                <span>Registro de clientes, historial de pedidos y cobros recurrentes.</span>
+              </div>
+              <div class="flex items-center gap-3 text-sm text-slate-200">
+                <span class="text-purple-400 font-bold">+</span>
+                <span>Acceso seguro desde teléfonos y computadoras con base de datos propia.</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
     </div>
   </section>
+
+  <!-- Interactive Script for Sticky Storytelling -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const steps = document.querySelectorAll('.story-step');
+      const slides = document.querySelectorAll('.sticky-slide');
+      const stepCounter = document.getElementById('stickyCurrentStep');
+      const stageLabel = document.getElementById('stickyStageLabel');
+      const footerNext = document.getElementById('stickyFooterNext');
+
+      const STAGE_META = {
+        '1': { label: 'PALANCA 01 / DESCUBRIR', next: 'SIGUIENTE: VELOCIDAD WEB' },
+        '2': { label: 'PALANCA 02 / CONVERTIR', next: 'SIGUIENTE: WHATSAPP IA' },
+        '3': { label: 'PALANCA 03 / RESPONDER', next: 'SIGUIENTE: CRM & SEGUIMIENTO' },
+        '4': { label: 'PALANCA 04 / ESCALAR', next: 'EVALUACIÓN: SISTEMA COMPLETO' }
+      };
+
+      if (!steps.length || !slides.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const stepNum = entry.target.getAttribute('data-step');
+            
+            // Switch slides
+            slides.forEach(slide => {
+              if (slide.getAttribute('data-slide') === stepNum) {
+                slide.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+                slide.classList.add('opacity-100', 'scale-100');
+              } else {
+                slide.classList.remove('opacity-100', 'scale-100');
+                slide.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+              }
+            });
+
+            // Update HUD Telemetry
+            if (stepCounter) stepCounter.textContent = `0${stepNum}`;
+            if (stageLabel && STAGE_META[stepNum]) stageLabel.textContent = STAGE_META[stepNum].label;
+            if (footerNext && STAGE_META[stepNum]) footerNext.textContent = STAGE_META[stepNum].next;
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '-30% 0px -40% 0px',
+        threshold: 0
+      });
+
+      steps.forEach(step => observer.observe(step));
+    });
+  </script>
 
   <!-- ========================================================
        PAQUETES COMERCIALES INTEGRALES (3 NIVELES LLAVE EN MANO)
@@ -1696,7 +1924,7 @@
            COMPONENTE UNIFICADO: CÁPSULA FINANCIERA 50/50 & COTIZACIÓN A LA CARTA
            (Fusiona redundancia en un panel de alta ingeniería estilo Linear/Fintech)
            ======================================================== -->
-      <div class="my-16 max-w-5xl mx-auto rounded-3xl bg-gradient-to-b from-[#131b2a] to-[#0c121e] border border-cyan-500/30 p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]" data-purpose="unified-financial-trust-capsule">
+      <div class="my-16 max-w-7xl mx-auto rounded-3xl bg-gradient-to-b from-[#131b2a] to-[#0c121e] border border-cyan-500/30 p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]" data-purpose="unified-financial-trust-capsule">
         <!-- Glow accents -->
         <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -1803,7 +2031,7 @@
        ADICIÓN 4: FAQ TÉCNICO INTERACTIVO (SPLIT-LAYOUT ESTILO LINEAR)
        ======================================================== -->
   <section class="py-24 relative border-t border-slate-800/80 bg-[#0a0e17]" data-purpose="technical-faq-section" id="faq-tecnico">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
@@ -1948,8 +2176,8 @@
     <!-- Radar Grid Background Accents -->
     <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"></div>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="relative rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-[#111827] via-[#0e1422] to-[#0a0e18] border border-emerald-500/40 shadow-[0_0_50px_-15px_rgba(16,185,129,0.25)] overflow-hidden text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="relative rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#111827] via-[#0e1422] to-[#0a0e18] border border-emerald-500/40 shadow-[0_0_50px_-15px_rgba(16,185,129,0.25)] overflow-hidden text-center">
         
         <!-- Subtle Radar Sweep Accent -->
         <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>

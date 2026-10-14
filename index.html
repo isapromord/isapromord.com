@@ -1089,12 +1089,12 @@
              COLUMNA IZQUIERDA (STICKY TOP): PURE BORDERLESS CANVAS (6 COLS)
              ============================================== -->
         <div class="lg:col-span-6 sticky top-24 lg:top-28 z-20">
-          <!-- Floating borderless visual screen with seamless glass drop-shadow -->
-          <div class="relative w-full rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-[1/1] lg:aspect-[4/5] shadow-[0_25px_80px_-20px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
+          <!-- Floating borderless visual screen aligned with natural 16:10 / 16:9 aspect ratio to prevent distortion and cropping -->
+          <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/10] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
             
             <!-- Floating Minimal Telemetry Pill (Non-invasive top badge) -->
-            <div class="absolute top-4 left-4 right-4 z-30 flex items-center justify-between px-4 py-2 rounded-xl bg-[#070b13]/80 backdrop-blur-md border border-cyan-500/25">
-              <div class="flex items-center gap-2 font-mono text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
+            <div class="absolute top-3.5 left-3.5 right-3.5 z-30 flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-cyan-500/25">
+              <div class="flex items-center gap-2 font-mono text-[10px] sm:text-[11px] text-cyan-400 font-bold uppercase tracking-wider">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span id="stickyStageLabel">PALANCA 01 / DESCUBRIR</span>
               </div>
@@ -1105,48 +1105,48 @@
               </div>
             </div>
 
-            <!-- SLIDE 1: Google Maps Top 1 (Borde a Borde sin caja interna) -->
+            <!-- SLIDE 1: Google Maps Top 1 (Proporción Natural Sin Distorsión) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
-              <img src="assets/pillar_maps.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.85] contrast-[1.08] hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/30 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                <span class="text-xs font-mono text-cyan-400 font-semibold mb-1">RADAR SATELITAL LOCAL</span>
-                <h4 class="text-2xl sm:text-3xl font-black text-white drop-shadow-md mb-2">#1 en Google Maps</h4>
+              <img src="assets/pillar_maps_hd.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
+                <span class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold mb-1">RADAR SATELITAL LOCAL</span>
+                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">#1 en Google Maps</h4>
                 <p class="text-xs sm:text-sm text-slate-200 line-clamp-2 max-w-md drop-shadow">
                   Aparición garantizada en el Local 3-Pack de Santo Domingo, Santiago y zonas clave de República Dominicana.
                 </p>
               </div>
             </div>
 
-            <!-- SLIDE 2: Web Ultrarrápida (Borde a Borde) -->
+            <!-- SLIDE 2: Web Ultrarrápida (Proporción Natural Sin Distorsión) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
-              <img src="assets/pillar_speed.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-full object-cover object-center filter brightness-[0.85] contrast-[1.08] hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/30 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                <span class="text-xs font-mono text-cyan-400 font-semibold mb-1">INFRAESTRUCTURA ANYCAST CARIBE</span>
-                <h4 class="text-2xl sm:text-3xl font-black text-white drop-shadow-md mb-2">&lt;0.4s en Redes Dominicanas</h4>
+              <img src="assets/pillar_speed_hd.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
+                <span class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold mb-1">INFRAESTRUCTURA ANYCAST CARIBE</span>
+                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">&lt;0.4s en Redes Dominicanas</h4>
                 <p class="text-xs sm:text-sm text-slate-200 line-clamp-2 max-w-md drop-shadow">
                   Carga relámpago en conexiones móviles de Claro y Altice. Puntuación auditada de 100/100 en Google Core Web Vitals.
                 </p>
               </div>
             </div>
 
-            <!-- SLIDE 3: WhatsApp con IA (Borde a Borde) -->
+            <!-- SLIDE 3: WhatsApp con IA (Proporción Natural Sin Distorsión) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
-              <img src="assets/pillar_ai.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-full object-cover object-center filter brightness-[0.85] contrast-[1.08] hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/30 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                <span class="text-xs font-mono text-emerald-400 font-semibold mb-1">AGENTE INTELIGENTE 24/7</span>
-                <h4 class="text-2xl sm:text-3xl font-black text-white drop-shadow-md mb-2">Ventas Inmediatas en WhatsApp</h4>
+              <img src="assets/pillar_ai_hd.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
+                <span class="text-[10px] sm:text-xs font-mono text-emerald-400 font-semibold mb-1">AGENTE INTELIGENTE 24/7</span>
+                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">Ventas Inmediatas en WhatsApp</h4>
                 <p class="text-xs sm:text-sm text-slate-200 line-clamp-2 max-w-md drop-shadow">
                   Respuestas en menos de 3 segundos día y noche. Califica prospectos, entrega catálogo y agenda citas en automático.
                 </p>
               </div>
             </div>
 
-            <!-- SLIDE 4: CRM Personalizado (Borde a Borde) -->
+            <!-- SLIDE 4: CRM Personalizado (Proporción Natural Sin Distorsión) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
-              <img src="assets/pillar_crm.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-full object-cover object-center filter brightness-[0.85] contrast-[1.08] hover:scale-105 transition-transform duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/30 to-transparent flex flex-col justify-end p-6 sm:p-8">
-                <span class="text-xs font-mono text-purple-300 font-semibold mb-1">PLATAFORMA PRIVADA EN LA NUBE</span>
-                <h4 class="text-2xl sm:text-3xl font-black text-white drop-shadow-md mb-2">CRM Propio a la Medida</h4>
+              <img src="assets/pillar_crm.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
+                <span class="text-[10px] sm:text-xs font-mono text-purple-300 font-semibold mb-1">PLATAFORMA PRIVADA EN LA NUBE</span>
+                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">CRM Propio a la Medida</h4>
                 <p class="text-xs sm:text-sm text-slate-200 line-clamp-2 max-w-md drop-shadow">
                   Centraliza clientes, cotizaciones en RD$ y cobros recurrentes sin pagar licencias mensuales por usuario.
                 </p>
@@ -1154,7 +1154,7 @@
             </div>
 
             <!-- Floating Subtle Next Step Pill at bottom -->
-            <div class="absolute bottom-4 left-4 right-4 z-30 flex items-center justify-between px-4 py-2 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300">
+            <div class="absolute bottom-3 left-3 right-3 z-30 flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-slate-800 text-[10px] font-mono text-slate-300">
               <span id="stickyFooterNext">SIGUIENTE: VELOCIDAD WEB</span>
               <span class="text-cyan-400 font-bold">⚡ SYNC ACTIVO</span>
             </div>

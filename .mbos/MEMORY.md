@@ -4,6 +4,16 @@
 
 ---
 
+## [2026-10-14] - Corrección Óptica & Alta Fidelidad en Showcase Pinned (Aspect Ratio & HD)
+- **Problema Detectado por Usuario:** Al expandir el contenedor sticky a modo vertical/cuadrado (`aspect-[4/5]`), las imágenes nativas 16:9 (`512x286`) sufrían un recorte lateral drástico y pérdida de nitidez por re-escalado forzado, haciendo que la página perdiera estética profesional.
+- **Acción & Solución de Ingeniería Visual:**
+  1. **Alineación de Aspect Ratio Nativo:** Se fijó el contenedor visual en `aspect-[16/10]` (proporción dorada landscape de estudio) coincidiendo exactamente con el encuadre marcado por el usuario en su captura, evitando recortes que mutilen los elementos clave de la imagen (teléfono WhatsApp, esferas de red, velocímetro, etc.).
+  2. **Upscaling HD con Filtro Lanczos de Alta Precisión:** Se generaron versiones de ultra alta definición a 1536x858 (`pillar_maps_hd.webp`, `pillar_speed_hd.webp`, `pillar_ai_hd.webp`), entregando nitidez retina cristalina con cero pixelación ni artefactos de compresión.
+  3. **Scrim de Gradiente Equilibrado:** Se ajustó la altura del degradado inferior y el espaciado de los títulos flotantes para dar máxima visibilidad al contenido fotográfico y gráfico central sin distorsión.
+- **Regla MBOS Extraída:** Nunca forzar un contenedor `portrait` (`4/5` o `9/16`) para recursos gráficos conceptualizados y renderizados originalmente en `landscape` (16:9 o 16:10), a menos que se regenere el activo verticalmente desde la raíz.
+
+---
+
 ## [2026-09-27] - Inicialización Oficial de IsaPromo RD (isapromord.com) & Arquitectura SEO Local
 
 ### 1. Contexto & Diagnóstico Previo

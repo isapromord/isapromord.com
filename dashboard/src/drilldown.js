@@ -29,7 +29,7 @@ export function toggleClientViewMode(mode, pushToHistory = true) {
       try {
         const newHash = `#client-${state.currentDrilldownClientId || ''}`;
         if (window.location.hash !== newHash) {
-          history.pushState({ tab: 'clients', mode: 'drilldown', clientId: state.currentDrilldownClientId }, '', newHash);
+          history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'drilldown', clientId: state.currentDrilldownClientId }, '', newHash);
         }
       } catch (e) {
         console.warn("History pushState no soportado", e);
@@ -50,7 +50,7 @@ export function toggleClientViewMode(mode, pushToHistory = true) {
       try {
         const newHash = '#directorio';
         if (window.location.hash !== newHash) {
-          history.pushState({ tab: 'clients', mode: 'overview' }, '', newHash);
+          history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', newHash);
         }
       } catch (e) {
         console.warn("History pushState no soportado", e);

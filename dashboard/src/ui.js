@@ -520,10 +520,107 @@ export function switchDashboardTab(tab, pushToHistory = true) {
     try {
       const newHash = tab === 'clients' ? (state.clientViewScreenMode === 'drilldown' ? `#client-${state.currentDrilldownClientId}` : '#directorio') : `#${tab}`;
       if (window.location.hash !== newHash) {
-        history.pushState({ tab: tab, mode: state.clientViewScreenMode, clientId: state.currentDrilldownClientId }, '', newHash);
+        history.pushState({ isDashboardSpa: true, tab: tab, mode: state.clientViewScreenMode, clientId: state.currentDrilldownClientId }, '', newHash);
       }
     } catch (e) {
       console.warn('History pushState no soportado', e);
     }
   }
+}
+
+// ==========================================
+// 12. MODAL & DASHBOARD SPA ROUTING HELPERS
+// ==========================================
+export function closeAllOpenModals() {
+  const modalIds = [
+    'clientModal', 
+    'reportModal', 
+    'billingNoticeModal', 
+    'clientDrawerModal', 
+    'roadmapManagementModal', 
+    'servicesAuditModal', 
+    'backupModal', 
+    'proposalResultModal', 
+    'partnerSnippetModal', 
+    'satelliteGeneratorModal', 
+    'newPartnerModal', 
+    'pillarZoomPitchModal', 
+    'manualTransactionModal', 
+    'contractEditorModal'
+  ];
+  let closedAny = false;
+  modalIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.classList.contains('hidden')) {
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+      closedAny = true;
+    }
+  });
+  return closedAny;
+}
+
+export function navigateToDashboardHome() {
+  closeAllOpenModals();
+  if (state.clientViewScreenMode === 'drilldown') {
+    if (window.toggleClientViewMode) {
+      window.toggleClientViewMode('overview', true);
+    }
+  }
+  switchDashboardTab('clients', true);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+export function initDashboardRouter() {
+  // Asegurar estado de base para evitar que el primer "Atrás" salga del dashboard
+  if (!history.state || !history.state.isDashboardSpa) {
+    try {
+      history.replaceState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', window.location.hash || '#directorio');
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  window.addEventListener('popstate', (e) => {
+    // Si la sesión no está activa, no intervenir
+    const isAuth = sessionStorage.getItem('isapromo_agency_session_auth') === 'true' || localStorage.getItem('isapromo_auth_remember') === 'true';
+    if (!isAuth) return;
+
+    // 1. Si hay algún modal abierto, el botón Atrás cierra el modal y retiene la pantalla actual
+    const modalClosed = closeAllOpenModals();
+    if (modalClosed) {
+      try {
+        history.pushState({ isDashboardSpa: true, tab: state.currentActiveTab || 'clients', mode: state.clientViewScreenMode || 'overview' }, '', window.location.hash || '#directorio');
+      } catch (err) {}
+      return;
+    }
+
+    // 2. Si está en detalle (drilldown) de cliente, Atrás regresa al listado general de clientes
+    if (state.clientViewScreenMode === 'drilldown') {
+      if (window.toggleClientViewMode) {
+        window.toggleClientViewMode('overview', false);
+      }
+      try {
+        history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', '#directorio');
+      } catch (err) {}
+      return;
+    }
+
+    // 3. Si está en otra pestaña distinta a clientes, Atrás regresa a la pestaña principal de clientes
+    if (state.currentActiveTab && state.currentActiveTab !== 'clients') {
+      switchDashboardTab('clients', false);
+      try {
+        history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', '#directorio');
+      } catch (err) {}
+      return;
+    }
+
+    // 4. Si ya está en el inicio del panel (Clientes en modo overview):
+    // Estándar de la industria: no expulsar al usuario del backend por presionar Atrás.
+    // Retener sesión y mostrar aviso discreto.
+    try {
+      history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', '#directorio');
+    } catch (err) {}
+    showToast('Estás en el inicio del panel. Usa "Bloquear Panel" si deseas salir.', 'info');
+  });
 }

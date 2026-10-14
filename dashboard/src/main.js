@@ -44,7 +44,10 @@ import {
   renderViralFootersWidget,
   renderMilestonesCalendarWidget,
   renderClientAvatarPills,
-  switchDashboardTab
+  switchDashboardTab,
+  navigateToDashboardHome,
+  closeAllOpenModals,
+  initDashboardRouter
 } from './ui.js';
 import {
   checkUrlUptime,
@@ -256,6 +259,9 @@ const windowBridge = {
   toggleThemeMode,
   togglePresentationMode,
   switchDashboardTab,
+  navigateToDashboardHome,
+  closeAllOpenModals,
+  initDashboardRouter,
   toggleStitchSidebar,
 
   // Auth
@@ -491,7 +497,10 @@ function bootstrap() {
     }
   });
 
-  // 7. Initial Ping of clients
+  // 7. SPA History & Router Trap (Prevent accidental exit on Back / popstate)
+  initDashboardRouter();
+
+  // 8. Initial Ping of clients
   setTimeout(() => {
     pingAllClients();
   }, 1000);

@@ -2145,7 +2145,7 @@
         </h3>
         
         <p class="text-slate-300 text-xs sm:text-base max-w-xl mx-auto mb-8 leading-relaxed">
-          Grabamos y te enviamos un video personalizado de 15 minutos analizando tu posición y la de tus 3 competidores más cercanos sin costo ni compromiso.
+          Analizamos en vivo la posición de tu empresa y la de tus 3 competidores más cercanos en Google Maps, entregándote un reporte claro directamente a tu chat sin costo ni compromiso.
         </p>
 
         <!-- Mini-Captador Terminal Híbrido -->
@@ -2184,7 +2184,7 @@
             style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
-            <span>Solicitar Video-Auditoría Gratuita de 15 Min →</span>
+            <span>Recibir Diagnóstico de mi Negocio por WhatsApp (Sin Costo) →</span>
           </button>
 
           <div class="flex items-center justify-center gap-3 text-[10px] text-slate-400 font-mono pt-0.5">
@@ -2783,7 +2783,7 @@
     async function handleQuickAuditSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById("auditSubmitBtn");
-      const origHtml = btn ? btn.innerHTML : "Solicitar Video-Auditoría de 15 Min →";
+      const origHtml = btn ? btn.innerHTML : "Recibir Diagnóstico de mi Negocio por WhatsApp (Sin Costo) →";
       const businessName = document.getElementById("auditBusinessName").value.trim();
       const whatsapp = document.getElementById("auditWhatsapp").value.trim();
 
@@ -2801,15 +2801,15 @@
       try {
         const payload = {
           name: businessName,
-          category: "Lead Video-Auditoría Maps",
+          category: "Lead Diagnóstico Maps",
           status: "lead",
           fee: "Prospecto Entrante",
           tasks: [
-            { id: "t1", title: "Grabar video-auditoría personalizada de 15 min", done: false },
-            { id: "t2", title: "Enviar análisis de Google Maps y competencia por WhatsApp", done: false }
+            { id: "t1", title: "Analizar posición en Google Maps y 3 competidores", done: false },
+            { id: "t2", title: "Enviar diagnóstico por WhatsApp", done: false }
           ],
           liveUrl: businessName.includes(".") ? (businessName.startsWith("http") ? businessName : `https://${businessName}`) : "",
-          notes: `WhatsApp: ${whatsapp} • Solicitud de Video-Auditoría de 15 minutos captada desde isapromord.com.`
+          notes: `WhatsApp: ${whatsapp} • Solicitud de Diagnóstico Maps captada desde isapromord.com.`
         };
 
         fetch("https://biomfntvqbhjmmmggxzj.supabase.co/rest/v1/agency_clients", {
@@ -2827,7 +2827,7 @@
       }
 
       // 2. Abrir WhatsApp inmediatamente con mensaje pre-armado
-      const msg = `Hola ISAPromoRD, deseo mi video-auditoría personalizada de 15 minutos para mi negocio "${businessName}". Mi WhatsApp de contacto es ${whatsapp}.`;
+      const msg = `Hola ISAPromoRD, deseo recibir el diagnóstico sin costo de mi negocio "${businessName}" en Google Maps. Mi WhatsApp de contacto es ${whatsapp}.`;
       const waUrl = `https://wa.me/18294554783?text=${encodeURIComponent(msg)}`;
 
       setTimeout(() => {

@@ -1089,8 +1089,8 @@
              COLUMNA IZQUIERDA (STICKY TOP): PURE BORDERLESS CANVAS (6 COLS)
              ============================================== -->
         <div class="lg:col-span-6 sticky top-24 lg:top-28 z-20">
-          <!-- Floating borderless visual screen aligned with natural 16:10 / 16:9 aspect ratio to prevent distortion and cropping -->
-          <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/10] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
+          <!-- Floating borderless visual screen aligned to exact 3:2 aspect ratio matching user viewport boundary -->
+          <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/2] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
             
             <!-- Floating Minimal Telemetry Pill (Non-invasive top badge) -->
             <div class="absolute top-3.5 left-3.5 right-3.5 z-30 flex items-center justify-between px-3.5 py-1.5 rounded-xl bg-[#070b13]/85 backdrop-blur-md border border-cyan-500/25">
@@ -1105,9 +1105,9 @@
               </div>
             </div>
 
-            <!-- SLIDE 1: Google Maps Top 1 (Proporción Natural Sin Distorsión) -->
+            <!-- SLIDE 1: Google Maps Top 1 (Panned & Centrado 3:2 Retina) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
-              <img src="assets/pillar_maps_hd.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento local Top 1 en Google Maps Santo Domingo y Santiago" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <span class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold mb-1">RADAR SATELITAL LOCAL</span>
                 <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">#1 en Google Maps</h4>
@@ -1117,9 +1117,9 @@
               </div>
             </div>
 
-            <!-- SLIDE 2: Web Ultrarrápida (Proporción Natural Sin Distorsión) -->
+            <!-- SLIDE 2: Web Ultrarrápida (Panned & Centrado 3:2 Retina) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
-              <img src="assets/pillar_speed_hd.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_speed_panned.webp" alt="Páginas web de alta velocidad con puntuación 100/100" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <span class="text-[10px] sm:text-xs font-mono text-cyan-400 font-semibold mb-1">INFRAESTRUCTURA ANYCAST CARIBE</span>
                 <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">&lt;0.4s en Redes Dominicanas</h4>
@@ -1129,9 +1129,9 @@
               </div>
             </div>
 
-            <!-- SLIDE 3: WhatsApp con IA (Proporción Natural Sin Distorsión) -->
+            <!-- SLIDE 3: WhatsApp con IA (Panned & Centrado 3:2 Retina) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
-              <img src="assets/pillar_ai_hd.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_ai_panned.webp" alt="Automatización inteligente de WhatsApp con IA para agendar y vender" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <span class="text-[10px] sm:text-xs font-mono text-emerald-400 font-semibold mb-1">AGENTE INTELIGENTE 24/7</span>
                 <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">Ventas Inmediatas en WhatsApp</h4>
@@ -1141,9 +1141,9 @@
               </div>
             </div>
 
-            <!-- SLIDE 4: CRM Personalizado (Proporción Natural Sin Distorsión) -->
+            <!-- SLIDE 4: CRM Personalizado (Panned & Centrado 3:2 Retina) -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
-              <img src="assets/pillar_crm.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_crm_panned.webp" alt="CRM personalizado en la nube para control de clientes y ventas" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
                 <span class="text-[10px] sm:text-xs font-mono text-purple-300 font-semibold mb-1">PLATAFORMA PRIVADA EN LA NUBE</span>
                 <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">CRM Propio a la Medida</h4>

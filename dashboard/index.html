@@ -1378,6 +1378,15 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <!-- Botón Generador de Placas NFC / QR -->
+          <button 
+            onclick="openNfcGeneratorModal()" 
+            class="px-3.5 py-2 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm hover:scale-105"
+            title="Generador de Enlaces de Reseñas y Códigos QR para Placas NFC"
+          >
+            <span>📱 Placa NFC & QR</span>
+          </button>
+
           <!-- Botón Auditoría 360 Completa -->
           <button 
             onclick="openDirectAuditModal()" 
@@ -1779,6 +1788,10 @@
             <button onclick="drilldownRunAudit()" class="px-3 py-1.5 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center gap-1.5 transition-all">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
               <span>Auditar 360°</span>
+            </button>
+            <!-- Botón Placa NFC & QR del Cliente -->
+            <button onclick="openNfcGeneratorForClient(currentDrilldownClientId)" class="px-3 py-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95" title="Generar Placa NFC y Código QR de Reseñas para este cliente">
+              <span>📱 Placa NFC</span>
             </button>
             <button onclick="drilldownOpenWhatsapp()" class="px-3 py-1.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 transition-all">
               <svg class="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
@@ -4201,6 +4214,142 @@
         </div>
 
       </form>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL GENERADOR DE PLACAS INTELIGENTES NFC & CÓDIGOS QR
+       (Diseño Obsidian Cyber Luxe con previsualización en vivo)
+       ======================================================== -->
+  <div id="nfcGeneratorModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="stitch-card bg-[#0f172a] rounded-xl max-w-2xl w-full border border-cyan-500/30 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Modal Header -->
+      <div class="p-5 sm:p-6 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-lg flex items-center justify-center shadow-inner">
+            📱
+          </div>
+          <div>
+            <div class="inline-flex items-center gap-1.5 text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              HARDWARE & DISPLAY FÍSICO • ISAPROMORD
+            </div>
+            <h2 class="text-lg sm:text-xl font-black text-white stitch-title">Generador de Placas NFC & QR</h2>
+          </div>
+        </div>
+        <button type="button" onclick="closeNfcGeneratorModal()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer text-lg">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-5 sm:p-6 space-y-5">
+        
+        <!-- Selector Rápido de Cliente o Modo Manual -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Seleccionar Cliente Registrado</label>
+            <select id="nfcModalClientSelect" onchange="handleNfcClientSelectChange()" class="w-full px-3 py-2 rounded-lg bg-[#06080d] border border-white/10 text-white text-xs font-medium focus:ring-1 focus:ring-cyan-400 focus:outline-none">
+              <option value="">-- Modo Libre / Empresa Nueva --</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Nombre Comercial de la Empresa</label>
+            <input type="text" id="nfcModalBusinessName" placeholder="Ej: ISAPromoRD" class="w-full px-3 py-2 rounded-lg bg-[#06080d] border border-white/10 text-white text-xs focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Campo Enlace Google Reviews -->
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">
+            Enlace Directo de Reseñas de Google (g.page/r/... o Maps URL)
+          </label>
+          <div class="flex gap-2">
+            <input 
+              type="url" 
+              id="nfcModalInputUrl" 
+              placeholder="Ej: https://g.page/r/CeedDHM0DCsWEBI/review" 
+              class="flex-1 px-3.5 py-2.5 rounded-lg bg-[#06080d] border border-cyan-500/30 text-white text-xs font-mono placeholder:text-slate-500 focus:ring-1 focus:ring-cyan-400 focus:outline-none" 
+            />
+            <button 
+              type="button" 
+              onclick="generateNfcAndQrCode()" 
+              class="px-4 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs transition-all active:scale-95 shadow-md shadow-cyan-500/20 cursor-pointer shrink-0"
+            >
+              ⚡ Generar QR
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">
+            💡 En tu ficha de Google escribe "mi negocio" ➔ botón "Pedir opiniones" ➔ copia el link de formato <code class="text-cyan-300">g.page/r/.../review</code>.
+          </p>
+        </div>
+
+        <!-- PREVISUALIZACIÓN DE LA PLACA & CÓDIGO QR -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center p-4 rounded-xl bg-[#06080d] border border-white/10">
+          
+          <!-- Contenedor QR -->
+          <div class="sm:col-span-5 flex flex-col items-center justify-center p-3 rounded-lg bg-white border border-slate-200 text-center shadow-lg">
+            <div id="nfcQrCodeContainer" class="w-44 h-44 flex items-center justify-center">
+              <img id="nfcQrImage" src="../assets/isapromord_official_review_qr.png" alt="QR Code Reseñas" class="w-40 h-40 object-contain" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-slate-800 uppercase tracking-wider mt-1 block">
+              Escanea para 5 Estrellas
+            </span>
+          </div>
+
+          <!-- Información de la Placa y Acciones -->
+          <div class="sm:col-span-7 space-y-3.5">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider block">ENLACE PROGRAMADO EN CHIP NFC</span>
+              <div class="p-2.5 rounded bg-black/60 border border-white/10 text-xs font-mono text-emerald-400 break-all select-all mt-1" id="nfcResolvedUrlBox">
+                https://g.page/r/CeedDHM0DCsWEBI/review
+              </div>
+            </div>
+
+            <!-- Guía Rápida para App NFC Tools -->
+            <div class="p-3 rounded-lg bg-indigo-950/40 border border-indigo-500/30 text-[11px] text-indigo-200 space-y-1">
+              <span class="font-bold text-white block">📡 Cómo Grabar en el Chip NFC (15s):</span>
+              <p>1. Abre la app gratis <strong>NFC Tools</strong> en tu celular.</p>
+              <p>2. Dale a <strong>Escribir ➔ Añadir registro ➔ URL</strong> y pega este enlace.</p>
+              <p>3. Toca <strong>Escribir</strong> y acerca la parte trasera del celular a la placa.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <button 
+                type="button" 
+                onclick="copyNfcUrlToClipboard()" 
+                class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-white/10"
+              >
+                <span>📋 Copiar Enlace NFC</span>
+              </button>
+              <button 
+                type="button" 
+                onclick="downloadNfcQrImage()" 
+                class="px-3.5 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <span>💾 Descargar QR (Imprenta)</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-t border-white/10 flex items-center justify-between">
+        <span class="text-xs text-slate-400 font-mono">Compatible con NTAG213, NTAG215 y NTAG216</span>
+        <button 
+          type="button" 
+          onclick="closeNfcGeneratorModal()" 
+          class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition-colors cursor-pointer"
+        >
+          Cerrar
+        </button>
+      </div>
+
     </div>
   </div>
 

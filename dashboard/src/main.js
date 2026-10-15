@@ -244,6 +244,15 @@ import {
   undoContractDelete,
   renderRoadmapContractsTab
 } from './contracts.js';
+import {
+  openNfcGeneratorModal,
+  closeNfcGeneratorModal,
+  openNfcGeneratorForClient,
+  handleNfcClientSelectChange,
+  generateNfcAndQrCode,
+  copyNfcUrlToClipboard,
+  downloadNfcQrImage
+} from './nfc.js';
 
 // ==========================================
 // WINDOW BRIDGE FOR HTML EVENT HANDLERS
@@ -438,7 +447,16 @@ const windowBridge = {
   openBackupModal,
   closeBackupModal,
   exportDatabase,
-  importDatabase
+  importDatabase,
+
+  // NFC & QR Generator
+  openNfcGeneratorModal,
+  closeNfcGeneratorModal,
+  openNfcGeneratorForClient,
+  handleNfcClientSelectChange,
+  generateNfcAndQrCode,
+  copyNfcUrlToClipboard,
+  downloadNfcQrImage
 };
 
 // Mount all handlers onto global `window`

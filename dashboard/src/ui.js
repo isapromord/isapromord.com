@@ -357,12 +357,13 @@ export function renderViralFootersWidget() {
       hostname = new URL(c.liveUrl).hostname;
     } catch(e) {}
     return `
-      <div class="p-2 rounded bg-slate-900/50 border border-white/[0.05] flex items-center justify-between gap-2 group hover:border-cyan-500/30 transition-all">
-        <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-200 hover:text-cyan-400 truncate max-w-[170px] transition-colors flex items-center gap-1 font-mono text-xs">
-          <span>${escapeHtml(hostname)}</span>
+      <div class="px-2.5 py-1.5 rounded-lg hover:bg-white/[0.04] flex items-center justify-between gap-2 group transition-colors">
+        <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-300 group-hover:text-cyan-300 truncate transition-colors flex items-center gap-1.5 font-mono text-xs font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80"></span>
+          <span class="truncate">${escapeHtml(hostname)}</span>
         </a>
-        <a href="${c.liveUrl || '#'}" target="_blank" class="px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 text-[10px] font-mono font-bold border border-cyan-500/20 shrink-0 transition-colors">
-          Visitar ↗
+        <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-500 group-hover:text-cyan-400 text-xs shrink-0 transition-colors p-1" title="Abrir web oficial">
+          ↗
         </a>
       </div>
     `;

@@ -115,94 +115,102 @@ export function renderClients(clientsToRender = state.clients) {
           ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`
           : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '380'}ms</span>`);
 
+    const healthBadgeBg = score >= 85 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : (score >= 60 ? "bg-amber-500/10 text-amber-400 border-amber-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20");
+    const rawFee = client.fee ? client.fee.replace(' / mes', '').trim() : '';
+    const formattedFee = rawFee && rawFee !== 'RD$ 0' ? rawFee : 'Sin Retainer';
+    const isZeroFee = !rawFee || rawFee === 'RD$ 0';
+
     return `
-      <!-- TARJETA CLIENTE PLEGABLE (ACCORDION) -->
+      <!-- FILA EJECUTIVA DE CLIENTE (DATA-GRID MINIMALISTA) -->
       <div 
         id="client-card-${client.id}" 
-        class="bg-[#101726] rounded-xl border ${isExpanded ? 'border-cyan-500/50' : 'border-slate-700/70'} shadow-lg hover:border-cyan-500/40 transition-all overflow-hidden text-slate-100 group"
+        class="transition-colors overflow-hidden text-slate-100 group ${isExpanded ? 'bg-cyan-950/20' : 'hover:bg-white/[0.02]'}"
       >
-        <!-- ENCABEZADO CLICABLE (CARGA CERRADO POR DEFECTO) -->
+        <!-- ENCABEZADO CLICABLE -->
         <div 
           onclick="toggleClientAccordion('${client.id}')"
-          class="p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer select-none bg-gradient-to-r from-transparent via-white/[0.01] to-white/[0.02] hover:bg-white/[0.03] transition-colors"
-          title="Clic para expandir o colapsar detalles"
+          class="p-3.5 sm:px-4 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer select-none transition-colors"
+          title="Clic para ver detalles y roadmap"
         >
           <!-- Identidad y Dominio -->
           <div class="flex items-center gap-3 min-w-0 flex-1">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-sm shrink-0 group-hover:scale-105 transition-transform">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/15 to-blue-500/15 border border-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold text-xs shrink-0 group-hover:border-cyan-400/40 transition-colors">
               ${escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
             </div>
             <div class="min-w-0 flex-1 space-y-0.5">
               <div class="flex items-center gap-2 flex-wrap">
-                <h4 class="text-base sm:text-lg font-black text-white group-hover:text-cyan-300 transition-colors">
+                <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors tracking-tight">
                   ${escapeHtml(client.name)}
                 </h4>
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold ${currentBadge.bg} border shrink-0">
+                <span class="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold ${currentBadge.bg} border shrink-0">
                   ${currentBadge.text}
                 </span>
                 ${uptimeBadge}
               </div>
-              <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate">
+              <div class="flex items-center gap-2 text-[11px] font-mono text-slate-400 truncate">
                 <a 
                   href="${client.liveUrl}" 
                   target="_blank" 
                   onclick="event.stopPropagation()" 
-                  class="text-cyan-400/90 hover:text-cyan-300 hover:underline truncate"
+                  class="text-cyan-400/80 hover:text-cyan-300 hover:underline truncate"
                   title="Visitar sitio web oficial"
                 >
-                  ${client.liveUrl ? escapeHtml(client.liveUrl.replace(/^https?:\/\//, '')) : 'Sin Dominio'} ↗
+                  ${client.liveUrl ? escapeHtml(client.liveUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '')) : 'Sin Dominio'} ↗
                 </a>
                 <span class="text-slate-600">•</span>
-                <span class="text-slate-400 font-sans truncate">${escapeHtml(client.category || 'General')}</span>
+                <span class="text-slate-400 font-sans truncate text-[11px]">${escapeHtml(client.category || 'General')}</span>
               </div>
             </div>
           </div>
 
-          <!-- Métricas, Botones y Chevron de Despliegue -->
-          <div class="flex items-center justify-between md:justify-end gap-3 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-white/[0.06]">
-            <div class="flex flex-col items-start md:items-end">
-              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">SALUD</span>
-              <span class="text-sm font-black font-mono ${healthColor}">
+          <!-- Métricas y Acciones Integradas -->
+          <div class="flex items-center justify-between md:justify-end gap-4 sm:gap-6 pt-2 md:pt-0 border-t md:border-t-0 border-white/[0.04]">
+            
+            <!-- Salud Digital -->
+            <div class="text-left md:text-right min-w-[70px]">
+              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block">Salud</span>
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-mono font-bold border ${healthBadgeBg}">
                 ${score}/100
               </span>
             </div>
 
-            <div class="flex flex-col items-start md:items-end">
-              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">RETAINER</span>
-              <span class="text-sm font-black font-mono text-white">
-                ${state.presentationMode ? '•••••' : (client.fee ? client.fee.replace(' / mes', '') : 'RD$ 0')}
+            <!-- Retainer Mensual -->
+            <div class="text-left md:text-right min-w-[90px]">
+              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block">Retainer</span>
+              <span class="text-xs font-mono font-bold ${isZeroFee ? 'text-slate-500' : 'text-emerald-400'} block">
+                ${state.presentationMode ? '•••••' : formattedFee}
               </span>
             </div>
 
-            <!-- Botones de Acción Rápida -->
-            <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+            <!-- Acciones Rápidas (Aparecen con hover en desktop) -->
+            <div class="flex items-center gap-1 opacity-80 sm:opacity-40 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
               <button 
                 onclick="event.stopPropagation(); runServicesAudit('${client.id}')" 
-                class="p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 transition-all cursor-pointer" 
+                class="p-1.5 rounded-md hover:bg-purple-500/15 text-slate-400 hover:text-purple-300 transition-all cursor-pointer" 
                 title="Auditoría 360°"
               >
-                <span>⚡</span>
+                <span class="text-xs">⚡</span>
               </button>
               <button 
                 onclick="event.stopPropagation(); openProposalForClient('${client.id}')" 
-                class="p-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 transition-all cursor-pointer" 
+                class="p-1.5 rounded-md hover:bg-cyan-500/15 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer" 
                 title="Generar Propuesta"
               >
-                <span>📝</span>
+                <span class="text-xs">📝</span>
               </button>
               <button 
                 onclick="event.stopPropagation(); openClientDrawer('${client.id}')" 
-                class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-all cursor-pointer" 
+                class="p-1.5 rounded-md hover:bg-white/10 text-slate-400 hover:text-slate-200 transition-all cursor-pointer" 
                 title="Expediente Completo"
               >
-                <span>📂</span>
+                <span class="text-xs">📂</span>
               </button>
             </div>
 
-            <!-- Indicador Chevron (Rota al Desplegar) -->
+            <!-- Chevron Sutil -->
             <div 
               id="client-chevron-${client.id}" 
-              class="w-7 h-7 rounded-lg bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-400 group-hover:text-cyan-300 text-xs transition-transform duration-200 shrink-0 ${isExpanded ? 'rotate-180' : ''}"
+              class="w-6 h-6 rounded flex items-center justify-center text-slate-500 group-hover:text-cyan-300 text-[10px] transition-transform duration-200 shrink-0 ${isExpanded ? 'rotate-180' : ''}"
               title="${isExpanded ? 'Cerrar detalle' : 'Abrir detalle'}"
             >
               ▼

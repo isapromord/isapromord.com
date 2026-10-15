@@ -7,7 +7,7 @@ import { state } from './state.js';
 import { showToast, escapeHtml } from './ui.js';
 import { checkUrlUptime } from './uptime.js';
 import { saveClientsToStorage } from './sync.js';
-import { openClientDrawer } from './directory.js';
+import { openClientDrawer, editClient } from './directory.js';
 import { runServicesAudit, openServicesAuditModal } from './audit.js';
 
 export function toggleClientViewMode(mode, pushToHistory = true) {
@@ -377,6 +377,18 @@ export function renderClientDrilldown() {
   const catBadge = document.getElementById("ddCategoryBadge");
   if (catBadge) catBadge.textContent = client.category || "General";
 
+  const catText = document.getElementById("ddCategoryText");
+  if (catText) catText.textContent = client.category || "General";
+
+  const notesText = document.getElementById("ddNotesText");
+  if (notesText) notesText.textContent = client.notes || "Plataforma web con catálogo, posicionamiento Google Maps y soporte continuo.";
+
+  const liveUrlText = document.getElementById("ddLiveUrlText");
+  if (liveUrlText) {
+    liveUrlText.textContent = client.liveUrl || "https://...";
+    liveUrlText.href = client.liveUrl || "#";
+  }
+
   // 2. Iframe Preview
   const iframe = document.getElementById("ddLivePreviewIframe");
   const iframePlaceholder = document.getElementById("ddIframePlaceholder");
@@ -694,6 +706,14 @@ export function drilldownOpenWhatsapp() {
 export function drilldownOpenDrawer() {
   if (!state.currentDrilldownClientId) return;
   openClientDrawer(state.currentDrilldownClientId, true);
+}
+
+export function drilldownEditClient() {
+  if (!state.currentDrilldownClientId && state.clients.length > 0) {
+    state.currentDrilldownClientId = state.clients[0].id;
+  }
+  if (!state.currentDrilldownClientId) return;
+  editClient(state.currentDrilldownClientId);
 }
 
 export const PILLAR_PITCH_DICTIONARY = {

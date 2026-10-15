@@ -910,6 +910,10 @@ export function saveClient(e) {
   renderClients();
   updateKpis();
 
+  if (window.renderClientDrilldown) {
+    window.renderClientDrilldown();
+  }
+
   if (liveUrl) {
     pingSingleClient(id || state.clients[0].id);
   }

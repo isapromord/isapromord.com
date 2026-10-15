@@ -20,11 +20,11 @@ export function setClientViewMode(mode) {
 
   if (btnCompact && btnExpanded) {
     if (mode === "compact") {
-      btnCompact.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm";
-      btnExpanded.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200";
+      btnCompact.className = "p-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs transition-colors shadow-sm cursor-pointer";
+      btnExpanded.className = "p-1.5 rounded-lg text-slate-400 hover:text-white text-xs transition-colors cursor-pointer";
     } else {
-      btnExpanded.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm";
-      btnCompact.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 text-slate-400 hover:text-slate-200";
+      btnExpanded.className = "p-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs transition-colors shadow-sm cursor-pointer";
+      btnCompact.className = "p-1.5 rounded-lg text-slate-400 hover:text-white text-xs transition-colors cursor-pointer";
     }
   }
 
@@ -84,6 +84,34 @@ export function renderClients(clientsToRender = state.clients) {
 
   updateQuickFilterCounts();
 
+  // Actualizar botones de vista activa
+  const currentMode = state.clientViewMode || "compact";
+  const btnCompact = document.getElementById("btnViewCompact");
+  const btnExpanded = document.getElementById("btnViewExpanded");
+  if (btnCompact && btnExpanded) {
+    if (currentMode === "compact") {
+      btnCompact.className = "p-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs transition-colors shadow-sm cursor-pointer";
+      btnExpanded.className = "p-1.5 rounded-lg text-slate-400 hover:text-white text-xs transition-colors cursor-pointer";
+    } else {
+      btnExpanded.className = "p-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs transition-colors shadow-sm cursor-pointer";
+      btnCompact.className = "p-1.5 rounded-lg text-slate-400 hover:text-white text-xs transition-colors cursor-pointer";
+    }
+  }
+
+  // Configurar contenedor según modo: Lista (divide-y) o Grid (grid sm:grid-cols-2 lg:grid-cols-3)
+  const wrapperEl = document.getElementById("clientsContainerWrapper");
+  const collapseAllBtn = document.getElementById("btnToggleAllCollapse");
+
+  if (currentMode === "expanded") {
+    container.className = "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4.5 p-4 sm:p-5";
+    if (wrapperEl) wrapperEl.className = "rounded-xl border border-white/[0.04] bg-transparent transition-colors";
+    if (collapseAllBtn) collapseAllBtn.classList.add("hidden");
+  } else {
+    container.className = "divide-y divide-white/[0.04]";
+    if (wrapperEl) wrapperEl.className = "rounded-xl border border-white/[0.08] bg-[#0c121e]/90 overflow-hidden shadow-sm transition-colors";
+    if (collapseAllBtn) collapseAllBtn.classList.remove("hidden");
+  }
+
   if (!clientsToRender || clientsToRender.length === 0) {
     container.innerHTML = "";
     if (emptyState) emptyState.classList.remove("hidden");
@@ -120,6 +148,113 @@ export function renderClients(clientsToRender = state.clients) {
     const formattedFee = rawFee && rawFee !== 'RD$ 0' ? rawFee : 'Sin Retainer';
     const isZeroFee = !rawFee || rawFee === 'RD$ 0';
 
+    // RENDER MODO GRID (TARJETAS INDEPENDIENTES)
+    if (currentMode === "expanded") {
+      return `
+        <!-- TARJETA GRID DE CLIENTE -->
+        <div 
+          id="client-card-${client.id}" 
+          class="rounded-xl border border-white/[0.08] bg-[#080d19]/90 hover:border-cyan-500/40 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/5 group"
+        >
+          <div>
+            <!-- Header de Tarjeta: Logo + Nombre + Estado -->
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-sm shrink-0 shadow-inner">
+                  ${escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
+                </div>
+                <div class="min-w-0">
+                  <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate tracking-tight">
+                    ${escapeHtml(client.name)}
+                  </h4>
+                  <div class="text-[11px] font-sans text-slate-400 truncate">${escapeHtml(client.category || 'General')}</div>
+                </div>
+              </div>
+
+              <!-- Selector Rápido de Estado -->
+              <div class="relative inline-flex items-center shrink-0">
+                <select 
+                  aria-label="Cambiar estado de ${escapeHtml(client.name)}"
+                  onchange="changeClientStatus('${client.id}', this.value)"
+                  class="appearance-none text-[10px] font-bold ${currentBadge.bg} border rounded px-2 py-0.5 pr-4 cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-400 hover:brightness-110 transition-all shadow-sm"
+                  title="Cambiar estado"
+                >
+                  <option value="active" ${client.status === 'active' ? 'selected' : ''} class="bg-[#0b0f17] text-emerald-400 font-bold">🟢 Activo</option>
+                  <option value="maintenance" ${client.status === 'maintenance' ? 'selected' : ''} class="bg-[#0b0f17] text-amber-400 font-bold">🟡 Mantenimiento</option>
+                  <option value="pending_payment" ${client.status === 'pending_payment' ? 'selected' : ''} class="bg-[#0b0f17] text-rose-400 font-bold">🔴 Cobro Pendiente</option>
+                  <option value="lead" ${client.status === 'lead' ? 'selected' : ''} class="bg-[#0b0f17] text-slate-300 font-bold">⚪ Prospecto</option>
+                  <option value="archived" ${client.status === 'archived' ? 'selected' : ''} class="bg-[#0b0f17] text-slate-400 font-bold">📁 Archivado</option>
+                </select>
+                <span class="pointer-events-none absolute right-1 text-[8px] opacity-70">▼</span>
+              </div>
+            </div>
+
+            <!-- Enlace Web & Uptime -->
+            <div class="flex items-center justify-between gap-2 py-2 border-y border-white/[0.04] mb-3 text-xs font-mono">
+              <a 
+                href="${client.liveUrl}" 
+                target="_blank" 
+                class="text-cyan-400/80 hover:text-cyan-300 hover:underline truncate"
+                title="Visitar web oficial"
+              >
+                ${client.liveUrl ? escapeHtml(client.liveUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '')) : 'Sin Dominio'} ↗
+              </a>
+              <div class="shrink-0">${uptimeBadge}</div>
+            </div>
+
+            <!-- Métricas Clave Grid -->
+            <div class="grid grid-cols-2 gap-2 mb-4">
+              <div class="p-2.5 rounded-lg bg-[#0c1322] border border-white/[0.04]">
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Retainer</span>
+                <span class="text-xs font-mono font-black ${isZeroFee ? 'text-slate-500' : 'text-emerald-400'}">
+                  ${state.presentationMode ? '•••••' : formattedFee}
+                </span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-[#0c1322] border border-white/[0.04]">
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Salud Web</span>
+                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-mono font-bold border ${healthBadgeBg}">
+                  ${score}/100
+                </span>
+              </div>
+            </div>
+
+            <!-- Contacto Rápido -->
+            ${client.phone ? `
+              <div class="mb-4">
+                <a href="https://wa.me/${client.phone.replace(/\D/g, '')}" target="_blank" class="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-2.5 rounded-lg font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-950/30 border border-emerald-800/40 text-xs transition-colors">
+                  <span>💬 WhatsApp: ${escapeHtml(client.phone)}</span>
+                </a>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Acciones de Tarjeta Grid -->
+          <div class="pt-3 border-t border-white/[0.06] flex items-center justify-between gap-1.5">
+            <button 
+              onclick="editClient('${client.id}')" 
+              class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all cursor-pointer flex-1 text-center"
+            >
+              ✏️ Editar
+            </button>
+            <button 
+              onclick="runServicesAudit('${client.id}')" 
+              class="px-2.5 py-1.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 text-xs font-bold transition-all cursor-pointer" 
+              title="Auditoría 360°"
+            >
+              ⚡
+            </button>
+            <button 
+              onclick="openClientDrawer('${client.id}')" 
+              class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold transition-all shadow-sm cursor-pointer flex-1 text-center"
+            >
+              📂 Expediente
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // RENDER MODO LISTA (DATA-GRID MINIMALISTA CON ESPACIADO AMPLIO Y ACORDEÓN)
     return `
       <!-- FILA EJECUTIVA DE CLIENTE (DATA-GRID MINIMALISTA CON ESPACIADO AMPLIO) -->
       <div 

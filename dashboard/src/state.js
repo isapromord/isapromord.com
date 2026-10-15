@@ -611,7 +611,8 @@ export const state = {
   proposals: [],
   currentProposalAddons: JSON.parse(JSON.stringify(PROPOSAL_ADDONS)),
   activeTab: "clients",
-  viewMode: "compact", // 'compact' o 'expanded'
+  clientViewMode: typeof localStorage !== "undefined" ? (localStorage.getItem("isapromo_view_mode") || "compact") : "compact",
+  viewMode: typeof localStorage !== "undefined" ? (localStorage.getItem("isapromo_view_mode") || "compact") : "compact",
   statusFilter: "all",
   searchQuery: "",
   expandedClientIds: new Set(),

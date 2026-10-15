@@ -17,32 +17,25 @@
 
 ---
 
-### Hitos Completados en v2.2.1 (2026-10-13):
-1. **Consolidación de Paquetes al Estándar de 3 Niveles (Good - Better - Best):**
-   - **Eliminación de `pack-crm` de los combos:** El CRM se preserva como cotización a la medida "A la Carta" (RD$ 35k - 65k) y en el Ecosistema Completo.
-   - **Inclusión de Correos Corporativos Gratis en Todos los Combos:** Valor percibido de RD$ 3,500 bonificado como gancho de cierre.
-   - **Combos Oficiales Sincronizados:**
-     - **1. Presencia & Captación Local (`pack-esencial`):** RD$ 30,000 setup / RD$ 8,000 mes (Web + Maps con Placa NFC/QR + Correos).
-     - **2. Negocio Inteligente con IA (`pack-ia` - Recomendado):** RD$ 48,000 setup / RD$ 14,000 mes (Web + Maps con Placa + Agente IA 24/7 + Correos).
-     - **3. Ecosistema Digital 360° (`pack-ecosistema` - Corporativo):** RD$ 75,000 setup / RD$ 20,000 mes (Web + Maps + Placa + IA 24/7 + CRM propio sin licencias por usuario + Correos).
-     - **4. A la Carta (`pack-none`):** Selección flexible de módulos sueltos.
-   - Precios y redacción persuasiva (NLP) sincronizados en Landing (`index.html`), Dashboard State (`state.js`), Propuestas (`propuesta/index.html` y `propuestas/demo/index.html`), Contratos (`contracts.js`) y Calculadora A la Carta (`proposals.js`).
+### Hitos Completados en v2.2.2 (2026-10-15):
+1. **Seguridad y Navegación del Dashboard:**
+   - **Lock Screen Modal Z-Index (`z-[9999]`):** Se elevó el modal de bloqueo para cubrir completamente cualquier barra o elemento lateral.
+   - **Ocultamiento Total de Menús al Salir/Bloquear:** `lockDashboard()` y `initAuth()` ocultan de forma explícita `#stitchSidebar` y `#mobileBottomNav` (`!hidden`) para evitar cualquier filtración visual detrás de la pantalla de bloqueo.
+   - **Logo Táctil a la Landing Page:** El logotipo en la tarjeta de bloqueo ahora es un enlace interactivo directo a `../` (página de inicio).
 
-2. **Matriz de Ventas Zoom en Vivo para los 7 Pilares Técnicos:**
-   - Cada pilar en el Stitch Command Center (`drilldown.js`) ahora es interactivo y abre el modal `pillarZoomPitchModal`.
-   - Incluye el desglose de 4 pasos comerciales:
-     - 🔴 **1. El Fallo en Cristiano** (sin jerga técnica)
-     - 💸 **2. Cómo le Lastima el Negocio** (pérdida de llamadas y clientes que van a la competencia)
-     - 🟢 **3. La Cura de ISAPromoRD** (solución técnica y tangibilización como la placa física)
-     - 🛡️ **4. Por Qué Requiere Retainer Mensual** (el argumento del algoritmo vivo)
-     - 🎙️ **5. Speech para Zoom** listo para leer en vivo al compartir pantalla con botón de 1 clic para copiar al portapapeles.
+2. **Reingeniería Móvil y Tipográfica de la Landing Page (`index.html`):**
+   - **Eliminación del 'Efecto Letra Pequeña':** Se erradicó el uso excesivo de `text-xs`, `text-[10px]` y `text-[11px]` en textos informativos, insignias y botones en toda la landing page.
+   - **Jerarquía Tipográfica Estándar de la Industria (Apple / Stripe / Awwwards Level):**
+     - Textos de párrafo y cuerpo de tarjetas elevados a `text-sm sm:text-base` con contraste de alto brillo (`text-slate-200` y `text-slate-300`).
+     - Títulos y subtítulos escalados con `leading-relaxed` y `leading-snug` para legibilidad sin esfuerzo al aire libre bajo pantallas móviles.
+     - Insignias de confianza, badges de zonas y chips satelitales aumentados a `text-xs sm:text-sm` con padding táctil amplio (`px-3 py-1.5` / `px-2.5 py-1`).
+     - Preguntas y respuestas del FAQ técnico aumentadas a `text-base sm:text-lg` (preguntas) y `text-sm sm:text-base` (respuestas).
+     - Tarjetas de métricas del escáner en vivo y banner de video-auditoría con tamaños de fuentes e inputs optimizados (`text-sm sm:text-base` con inputs de altura táctil >= 44px).
+   - **Hero y Espaciado Responsivo:**
+     - Reducción del excesivo padding superior móvil a `pt-28 pb-12` para garantizar que la propuesta de valor y los botones CTA se aprecien en el primer pliegue de pantalla.
+     - Contraste del video optimizado en móviles (`0.58` a `0.90`) con gradiente radial y posicionamiento centrado `object-[70%_center]`.
+     - Botón flotante de WhatsApp reposicionado a `bottom-8 right-5` con `z-[80]` para evitar solapamientos con botones CTA móviles.
 
-3. **Suite Contable & CFO Totalmente Administrable:**
-   - Resolución de discrepancia de IDs en el DOM que impedía renderizar las tablas del libro diario.
-   - Edición completa de transacciones pasadas (`openEditTransactionModal`) permitiendo modificar monto, fecha, cliente, concepto, banco y referencia sin borrar el registro.
-   - Categoría de Gastos Operativos (`expense`) para compras de placas acrílicas en Amazon, servidores o dominios, con cálculo automático de Flujo de Caja Neto.
-   - Buscador en tiempo real de transacciones por cliente, concepto o referencia.
-   - Botón directo `💵 Cobrado` en cada fila de clientes pendientes de cobro.
-
-4. **Blindaje de Calidad:**
+3. **Blindaje de Calidad y Pruebas:**
    - 12 pruebas unitarias automatizadas (`scratch/test_suite.js`) ejecutando al 100% de éxito.
+   - Cambios commiteados y desplegados en `main`.

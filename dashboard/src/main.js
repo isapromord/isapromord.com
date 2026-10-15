@@ -500,7 +500,13 @@ function bootstrap() {
   loadStoredClients();
   renderClients();
   updateKpis();
-  initCloudSync();
+  initCloudSync(() => {
+    renderClients();
+    updateKpis();
+    if (state.clientViewScreenMode === 'drilldown') {
+      renderClientDrilldown();
+    }
+  });
 
   // 5. Accounting, Referrals & HQ
   loadAccountingData();

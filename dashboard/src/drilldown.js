@@ -471,13 +471,43 @@ export function renderClientDrilldown() {
   }
 
   const mrrFee = document.getElementById("ddMrrFee");
+  const hasFee = client.fee && client.fee.trim() !== "" && client.fee !== "RD$ 0";
+
+  const retainerBadge = document.getElementById("ddRetainerBadge");
+  if (retainerBadge) {
+    if (hasFee) {
+      retainerBadge.textContent = "Retainer Activo";
+      retainerBadge.className = "text-cyan-400 font-mono text-xs font-bold";
+    } else {
+      retainerBadge.textContent = "A la Carta (Sin Retainer)";
+      retainerBadge.className = "text-slate-500 font-mono text-xs font-semibold";
+    }
+  }
   if (mrrFee) {
-    mrrFee.textContent = state.presentationMode ? "RD$ •••••" : (client.fee || "RD$ 4,500 / mes");
+    if (state.presentationMode) {
+      mrrFee.textContent = "RD$ •••••";
+      mrrFee.className = "text-2xl sm:text-3xl font-black text-white font-mono stitch-title";
+    } else if (hasFee) {
+      mrrFee.textContent = client.fee;
+      mrrFee.className = "text-2xl sm:text-3xl font-black text-white font-mono stitch-title";
+    } else {
+      mrrFee.textContent = "Sin Retainer";
+      mrrFee.className = "text-2xl sm:text-3xl font-black text-slate-500 font-mono stitch-title";
+    }
   }
 
   const planName = document.getElementById("ddPlanName");
   if (planName) {
-    planName.textContent = client.fee && client.fee.includes("8,000") ? "Plan Pro Enterprise" : (client.fee && client.fee.includes("4,500") ? "Plan Retainer Pro" : "Plan Retainer");
+    if (!hasFee) {
+      const renewalLabel = client.renewalDate ? ` • Renueva: ${client.renewalDate}` : "";
+      planName.textContent = `A la Carta / Sin Plan${renewalLabel}`;
+      planName.className = "text-xs text-slate-500 font-mono font-medium block";
+    } else {
+      const planTitle = client.fee.includes("8,000") ? "Plan Pro Enterprise" : (client.fee.includes("4,500") ? "Plan Retainer Pro" : "Plan Retainer");
+      const renewalLabel = client.renewalDate ? ` • Renueva: ${client.renewalDate}` : "";
+      planName.textContent = `${planTitle}${renewalLabel}`;
+      planName.className = "text-xs text-cyan-400 font-mono font-semibold block";
+    }
   }
 
   const stackChipsContainer = document.getElementById("ddStackChipsContainer");

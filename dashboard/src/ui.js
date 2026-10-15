@@ -572,16 +572,59 @@ export function navigateToDashboardHome() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+export function restoreRouteFromHash() {
+  const hash = window.location.hash || '';
+  if (!hash || hash === '#directorio' || hash === '#clients') {
+    if (state.clientViewScreenMode === 'drilldown') {
+      if (window.toggleClientViewMode) window.toggleClientViewMode('overview', false);
+    }
+    switchDashboardTab('clients', false);
+    return;
+  }
+
+  if (hash.startsWith('#client-')) {
+    const clientId = hash.replace('#', '');
+    if (clientId) {
+      switchDashboardTab('clients', false);
+      if (window.selectClientDrilldown) {
+        window.selectClientDrilldown(clientId, false);
+      }
+    }
+    return;
+  }
+
+  const cleanTab = hash.replace('#', '').replace('tab-', '');
+  if (['proposals', 'accounting', 'referrals', 'hq'].includes(cleanTab)) {
+    switchDashboardTab(cleanTab, false);
+  }
+}
+
 export function initDashboardRouter() {
+  // 1. Restaurar pantalla exacta basada en el Hash de la URL al refrescar o cargar
+  restoreRouteFromHash();
+
   // Asegurar estado de base para evitar que el primer "Atrás" salga del dashboard
   if (!history.state || !history.state.isDashboardSpa) {
     try {
-      history.replaceState({ isDashboardSpa: true, tab: 'clients', mode: 'overview' }, '', window.location.hash || '#directorio');
+      history.replaceState({ 
+        isDashboardSpa: true, 
+        tab: state.currentActiveTab || 'clients', 
+        mode: state.clientViewScreenMode || 'overview',
+        clientId: state.currentDrilldownClientId || null
+      }, '', window.location.hash || '#directorio');
     } catch (e) {
       // ignore
     }
   }
 
+  // 2. Soporte para cambios directos de Hash en navegador
+  window.addEventListener('hashchange', () => {
+    const isAuth = sessionStorage.getItem('isapromo_agency_session_auth') === 'true' || localStorage.getItem('isapromo_auth_remember') === 'true';
+    if (!isAuth) return;
+    restoreRouteFromHash();
+  });
+
+  // 3. Manejo de navegación "Atrás / Adelante" (popstate)
   window.addEventListener('popstate', (e) => {
     // Si la sesión no está activa, no intervenir
     const isAuth = sessionStorage.getItem('isapromo_agency_session_auth') === 'true' || localStorage.getItem('isapromo_auth_remember') === 'true';
@@ -596,7 +639,13 @@ export function initDashboardRouter() {
       return;
     }
 
-    // 2. Si está en detalle (drilldown) de cliente, Atrás regresa al listado general de clientes
+    // 2. Si el evento popstate trae hash, sincronizar estado
+    if (window.location.hash) {
+      restoreRouteFromHash();
+      return;
+    }
+
+    // 3. Si está en detalle (drilldown) de cliente, Atrás regresa al listado general de clientes
     if (state.clientViewScreenMode === 'drilldown') {
       if (window.toggleClientViewMode) {
         window.toggleClientViewMode('overview', false);
@@ -607,7 +656,7 @@ export function initDashboardRouter() {
       return;
     }
 
-    // 3. Si está en otra pestaña distinta a clientes, Atrás regresa a la pestaña principal de clientes
+    // 4. Si está en otra pestaña distinta a clientes, Atrás regresa a la pestaña principal de clientes
     if (state.currentActiveTab && state.currentActiveTab !== 'clients') {
       switchDashboardTab('clients', false);
       try {
@@ -616,7 +665,7 @@ export function initDashboardRouter() {
       return;
     }
 
-    // 4. Si ya está en el inicio del panel (Clientes en modo overview):
+    // 5. Si ya está en el inicio del panel (Clientes en modo overview):
     // Estándar de la industria: no expulsar al usuario del backend por presionar Atrás.
     // Retener sesión y mostrar aviso discreto.
     try {

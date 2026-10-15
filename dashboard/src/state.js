@@ -16,6 +16,7 @@ export const STORAGE_KEYS = {
   AUDIT_HISTORY: "isapromo_audited_history_v1",
   VIEW_MODE: "isapromo_view_mode",
   THEME: "isapromo_theme",
+  DELETED_CLIENT_IDS: "isapromo_deleted_client_ids_v1",
   // Lowercase aliases for robust cross-module imports
   clients: "isapromo_agency_clients_v2",
   pin: "isapromo_agency_pin_v1",

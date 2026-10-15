@@ -239,8 +239,8 @@ export async function runServicesAudit(clientId, customUrl) {
       if (llmRes.status === 'fulfilled' && llmRes.value && llmRes.value.ok) hasLlms = true;
     } catch(e) {}
 
-    if (!hasRobots && rawHtml) hasRobots = rawHtml.includes('robots.txt') || rawHtml.includes('robots');
-    if (!hasSitemap && rawHtml) hasSitemap = rawHtml.includes('sitemap.xml') || rawHtml.includes('sitemap');
+    if (!hasRobots && rawHtml) hasRobots = rawHtml.includes('/robots.txt') || rawHtml.includes('robots.txt');
+    if (!hasSitemap && rawHtml) hasSitemap = rawHtml.includes('sitemap.xml');
     if (!hasLlms && rawHtml) hasLlms = rawHtml.includes('llms.txt');
 
     if (dohData && dohData.Answer && dohData.Answer.length > 0) {
@@ -402,7 +402,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
       } catch(e) {}
     });
   }
-  if (!hasLocalSchema && hasOrganization) hasLocalSchema = true;
+  // Do not falsely equate pure Organization with physical LocalBusiness storefront
 
   const hasGeoRegion = doc 
     ? (!!doc.querySelector('meta[name="geo.region"]') || !!doc.querySelector('meta[name="geo.position"]') || !!doc.querySelector('meta[name="ICBM"]'))
@@ -466,11 +466,17 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
 
   // --- PILAR 3: WhatsApp Cards & OpenGraph 1200x630 - Max 15 pts
   let s3_status = "failed", s3_findings = "", s3_needed = "", s3_score = 0;
+  const isAbsoluteOgImage = ogImage.startsWith("http://") || ogImage.startsWith("https://");
   if (firewallProtected) {
     s3_status = "warning";
     s3_score = 10;
     s3_findings = "Metadatos protegidos por seguridad del servidor. No se pudo leer tarjeta OpenGraph por proxy externo.";
     s3_needed = "Comprobar vista previa compartiendo el enlace directamente en una conversación de WhatsApp.";
+  } else if (ogImage && !isAbsoluteOgImage) {
+    s3_status = "warning";
+    s3_score = 6;
+    s3_findings = `og:image usa ruta relativa (${ogImage.substring(0, 45)}...). WhatsApp rechaza rutas relativas y no mostrará la miniatura.`;
+    s3_needed = "Convertir og:image a URL absoluta con https:// para activar la previsualización en WhatsApp.";
   } else if (ogImage && title && desc) {
     s3_status = "passed";
     s3_score = 15;

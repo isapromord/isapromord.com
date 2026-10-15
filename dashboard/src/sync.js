@@ -105,19 +105,65 @@ export function dbRowToClient(row) {
   };
 }
 
+export function getDeletedClientIds() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.DELETED_CLIENT_IDS);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+export function recordDeletedClientId(id) {
+  if (!id) return;
+  try {
+    const ids = getDeletedClientIds();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      localStorage.setItem(STORAGE_KEYS.DELETED_CLIENT_IDS, JSON.stringify(ids));
+    }
+  } catch (e) {
+    console.warn("[Sync] Error recording deleted client ID:", e);
+  }
+}
+
+function normalizeUrlKey(url) {
+  if (!url) return "";
+  try {
+    const parsed = new URL(url.trim());
+    return (parsed.hostname + parsed.pathname).toLowerCase().replace(/\/+$/, "");
+  } catch (e) {
+    return url.trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/+$/, "");
+  }
+}
+
 export function loadClients() {
   const stored = localStorage.getItem(STORAGE_KEYS.CLIENTS);
+  const deletedIds = getDeletedClientIds();
+
   if (stored) {
     try {
       state.clients = JSON.parse(stored);
       let updated = false;
 
-      // Sincronizar clientes oficiales base si faltan
+      // Filtrar inmediatamente cualquier cliente que haya sido eliminado explícitamente (Tombstones)
+      const prevCount = state.clients.length;
+      state.clients = state.clients.filter(c => c && c.id && !deletedIds.includes(c.id));
+      if (state.clients.length !== prevCount) updated = true;
+
+      // Sincronizar clientes oficiales base SOLO si no han sido eliminados por el usuario
       INITIAL_CLIENTS.forEach(initC => {
+        if (deletedIds.includes(initC.id)) return; // RESPETAR BORRADO: Jamás resucitar cliente eliminado
+
         const idx = state.clients.findIndex(c => c.id === initC.id);
         if (idx === -1) {
-          state.clients.push(initC);
-          updated = true;
+          // Verificar si ya existe otro cliente con la misma URL en vivo antes de insertar
+          const initUrlKey = normalizeUrlKey(initC.liveUrl);
+          const urlExists = initUrlKey && state.clients.some(c => normalizeUrlKey(c.liveUrl) === initUrlKey);
+          if (!urlExists) {
+            state.clients.push(initC);
+            updated = true;
+          }
         } else {
           if (state.clients[idx].healthScore === undefined) {
             state.clients[idx].healthScore = initC.healthScore || 100;
@@ -142,25 +188,47 @@ export function loadClients() {
         }
       });
 
-      // Purgar duplicados estrictamente por ID único
-      const dedupMap = new Map();
+      // Purgar duplicados: primero por ID único, luego por URL en vivo normalizada
+      const dedupIdMap = new Map();
+      const dedupUrlMap = new Map();
+      const finalClients = [];
+
       state.clients.forEach(c => {
-        if (c && c.id && !dedupMap.has(c.id)) {
-          dedupMap.set(c.id, c);
-        } else {
+        if (!c || !c.id || dedupIdMap.has(c.id)) {
           updated = true;
+          return;
         }
+        dedupIdMap.set(c.id, true);
+
+        const urlKey = normalizeUrlKey(c.liveUrl);
+        if (urlKey) {
+          if (dedupUrlMap.has(urlKey)) {
+            // Ya existe un cliente para esta misma URL: unificar al que tenga mejor información/score
+            const existingIdx = dedupUrlMap.get(urlKey);
+            const existing = finalClients[existingIdx];
+            if ((c.healthScore !== undefined && (existing.healthScore === undefined || existing.healthScore === 100)) ||
+                (c.notes && !existing.notes) ||
+                (c.tasks && c.tasks.length > (existing.tasks ? existing.tasks.length : 0))) {
+              finalClients[existingIdx] = { ...existing, ...c, id: existing.id };
+            }
+            updated = true;
+            return;
+          }
+          dedupUrlMap.set(urlKey, finalClients.length);
+        }
+        finalClients.push(c);
       });
-      state.clients = Array.from(dedupMap.values());
+
+      state.clients = finalClients;
 
       if (updated) saveClientsToStorage(false);
     } catch (e) {
       console.warn("[Sync] Error parsing local clients, falling back to initial:", e);
-      state.clients = [...INITIAL_CLIENTS];
+      state.clients = INITIAL_CLIENTS.filter(c => !deletedIds.includes(c.id));
       saveClientsToStorage(false);
     }
   } else {
-    state.clients = [...INITIAL_CLIENTS];
+    state.clients = INITIAL_CLIENTS.filter(c => !deletedIds.includes(c.id));
     saveClientsToStorage(false);
   }
 }
@@ -278,9 +346,21 @@ export async function initCloudSync(renderCallback) {
 
     if (data && data.length > 0) {
       const PURGED_CLIENT_IDS = ['client-synkrd', 'client-nextcrmrd', 'client-vet-metropolitana'];
+      const deletedIds = getDeletedClientIds();
+
+      // Purgar de Supabase en segundo plano cualquier registro remoto que haya sido eliminado localmente
+      const toDeleteFromRemote = data.filter(r => deletedIds.includes(r.id) || PURGED_CLIENT_IDS.includes(r.id));
+      if (toDeleteFromRemote.length > 0) {
+        toDeleteFromRemote.forEach(r => deleteClientFromCloud(r.id));
+      }
+
       const rawRemote = data
         .map(dbRowToClient)
-        .filter(c => !PURGED_CLIENT_IDS.includes(c.id) && !c.id.includes('synkrd') && !c.id.includes('nextcrm') && !c.id.includes('vetmetropolitana'));
+        .filter(c => !PURGED_CLIENT_IDS.includes(c.id) && 
+                     !deletedIds.includes(c.id) &&
+                     !c.id.includes('synkrd') && 
+                     !c.id.includes('nextcrm') && 
+                     !c.id.includes('vetmetropolitana'));
 
       // Map consolidado bidireccional indexado estrictamente por ID único
       const clientMap = new Map();
@@ -290,11 +370,11 @@ export async function initCloudSync(renderCallback) {
         clientMap.set(remoteC.id, remoteC);
       });
 
-      // 2. FUSIONAR clientes locales (Garantía de no pérdida: NUNCA borrar clientes locales)
+      // 2. FUSIONAR clientes locales (Garantía de no pérdida: NUNCA borrar clientes locales que no estén en deletedIds)
       const localOnlyToUpload = [];
       (state.clients || []).forEach(localC => {
         if (!localC || !localC.id) return;
-        if (PURGED_CLIENT_IDS.includes(localC.id)) return;
+        if (PURGED_CLIENT_IDS.includes(localC.id) || deletedIds.includes(localC.id)) return;
 
         if (clientMap.has(localC.id)) {
           // Ya existe en ambos: preservar datos más ricos o recién auditados
@@ -318,8 +398,33 @@ export async function initCloudSync(renderCallback) {
         }
       });
 
+      // Purgar duplicados por URL en vivo normalizada (ej: lacapra.vercel.app duplicado con diferente ID)
+      const mergedList = Array.from(clientMap.values());
+      const dedupUrlMap = new Map();
+      const finalMerged = [];
+
+      mergedList.forEach(c => {
+        const urlKey = normalizeUrlKey(c.liveUrl);
+        if (urlKey) {
+          if (dedupUrlMap.has(urlKey)) {
+            const existingIdx = dedupUrlMap.get(urlKey);
+            const existing = finalMerged[existingIdx];
+            if ((c.healthScore !== undefined && (existing.healthScore === undefined || existing.healthScore === 100)) ||
+                (c.notes && !existing.notes) ||
+                (c.tasks && c.tasks.length > (existing.tasks ? existing.tasks.length : 0))) {
+              finalMerged[existingIdx] = { ...existing, ...c, id: existing.id };
+            }
+            // Eliminar de Supabase el duplicado sobrante
+            deleteClientFromCloud(c.id);
+            return;
+          }
+          dedupUrlMap.set(urlKey, finalMerged.length);
+        }
+        finalMerged.push(c);
+      });
+
       // Consolidar estado unificado
-      state.clients = Array.from(clientMap.values());
+      state.clients = finalMerged;
       saveClientsToStorage(false);
 
       if (typeof renderCallback === "function") {

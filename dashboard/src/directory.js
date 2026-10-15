@@ -4,7 +4,7 @@
  * domain auto-scan, client create/edit modal, and slide-over Mission Control drawer.
  */
 import { state, STORAGE_KEYS } from './state.js';
-import { saveClientsToStorage, syncClientToCloud, deleteClientFromCloud } from './sync.js';
+import { saveClientsToStorage, syncClientToCloud, deleteClientFromCloud, recordDeletedClientId } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis, renderClientAvatarPills } from './ui.js';
 import { pingSingleClient } from './uptime.js';
 
@@ -879,6 +879,7 @@ export function deleteClient(id) {
   if (!client) return;
 
   if (confirm(`¿Estás seguro de que deseas eliminar permanentemente el registro de "${client.name}"? Esta acción borrará su ficha de la cartera.`)) {
+    recordDeletedClientId(id);
     state.clients = state.clients.filter(c => c.id !== id);
     saveClientsToStorage(false);
     deleteClientFromCloud(id);

@@ -142,9 +142,22 @@ export function renderClients(clientsToRender = state.clients) {
                 <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors tracking-tight">
                   ${escapeHtml(client.name)}
                 </h4>
-                <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium ${currentBadge.bg} border shrink-0">
-                  ${currentBadge.text}
-                </span>
+                <!-- Selector Rápido de Estado en Tiempo Real -->
+                <div class="relative inline-flex items-center" onclick="event.stopPropagation()">
+                  <select 
+                    aria-label="Cambiar estado de ${escapeHtml(client.name)}"
+                    onchange="event.stopPropagation(); changeClientStatus('${client.id}', this.value)"
+                    class="appearance-none text-[10px] font-bold ${currentBadge.bg} border rounded px-2 py-0.5 pr-4 cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-400 hover:brightness-110 transition-all shadow-sm"
+                    title="Clic para cambiar el estado de la cuenta inmediatamente"
+                  >
+                    <option value="active" ${client.status === 'active' ? 'selected' : ''} class="bg-[#0b0f17] text-emerald-400 font-bold">🟢 Activo</option>
+                    <option value="maintenance" ${client.status === 'maintenance' ? 'selected' : ''} class="bg-[#0b0f17] text-amber-400 font-bold">🟡 Mantenimiento</option>
+                    <option value="pending_payment" ${client.status === 'pending_payment' ? 'selected' : ''} class="bg-[#0b0f17] text-rose-400 font-bold">🔴 Cobro Pendiente</option>
+                    <option value="lead" ${client.status === 'lead' ? 'selected' : ''} class="bg-[#0b0f17] text-slate-300 font-bold">⚪ Prospecto</option>
+                    <option value="archived" ${client.status === 'archived' ? 'selected' : ''} class="bg-[#0b0f17] text-slate-400 font-bold">📁 Archivado</option>
+                  </select>
+                  <span class="pointer-events-none absolute right-1 text-[8px] opacity-70">▼</span>
+                </div>
                 ${uptimeBadge}
               </div>
               <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate">
@@ -674,38 +687,56 @@ export function openNewClientModal() {
   if (urlIn) urlIn.focus();
 }
 
+export function changeClientStatus(clientId, newStatus) {
+  const client = state.clients.find(c => c.id === clientId);
+  if (!client) return;
+
+  const oldStatus = client.status;
+  client.status = newStatus;
+  saveClientsToStorage(true);
+  syncClientToCloud(client);
+  renderClients();
+  updateKpis();
+
+  const statusLabels = {
+    active: "🟢 Activo",
+    maintenance: "🟡 Mantenimiento",
+    pending_payment: "🔴 Cobro Pendiente",
+    lead: "⚪ Prospecto",
+    archived: "📁 Archivado"
+  };
+
+  showToast(`Estado de "${client.name}" actualizado a ${statusLabels[newStatus] || newStatus}`, 'success');
+}
+
 export function editClient(id) {
   const client = state.clients.find(c => c.id === id);
-  if (!client) return;
+  if (!client) {
+    console.warn(`[editClient] Cliente no encontrado con id: ${id}`);
+    return;
+  }
+
+  const setVal = (elId, val) => {
+    const el = document.getElementById(elId);
+    if (el) el.value = val !== undefined && val !== null ? val : "";
+  };
 
   const modalTitle = document.getElementById("modalTitle");
   if (modalTitle) modalTitle.textContent = "Editar Ficha de Cliente";
-  const idInput = document.getElementById("clientId");
-  if (idInput) idInput.value = client.id;
-  const nameInput = document.getElementById("clientName");
-  if (nameInput) nameInput.value = client.name || "";
-  const catInput = document.getElementById("clientCategory");
-  if (catInput) catInput.value = client.category || "";
-  const urlInput = document.getElementById("clientLiveUrl");
-  if (urlInput) urlInput.value = client.liveUrl || "";
-  const platInput = document.getElementById("clientPlatform");
-  if (platInput) platInput.value = client.platform || "";
-  const contInput = document.getElementById("clientContact");
-  if (contInput) contInput.value = client.contactPerson || "";
-  const phoneInput = document.getElementById("clientPhone");
-  if (phoneInput) phoneInput.value = client.phone || "";
-  const emailInput = document.getElementById("clientEmail");
-  if (emailInput) emailInput.value = client.email || "";
-  const statInput = document.getElementById("clientStatus");
-  if (statInput) statInput.value = client.status || "active";
-  const feeInput = document.getElementById("clientFee");
-  if (feeInput) feeInput.value = client.fee || "";
-  const renInput = document.getElementById("clientRenewal");
-  if (renInput) renInput.value = client.renewalDate || "";
-  const repoInput = document.getElementById("clientRepo");
-  if (repoInput) repoInput.value = client.repoUrl || "";
-  const notesInput = document.getElementById("clientNotes");
-  if (notesInput) notesInput.value = client.notes || "";
+
+  setVal("clientId", client.id);
+  setVal("clientName", client.name);
+  setVal("clientCategory", client.category);
+  setVal("clientLiveUrl", client.liveUrl);
+  setVal("clientPlatform", client.platform);
+  setVal("clientContact", client.contactPerson);
+  setVal("clientPhone", client.phone);
+  setVal("clientEmail", client.email);
+  setVal("clientStatus", client.status || "active");
+  setVal("clientFee", client.fee);
+  setVal("clientRenewal", client.renewalDate);
+  setVal("clientRepo", client.repoUrl);
+  setVal("clientNotes", client.notes);
 
   const feedback = document.getElementById("autoScanFeedback");
   if (feedback) feedback.classList.add("hidden");
@@ -723,6 +754,8 @@ export function editClient(id) {
   if (modal) {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+    modal.style.display = "flex";
+    modal.scrollTop = 0;
   }
 }
 
@@ -734,6 +767,7 @@ export function closeClientModal() {
   if (modal) {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
+    modal.style.display = "none";
   }
 }
 

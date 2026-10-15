@@ -240,60 +240,63 @@ export function renderProposalAddonsList() {
     }
 
     const typeBadge = addon.type === "monthly" 
-      ? '<span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/30">Mensual</span>' 
-      : '<span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[10px] font-bold border border-cyan-500/30">Pago Único</span>';
+      ? '<span class="text-[10px] font-semibold text-amber-400/90 font-mono">/ mes</span>' 
+      : '<span class="text-[10px] font-semibold text-cyan-400/80 font-mono">setup único</span>';
 
     const inComboBadge = (selectedBaseKey !== 'pack-none' && includedIds.includes(addon.id))
-      ? '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">✓ En Combo</span>'
+      ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">En Combo</span>'
       : '';
 
     const customBadge = addon.isCustom
-      ? '<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 text-[10px] font-bold border border-purple-500/30">Personalizado</span>'
+      ? '<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30">Personalizado</span>'
       : '';
 
     return `
-      <div class="proposal-addon-row ${addon.checked ? 'is-checked' : ''} p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group transition-all">
-        <label class="flex items-start gap-3 flex-1 min-w-0 cursor-pointer">
+      <div class="proposal-addon-row ${addon.checked ? 'is-checked' : ''} px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group transition-colors">
+        <label class="flex items-start gap-3 flex-1 min-w-0 cursor-pointer select-none">
           <input 
             type="checkbox" 
             ${addon.checked ? 'checked' : ''} 
             onchange="toggleProposalAddon('${addon.id}')" 
-            class="mt-0.5 w-4 h-4 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0"
+            class="mt-0.5 w-4 h-4 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0 border-white/20 bg-slate-900"
           />
           <div class="min-w-0 space-y-0.5">
             <div class="flex flex-wrap items-center gap-2">
-              <span class="text-xs font-bold text-white stitch-title">${escapeHtml(addon.name)}</span>
-              ${typeBadge}
+              <span class="text-xs font-semibold text-white stitch-title group-hover:text-cyan-300 transition-colors">${escapeHtml(addon.name)}</span>
               ${inComboBadge}
               ${customBadge}
             </div>
-            <p class="text-[11px] text-slate-400">${escapeHtml(addon.description)}</p>
+            <p class="text-[11px] text-slate-400 line-clamp-1 group-hover:text-slate-300 transition-colors">${escapeHtml(addon.description)}</p>
           </div>
         </label>
 
-        <div class="flex items-center gap-3 shrink-0 pl-7 sm:pl-0 self-end sm:self-auto">
-          <div class="text-right font-mono font-bold text-xs text-white stitch-title">
-            RD$ ${(addon.price || 0).toLocaleString('es-DO')}
-            <span class="text-[10px] font-normal text-slate-400 block">${addon.type === 'monthly' ? '/ mes' : 'único'}</span>
+        <div class="flex items-center gap-4 shrink-0 pl-7 sm:pl-0 self-end sm:self-auto">
+          <div class="text-right">
+            <div class="font-mono font-bold text-xs text-white stitch-title tracking-tight">
+              RD$ ${(addon.price || 0).toLocaleString('es-DO')}
+            </div>
+            <div class="text-[10px] text-slate-400">
+              ${typeBadge}
+            </div>
           </div>
 
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-1 opacity-70 group-hover:opacity-100 sm:opacity-40 transition-opacity">
             <button 
               type="button" 
               onclick="toggleEditProposalAddon('${addon.id}')" 
-              class="px-2 py-1 rounded bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-slate-700 hover:border-cyan-500/40 text-[11px] font-bold transition-all cursor-pointer shadow-sm active:scale-95" 
-              title="Editar título, descripción y precio de este servicio"
+              class="p-1.5 rounded-md hover:bg-white/10 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer active:scale-95" 
+              title="Editar título, descripción y precio"
             >
-              ✏️ Editar
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
             </button>
             ${addon.isCustom ? `
               <button 
                 type="button" 
                 onclick="deleteCustomProposalService('${addon.id}')" 
-                class="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer active:scale-95" 
+                class="p-1.5 rounded-md hover:bg-rose-500/10 text-slate-400 hover:text-rose-400 transition-all cursor-pointer active:scale-95" 
                 title="Eliminar este servicio"
               >
-                🗑️
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             ` : ''}
           </div>

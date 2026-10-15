@@ -330,19 +330,18 @@
       box-shadow: 0 0 16px -2px rgba(0, 210, 255, 0.25) !important;
     }
 
-    /* Filas de addons en modo oscuro */
+    /* Filas ejecutivas de servicios (Data-List integrada sin cajas pesadas) */
     body:not(.light-theme) .proposal-addon-row {
-      background-color: #101726;
-      border: 1px solid #1e293b;
+      background-color: transparent;
+      border: none;
       color: #f8fafc;
+      transition: background-color 0.15s ease;
     }
     body:not(.light-theme) .proposal-addon-row:hover {
-      border-color: rgba(0, 210, 255, 0.35);
-      background-color: #131c2e;
+      background-color: rgba(0, 210, 255, 0.04);
     }
     body:not(.light-theme) .proposal-addon-row.is-checked {
-      border-color: rgba(0, 210, 255, 0.6);
-      background-color: rgba(0, 210, 255, 0.06);
+      background-color: rgba(0, 210, 255, 0.03);
     }
 
     /* Barra comparativa de cotización en modo oscuro (img2 fix) */
@@ -639,17 +638,16 @@
       box-shadow: 0 0 0 1px #0284c7, 0 4px 12px rgba(2, 132, 199, 0.1) !important;
     }
     body.light-theme .proposal-addon-row {
-      background-color: #ffffff;
-      border: 1px solid #e2e8f0;
+      background-color: transparent;
+      border: none;
       color: #0f172a;
+      transition: background-color 0.15s ease;
     }
     body.light-theme .proposal-addon-row:hover {
-      border-color: #0284c7;
       background-color: #f8fafc;
     }
     body.light-theme .proposal-addon-row.is-checked {
-      border-color: #0284c7;
-      background-color: #f0f9ff;
+      background-color: #f0f9ff/40;
     }
     body.light-theme #liveComparisonBox {
       background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%) !important;
@@ -2261,27 +2259,37 @@
           </div>
 
           <!-- PASO 2: SERVICIOS Y MÓDULOS DE LA PROPUESTA (A LA CARTA) -->
-          <div class="space-y-2 pt-4 border-t border-white/[0.06]">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div class="space-y-3 pt-4 border-t border-white/[0.06]">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <label class="text-xs font-bold text-slate-800 uppercase tracking-wider block">2. Servicios y Módulos de la Propuesta (A la Carta) *</label>
-                <span class="text-[11px] text-slate-400">Edita títulos, descripciones, ajusta precios o agrega nuevos servicios a la medida</span>
+                <label class="text-xs font-bold text-white uppercase tracking-wider block stitch-title">2. Servicios y Módulos a la Carta</label>
+                <span class="text-[11px] text-slate-400">Selecciona los módulos incluidos, ajusta precios o agrega nuevos servicios a la medida</span>
               </div>
               <div class="flex items-center gap-2 flex-wrap">
-                <button type="button" onclick="addCustomProposalService()" class="px-2.5 py-1.5 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-95">
-                  <span>➕ Agregar Servicio Personalizado</span>
+                <button type="button" onclick="addCustomProposalService()" class="px-2.5 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95">
+                  <span>➕ Agregar Servicio</span>
                 </button>
-                <button type="button" onclick="resetProposalAddonsCatalog()" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium flex items-center gap-1 transition-all cursor-pointer" title="Restablecer catálogo a valores de fábrica">
-                  <span>↺ Restaurar Catálogo</span>
+                <button type="button" onclick="resetProposalAddonsCatalog()" class="px-2.5 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 border border-white/10 text-xs font-medium flex items-center gap-1 transition-all cursor-pointer" title="Restablecer catálogo a valores de fábrica">
+                  <span>↺ Restaurar</span>
                 </button>
-                <span id="alacarteSubtotalBadge" class="px-2.5 py-1 rounded-lg bg-blue-50 text-brand-700 border border-blue-200 text-xs font-bold font-mono">
+                <span id="alacarteSubtotalBadge" class="px-2.5 py-1 rounded-lg bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 text-xs font-bold font-mono">
                   A la Carta: RD$ 0 setup + RD$ 0/mes
                 </span>
               </div>
             </div>
 
-            <div id="proposalAddonsList" class="space-y-2.5 pt-1">
-              <!-- Se inyectan dinámicamente todos los servicios -->
+            <!-- TABLA / LISTA EJECUTIVA UNIFICADA -->
+            <div class="rounded-xl border border-white/[0.08] bg-[#0c121e]/90 overflow-hidden shadow-sm">
+              <div class="hidden sm:grid grid-cols-12 gap-3 px-4 py-2.5 bg-white/[0.03] border-b border-white/[0.06] text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <div class="col-span-8 flex items-center gap-2">
+                  <span>Módulo / Servicio Entregable</span>
+                </div>
+                <div class="col-span-2 text-right">Inversión</div>
+                <div class="col-span-2 text-right pr-1">Acción</div>
+              </div>
+              <div id="proposalAddonsList" class="divide-y divide-white/[0.04]">
+                <!-- Se inyectan dinámicamente todos los servicios como filas continuas -->
+              </div>
             </div>
           </div>
 

@@ -1004,16 +1004,18 @@
   <!-- ========================================================
        MODAL DE AUTENTICACIÓN / ENTERPRISE MULTI-AUTH
        ======================================================== -->
-  <div id="authLockModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
+  <div id="authLockModal" class="fixed inset-0 z-[9999] bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-[#121824] rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
       <!-- Ambient Glow Decorator -->
       <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-24 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-      <!-- Brand Header -->
-      <div class="w-14 h-14 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-3 shadow-inner relative">
-        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-9 h-9 object-contain" />
-      </div>
+      <!-- Brand Header (Click en el logo lleva a la Landing Page pública) -->
+      <a href="../" title="Volver al Sitio Web Principal" class="inline-block group focus:outline-none">
+        <div class="w-14 h-14 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center mx-auto mb-3 shadow-inner relative group-hover:border-cyan-400 group-hover:scale-105 transition-all cursor-pointer">
+          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-9 h-9 object-contain" />
+        </div>
+      </a>
       <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#161f30] text-slate-300 text-[11px] font-bold uppercase tracking-wider mb-2 border border-[#222f46]">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         Nodo MBOS Seguro • v2.0

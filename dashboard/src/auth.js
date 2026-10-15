@@ -55,6 +55,12 @@ export async function initAuth() {
   // Si no está autenticado, mostrar modal y hacer foco en input
   modal.classList.remove("hidden");
   modal.classList.add("flex");
+
+  const sidebar = document.getElementById("stitchSidebar");
+  if (sidebar) sidebar.classList.add("!hidden");
+  const mobileNav = document.getElementById("mobileBottomNav");
+  if (mobileNav) mobileNav.classList.add("!hidden");
+
   const pinInput = document.getElementById("pinInput");
   if (pinInput) {
     setTimeout(() => pinInput.focus(), 100);
@@ -67,6 +73,11 @@ export function unlockDashboardModal() {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
   }
+
+  const sidebar = document.getElementById("stitchSidebar");
+  if (sidebar) sidebar.classList.remove("!hidden");
+  const mobileNav = document.getElementById("mobileBottomNav");
+  if (mobileNav) mobileNav.classList.remove("!hidden");
 }
 
 // ==========================================
@@ -294,6 +305,12 @@ export function lockDashboard() {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
   }
+
+  const sidebar = document.getElementById("stitchSidebar");
+  if (sidebar) sidebar.classList.add("!hidden");
+  const mobileNav = document.getElementById("mobileBottomNav");
+  if (mobileNav) mobileNav.classList.add("!hidden");
+
   const pinInput = document.getElementById("pinInput");
   if (pinInput) pinInput.focus();
 }

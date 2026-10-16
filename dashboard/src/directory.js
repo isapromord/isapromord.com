@@ -1253,14 +1253,42 @@ export function renderDrawerContent() {
         </div>
       </div>
 
-      <div class="space-y-2 mt-4">
+      <div class="space-y-2.5 mt-4">
         ${(client.tasks || []).map(task => `
-          <div class="p-3 rounded bg-slate-900/60 border border-slate-800 flex items-start gap-2.5">
-            <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask('${client.id}', ${task.id})" class="mt-0.5 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0" />
-            <div class="min-w-0 flex-1">
-              <span class="text-xs ${task.done ? 'line-through text-slate-400' : 'text-slate-200'} font-medium block">${escapeHtml(task.title)}</span>
-              ${task.guide?.summary ? `<span class="text-[11px] text-slate-400 block mt-0.5">${escapeHtml(task.guide.summary)}</span>` : ''}
+          <div class="p-3.5 rounded-lg bg-slate-900/60 border border-slate-800 space-y-2">
+            <div class="flex items-start gap-2.5">
+              <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask('${client.id}', ${task.id})" class="mt-0.5 rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer shrink-0" />
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between gap-2 flex-wrap">
+                  <span class="text-xs ${task.done ? 'line-through text-slate-400' : 'text-slate-200 font-bold'} block">${escapeHtml(task.title)}</span>
+                  ${task.guide?.details ? `
+                    <button onclick="toggleTaskGuide('drawer-guide-${task.id}')" class="px-2 py-0.5 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[10px] font-mono border border-cyan-500/25 transition-all cursor-pointer shrink-0">
+                      📖 Guía Técnica
+                    </button>
+                  ` : ''}
+                </div>
+                ${task.guide?.summary ? `<span class="text-[11px] text-slate-400 block mt-1 leading-relaxed">${escapeHtml(task.guide.summary)}</span>` : ''}
+              </div>
             </div>
+            ${task.guide?.details ? `
+              <div id="drawer-guide-${task.id}" class="hidden pl-6 pt-2 border-t border-slate-800/80 text-[11px] text-slate-300 space-y-2 font-sans leading-relaxed">
+                <div class="p-2.5 rounded bg-slate-950/80 border border-white/[0.04] whitespace-pre-line text-slate-300">
+                  ${escapeHtml(task.guide.details)}
+                </div>
+                <div class="flex items-center gap-2 flex-wrap pt-0.5">
+                  ${task.guide.link ? `
+                    <a href="${task.guide.link}" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-cyan-400 hover:text-cyan-300 hover:underline">
+                      🔗 ${escapeHtml(task.guide.linkLabel || 'Abrir Enlace')} ↗
+                    </a>
+                  ` : ''}
+                  ${task.guide.copyText ? `
+                    <button onclick="navigator.clipboard.writeText('${escapeHtml(task.guide.copyText)}'); showToast('Copiado al portapapeles');" class="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-400 hover:text-emerald-300 cursor-pointer">
+                      📋 ${escapeHtml(task.guide.copyLabel || 'Copiar')}
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            ` : ''}
           </div>
         `).join('')}
       </div>

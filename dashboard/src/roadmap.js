@@ -199,6 +199,9 @@ export function toggleTask(clientId, taskId) {
     if (typeof window.renderClientDrilldown === 'function' && state.currentDrilldownClientId === clientId) {
       window.renderClientDrilldown();
     }
+    if (typeof window.renderDrawerContent === 'function') {
+      window.renderDrawerContent();
+    }
   }
 }
 
@@ -211,6 +214,9 @@ export function deleteClientTask(clientId, taskId) {
   if (window.renderClients) window.renderClients();
   if (typeof window.renderClientDrilldown === 'function' && state.currentDrilldownClientId === clientId) {
     window.renderClientDrilldown();
+  }
+  if (typeof window.renderDrawerContent === 'function') {
+    window.renderDrawerContent();
   }
   showToast("Entregable eliminado del roadmap", "info");
 }

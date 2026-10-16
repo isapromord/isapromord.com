@@ -176,17 +176,22 @@ export function loadClients() {
             state.clients[idx].optimizationMatrix = initC.optimizationMatrix;
             updated = true;
           }
-          if (initC.tasks && state.clients[idx].tasks) {
-            initC.tasks.forEach(initTask => {
-              const existingTask = state.clients[idx].tasks.find(t => t.id === initTask.id);
-              if (!existingTask) {
-                state.clients[idx].tasks.push(initTask);
-                updated = true;
-              } else if (initTask.guide && (!existingTask.guide || !existingTask.guide.details)) {
-                existingTask.guide = initTask.guide;
-                updated = true;
-              }
-            });
+          if (initC.tasks) {
+            if (!state.clients[idx].tasks) {
+              state.clients[idx].tasks = JSON.parse(JSON.stringify(initC.tasks));
+              updated = true;
+            } else {
+              initC.tasks.forEach(initTask => {
+                const existingTask = state.clients[idx].tasks.find(t => t.id === initTask.id);
+                if (!existingTask) {
+                  state.clients[idx].tasks.push(initTask);
+                  updated = true;
+                } else if (initTask.guide && (!existingTask.guide || !existingTask.guide.details)) {
+                  existingTask.guide = initTask.guide;
+                  updated = true;
+                }
+              });
+            }
           }
         }
       });

@@ -62,18 +62,119 @@ export const INITIAL_CLIENTS = [
     platform: "Cloud Anycast Edge (React 18 + Tailwind)",
     status: "active",
     isAgency: true,
-    healthScore: 100,
+    healthScore: 78,
     fee: "RD$ 0 / mes (Casa Matriz)",
     renewalDate: "2027-12-31",
     joinedDate: "2026-09-01",
-    notes: "Plataforma oficial y casa matriz de ISAPromoRD. Sitio web de alta conversión (<0.5s), posicionamiento SEO Local y GEO con IA, WhatsApp automatizado y Dashboard operativo central.",
+    notes: "Plataforma oficial y casa matriz de ISAPromoRD. Sitio web transaccional con arquitectura Cloud Anycast Edge, datos estructurados Schema.org, metadatos OpenGraph y suite satélite para IA.",
     optimizationMatrix: {
-      seo: "100%",
-      whatsapp: "100%",
-      geo: "100%",
-      ai: "100%"
+      seo: "95%",
+      whatsapp: "65%",
+      geo: "90%",
+      ai: "50%"
     },
-    tasks: [],
+    tasks: [
+      {
+        id: 1,
+        title: "Compilación nativa de Tailwind CSS (Reemplazar CDN por build minificado para PageSpeed 100/100)",
+        done: false,
+        date: "2026-10-16",
+        guide: {
+          summary: "Eliminar el bloqueo de renderizado en móviles provocado por cdn.tailwindcss.com (~350KB JIT) compilando un archivo CSS estático ultra-liviano.",
+          details: "1. Ejecutar en terminal: npx tailwindcss -i ./src/input.css -o ./assets/styles.min.css --minify.\n2. En index.html, reemplazar la etiqueta <script src='https://cdn.tailwindcss.com...'> por <link rel='stylesheet' href='assets/styles.min.css'>.\n3. Purgar clases para reducir el tamaño del CSS final a <25 KB.\n4. Correr Google PageSpeed Insights Móvil y verificar que el Performance suba de ~85 a 98-100.",
+          link: "https://tailwindcss.com/docs/installation",
+          linkLabel: "Guía Oficial de Instalación de Tailwind CLI",
+          copyText: "npx tailwindcss -i ./src/input.css -o ./assets/styles.min.css --minify",
+          copyLabel: "Copiar Comando de Compilación"
+        }
+      },
+      {
+        id: 2,
+        title: "Conexión de Agente IA WhatsApp 24/7 (Webhook n8n / Make + OpenAI API)",
+        done: false,
+        date: "2026-10-16",
+        guide: {
+          summary: "Convertir el enlace estático de WhatsApp en una línea automatizada activa las 24 horas que responda dudas y agende citas en Google Calendar.",
+          details: "1. Conectar WhatsApp Business Cloud API (Meta for Developers) o Evolution API al número comercial oficial (+1 829 455 4783).\n2. Configurar un escenario en n8n con modelo OpenAI (GPT-4o mini) con el prompt del sistema, catálogo y políticas comerciales de ISAPromoRD.\n3. Añadir herramienta de agendamiento para registrar prospectos calificados directo en Google Calendar.\n4. Configurar escalado humano con alerta directa a Telegram/SMS si el cliente solicita asistencia manual.",
+          link: "https://developers.facebook.com/docs/whatsapp/cloud-api",
+          linkLabel: "Documentación Oficial WhatsApp Cloud API",
+          copyText: "+1 (829) 455-4783",
+          copyLabel: "Copiar Teléfono Oficial"
+        }
+      },
+      {
+        id: 3,
+        title: "Verificación y Optimización de Google Business Profile (Local 3-Pack Dominicano)",
+        done: false,
+        date: "2026-10-16",
+        guide: {
+          summary: "Consolidar la ficha física oficial en Google Maps mediante verificación, fotos geolocalizadas del local y campaña activa de reseñas locales.",
+          details: "1. Reclamar o verificar la propiedad de ISAPromoRD en Google Business Profile en Altos de Arroyo Hondo III, Santo Domingo.\n2. Establecer 'Diseño de sitios web' como categoría principal y 'Consultor de marketing' como secundaria.\n3. Subir 10+ fotografías en alta resolución del área de trabajo, logotipos 3D y credenciales del equipo.\n4. Enviar enlace corto de reseñas a los primeros clientes (Pasión Pecuaria, Torre Apex, Kendy Sastre, etc.) solicitando incluir palabras clave ('diseño de páginas web santo domingo', 'google maps rd').",
+          link: "https://business.google.com",
+          linkLabel: "Acceder a Google Business Profile"
+        }
+      },
+      {
+        id: 4,
+        title: "Monitoreo y Calibración de Citación en Motores de IA (Perplexity, ChatGPT & Gemini)",
+        done: false,
+        date: "2026-10-16",
+        guide: {
+          summary: "Monitorear la frecuencia de citación de ISAPromoRD en respuestas generativas de IA y enriquecer periódicamente el archivo /llms.txt.",
+          details: "1. Realizar pruebas mensuales con prompts en ChatGPT Search y Perplexity: '¿Cuáles son las mejores agencias de desarrollo web y Google Maps en Santo Domingo?'.\n2. Comprobar si los modelos extraen datos desde https://isapromord.com/llms.txt.\n3. Incorporar nuevos casos de éxito y respuestas a objeciones en el Schema FAQPage de index.html y en llms.txt.\n4. Validar periódicamente la sintaxis del grafo JSON-LD en Schema.org Validator.",
+          link: "https://isapromord.com/llms.txt",
+          linkLabel: "Ver archivo llms.txt en Vivo"
+        }
+      },
+      {
+        id: 5,
+        title: "Despliegue de Protocolos Satélite: robots.txt, sitemap.xml y llms.txt",
+        done: true,
+        date: "2026-10-08",
+        guide: {
+          summary: "Arquitectura satélite canónica desplegada en la raíz del repositorio oficial con indexación abierta.",
+          details: "Archivos robots.txt con directivas de indexación, sitemap.xml con metadatos de imágenes y llms.txt desplegados exitosamente.",
+          link: "https://isapromord.com/sitemap.xml",
+          linkLabel: "Ver sitemap.xml"
+        }
+      },
+      {
+        id: 6,
+        title: "Inyección de Schemas JSON-LD (LocalBusiness, ProfessionalService, FAQPage) y Geo-Tags DO-01",
+        done: true,
+        date: "2026-09-28",
+        guide: {
+          summary: "Marcado semántico JSON-LD exhaustivo con georreferenciación dominicana y preguntas frecuentes estructuradas.",
+          details: "Inyección en el head de index.html con coordenadas de Santo Domingo (18.4969, -69.9855) y entidad dual LocalBusiness + ProfessionalService.",
+          copyText: "https://isapromord.com/",
+          copyLabel: "Copiar URL Canónica"
+        }
+      },
+      {
+        id: 7,
+        title: "Optimización de Metadatos OpenGraph (1200x630) para Compartir en WhatsApp",
+        done: true,
+        date: "2026-09-28",
+        guide: {
+          summary: "Tarjeta de previsualización de alta fidelidad configurada con URL absoluta para WhatsApp y redes sociales.",
+          details: "Metatags og:title, og:description, og:image (1200x630) y Twitter Cards verificados con vista previa enriquecida activa.",
+          link: "https://isapromord.github.io/assets/logo.png",
+          linkLabel: "Ver Logo 1200x630"
+        }
+      },
+      {
+        id: 8,
+        title: "Normalización Visual Grado Ingeniería (Anti-Bubble Geometry & Legibilidad Tipográfica)",
+        done: true,
+        date: "2026-10-15",
+        guide: {
+          summary: "Estandarización de geometría a rounded-xl (12px) y elevación de fuentes a >=14px en toda la landing page.",
+          details: "Erradicación de esquinas hiper-redondeadas (rounded-3xl/2xl) y fuentes microscópicas (text-[10px]/[11px]) para una apariencia de software B2B de clase mundial.",
+          link: "https://isapromord.com/",
+          linkLabel: "Visitar Landing Page"
+        }
+      }
+    ],
     uptimeStatus: "online",
     latencyMs: 120
   },

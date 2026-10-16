@@ -1296,3 +1296,20 @@
      - Sonda dual para archivos satélite: consulta simultánea en raíz (`/robots.txt`) y en subdirectorio de repositorio (`/repo/robots.txt`).
      - Calibración de umbrales SERP para títulos y descripciones ricas de alta conversión (`titleLen` 25-95, `descLen` 70-230).
      - Validación con suite automatizada (`npm test`): 14/14 tests pasando con 100/100 verídico en todos los 7 pilares técnicos.
+
+## [2026-10-15] - Roadmap Estratégico de Casa Matriz & Drawer Interactivo con Guías de Ejecución
+- **Requerimiento del Usuario:**
+  - El usuario solicitó formalmente transparentar los hallazgos técnicos en el Roadmap operativo de la agencia (`agency-isapromord`), de forma que pueda trabajarlos paso a paso y marcarlos como completados (`done: true`) a medida que los finalice.
+- **Acción & Arquitectura Implementada:**
+  1. **Roadmap Integral con 8 Entregables Estratégicos:**
+     - Tarea 1: *Compilación nativa de Tailwind CSS (Reemplazar CDN por build minificado para PageSpeed 100/100)* [Pendiente]
+     - Tarea 2: *Conexión de Agente IA WhatsApp 24/7 (Webhook n8n / Make + OpenAI API)* [Pendiente]
+     - Tarea 3: *Verificación y Optimización de Google Business Profile (Local 3-Pack Dominicano)* [Pendiente]
+     - Tarea 4: *Monitoreo y Calibración de Citación en Motores de IA (Perplexity, ChatGPT & Gemini)* [Pendiente]
+     - Tareas 5 a 8: *Satélites (robots, sitemap, llms.txt), Schemas JSON-LD, OpenGraph 1200x630 y Geometría Anti-Bubble* [Completadas]
+  2. **Elevación UX en el Drawer de Expediente (`openClientDrawer`):**
+     - Se integró el botón interactivo `📖 Guía Técnica` directamente dentro de cada ítem de tarea en el Drawer.
+     - Se dotó al Drawer de renderizado dinámico con comandos copiables en 1 clic (ej. `npx tailwindcss...`) y enlaces oficiales a la documentación técnica.
+     - La función `toggleTask` en `dashboard/src/roadmap.js` ahora invoca reactivamente a `renderDrawerContent()`, actualizando en tiempo real el progreso de la barra y el checkbox.
+  3. **Calibración de Calificación Base:**
+     - `healthScore: 78` asignado a `agency-isapromord`, reflejando fielmente el estado técnico real previo a la resolución de las 4 tareas pendientes.

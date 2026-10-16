@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-15 (v2.2.5: Integración Canónica de Casa Matriz y Blindaje Anti-Colisión en Auditoría 360°)  
+> **Última Actualización:** 2026-10-15 (v2.2.6: Roadmap Estratégico de Casa Matriz & Drawer Interactivo de Tareas)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,21 +13,23 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 14/14 pruebas unitarias pasando al 100%, cachebuster v2.2.5 activo.
+> **Estado del Sistema:** 100% en línea, 14/14 pruebas unitarias pasando al 100%, cachebuster v2.2.6 activo.
 
 ---
 
-### Hitos Completados en v2.2.5 (2026-10-15):
-1. **Integración Canónica de Casa Matriz en el Dashboard:**
-   - Se añadió `agency-isapromord` a `INITIAL_CLIENTS` en `dashboard/src/state.js` con `isAgency: true`, `fee: "RD$ 0 / mes (Casa Matriz)"` y `healthScore: 100`.
-   - Se blindó `calculateTotalMrr` en `dashboard/src/ui.js` para excluir `c.isAgency` y no alterar los ingresos mensuales recurrentes de clientes.
-   - Se añadió el badge distintivo `🏛️ Casa Matriz` en color púrpura tanto en la vista Grid como en la vista Data-Grid Compacta en `dashboard/src/directory.js`.
-2. **Blindaje Anti-Colisión y Protocolo de Verdad Local en Auditoría 360°:**
-   - Se corrigió el matching de clientes en `dashboard/src/audit.js` para usar la URL normalizada completa (`host + pathname`), evitando que subdirectorios GitHub Pages como `isapromord.github.io/isapromord.com` se atribuyan erróneamente a clientes como MiCondoRD.
-   - Fallback por host limitado exclusivamente a dominios propios (bloqueando dominios compartidos como `github.io`, `vercel.app`, `netlify.app`).
-   - Implementado protocolo de auto-auditoría (`isSelfAudit`): lectura directa no-bloqueante de activos locales relativos (`../index.html`, `../robots.txt`, `../sitemap.xml`, `../llms.txt`).
-   - Sonda dual para archivos satélite que consulta tanto la raíz como el subdirectorio de repositorio.
-   - Umbrales calibrados para títulos y descripciones de búsqueda orgánicas (`titleLen` 25-95, `descLen` 70-230).
-   - Resultado verificado: puntuación 100/100 verídica y documentada en base al código fuente real de ISAPromoRD.
-3. **Control de Calidad Automatizado:**
-   - 14/14 tests pasando exitosamente en `scratch/test_suite.js`.
+### Hitos Completados en v2.2.6 (2026-10-15):
+1. **Roadmap Estratégico de Casa Matriz (`agency-isapromord`):**
+   - Se estructuraron 8 entregables técnicos oficiales en `dashboard/src/state.js`:
+     - Tarea 1: *Compilación nativa de Tailwind CSS (Reemplazar CDN por build minificado para PageSpeed 100/100)* [Pendiente]
+     - Tarea 2: *Conexión de Agente IA WhatsApp 24/7 (Webhook n8n / Make + OpenAI API)* [Pendiente]
+     - Tarea 3: *Verificación y Optimización de Google Business Profile (Local 3-Pack Dominicano)* [Pendiente]
+     - Tarea 4: *Monitoreo y Calibración de Citación en Motores de IA (Perplexity, ChatGPT & Gemini)* [Pendiente]
+     - Tareas 5 a 8: *Satélites (robots, sitemap, llms.txt), Schemas JSON-LD, OpenGraph 1200x630 y Geometría Anti-Bubble* [Completadas]
+   - Cada tarea incluye su guía técnica detallada con enlaces oficiales, comandos copiables en un clic y descripción de impacto.
+2. **Interactividad en Tiempo Real en el Drawer de Expediente:**
+   - Se incorporó el botón `📖 Guía Técnica` directamente dentro del Drawer (`dashboard/src/directory.js`), permitiendo consultar el paso a paso sin cambiar de pantalla.
+   - `toggleTask` en `dashboard/src/roadmap.js` ahora invoca `renderDrawerContent()`, actualizando en tiempo real la barra de progreso porcentual y el estado tachado de las tareas.
+3. **Calibración de la Calificación Base:**
+   - La entidad `agency-isapromord` tiene una puntuación base realista de **78/100** (`healthScore: 78`), reflejando con honestidad técnica que alcanzará el 100/100 irrefutable al completar las 4 tareas pendientes.
+4. **Pruebas Automatizadas:**
+   - 14/14 tests pasando al 100% en `scratch/test_suite.js`.

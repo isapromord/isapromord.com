@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" class="w-8 h-8">
+  <defs>
+    <linearGradient id="apexGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="50%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="#08101e" stroke="rgba(0,210,255,0.3)" stroke-width="1.5"/>
+  <!-- Architectural Tower Apex Geometry -->
+  <path d="M20 7L10 29H15L20 18L25 29H30L20 7Z" fill="url(#apexGold)"/>
+  <path d="M16 32H24" stroke="#00d2ff" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

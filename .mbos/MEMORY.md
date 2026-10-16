@@ -1401,3 +1401,23 @@
      - Se redujo el padding de `p-5` a `p-3.5 sm:p-4 rounded-xl`, logrando tarjetas más bajas, compactas y estilizadas.
      - Se simplificó la jerarquía: Nombre de cliente como título limpio con flecha interactiva `↗`, descripción concisa de 2 líneas y métrica clave verificada en el pie (`+140 chats/mes`, `100/100 Lighthouse`, etc.).
 - **Regla MBOS Extraída:** En secciones de prueba social (Social Proof & Trust Strip), el protagonismo debe recaer en la fuerza de la cinta de marcas (Wordmark Track); las tarjetas de casos deben ser concisas, compactas y libres de badges redundantes que compitan con el nombre del cliente.
+
+## [2026-10-16] - Erradicación Sistemática de Overflows en Todos los Modales & Reemplazo de Emojis por Logos Reales en Marquee
+- **Problemas Detectados por el Usuario:**
+  1. *Desborde Superior de Ventanas Modales:* Al abrir modales como el Pitch Zoom de los 7 Pilares (`pillarZoomPitchModal`) o el generador de satélites en pantallas de laptop o ventanas reducidas, el título superior y el botón de cerrar quedaban cortados por encima del borde de la pantalla debido a `items-center` de Flexbox sin scroll del contenedor exterior.
+  2. *Autenticidad de Marcas en Ticker Marquee:* El carrusel de clientes de la landing page usaba emojis genéricos (🌾, 🏢, 🌲, 🚛, 🍂, etc.) en lugar de los logos de marca reales de los proyectos que ya existen en el ecosistema.
+- **Acciones y Solución de Ingeniería:**
+  1. **Auditoría Exhaustiva de 17 Modales:** Se inspeccionaron y blindaron todos los modales de la plataforma (`clientModal`, `reportModal`, `billingNoticeModal`, `roadmapManagementModal`, `servicesAuditModal`, `masterCatalogModal`, `backupModal`, `proposalResultModal`, `partnerSnippetModal`, `satelliteGeneratorModal`, `newPartnerModal`, `pillarZoomPitchModal`, `manualTransactionModal`, `contractEditorModal`, `nfcGeneratorModal` en Dashboard; y `adjustModal` y `approvedContractBridgeModal` en Propuesta).
+  2. **Aplicación del Patrón 3-Tier Anti-Overflow:**
+     - Capa 1: Overlay exterior con `overflow-y-auto` y `p-3 sm:p-5`.
+     - Capa 2: Diálogo contenedor con `my-auto max-h-[92vh] flex flex-col overflow-hidden`.
+     - Capa 3: Cabecera fija (`shrink-0 bg-[#0b0f17]`), Cuerpo desplazable (`overflow-y-auto flex-1`), y Pie de acciones fijo (`shrink-0 bg-[#070a10]`).
+     - Esto garantiza que ningún modal se desborde fuera del viewport en pantallas compactas, móviles o monitores con barra de tareas amplia.
+  3. **Extracción y Migración a Logos Vectoriales / HD en `assets/clients/`:**
+     - Se recolectaron y crearon los logotipos auténticos de cada proyecto en el repositorio (`pasion-pecuaria.png`, `elements-jarabacoa.png`, `isatranslogic.png`, `la-capra.png`, `wise-services.png`, `highland-bridge.jpg`, `kendy-sastre.jpg`, y SVGs vectoriales para `torre-esperilla.svg`, `trendyrd.svg`, `granjatracker.svg`, `synkrd.svg`).
+     - Se reemplazaron todos los emojis en ambos sets del carrusel infinito por etiquetas `<img>` optimizadas con `h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform`.
+  4. **Validación del Suite de Pruebas:**
+     - Los 16 tests automatizados de la suite pasan al 100% OK.
+- **Regla MBOS Extraída:**
+  - *Anti-Overflow:* Nunca usar `fixed inset-0 flex items-center justify-center` con diálogos de altura dinámica sin dotar al overlay de `overflow-y-auto` y al diálogo de `my-auto max-h-[92vh] flex flex-col overflow-hidden`.
+  - *Brand Fidelity:* En tiras de confianza y pruebas sociales de clientes (Trust Tickers), utilizar siempre los logos de marca reales (SVG o PNG retina optimizados); jamás utilizar emojis sustitutos como iconos de marca.

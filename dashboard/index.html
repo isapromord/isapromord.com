@@ -3141,9 +3141,10 @@
   <!-- ========================================================
        MODAL: GENERADOR DE REPORTE WHATSAPP
        ======================================================== -->
-  <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 text-slate-200">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-4">
+  <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-6 sm:p-7 pb-4 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764zm3.377 8.21c-.14.394-.813.738-1.127.785-.302.046-.697.067-1.133-.073-.284-.092-.647-.215-1.114-.419-1.968-.858-3.237-2.859-3.336-2.991-.098-.133-.799-1.063-.799-2.024 0-.961.503-1.433.682-1.628.179-.196.391-.245.522-.245.131 0 .262.001.376.007.12.006.281-.046.438.333.163.393.555 1.353.604 1.452.049.098.082.213.016.344-.066.13-.098.213-.196.328-.098.115-.207.257-.295.344-.098.098-.201.205-.087.401.115.197.511.843 1.096 1.365.753.672 1.388.88 1.585.979.197.098.312.082.427-.049.115-.131.491-.573.622-.77.131-.197.262-.164.442-.098.18.065 1.146.541 1.343.639.197.098.328.148.377.23.049.082.049.475-.091.869z"></path></svg>
@@ -3158,19 +3159,21 @@
         </button>
       </div>
 
-      <div class="space-y-4">
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-6 sm:p-7 overflow-y-auto flex-1 space-y-4">
         <textarea id="reportText" rows="10" readonly class="w-full p-3.5 bg-[#06080d] rounded-lg border border-white/10 text-xs font-mono text-slate-200 leading-relaxed focus:outline-none"></textarea>
+      </div>
 
-        <div class="flex items-center justify-end gap-3 pt-2">
-          <button onclick="copyReportText()" id="copyReportBtn" class="px-4 py-2.5 rounded-lg border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-            <span>Copiar al Portapapeles</span>
-          </button>
-          <a id="sendWhatsappLink" target="_blank" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all cursor-pointer">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
-            <span>Enviar por WhatsApp</span>
-          </a>
-        </div>
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-6 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex items-center justify-end gap-3">
+        <button onclick="copyReportText()" id="copyReportBtn" class="px-4 py-2.5 rounded-lg border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          <span>Copiar al Portapapeles</span>
+        </button>
+        <a id="sendWhatsappLink" target="_blank" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all cursor-pointer">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
+          <span>Enviar por WhatsApp</span>
+        </a>
       </div>
     </div>
   </div>
@@ -3178,9 +3181,10 @@
   <!-- ========================================================
        MODAL: AVISO DE RENOVACIÓN & COBRO MENSUAL (WHATSAPP)
        ======================================================== -->
-  <div id="billingNoticeModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 space-y-5 text-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+  <div id="billingNoticeModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-6 sm:p-7 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold">
             💳
@@ -3195,24 +3199,28 @@
         </button>
       </div>
 
-      <!-- Teléfono y Monto -->
-      <div class="grid grid-cols-2 gap-3 text-xs">
-        <div>
-          <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">WhatsApp del Cliente:</label>
-          <input type="text" id="billingNoticePhone" oninput="updateBillingNoticeWhatsappLink()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-mono text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-6 sm:p-7 overflow-y-auto flex-1 space-y-4">
+        <!-- Teléfono y Monto -->
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">WhatsApp del Cliente:</label>
+            <input type="text" id="billingNoticePhone" oninput="updateBillingNoticeWhatsappLink()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-mono text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto a Cobrar:</label>
+            <input type="text" id="billingNoticeAmount" oninput="regenerateBillingMessage()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-bold text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          </div>
         </div>
-        <div>
-          <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto a Cobrar:</label>
-          <input type="text" id="billingNoticeAmount" oninput="regenerateBillingMessage()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-bold text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Mensaje Formal de Cobro (Editable):</label>
+          <textarea id="billingNoticeText" oninput="updateBillingNoticeWhatsappLink()" rows="9" class="w-full p-3.5 bg-[#06080d] text-slate-200 font-mono text-xs rounded-lg border border-white/10 focus:ring-2 focus:ring-cyan-400 focus:outline-none leading-relaxed"></textarea>
         </div>
       </div>
 
-      <div class="space-y-1.5">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Mensaje Formal de Cobro (Editable):</label>
-        <textarea id="billingNoticeText" oninput="updateBillingNoticeWhatsappLink()" rows="10" class="w-full p-3.5 bg-[#06080d] text-slate-200 font-mono text-xs rounded-lg border border-white/10 focus:ring-2 focus:ring-cyan-400 focus:outline-none leading-relaxed"></textarea>
-      </div>
-
-      <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-6 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex flex-col sm:flex-row items-center justify-between gap-3">
         <button onclick="copyBillingNoticeText()" id="copyBillingNoticeBtn" class="w-full sm:w-auto px-4 py-2.5 rounded-lg border border-white/10 hover:bg-white/5 text-slate-300 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
           <span>Copiar Mensaje</span>
@@ -3671,8 +3679,8 @@
   <!-- ========================================================
        MODAL: CATÁLOGO MAESTRO GLOBAL DE PRECIOS
        ======================================================== -->
-  <div id="masterCatalogModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="bg-[#0b0f17] rounded-xl max-w-4xl w-full shadow-2xl border border-white/10 flex flex-col max-h-[92vh] overflow-hidden text-slate-200">
+  <div id="masterCatalogModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-4xl w-full shadow-2xl border border-white/10 my-auto flex flex-col max-h-[92vh] overflow-hidden text-slate-200">
       
       <!-- Header -->
       <div class="p-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#0f172a]">
@@ -3716,63 +3724,68 @@
   <!-- ========================================================
        MODAL: BACKUP & CONFIGURACIÓN PIN
        ======================================================== -->
-  <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/10 space-y-6 text-slate-200">
-      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+  <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-md w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-6 pb-4 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <h3 class="text-base font-bold text-white">Ajustes & Respaldo</h3>
         <button onclick="closeBackupModal()" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
-      <!-- Datos Bancarios para Cobros -->
-      <div class="space-y-2">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Cuentas Bancarias para Cobros</label>
-        <textarea id="bankDetailsInput" rows="4" placeholder="Banco, Tipo de cuenta, Número, Titular..." class="w-full p-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white text-xs font-mono focus:ring-2 focus:ring-cyan-400 focus:outline-none"></textarea>
-        <div class="flex items-center justify-between">
-          <span id="bankSuccessMsg" class="text-emerald-400 text-xs font-semibold hidden">Datos guardados.</span>
-          <button onclick="saveBankDetails()" class="ml-auto px-3.5 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold transition-all cursor-pointer">Guardar Cuenta</button>
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-5">
+        <!-- Datos Bancarios para Cobros -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Cuentas Bancarias para Cobros</label>
+          <textarea id="bankDetailsInput" rows="4" placeholder="Banco, Tipo de cuenta, Número, Titular..." class="w-full p-2.5 rounded-lg border border-white/10 bg-[#06080d] text-white text-xs font-mono focus:ring-2 focus:ring-cyan-400 focus:outline-none"></textarea>
+          <div class="flex items-center justify-between">
+            <span id="bankSuccessMsg" class="text-emerald-400 text-xs font-semibold hidden">Datos guardados.</span>
+            <button onclick="saveBankDetails()" class="ml-auto px-3.5 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold transition-all cursor-pointer">Guardar Cuenta</button>
+          </div>
         </div>
-      </div>
 
-      <!-- Cambiar PIN -->
-      <div class="pt-4 border-t border-white/10 space-y-2">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Cambiar PIN de Acceso</label>
-        <div class="flex gap-2">
-          <input type="password" id="newPinInput" maxlength="6" placeholder="Nuevo PIN (ej: 3690)" class="flex-1 px-3.5 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white text-sm font-mono focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer">Actualizar</button>
+        <!-- Cambiar PIN -->
+        <div class="pt-4 border-t border-white/10 space-y-2">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Cambiar PIN de Acceso</label>
+          <div class="flex gap-2">
+            <input type="password" id="newPinInput" maxlength="6" placeholder="Nuevo PIN (ej: 3690)" class="flex-1 px-3.5 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white text-sm font-mono focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer">Actualizar</button>
+          </div>
+          <p id="pinSuccess" class="text-emerald-400 text-xs font-semibold hidden">PIN actualizado exitosamente.</p>
         </div>
-        <p id="pinSuccess" class="text-emerald-400 text-xs font-semibold hidden">PIN actualizado exitosamente.</p>
-      </div>
 
-      <!-- Catálogo Maestro Global de Precios -->
-      <div class="pt-4 border-t border-white/10 space-y-2">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Tarifas Globales del Sistema</label>
-        <button type="button" onclick="closeBackupModal(); openMasterCatalogModal();" class="w-full py-2.5 px-3 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold text-xs rounded-lg border border-amber-500/30 flex items-center justify-center gap-2 transition-colors cursor-pointer">
-          🏷️ Gestionar Catálogo Maestro de Precios
-        </button>
-        <p class="text-[11px] text-slate-400 leading-tight">Configura los precios oficiales de paquetes y add-ons para todas las nuevas cotizaciones.</p>
-      </div>
-
-      <!-- Respaldo JSON -->
-      <div class="pt-4 border-t border-white/10 space-y-3">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Base de Datos de Clientes</label>
-        <div class="flex flex-col sm:flex-row gap-2">
-          <button onclick="exportDatabase()" class="flex-1 py-2.5 px-3 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-bold text-xs rounded-lg border border-cyan-500/30 flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-            Exportar JSON
+        <!-- Catálogo Maestro Global de Precios -->
+        <div class="pt-4 border-t border-white/10 space-y-2">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Tarifas Globales del Sistema</label>
+          <button type="button" onclick="closeBackupModal(); openMasterCatalogModal();" class="w-full py-2.5 px-3 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold text-xs rounded-lg border border-amber-500/30 flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            🏷️ Gestionar Catálogo Maestro de Precios
           </button>
-
-          <label class="flex-1 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-lg border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-            Importar JSON
-            <input type="file" id="importFileInput" onchange="importDatabase(event)" accept=".json" class="hidden" />
-          </label>
+          <p class="text-[11px] text-slate-400 leading-tight">Configura los precios oficiales de paquetes y add-ons para todas las nuevas cotizaciones.</p>
         </div>
-        <p class="text-[11px] text-slate-400 leading-tight">Puedes descargar una copia de seguridad o restaurarla en cualquier dispositivo sin depender de bases de datos externas.</p>
+
+        <!-- Respaldo JSON -->
+        <div class="pt-4 border-t border-white/10 space-y-3">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Base de Datos de Clientes</label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button onclick="exportDatabase()" class="flex-1 py-2.5 px-3 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 font-bold text-xs rounded-lg border border-cyan-500/30 flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Exportar JSON
+            </button>
+
+            <label class="flex-1 py-2.5 px-3 bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-lg border border-white/10 flex items-center justify-center gap-1.5 cursor-pointer transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+              Importar JSON
+              <input type="file" id="importFileInput" onchange="importDatabase(event)" accept=".json" class="hidden" />
+            </label>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-tight">Puedes descargar una copia de seguridad o restaurarla en cualquier dispositivo sin depender de bases de datos externas.</p>
+        </div>
       </div>
 
-      <div class="pt-2">
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10]">
         <button onclick="closeBackupModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs rounded-lg transition-colors cursor-pointer">Cerrar</button>
       </div>
     </div>
@@ -3781,9 +3794,10 @@
   <!-- ========================================================
        MODAL: PROPUESTA GENERADA EXITOSAMENTE
        ======================================================== -->
-  <div id="proposalResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 space-y-5 text-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+  <div id="proposalResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-6 sm:p-7 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
@@ -3795,52 +3809,55 @@
         </button>
       </div>
 
-      <div class="space-y-2">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Enlace Interactivo del Cliente:</label>
-        <div class="flex gap-2">
-          <input type="text" id="generatedLinkInput" readonly class="flex-1 px-3.5 py-2.5 rounded-lg border border-white/10 text-xs font-mono bg-[#06080d] text-cyan-300 focus:outline-none" />
-          <button onclick="copyGeneratedProposalLink()" id="copyProposalLinkBtn" class="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold transition-all cursor-pointer">Copiar</button>
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-6 sm:p-7 overflow-y-auto flex-1 space-y-4">
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Enlace Interactivo del Cliente:</label>
+          <div class="flex gap-2">
+            <input type="text" id="generatedLinkInput" readonly class="flex-1 px-3.5 py-2.5 rounded-lg border border-white/10 text-xs font-mono bg-[#06080d] text-cyan-300 focus:outline-none" />
+            <button onclick="copyGeneratedProposalLink()" id="copyProposalLinkBtn" class="px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold transition-all cursor-pointer">Copiar</button>
+          </div>
+        </div>
+
+        <div class="p-4 bg-[#06080d] rounded-lg border border-white/10 space-y-2 text-xs text-slate-300">
+          <div class="flex justify-between">
+            <span class="font-bold text-slate-400">Cliente:</span>
+            <span id="modalResClient" class="font-semibold text-white">--</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-bold text-slate-400">Cotización A la Carta:</span>
+            <span id="modalResAlacarte" class="text-slate-200">--</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="font-bold text-slate-400">Paquete Ofrecido:</span>
+            <span id="modalResPackage" class="text-slate-200">--</span>
+          </div>
+          <div id="modalResSavingsRow" class="flex justify-between pt-1 border-t border-white/10 text-emerald-400 font-bold">
+            <span>Ahorro del Cliente 🔥:</span>
+            <span id="modalResSavings">--</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+          <a id="modalResOpenBtn" target="_blank" class="py-2.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center border border-white/10">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            <span>Abrir Web</span>
+          </a>
+
+          <a id="modalResPdfBtn" target="_blank" class="py-2.5 px-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center shadow-xs">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Guardar PDF</span>
+          </a>
+
+          <a id="modalResWhatsappBtn" target="_blank" class="py-2.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all text-center">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764zm3.377 8.21c-.14.394-.813.738-1.127.785-.302.046-.697.067-1.133-.073-.284-.092-.647-.215-1.114-.419-1.968-.858-3.237-2.859-3.336-2.991-.098-.133-.799-1.063-.799-2.024 0-.961.503-1.433.682-1.628.179-.196.391-.245.522-.245.131 0 .262.001.376.007.12.006.281-.046.438.333.163.393.555 1.353.604 1.452.049.098.082.213.016.344-.066.13-.098.213-.196.328-.098.115-.207.257-.295.344-.098.098-.201.205-.087.401.115.197.511.843 1.096 1.365.753.672 1.388.88 1.585.979.197.098.312.082.427-.049.115-.131.491-.573.622-.77.131-.197.262-.164.442-.098.18.065 1.146.541 1.343.639.197.098.328.148.377.23.049.082.049.475-.091.869z"></path></svg>
+            <span>WhatsApp</span>
+          </a>
         </div>
       </div>
 
-      <div class="p-4 bg-[#06080d] rounded-lg border border-white/10 space-y-2 text-xs text-slate-300">
-        <div class="flex justify-between">
-          <span class="font-bold text-slate-400">Cliente:</span>
-          <span id="modalResClient" class="font-semibold text-white">--</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="font-bold text-slate-400">Cotización A la Carta:</span>
-          <span id="modalResAlacarte" class="text-slate-200">--</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="font-bold text-slate-400">Paquete Ofrecido:</span>
-          <span id="modalResPackage" class="text-slate-200">--</span>
-        </div>
-        <div id="modalResSavingsRow" class="flex justify-between pt-1 border-t border-white/10 text-emerald-400 font-bold">
-          <span>Ahorro del Cliente 🔥:</span>
-          <span id="modalResSavings">--</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
-        <a id="modalResOpenBtn" target="_blank" class="py-3 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center border border-white/10">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          <span>Abrir Web</span>
-        </a>
-
-        <a id="modalResPdfBtn" target="_blank" class="py-3 px-3 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors text-center shadow-xs">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span>Guardar PDF</span>
-        </a>
-
-        <a id="modalResWhatsappBtn" target="_blank" class="py-3 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all text-center">
-          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764zm3.377 8.21c-.14.394-.813.738-1.127.785-.302.046-.697.067-1.133-.073-.284-.092-.647-.215-1.114-.419-1.968-.858-3.237-2.859-3.336-2.991-.098-.133-.799-1.063-.799-2.024 0-.961.503-1.433.682-1.628.179-.196.391-.245.522-.245.131 0 .262.001.376.007.12.006.281-.046.438.333.163.393.555 1.353.604 1.452.049.098.082.213.016.344-.066.13-.098.213-.196.328-.098.115-.207.257-.295.344-.098.098-.201.205-.087.401.115.197.511.843 1.096 1.365.753.672 1.388.88 1.585.979.197.098.312.082.427-.049.115-.131.491-.573.622-.77.131-.197.262-.164.442-.098.18.065 1.146.541 1.343.639.197.098.328.148.377.23.049.082.049.475-.091.869z"></path></svg>
-          <span>WhatsApp</span>
-        </a>
-      </div>
-
-      <!-- Conexión Directa al Roadmap y Contrato Oficial del Cliente -->
-      <div id="modalResRoadmapBox" class="hidden pt-3 border-t border-white/10 space-y-2">
+      <!-- FOOTER (PINNED) -->
+      <div id="modalResRoadmapBox" class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] space-y-2 hidden">
         <button id="modalResContractBtn" onclick="createContractFromCurrentResultProposal()" class="w-full py-2.5 px-4 rounded-lg bg-indigo-600/80 hover:bg-indigo-600 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-indigo-600/25 transition-all cursor-pointer">
           <span>📜 Generar Contrato Oficial (Esquema 50/50)</span>
         </button>
@@ -3854,9 +3871,10 @@
   <!-- ========================================================
        MODAL: SNIPPET DE FOOTER PARA CLIENTE
        ======================================================== -->
-  <div id="partnerSnippetModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-xl w-full shadow-2xl border border-white/10 space-y-5 text-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+  <div id="partnerSnippetModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-xl w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -3869,31 +3887,35 @@
         </button>
       </div>
 
-      <!-- Vista Previa del Badge -->
-      <div class="space-y-1.5">
-        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Vista Previa en el Footer del Cliente:</label>
-        <div class="bg-[#06080d] p-6 rounded-lg flex items-center justify-center border border-white/10">
-          <a id="snippetPreviewBadge" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/15 text-xs font-medium transition-all shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Plataforma por <strong class="text-white font-bold">ISAPromoRD</strong></span>
-          </a>
-        </div>
-      </div>
-
-      <!-- Selector de Formato (React JSX vs HTML) -->
-      <div class="space-y-2">
-        <div class="flex items-center justify-between">
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Código para Integrar:</label>
-          <div class="flex gap-1 bg-[#06080d] p-0.5 rounded-lg border border-white/10 text-xs font-bold">
-            <button type="button" id="snippetTabReact" onclick="switchSnippetFormat('react')" class="px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold shadow-xs">React (JSX)</button>
-            <button type="button" id="snippetTabHtml" onclick="switchSnippetFormat('html')" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white">HTML</button>
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4">
+        <!-- Vista Previa del Badge -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Vista Previa en el Footer del Cliente:</label>
+          <div class="bg-[#06080d] p-6 rounded-lg flex items-center justify-center border border-white/10">
+            <a id="snippetPreviewBadge" target="_blank" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white border border-white/15 text-xs font-medium transition-all shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Plataforma por <strong class="text-white font-bold">ISAPromoRD</strong></span>
+            </a>
           </div>
         </div>
 
-        <textarea id="snippetCodeArea" readonly rows="5" class="w-full p-3 bg-[#06080d] text-slate-200 font-mono text-xs rounded-lg focus:outline-none border border-white/10"></textarea>
+        <!-- Selector de Formato (React JSX vs HTML) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Código para Integrar:</label>
+            <div class="flex gap-1 bg-[#06080d] p-0.5 rounded-lg border border-white/10 text-xs font-bold">
+              <button type="button" id="snippetTabReact" onclick="switchSnippetFormat('react')" class="px-2.5 py-1 rounded-md bg-cyan-500 text-slate-950 font-bold shadow-xs">React (JSX)</button>
+              <button type="button" id="snippetTabHtml" onclick="switchSnippetFormat('html')" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-white">HTML</button>
+            </div>
+          </div>
+
+          <textarea id="snippetCodeArea" readonly rows="5" class="w-full p-3 bg-[#06080d] text-slate-200 font-mono text-xs rounded-lg focus:outline-none border border-white/10"></textarea>
+        </div>
       </div>
 
-      <div class="flex items-center justify-between pt-2">
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex items-center justify-between">
         <span class="text-[11px] text-slate-400">Pega este bloque en el Footer de la web del cliente.</span>
         <button onclick="copySnippetCode()" id="copySnippetBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer border border-white/10">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -3907,8 +3929,9 @@
        MODAL: GENERADOR DE ARCHIVOS SATÉLITE & PROTOCOLOS
        ======================================================== -->
   <div id="satelliteGeneratorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="bg-[#0b0f17] rounded-xl p-5 sm:p-7 max-w-2xl w-full shadow-2xl border border-white/10 space-y-4 text-slate-200 my-auto">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+    <div class="bg-[#0b0f17] rounded-xl max-w-2xl w-full shadow-2xl border border-white/10 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200">
+      <!-- HEADER (PINNED) -->
+      <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
@@ -3921,41 +3944,44 @@
         </button>
       </div>
 
-      <!-- Pestañas de Archivo -->
-      <div class="flex items-center gap-2 border-b border-white/[0.08] pb-2 overflow-x-auto">
-        <button type="button" id="satTabRobots" onclick="switchSatelliteTab('robots.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
-          <span>🤖 robots.txt</span>
-        </button>
-        <button type="button" id="satTabSitemap" onclick="switchSatelliteTab('sitemap.xml')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
-          <span>🗺️ sitemap.xml</span>
-        </button>
-        <button type="button" id="satTabLlms" onclick="switchSatelliteTab('llms.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
-          <span>🧠 llms.txt (IA - GEO)</span>
-        </button>
+      <!-- BODY (SCROLLABLE) -->
+      <div class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4">
+        <!-- Pestañas de Archivo -->
+        <div class="flex items-center gap-2 border-b border-white/[0.08] pb-2 overflow-x-auto">
+          <button type="button" id="satTabRobots" onclick="switchSatelliteTab('robots.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+            <span>🤖 robots.txt</span>
+          </button>
+          <button type="button" id="satTabSitemap" onclick="switchSatelliteTab('sitemap.xml')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
+            <span>🗺️ sitemap.xml</span>
+          </button>
+          <button type="button" id="satTabLlms" onclick="switchSatelliteTab('llms.txt')" class="px-3.5 py-2 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent">
+            <span>🧠 llms.txt (IA - GEO)</span>
+          </button>
+        </div>
+
+        <!-- Resumen y Ruta de Destino -->
+        <div class="p-3 rounded-lg bg-[#06080d] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+          <div>
+            <span class="text-slate-400">Ruta de despliegue sugerida: </span>
+            <span id="satelliteFilePathBadge" class="text-emerald-400 font-bold">/public/robots.txt</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="satelliteFileSpecs" class="text-[11px] text-slate-400">Permite indexación y bots IA</span>
+          </div>
+        </div>
+
+        <!-- Visor de Código -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider font-mono" id="satelliteCodeLabel">Código Generado:</label>
+            <span class="text-[10px] text-cyan-400/80 font-mono" id="satelliteLineCount">18 líneas</span>
+          </div>
+          <textarea id="satelliteCodeArea" readonly rows="10" class="w-full p-3.5 bg-[#06080d] text-emerald-400 font-mono text-xs rounded-lg border border-white/10 leading-relaxed focus:outline-none focus:ring-1 focus:ring-cyan-400 selection:bg-cyan-500 selection:text-black"></textarea>
+        </div>
       </div>
 
-      <!-- Resumen y Ruta de Destino -->
-      <div class="p-3 rounded-lg bg-[#06080d] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
-        <div>
-          <span class="text-slate-400">Ruta de despliegue sugerida: </span>
-          <span id="satelliteFilePathBadge" class="text-emerald-400 font-bold">/public/robots.txt</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <span id="satelliteFileSpecs" class="text-[11px] text-slate-400">Permite indexación y bots IA</span>
-        </div>
-      </div>
-
-      <!-- Visor de Código -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between">
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider font-mono" id="satelliteCodeLabel">Código Generado:</label>
-          <span class="text-[10px] text-cyan-400/80 font-mono" id="satelliteLineCount">18 líneas</span>
-        </div>
-        <textarea id="satelliteCodeArea" readonly rows="12" class="w-full p-3.5 bg-[#06080d] text-emerald-400 font-mono text-xs rounded-lg border border-white/10 leading-relaxed focus:outline-none focus:ring-1 focus:ring-cyan-400 selection:bg-cyan-500 selection:text-black"></textarea>
-      </div>
-
-      <!-- Botones de Acción -->
-      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-white/10">
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <a id="satelliteLiveTestLink" target="_blank" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold font-mono flex items-center justify-center gap-1.5 transition-colors cursor-pointer border border-white/10" title="Verificar si el archivo ya responde en la URL pública">
           <span>🌐 Comprobar en Vivo</span>
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -3978,9 +4004,10 @@
   <!-- ========================================================
        MODAL: REGISTRAR NUEVO PARTNER DE REFERIDOS
        ======================================================== -->
-  <div id="newPartnerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-white/10 space-y-5 text-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+  <div id="newPartnerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-md w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+      <!-- HEADER (PINNED) -->
+      <div class="p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div>
           <h3 class="text-lg font-black text-white">Nuevo Partner de Referidos</h3>
           <p class="text-xs text-slate-400">Crea un enlace con seguimiento para un cliente nuevo.</p>
@@ -3990,32 +4017,36 @@
         </button>
       </div>
 
-      <form id="newPartnerForm" onsubmit="saveNewPartner(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Nombre Comercial del Cliente *</label>
-          <input type="text" id="partnerNameInput" required placeholder="Ej: Clínica Dental Dra. Pérez" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Slug / Código de Enlace *</label>
-          <div class="flex items-center">
-            <span class="px-3 py-2.5 bg-slate-900 border border-r-0 border-white/10 rounded-l-lg text-xs text-slate-400 font-mono">?ref=</span>
-            <input type="text" id="partnerSlugInput" required placeholder="draperez" class="w-full px-3.5 py-2.5 rounded-r-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+      <form id="newPartnerForm" onsubmit="saveNewPartner(event)" class="flex flex-col flex-1 overflow-hidden">
+        <!-- BODY (SCROLLABLE) -->
+        <div class="p-6 overflow-y-auto flex-1 space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Nombre Comercial del Cliente *</label>
+            <input type="text" id="partnerNameInput" required placeholder="Ej: Clínica Dental Dra. Pérez" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
           </div>
-          <p class="text-[11px] text-slate-400 mt-1">Solo letras minúsculas y guiones (sin espacios).</p>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Slug / Código de Enlace *</label>
+            <div class="flex items-center">
+              <span class="px-3 py-2.5 bg-slate-900 border border-r-0 border-white/10 rounded-l-lg text-xs text-slate-400 font-mono">?ref=</span>
+              <input type="text" id="partnerSlugInput" required placeholder="draperez" class="w-full px-3.5 py-2.5 rounded-r-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Solo letras minúsculas y guiones (sin espacios).</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">URL de la Web del Cliente</label>
+            <input type="url" id="partnerUrlInput" placeholder="https://draperez.com" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Recompensa / Incentivo</label>
+            <input type="text" id="partnerRewardInput" value="1 Mes de Mantenimiento Web Gratis" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">URL de la Web del Cliente</label>
-          <input type="url" id="partnerUrlInput" placeholder="https://draperez.com" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Recompensa / Incentivo</label>
-          <input type="text" id="partnerRewardInput" value="1 Mes de Mantenimiento Web Gratis" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-        </div>
-
-        <div class="pt-2 flex items-center justify-end gap-3">
+        <!-- FOOTER (PINNED) -->
+        <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex items-center justify-end gap-3">
           <button type="button" onclick="closeNewPartnerModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm transition-colors cursor-pointer">Cancelar</button>
           <button type="submit" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all cursor-pointer">Guardar Partner</button>
         </div>
@@ -4027,10 +4058,10 @@
        MODAL: ESTRATEGIA COMERCIAL & PITCH ZOOM DE LOS 7 PILARES
        ======================================================== -->
   <div id="pillarZoomPitchModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="bg-[#0b0f17] rounded-2xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl border border-cyan-500/30 my-8 space-y-6 text-slate-200 relative animate-in fade-in duration-200">
+    <div class="bg-[#0b0f17] rounded-2xl max-w-2xl w-full shadow-2xl border border-cyan-500/30 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200 relative animate-in fade-in duration-200">
       
-      <!-- HEADER -->
-      <div class="flex items-start justify-between gap-4 pb-4 border-b border-white/10">
+      <!-- HEADER (PINNED) -->
+      <div class="p-5 sm:p-6 pb-4 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-start justify-between gap-4">
         <div class="flex items-center gap-3 min-w-0">
           <div id="pillarModalIcon" class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 flex items-center justify-center text-2xl shrink-0 font-bold">
             📍
@@ -4049,59 +4080,62 @@
         </button>
       </div>
 
-      <!-- MATRIZ 4 PASOS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-        
-        <!-- 1. El Fallo -->
-        <div class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/25 space-y-1.5">
-          <div class="flex items-center gap-2 font-black text-rose-300 uppercase tracking-wider text-[11px]">
-            <span>🔴 1. El Fallo en Cristiano</span>
+      <!-- BODY (INDEPENDENT SCROLL) -->
+      <div class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4">
+        <!-- MATRIZ 4 PASOS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          
+          <!-- 1. El Fallo -->
+          <div class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/25 space-y-1.5">
+            <div class="flex items-center gap-2 font-black text-rose-300 uppercase tracking-wider text-[11px]">
+              <span>🔴 1. El Fallo en Cristiano</span>
+            </div>
+            <p id="pillarPitchFallo" class="text-slate-300 leading-relaxed text-[11px]"></p>
           </div>
-          <p id="pillarPitchFallo" class="text-slate-300 leading-relaxed text-[11px]"></p>
+
+          <!-- 2. El Dolor -->
+          <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/25 space-y-1.5">
+            <div class="flex items-center gap-2 font-black text-amber-300 uppercase tracking-wider text-[11px]">
+              <span>💸 2. El Dolor / Costo Financiero</span>
+            </div>
+            <p id="pillarPitchDolor" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          </div>
+
+          <!-- 3. La Cura -->
+          <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/25 space-y-1.5">
+            <div class="flex items-center gap-2 font-black text-emerald-300 uppercase tracking-wider text-[11px]">
+              <span>🟢 3. La Cura de ISAPromoRD</span>
+            </div>
+            <p id="pillarPitchCura" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          </div>
+
+          <!-- 4. Por Qué Retainer -->
+          <div class="p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-500/25 space-y-1.5">
+            <div class="flex items-center gap-2 font-black text-cyan-300 uppercase tracking-wider text-[11px]">
+              <span>🛡️ 4. Por Qué Requiere Retainer Mensual</span>
+            </div>
+            <p id="pillarPitchRetainer" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          </div>
+
         </div>
 
-        <!-- 2. El Dolor -->
-        <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/25 space-y-1.5">
-          <div class="flex items-center gap-2 font-black text-amber-300 uppercase tracking-wider text-[11px]">
-            <span>💸 2. El Dolor / Costo Financiero</span>
+        <!-- 5. SPEECH PARA ZOOM LISTO PARA LEER -->
+        <div class="p-4 rounded-xl bg-[#070a10] border border-purple-500/30 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-xs font-black text-purple-300 uppercase tracking-wider">
+              <span>🎙️ 5. Speech para Zoom (Listo para leer en vivo)</span>
+            </span>
+            <button onclick="copyPillarSpeech()" class="px-2.5 py-1 rounded bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+              <span id="copyPillarSpeechBtnText">Copiar Speech</span>
+            </button>
           </div>
-          <p id="pillarPitchDolor" class="text-slate-300 leading-relaxed text-[11px]"></p>
+          <p id="pillarPitchSpeech" class="text-slate-200 text-xs sm:text-[13px] leading-relaxed italic bg-purple-950/20 p-3 rounded-lg border border-purple-500/20 font-sans"></p>
         </div>
-
-        <!-- 3. La Cura -->
-        <div class="p-3.5 rounded-xl bg-emerald-950/20 border border-emerald-500/25 space-y-1.5">
-          <div class="flex items-center gap-2 font-black text-emerald-300 uppercase tracking-wider text-[11px]">
-            <span>🟢 3. La Cura de ISAPromoRD</span>
-          </div>
-          <p id="pillarPitchCura" class="text-slate-300 leading-relaxed text-[11px]"></p>
-        </div>
-
-        <!-- 4. Por Qué Retainer -->
-        <div class="p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-500/25 space-y-1.5">
-          <div class="flex items-center gap-2 font-black text-cyan-300 uppercase tracking-wider text-[11px]">
-            <span>🛡️ 4. Por Qué Requiere Retainer Mensual</span>
-          </div>
-          <p id="pillarPitchRetainer" class="text-slate-300 leading-relaxed text-[11px]"></p>
-        </div>
-
       </div>
 
-      <!-- 5. SPEECH PARA ZOOM LISTO PARA LEER -->
-      <div class="p-4 rounded-xl bg-[#070a10] border border-purple-500/30 space-y-2.5">
-        <div class="flex items-center justify-between">
-          <span class="inline-flex items-center gap-1.5 text-xs font-black text-purple-300 uppercase tracking-wider">
-            <span>🎙️ 5. Speech para Zoom (Listo para leer en vivo)</span>
-          </span>
-          <button onclick="copyPillarSpeech()" class="px-2.5 py-1 rounded bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-            <span id="copyPillarSpeechBtnText">Copiar Speech</span>
-          </button>
-        </div>
-        <p id="pillarPitchSpeech" class="text-slate-200 text-xs sm:text-[13px] leading-relaxed italic bg-purple-950/20 p-3 rounded-lg border border-purple-500/20 font-sans"></p>
-      </div>
-
-      <!-- FOOTER -->
-      <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-3 text-xs">
+      <!-- FOOTER (PINNED) -->
+      <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex items-center justify-between gap-3 text-xs">
         <span class="text-slate-400 text-[11px]">Tip: Comparte pantalla y muestra los 7 pilares mientras lees este speech.</span>
         <button type="button" onclick="closePillarPitchModal()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-colors cursor-pointer">Cerrar</button>
       </div>
@@ -4112,9 +4146,10 @@
   <!-- ========================================================
        MODAL: REGISTRAR COBRO / ENTRADA MANUAL (O EDITAR TRANSACCIÓN)
        ======================================================== -->
-  <div id="manualTransactionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#0b0f17] rounded-xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-white/10 my-8 space-y-5 text-slate-200">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+  <div id="manualTransactionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200">
+      <!-- HEADER (PINNED) -->
+      <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold">
             💵
@@ -4129,80 +4164,83 @@
         </button>
       </div>
 
-      <form id="manualTransactionForm" onsubmit="saveManualTransaction(event)" class="space-y-4 text-xs">
-        <input type="hidden" id="txEditingId" value="" />
+      <!-- FORM (SCROLLABLE BODY + PINNED FOOTER) -->
+      <form id="manualTransactionForm" onsubmit="saveManualTransaction(event)" class="flex flex-col flex-1 overflow-hidden">
+        <div class="p-5 sm:p-6 overflow-y-auto flex-1 space-y-4 text-xs">
+          <input type="hidden" id="txEditingId" value="" />
 
-        <!-- Cliente -->
-        <div>
-          <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Cliente / Empresa / Proveedor *</label>
-          <div class="space-y-1.5">
-            <select id="txClientSelect" onchange="handleTxClientSelectChange()" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
-              <!-- Opciones dinámicas de clientes registrados + 'Otro' -->
-            </select>
-            <input type="text" id="txClientCustomName" placeholder="O escribe el nombre del cliente o proveedor..." class="w-full px-3.5 py-2 rounded-lg border border-white/10 text-xs bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none hidden" />
+          <!-- Cliente -->
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Cliente / Empresa / Proveedor *</label>
+            <div class="space-y-1.5">
+              <select id="txClientSelect" onchange="handleTxClientSelectChange()" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+                <!-- Opciones dinámicas de clientes registrados + 'Otro' -->
+              </select>
+              <input type="text" id="txClientCustomName" placeholder="O escribe el nombre del cliente o proveedor..." class="w-full px-3.5 py-2 rounded-lg border border-white/10 text-xs bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none hidden" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Concepto -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Concepto / Servicio *</label>
+              <input type="text" id="txConcept" required placeholder="Ej: Retainer Mensual Octubre / Anticipo 50%" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+
+            <!-- Tipo de Ingreso -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Tipo de Movimiento *</label>
+              <select id="txType" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+                <option value="retainer">🟢 Retainer Mensual (Recurrente)</option>
+                <option value="setup">🚀 Anticipo Setup 50% (Proyecto Nuevo)</option>
+                <option value="settlement">🏁 Liquidación Final 50% (Entrega)</option>
+                <option value="alacarte">⚡ Servicio A la Carta / Consultoría</option>
+                <option value="expense">🔴 Gasto Operativo (Servidores / Placas NFC / Herramientas)</option>
+                <option value="other">⚪ Otro Movimiento</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Monto -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto (RD$) *</label>
+              <input type="number" id="txAmount" required min="1" step="1" placeholder="Ej: 4000" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-bold text-emerald-400 bg-[#06080d] focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+
+            <!-- Fecha -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Fecha de Movimiento *</label>
+              <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Cuenta de Destino -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Cuenta Bancaria *</label>
+              <select id="txAccount" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+                <option value="Banco Popular Dominicano">Banco Popular Dominicano (8294554783)</option>
+                <option value="Banco BHD / Banreservas">Banco BHD / Banreservas</option>
+                <option value="Efectivo / Caja Chica">Efectivo / Caja Chica</option>
+              </select>
+            </div>
+
+            <!-- Referencia Bancaria -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">No. Comprobante / Referencia</label>
+              <input type="text" id="txReference" placeholder="Ej: BP-981273 o Efectivo" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+          </div>
+
+          <!-- Notas Opcionales -->
+          <div>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Notas de la Transacción</label>
+            <input type="text" id="txNotes" placeholder="Detalles adicionales, número de factura o acuerdo..." class="w-full px-3.5 py-2 rounded-lg border border-white/10 text-xs bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <!-- Concepto -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Concepto / Servicio *</label>
-            <input type="text" id="txConcept" required placeholder="Ej: Retainer Mensual Octubre / Anticipo 50%" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-
-          <!-- Tipo de Ingreso -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Tipo de Movimiento *</label>
-            <select id="txType" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
-              <option value="retainer">🟢 Retainer Mensual (Recurrente)</option>
-              <option value="setup">🚀 Anticipo Setup 50% (Proyecto Nuevo)</option>
-              <option value="settlement">🏁 Liquidación Final 50% (Entrega)</option>
-              <option value="alacarte">⚡ Servicio A la Carta / Consultoría</option>
-              <option value="expense">🔴 Gasto Operativo (Servidores / Placas NFC / Herramientas)</option>
-              <option value="other">⚪ Otro Movimiento</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <!-- Monto -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto (RD$) *</label>
-            <input type="number" id="txAmount" required min="1" step="1" placeholder="Ej: 4000" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-bold text-emerald-400 bg-[#06080d] focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-
-          <!-- Fecha -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Fecha de Movimiento *</label>
-            <input type="date" id="txDate" required class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <!-- Cuenta de Destino -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Cuenta Bancaria *</label>
-            <select id="txAccount" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
-              <option value="Banco Popular Dominicano">Banco Popular Dominicano (8294554783)</option>
-              <option value="Banco BHD / Banreservas">Banco BHD / Banreservas</option>
-              <option value="Efectivo / Caja Chica">Efectivo / Caja Chica</option>
-            </select>
-          </div>
-
-          <!-- Referencia Bancaria -->
-          <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">No. Comprobante / Referencia</label>
-            <input type="text" id="txReference" placeholder="Ej: BP-981273 o Efectivo" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-mono bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-          </div>
-        </div>
-
-        <!-- Notas Opcionales -->
-        <div>
-          <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Notas de la Transacción</label>
-          <input type="text" id="txNotes" placeholder="Detalles adicionales, número de factura o acuerdo..." class="w-full px-3.5 py-2 rounded-lg border border-white/10 text-xs bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-        </div>
-
-        <div class="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
+        <div class="p-4 sm:p-5 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex items-center justify-end gap-3">
           <button type="button" onclick="closeManualTransactionModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-xs transition-colors cursor-pointer">Cancelar</button>
           <button type="submit" id="manualTxSubmitBtn" class="px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/20 active:scale-[0.98] transition-all cursor-pointer">Guardar en Libro Diario</button>
         </div>
@@ -4359,10 +4397,10 @@
        (Diseño Obsidian Cyber Luxe con previsualización en vivo)
        ======================================================== -->
   <div id="nfcGeneratorModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="stitch-card bg-[#0f172a] rounded-xl max-w-2xl w-full border border-cyan-500/30 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200">
+    <div class="stitch-card bg-[#0f172a] rounded-xl max-w-2xl w-full border border-cyan-500/30 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
       
-      <!-- Modal Header -->
-      <div class="p-5 sm:p-6 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-b border-white/10 flex items-center justify-between">
+      <!-- Modal Header (PINNED) -->
+      <div class="p-5 sm:p-6 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-b border-white/10 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-lg flex items-center justify-center shadow-inner">
             📱
@@ -4380,8 +4418,8 @@
         </button>
       </div>
 
-      <!-- Modal Body -->
-      <div class="p-5 sm:p-6 space-y-5">
+      <!-- Modal Body (SCROLLABLE) -->
+      <div class="p-5 sm:p-6 space-y-5 overflow-y-auto flex-1">
         
         <!-- Selector Rápido de Cliente o Modo Manual -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -4475,8 +4513,8 @@
 
       </div>
 
-      <!-- Modal Footer -->
-      <div class="p-4 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-t border-white/10 flex items-center justify-between">
+      <!-- Modal Footer (PINNED) -->
+      <div class="p-4 bg-gradient-to-r from-[#121a2a] to-[#0a0e17] border-t border-white/10 flex items-center justify-between shrink-0">
         <span class="text-xs text-slate-400 font-mono">Compatible con NTAG213, NTAG215 y NTAG216</span>
         <button 
           type="button" 

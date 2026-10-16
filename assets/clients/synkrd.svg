@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" class="w-8 h-8">
+  <defs>
+    <linearGradient id="synkViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="#130b20" stroke="rgba(139,92,246,0.3)" stroke-width="1.5"/>
+  <path d="M21 9L11 22H19L17 31L29 18H21L23 9H21Z" fill="url(#synkViolet)"/>
+</svg>

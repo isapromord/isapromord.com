@@ -1421,3 +1421,11 @@
 - **Regla MBOS Extraída:**
   - *Anti-Overflow:* Nunca usar `fixed inset-0 flex items-center justify-center` con diálogos de altura dinámica sin dotar al overlay de `overflow-y-auto` y al diálogo de `my-auto max-h-[92vh] flex flex-col overflow-hidden`.
   - *Brand Fidelity:* En tiras de confianza y pruebas sociales de clientes (Trust Tickers), utilizar siempre los logos de marca reales (SVG o PNG retina optimizados); jamás utilizar emojis sustitutos como iconos de marca.
+
+## [2026-10-16] - Centrado Vertical Dinámico en Viewport & Showcase Visual Puro en Sticky Feature
+- **Problema Detectado por el Usuario:** En la sección interactiva sticky de los 4 Pilares (`#servicios`), la tarjeta visual de la izquierda se clavaba justo debajo del navbar (`lg:top-28`), tocando el borde superior de la pantalla y dejando un gran vacío negro desaprovechado debajo. Además, las imágenes aparentaban cortarse porque un degradado negro con textos duplicados cubría el 50% inferior del render 3D, apretando el arte contra el marco superior.
+- **Solución de Ingeniería & Diseño:**
+  1. **Centrado Vertical Dinámico en Viewport:** Se reemplazó `lg:top-28` por `lg:sticky lg:top-[max(8.5rem,calc(50vh-220px))]`. En cualquier resolución (laptops de 13" o monitores de 27"/4K), el contenedor se suspende de forma equidistante en el centro vertical de la pantalla, dejando aire limpio arriba con el navbar y abajo con el viewport.
+  2. **Eliminación del Degradado Negro y Textos Duplicados:** Se removió el bloque de párrafos superpuestos que duplicaban la columna derecha, revelando el 100% del arte 3D (teléfono, conexiones neuronales, circuitos y velocímetro sin cortes).
+  3. **Marco de Dispositivo de Alta Gama:** Se aplicó `rounded-2xl sm:rounded-3xl` con bisel `ring-1 ring-white/10` y micro-badge flotante traslúcido con viñeta sutil en la esquina superior izquierda (`03 • AGENTE WHATSAPP IA 24/7`).
+- **Regla MBOS Extraída:** En layouts de storytelling interactivo de 2 columnas (Sticky Visual + Scrolling Text), la columna fija debe calcularse siempre con `top-[max(minHeaderOffset, calc(50vh - halfCardHeight))]` para centrado vertical óptimo; y el canvas visual no debe competir con el texto de la columna derecha mediante scrims oscuros invasivos.

@@ -1230,55 +1230,52 @@
         <!-- ==============================================
              COLUMNA IZQUIERDA (SOLO DESKTOP LG+ STICKY): PURE BORDERLESS CANVAS (6 COLS)
              ============================================== -->
-        <div class="hidden lg:block lg:col-span-6 lg:sticky lg:top-28 z-20">
-          <div class="relative w-full rounded-none overflow-hidden aspect-[3/2] shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] border border-cyan-500/30 bg-[#060911]">
+        <div class="hidden lg:block lg:col-span-6 lg:sticky lg:top-[max(8.5rem,calc(50vh-220px))] z-20">
+          <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-[3/2] shadow-[0_25px_80px_-15px_rgba(0,210,255,0.3)] border border-cyan-500/30 bg-[#060911] ring-1 ring-white/10 group">
             
             <!-- SLIDE 1: Google Maps Top 1 -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
-              <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento en Google Maps y SEO Local en Santo Domingo y República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <span class="text-xs sm:text-sm font-mono text-cyan-400 font-bold mb-1">SEO LOCAL & GOOGLE MAPS RD</span>
-                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">Top #1 en Google Maps</h4>
-                <p class="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-md drop-shadow">
-                  Visibilidad prioritaria en el Local 3-Pack de Santo Domingo, Santiago y zonas comerciales de República Dominicana.
-                </p>
+              <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento en Google Maps y SEO Local en Santo Domingo y República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <!-- Micro-Badge Flotante Traslúcido de Estado -->
+              <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-cyan-500/40 text-[11px] sm:text-xs font-mono font-bold text-cyan-300 tracking-wider shadow-xl">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>01 • TOP #1 GOOGLE MAPS RD</span>
               </div>
+              <!-- Viñeta inferior sutilísima de 15% para profundidad de pantalla (sin tapar el render) -->
+              <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#060911]/60 to-transparent pointer-events-none"></div>
             </div>
 
             <!-- SLIDE 2: Web Ultrarrápida -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
-              <img src="assets/pillar_speed_panned.webp" alt="Diseño de páginas web rápidas en República Dominicana con 100/100 Core Web Vitals" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <span class="text-xs sm:text-sm font-mono text-cyan-400 font-bold mb-1">INGENIERÍA WEB ULTRARRÁPIDA</span>
-                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">Carga en &lt;0.4s en Claro y Altice</h4>
-                <p class="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-md drop-shadow">
-                  Apertura instantánea en teléfonos móviles con puntuación 100/100 en Google Core Web Vitals.
-                </p>
+              <img src="assets/pillar_speed_panned.webp" alt="Diseño de páginas web rápidas en República Dominicana con 100/100 Core Web Vitals" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <!-- Micro-Badge Flotante Traslúcido de Estado -->
+              <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-cyan-500/40 text-[11px] sm:text-xs font-mono font-bold text-cyan-300 tracking-wider shadow-xl">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>02 • CARGA INSTANTÁNEA &lt;0.5S</span>
               </div>
+              <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#060911]/60 to-transparent pointer-events-none"></div>
             </div>
 
             <!-- SLIDE 3: WhatsApp con IA -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
-              <img src="assets/pillar_ai_panned.webp" alt="Automatización de WhatsApp con Inteligencia Artificial en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <span class="text-xs sm:text-sm font-mono text-emerald-400 font-bold mb-1">AGENTE INTELIGENTE 24/7</span>
-                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">Ventas y Citas por WhatsApp</h4>
-                <p class="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-md drop-shadow">
-                  Respuestas en menos de 3 segundos día y noche. Califica clientes, envía catálogo y agenda citas en automático.
-                </p>
+              <img src="assets/pillar_ai_panned.webp" alt="Automatización de WhatsApp con Inteligencia Artificial en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <!-- Micro-Badge Flotante Traslúcido de Estado -->
+              <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-emerald-500/40 text-[11px] sm:text-xs font-mono font-bold text-emerald-300 tracking-wider shadow-xl">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>03 • AGENTE WHATSAPP IA 24/7</span>
               </div>
+              <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#060911]/60 to-transparent pointer-events-none"></div>
             </div>
 
             <!-- SLIDE 4: CRM Personalizado -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
-              <img src="assets/pillar_crm_panned.webp" alt="Desarrollo de sistemas CRM a medida en la nube en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.9] contrast-[1.05] transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent flex flex-col justify-end p-5 sm:p-7">
-                <span class="text-xs sm:text-sm font-mono text-purple-300 font-bold mb-1">PLATAFORMA PRIVADA EN LA NUBE</span>
-                <h4 class="text-xl sm:text-2xl font-black text-white drop-shadow-md mb-1.5">CRM Propio a la Medida</h4>
-                <p class="text-sm sm:text-base text-slate-200 line-clamp-2 max-w-md drop-shadow">
-                  Control total de clientes, cotizaciones en RD$ y seguimiento de ventas sin pagar mensualidades por usuario.
-                </p>
+              <img src="assets/pillar_crm_panned.webp" alt="Desarrollo de sistemas CRM a medida en la nube en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <!-- Micro-Badge Flotante Traslúcido de Estado -->
+              <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-purple-500/40 text-[11px] sm:text-xs font-mono font-bold text-purple-300 tracking-wider shadow-xl">
+                <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                <span>04 • SISTEMA CRM NUBE A MEDIDA</span>
               </div>
+              <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#060911]/60 to-transparent pointer-events-none"></div>
             </div>
 
           </div>

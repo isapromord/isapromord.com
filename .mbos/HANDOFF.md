@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-16 (v2.3.5: Erradicación Integral de Overflows en Modales & Logos Reales en Marquee)  
+> **Última Actualización:** 2026-10-16 (v2.3.6: Centrado Vertical Dinámico & Showcase Visual Puro en Sticky Feature)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,21 +13,17 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 16/16 pruebas unitarias pasando al 100%, cachebuster v2.3.5 activo.
+> **Estado del Sistema:** 100% en línea, 16/16 pruebas unitarias pasando al 100%, cachebuster v2.3.6 activo.
 
 ---
 
-### Hitos Completados en v2.3.5 (2026-10-16):
-1. **Erradicación Sistemática de Overflows en Todos los Modales de la Plataforma:**
-   - Auditoría de los 17 modales del sistema (`clientModal`, `reportModal`, `billingNoticeModal`, `roadmapManagementModal`, `servicesAuditModal`, `masterCatalogModal`, `backupModal`, `proposalResultModal`, `partnerSnippetModal`, `satelliteGeneratorModal`, `newPartnerModal`, `pillarZoomPitchModal`, `manualTransactionModal`, `contractEditorModal`, `nfcGeneratorModal` en Dashboard; y `adjustModal` y `approvedContractBridgeModal` en Propuesta).
-   - Aplicación estricta del patrón de 3 capas:
-     - Overlay con `overflow-y-auto` y padding perimetral.
-     - Contenedor diálogo con `my-auto max-h-[92vh] flex flex-col overflow-hidden`.
-     - Cabecera fija (`shrink-0 bg-[#0b0f17]`), cuerpo con scroll independiente (`overflow-y-auto flex-1`), y pie de acciones fijo (`shrink-0 bg-[#070a10]`).
-   - Cero desbordes hacia coordenadas negativas: títulos, botones de cerrar y acciones de pie permanecen siempre 100% accesibles en cualquier tamaño de pantalla.
-2. **Reemplazo de Emojis por Logotipos Reales de Marca en el Ticker Marquee:**
-   - Eliminación de todos los emojis genéricos (🌾, 🏢, 🌲, 🚛, 🍂, etc.) en los dos ciclos de la cinta de marcas en scroll infinito (`index.html`).
-   - Integración de los logotipos originales de los proyectos en `assets/clients/`: Pasión Pecuaria RD, Torre La Esperilla, Elements Jarabacoa, TrendyRD, Granja Tracker, Wise Services RD (MiCondoRD), IsaTransLogic, Highland Bridge Co., SynkRD, La Capra Cigars y Kendy Sastre Atelier.
-   - Renderizado retina optimizado con badges adaptativos y efectos hover dinámicos.
+### Hitos Completados en v2.3.6 (2026-10-16):
+1. **Centrado Vertical Dinámico en Viewport para Sticky Feature (`#servicios`):**
+   - Eliminación de la posición rígida `lg:top-28` que pegaba la tarjeta contra el navbar inferior.
+   - Implementación de `lg:sticky lg:top-[max(8.5rem,calc(50vh-220px))]`, asegurando suspensión perfectamente centrada en el eje vertical en cualquier tamaño de monitor sin dejar vacíos desproporcionados debajo.
+2. **Showcase Visual Puro (Eliminación de Degradados Oscuros y Textos Duplicados):**
+   - Remoción del degradado denso y los párrafos que cubrían el 50% de las imágenes 3D.
+   - 100% de los renders visibles sin cortes (teléfono WhatsApp, esferas neuronales, mapa holográfico, velocímetro Core Web Vitals y dashboard CRM).
+   - Marco redondeado de grado dispositivo (`rounded-2xl sm:rounded-3xl` + `ring-1 ring-white/10`) y micro-badges flotantes de estado translúcidos.
 3. **Pruebas Automatizadas:**
    - **16/16 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.

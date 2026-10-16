@@ -1429,3 +1429,5 @@
   2. **Eliminación del Degradado Negro y Textos Duplicados:** Se removió el bloque de párrafos superpuestos que duplicaban la columna derecha, revelando el 100% del arte 3D (teléfono, conexiones neuronales, circuitos y velocímetro sin cortes).
   3. **Marco de Dispositivo de Alta Gama:** Se aplicó `rounded-2xl sm:rounded-3xl` con bisel `ring-1 ring-white/10` y micro-badge flotante traslúcido con viñeta sutil en la esquina superior izquierda (`03 • AGENTE WHATSAPP IA 24/7`).
 - **Regla MBOS Extraída:** En layouts de storytelling interactivo de 2 columnas (Sticky Visual + Scrolling Text), la columna fija debe calcularse siempre con `top-[max(minHeaderOffset, calc(50vh - halfCardHeight))]` para centrado vertical óptimo; y el canvas visual no debe competir con el texto de la columna derecha mediante scrims oscuros invasivos.
+
+- **Regla Estética Inmutable:** El contenedor sticky de los 4 Pilares en `index.html` debe mantenerse con bordes arquitectónicos rectos a 90 grados (`rounded-none`). Queda prohibido redondear sus esquinas (`rounded-2xl`, etc.).

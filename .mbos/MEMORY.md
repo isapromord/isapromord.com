@@ -1313,3 +1313,28 @@
      - La función `toggleTask` en `dashboard/src/roadmap.js` ahora invoca reactivamente a `renderDrawerContent()`, actualizando en tiempo real el progreso de la barra y el checkbox.
   3. **Calibración de Calificación Base:**
      - `healthScore: 78` asignado a `agency-isapromord`, reflejando fielmente el estado técnico real previo a la resolución de las 4 tareas pendientes.
+
+## [2026-10-15] - Calificación de Salud por Alcance Contratado (Scope-Aware SLA Scoring) & Radar de Expansión
+- **Dilema Comercial & de Negocio Resuelto:**
+  - El usuario expresó una preocupación crítica sobre la viabilidad comercial y la credibilidad de la agencia:
+    1. Si un cliente solo contrató posicionamiento en Google Maps (RD$ 15,000) o un sistema CRM, una calificación global 35/100 o 50/100 en su expediente transmite erróneamente que la agencia falló en su entrega técnica, cuando en realidad el servicio contratado está 100% perfecto.
+    2. ¿Es posible lograr un 100/100 verídico en todos los clientes? La respuesta es SÍ, siempre y cuando el puntaje de salud mida el **Alcance Contratado (SLA Operativo)** y no servicios que el cliente nunca solicitó ni pagó.
+- **Arquitectura de Solución Implementada (Opción 1-B: Scope-Aware + Radar de Expansión):**
+  1. **Modelo de Alcance Contratado (`contractedServices`):**
+     - Se añadió soporte en el modelo de datos para los 7 pilares (`web_conversion`, `google_maps_gbp`, `whatsapp_social_cards`, `geo_ai_schemas`, `ai_whatsapp_agent`, `onpage_seo_console`, `cloud_maintenance`).
+     - En el Modal de Edición/Creación de Clientes (`dashboard/index.html` y `dashboard/src/directory.js`), se incorporó una matriz de selección con checkboxes interactivos y botón "Seleccionar Todos" para definir el alcance del contrato en 1 clic.
+  2. **Motor Matemático Scope-Aware (`evaluateServicesHealth` en `dashboard/src/audit.js`):**
+     - Fórmula proporcional: `Salud SLA = Math.round((puntos_obtenidos_en_servicios_contratados / puntos_maximos_de_servicios_contratados) * 100)`.
+     - Si un cliente solo contrató 2 servicios y ambos cumplen al 100%, su calificación de salud es un **100/100 legítimo**.
+     - Los servicios no contratados se etiquetan como `isUncontracted: true` y se derivan al array `expansionServices`.
+  3. **Radar de Expansión y Upsell:**
+     - En la visualización de resultados (`displayAuditResults`), los servicios contratados muestran el badge `🛡️ SLA Contratado (Cumplido/Revisar)`.
+     - Los servicios no contratados se renderizan con un estilo diferenciado en púrpura neón como `🚀 Radar de Expansión (Upsell Comercial)`, indicando el valor que aportaría activarlos sin castigar la nota actual del cliente.
+  4. **Preservación del Diagnóstico 360° para Prospectos:**
+     - Si la URL evaluada es de un prospecto externo (sin cliente asociado en el OS), el escáner evalúa automáticamente la matriz completa de 100 puntos en los 7 pilares, permitiendo un Pitch de Ventas por Zoom demoledor.
+  5. **Directorio y Expedientes Transparentes:**
+     - En las tarjetas y filas del Directorio, si un cliente tiene alcance parcial, se etiqueta como `Salud SLA: X/100` junto al número de módulos contratados (ej. `4 serv.`).
+     - En el Drawer de Expediente se renderizan los chips interactivos de `🎯 SLA Activo` y `🚀 Oportunidades de Expansión`.
+  6. **Resiliencia en Base de Datos & Pruebas Unitarias:**
+     - `clientToDbRow` y `dbRowToClient` en `dashboard/src/sync.js` resguardan `contractedServices` dentro de `optimization_matrix` garantizando 0 pérdida de datos y compatibilidad total con Supabase.
+     - Suite automatizada ampliada a **15 pruebas unitarias** (`scratch/test_suite.js`), pasando al 100%.

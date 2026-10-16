@@ -70,7 +70,10 @@ export function clientToDbRow(client) {
     repo_url: client.repoUrl || "",
     notes: client.notes || "",
     health_score: typeof client.healthScore === "number" ? client.healthScore : 100,
-    optimization_matrix: client.optimizationMatrix || {},
+    optimization_matrix: {
+      ...(client.optimizationMatrix || {}),
+      contractedServices: Array.isArray(client.contractedServices) ? client.contractedServices : undefined
+    },
     tasks: Array.isArray(client.tasks) ? client.tasks : [],
     payment_history: Array.isArray(client.paymentHistory) ? client.paymentHistory : [],
     uptime_status: (client.uptimeStatus === "checking" ? "online" : client.uptimeStatus) || "online",
@@ -97,6 +100,11 @@ export function dbRowToClient(row) {
     repoUrl: row.repo_url,
     notes: row.notes,
     healthScore: typeof row.health_score === "number" ? row.health_score : (Number(row.health_score) || 100),
+    contractedServices: Array.isArray(row.contracted_services)
+      ? row.contracted_services
+      : (row.optimization_matrix && Array.isArray(row.optimization_matrix.contractedServices))
+        ? row.optimization_matrix.contractedServices
+        : ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'],
     optimizationMatrix: row.optimization_matrix || {},
     tasks: Array.isArray(row.tasks) ? row.tasks : [],
     paymentHistory: Array.isArray(row.payment_history) ? row.payment_history : [],
@@ -176,6 +184,10 @@ export function loadClients() {
             state.clients[idx].optimizationMatrix = initC.optimizationMatrix;
             updated = true;
           }
+          if (!state.clients[idx].contractedServices) {
+            state.clients[idx].contractedServices = initC.contractedServices ? [...initC.contractedServices] : ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'];
+            updated = true;
+          }
           if (initC.tasks) {
             if (!state.clients[idx].tasks) {
               state.clients[idx].tasks = JSON.parse(JSON.stringify(initC.tasks));
@@ -224,6 +236,11 @@ export function loadClients() {
           }
           dedupUrlMap.set(urlKey, finalClients.length);
         }
+        if (!c.contractedServices || !Array.isArray(c.contractedServices)) {
+          c.contractedServices = ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'];
+          updated = true;
+        }
+
         finalClients.push(c);
       });
 

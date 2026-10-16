@@ -766,9 +766,38 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   const warningCount = services.filter(s => s.status === "warning").length;
   const failedCount = services.filter(s => s.status === "failed").length;
 
+  // CÁLCULO DE SALUD POR ALCANCE CONTRATADO (SCOPE-AWARE SCORING)
+  let finalScore = totalScore;
+  let isScopeAware = false;
+  let contractedServices = services;
+  let expansionServices = [];
+
+  if (client && Array.isArray(client.contractedServices) && client.contractedServices.length > 0) {
+    const contracted = services.filter(s => client.contractedServices.includes(s.id));
+    const expansion = services.filter(s => !client.contractedServices.includes(s.id));
+
+    if (contracted.length > 0) {
+      isScopeAware = true;
+      contractedServices = contracted;
+      expansionServices = expansion;
+      services.forEach(s => {
+        s.isUncontracted = !client.contractedServices.includes(s.id);
+      });
+      const maxContracted = contracted.reduce((acc, s) => acc + s.maxScore, 0);
+      const earnedContracted = contracted.reduce((acc, s) => acc + s.score, 0);
+      finalScore = maxContracted > 0 ? Math.round((earnedContracted / maxContracted) * 100) : totalScore;
+    }
+  }
+
   return {
     url,
-    score: totalScore,
+    score: finalScore,
+    globalScore: totalScore,
+    isScopeAware,
+    contractedServices,
+    expansionServices,
+    contractedCount: contractedServices.length,
+    expansionCount: expansionServices.length,
     latencyMs,
     detectedCms,
     firewallProtected,
@@ -787,29 +816,58 @@ export function displayAuditResults(results) {
 
   if (scoreVal) {
     scoreVal.innerHTML = `${results.score}<span class="text-xl sm:text-2xl text-slate-400 font-bold font-mono">/100</span>`;
-    if (results.score >= 88) {
-      scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-emerald-400";
-      if (scoreStatus) {
-        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-        scoreStatus.textContent = "Nivel Élite • Estándares ISAPromoRD Cumplidos";
+    if (results.isScopeAware) {
+      if (results.score >= 88) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-emerald-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+          scoreStatus.textContent = `🟢 SLA de Servicios Contratados al 100% (${results.contractedCount} módulos)`;
+        }
+        if (scoreAdvice) {
+          scoreAdvice.textContent = results.expansionCount > 0 
+            ? `Tus módulos contratados operan con máxima excelencia. Tienes ${results.expansionCount} módulos disponibles en tu radar para expandir tu captación.`
+            : "Excelente infraestructura. La totalidad de los servicios contratados están al 100%.";
+        }
+      } else if (results.score >= 60) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-amber-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+          scoreStatus.textContent = `🟡 SLA en Nivel Medio (${results.contractedCount} módulos)`;
+        }
+        if (scoreAdvice) scoreAdvice.textContent = "Existen optimizaciones pendientes dentro de los servicios contratados actualmente.";
+      } else {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-rose-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+          scoreStatus.textContent = `🔴 SLA Crítico en Módulos Activos (${results.contractedCount} módulos)`;
+        }
+        if (scoreAdvice) scoreAdvice.textContent = "Se detectaron fallos directos en los servicios contratados. Requiere remediación prioritaria.";
       }
-      if (scoreAdvice) scoreAdvice.textContent = "Excelente infraestructura. La mayoría de los servicios están operando al 100%.";
-    } else if (results.score >= 60) {
-      scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-amber-400";
-      if (scoreStatus) {
-        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-        scoreStatus.textContent = results.firewallProtected ? "Seguridad Perimetral Activa • Auditoría Verificada" : "Nivel Medio • Brechas de Crecimiento Detectadas";
-      }
-      if (scoreAdvice) scoreAdvice.textContent = results.firewallProtected 
-        ? "El sitio cuenta con cortafuegos perimetral. Métricas de DNS, latencia y SSL verificadas al 100%."
-        : "Tiene presencia básica, pero pierde prospectos valiosos por falta de optimización en Maps, WhatsApp o IA.";
     } else {
-      scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-rose-400";
-      if (scoreStatus) {
-        scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
-        scoreStatus.textContent = "Nivel Crítico • Requiere Intervención Urgente";
+      if (results.score >= 88) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-emerald-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+          scoreStatus.textContent = "Nivel Élite • Madurez Digital 360°";
+        }
+        if (scoreAdvice) scoreAdvice.textContent = "Excelente infraestructura general. La mayoría de los servicios operan a nivel de clase mundial.";
+      } else if (results.score >= 60) {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-amber-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+          scoreStatus.textContent = results.firewallProtected ? "Seguridad Perimetral Activa • Diagnóstico 360°" : "Nivel Medio • Brechas de Crecimiento Detectadas";
+        }
+        if (scoreAdvice) scoreAdvice.textContent = results.firewallProtected 
+          ? "El sitio cuenta con cortafuegos perimetral. Métricas de DNS, latencia y SSL verificadas al 100%."
+          : "Tiene presencia básica, pero pierde prospectos valiosos por falta de optimización en Maps, WhatsApp o IA.";
+      } else {
+        scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-rose-400";
+        if (scoreStatus) {
+          scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+          scoreStatus.textContent = "Nivel Crítico 360° • Fuga de Clientes Detectada";
+        }
+        if (scoreAdvice) scoreAdvice.textContent = "Carece de los servicios técnicos esenciales. El negocio no rankea en Google y desaprovecha clientes.";
       }
-      if (scoreAdvice) scoreAdvice.textContent = "Carece de los servicios técnicos esenciales. El negocio no rankea en Google y desaprovecha clientes.";
     }
   }
 
@@ -912,8 +970,13 @@ export function displayAuditResults(results) {
 
   listEl.innerHTML = results.services.map((svc, idx) => {
     let badgeClass = "", badgeText = "", borderClass = "";
+    const isContracted = !results.isScopeAware || (state.currentAuditClient?.contractedServices?.includes(svc.id));
 
-    if (svc.status === "passed") {
+    if (!isContracted) {
+      badgeClass = "bg-purple-500/20 text-purple-300 border-purple-500/40";
+      badgeText = "🚀 Radar de Expansión (Upsell)";
+      borderClass = "border-purple-500/30 bg-[#120e22]/90";
+    } else if (svc.status === "passed") {
       badgeClass = "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
       badgeText = "Cumple Estándar ✓";
       borderClass = "border-emerald-500/30 bg-[#09111c]";
@@ -940,14 +1003,15 @@ export function displayAuditResults(results) {
                 <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">
                   ${badgeText}
                 </span>
+                ${isContracted && results.isScopeAware ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">SLA Activo</span>` : ''}
               </div>
-              <span class="text-[11px] font-mono text-cyan-400 block mt-0.5">${svc.category}</span>
+              <span class="text-[11px] font-mono ${isContracted ? 'text-cyan-400' : 'text-purple-400'} block mt-0.5">${svc.category}</span>
             </div>
           </div>
 
           <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
-            <button onclick="toggleAuditDetail('${detailId}')" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-colors">
-              <span>Ver Detalle & Solución</span>
+            <button onclick="toggleAuditDetail('${detailId}')" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-colors cursor-pointer">
+              <span>${isContracted ? 'Ver Detalle & Solución' : '💡 Ver Oportunidad de Expansión'}</span>
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
           </div>

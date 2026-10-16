@@ -3066,6 +3066,48 @@
           </div>
         </div>
 
+        <!-- SERVICIOS CONTRATADOS / ALCANCE SLA (CALIFICACIÓN MODULAR) -->
+        <div class="p-4 rounded-xl bg-[#070b14] border border-cyan-500/25 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="block text-xs font-bold text-cyan-300 uppercase tracking-wider">🎯 Alcance Contratado (SLA Operativo)</span>
+              <p class="text-[11px] text-slate-400">Selecciona los módulos que el cliente contrató. Su salud se calculará exclusivamente sobre estos servicios.</p>
+            </div>
+            <button type="button" onclick="window.toggleAllModalContractedServices()" class="text-[10px] font-mono font-bold text-cyan-400 hover:text-cyan-300 hover:underline cursor-pointer shrink-0">Seleccionar Todos</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="web_conversion" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>⚡ Landing Page (<1s)</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="google_maps_gbp" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>📍 Google Maps (GBP) & Local</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="whatsapp_social_cards" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>📲 WhatsApp Cards (1200x630)</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="geo_ai_schemas" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>🤖 Protocolo GEO IA (llms.txt)</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="ai_whatsapp_agent" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>💬 Agente IA WhatsApp 24/7</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="onpage_seo_console" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>🔍 SEO On-Page & Search Console</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-cyan-500/30 cursor-pointer transition-colors">
+              <input type="checkbox" name="contractedService" value="cloud_maintenance" class="rounded text-cyan-500 focus:ring-cyan-400 cursor-pointer" />
+              <span>🛡️ Hosting Anycast & Soporte</span>
+            </label>
+          </div>
+        </div>
+
         <!-- Notas / Alcance del Proyecto -->
         <div>
           <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Notas Técnicas & Alcance</label>
@@ -4446,7 +4488,7 @@
   <!-- ========================================================
        ARQUITECTURA MODULAR ES MODULES (V2.0 HIGH PERFORMANCE)
        ======================================================== -->
-  <script type="module" src="./src/main.js?v=2.3.0"></script>
+  <script type="module" src="./src/main.js?v=2.3.1"></script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 

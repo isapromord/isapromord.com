@@ -215,10 +215,11 @@ export function renderClients(clientsToRender = state.clients) {
                 </span>
               </div>
               <div class="p-2.5 rounded-lg bg-[#0c1322] border border-white/[0.04]">
-                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Salud Web</span>
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-0.5">${client.contractedServices && client.contractedServices.length < 7 ? 'Salud SLA' : 'Salud Web'}</span>
                 <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-mono font-bold border ${healthBadgeBg}">
                   ${score}/100
                 </span>
+                ${client.contractedServices && client.contractedServices.length < 7 ? `<span class="text-[9px] font-mono text-cyan-400 block mt-0.5">${client.contractedServices.length}/7 módulos</span>` : ''}
               </div>
             </div>
 
@@ -321,10 +322,11 @@ export function renderClients(clientsToRender = state.clients) {
             
             <!-- Salud Digital -->
             <div class="text-left md:text-right min-w-[75px]">
-              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">Salud</span>
+              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">${client.contractedServices && client.contractedServices.length < 7 ? 'Salud SLA' : 'Salud'}</span>
               <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-bold border ${healthBadgeBg}">
                 ${score}/100
               </span>
+              ${client.contractedServices && client.contractedServices.length < 7 ? `<span class="text-[9px] font-mono text-cyan-400 block mt-0.5">${client.contractedServices.length} serv.</span>` : ''}
             </div>
 
             <!-- Retainer Mensual -->
@@ -801,6 +803,16 @@ function triggerHighlight(el) {
   }, 2500);
 }
 
+export function toggleAllModalContractedServices() {
+  const checkboxes = document.querySelectorAll('input[name="contractedService"]');
+  if (!checkboxes.length) return;
+  const anyUnchecked = Array.from(checkboxes).some(cb => !cb.checked);
+  checkboxes.forEach(cb => { cb.checked = anyUnchecked; });
+}
+if (typeof window !== "undefined") {
+  window.toggleAllModalContractedServices = toggleAllModalContractedServices;
+}
+
 export function openNewClientModal() {
   const modalTitle = document.getElementById("modalTitle");
   if (modalTitle) modalTitle.textContent = "Registrar Nuevo Cliente";
@@ -808,6 +820,9 @@ export function openNewClientModal() {
   if (form) form.reset();
   const idInput = document.getElementById("clientId");
   if (idInput) idInput.value = "";
+
+  const checkboxes = document.querySelectorAll('input[name="contractedService"]');
+  checkboxes.forEach(cb => { cb.checked = true; });
   
   const feedback = document.getElementById("autoScanFeedback");
   if (feedback) {
@@ -878,6 +893,14 @@ export function editClient(id) {
   setVal("clientRepo", client.repoUrl);
   setVal("clientNotes", client.notes);
 
+  const checkboxes = document.querySelectorAll('input[name="contractedService"]');
+  const contracted = Array.isArray(client.contractedServices) && client.contractedServices.length > 0
+    ? client.contractedServices
+    : ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "geo_ai_schemas", "onpage_seo_console", "cloud_maintenance"];
+  checkboxes.forEach(cb => {
+    cb.checked = contracted.includes(cb.value);
+  });
+
   const feedback = document.getElementById("autoScanFeedback");
   if (feedback) feedback.classList.add("hidden");
 
@@ -924,8 +947,12 @@ export function saveClient(e) {
   const status = document.getElementById("clientStatus")?.value || "active";
   const fee = document.getElementById("clientFee")?.value.trim() || "";
   const renewalDate = document.getElementById("clientRenewal")?.value || "";
-  const repoUrl = document.getElementById("clientRepo")?.value.trim() || "";
   const notes = document.getElementById("clientNotes")?.value.trim() || "";
+
+  const contractedServices = Array.from(document.querySelectorAll('input[name="contractedService"]:checked')).map(cb => cb.value);
+  const finalContracted = contractedServices.length > 0 
+    ? contractedServices 
+    : ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "cloud_maintenance"];
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -934,7 +961,8 @@ export function saveClient(e) {
     if (index !== -1) {
       state.clients[index] = {
         ...state.clients[index],
-        name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes
+        name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
+        contractedServices: finalContracted
       };
     }
   } else {
@@ -1027,6 +1055,7 @@ export function saveClient(e) {
     state.clients.unshift({
       id: newId,
       name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
+      contractedServices: finalContracted,
       joinedDate: today,
       healthScore: initialScore,
       latencyMs: initialLatency,
@@ -1242,7 +1271,53 @@ export function renderDrawerContent() {
     const totalTasks = (client.tasks || []).length;
     const progressPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
+    const allPillars = [
+      { id: "web_conversion", name: "Landing Page (<1s)", icon: "⚡" },
+      { id: "google_maps_gbp", name: "Google Maps GBP", icon: "📍" },
+      { id: "whatsapp_social_cards", name: "WhatsApp Cards 1200x630", icon: "📲" },
+      { id: "geo_ai_schemas", name: "GEO IA (llms.txt)", icon: "🤖" },
+      { id: "ai_whatsapp_agent", name: "Agente IA 24/7", icon: "💬" },
+      { id: "onpage_seo_console", name: "SEO On-Page", icon: "🔍" },
+      { id: "cloud_maintenance", name: "Hosting Anycast & SSL", icon: "🛡️" }
+    ];
+
+    const contractedIds = Array.isArray(client.contractedServices) && client.contractedServices.length > 0
+      ? client.contractedServices
+      : allPillars.map(p => p.id);
+
+    const contractedPillars = allPillars.filter(p => contractedIds.includes(p.id));
+    const expansionPillars = allPillars.filter(p => !contractedIds.includes(p.id));
+
     body.innerHTML = `
+      <!-- ALCANCE CONTRATADO (SLA ACTIVO) Y RADAR DE EXPANSIÓN -->
+      <div class="p-4 rounded-xl bg-[#090e1b] border border-cyan-500/25 space-y-3 mb-4">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-white flex items-center gap-1.5">
+            <span>🎯</span> Alcance Contratado (SLA Activo)
+          </span>
+          <span class="font-mono text-cyan-400 font-bold">${contractedPillars.length} / ${allPillars.length} Módulos</span>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          ${contractedPillars.map(p => `
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-bold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              <span>${p.icon}</span> ${escapeHtml(p.name)}
+            </span>
+          `).join('')}
+        </div>
+        ${expansionPillars.length > 0 ? `
+          <div class="pt-2.5 border-t border-slate-800/80">
+            <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider block mb-1.5">🚀 Radar de Expansión (Upsell Recomendado)</span>
+            <div class="flex flex-wrap gap-1.5">
+              ${expansionPillars.map(p => `
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-500/10 text-purple-300 border border-purple-500/25">
+                  <span>${p.icon}</span> ${escapeHtml(p.name)}
+                </span>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+
       <div class="p-4 rounded-md bg-[#090e1b] border border-slate-800 space-y-3">
         <div class="flex items-center justify-between text-xs">
           <span class="font-bold text-white">Progreso de Entregables</span>

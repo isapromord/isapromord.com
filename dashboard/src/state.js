@@ -49,6 +49,16 @@ export const DEFAULT_BANK_DETAILS = `🏦 *Datos Bancarios para Transferencia:*
 • *Titular:* ISAPromoRD
 • *RNC / Cédula:* Disponible a solicitud`;
 
+export const SERVICE_PILLARS = [
+  { id: "web_conversion", key: "web", name: "Landing Page Transaccional (<1s)", maxScore: 15, icon: "⚡" },
+  { id: "google_maps_gbp", key: "maps", name: "Google Maps GBP & SEO Local", maxScore: 15, icon: "📍" },
+  { id: "whatsapp_social_cards", key: "whatsapp", name: "Tarjetas WhatsApp & OpenGraph 1200x630", maxScore: 15, icon: "📲" },
+  { id: "geo_ai_schemas", key: "geo", name: "Protocolo GEO para IA (llms.txt + FAQPage)", maxScore: 15, icon: "🤖" },
+  { id: "ai_whatsapp_agent", key: "ai", name: "Agente IA WhatsApp 24/7 & Conversión", maxScore: 15, icon: "💬" },
+  { id: "onpage_seo_console", key: "seo", name: "SEO On-Page & Google Search Console", maxScore: 15, icon: "🔍" },
+  { id: "cloud_maintenance", key: "cloud", name: "Cloud Hosting Anycast, SSL & Soporte", maxScore: 10, icon: "🛡️" }
+];
+
 export const INITIAL_CLIENTS = [
   {
     id: "agency-isapromord",
@@ -63,6 +73,7 @@ export const INITIAL_CLIENTS = [
     status: "active",
     isAgency: true,
     healthScore: 78,
+    contractedServices: ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "geo_ai_schemas", "ai_whatsapp_agent", "onpage_seo_console", "cloud_maintenance"],
     fee: "RD$ 0 / mes (Casa Matriz)",
     renewalDate: "2027-12-31",
     joinedDate: "2026-09-01",
@@ -190,6 +201,7 @@ export const INITIAL_CLIENTS = [
     platform: "Vercel Anycast (React 18 + Vite)",
     status: "active",
     healthScore: 100,
+    contractedServices: ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "geo_ai_schemas", "onpage_seo_console", "cloud_maintenance"],
     fee: "RD$ 4,000 / mes",
     renewalDate: "2026-10-28",
     joinedDate: "2026-09-28",
@@ -275,6 +287,7 @@ export const INITIAL_CLIENTS = [
     platform: "Vercel Anycast Edge",
     status: "active",
     healthScore: 100,
+    contractedServices: ["web_conversion", "whatsapp_social_cards", "onpage_seo_console", "cloud_maintenance"],
     fee: "RD$ 4,500 / mes",
     renewalDate: "2026-11-01",
     joinedDate: "2026-10-01",

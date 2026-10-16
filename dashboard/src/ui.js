@@ -249,7 +249,7 @@ export function getBillingStatus(renewalDateStr) {
 // ==========================================
 export function calculateTotalMrr(clientList = state.clients) {
   return (clientList || []).reduce((acc, c) => {
-    if (c.status === 'archived' || c.status === 'lead') return acc;
+    if (c.status === 'archived' || c.status === 'lead' || c.isAgency || c.id === 'agency-isapromord') return acc;
     const str = String(c.fee || '');
     const m = str.match(/[\d,]+/);
     const val = m ? parseInt(m[0].replace(/,/g, ''), 10) : 0;

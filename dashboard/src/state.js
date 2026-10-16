@@ -51,6 +51,33 @@ export const DEFAULT_BANK_DETAILS = `🏦 *Datos Bancarios para Transferencia:*
 
 export const INITIAL_CLIENTS = [
   {
+    id: "agency-isapromord",
+    name: "ISAPromoRD (Nuestra Agencia / Casa Matriz)",
+    category: "Agencia Digital & Ecosistemas Web",
+    contactPerson: "Howard Luna / Isaías Santana",
+    phone: "+1 (829) 455-4783",
+    email: "isapromord@gmail.com",
+    liveUrl: "https://isapromord.com/",
+    repoUrl: "https://github.com/isapromord/isapromord.com",
+    platform: "Cloud Anycast Edge (React 18 + Tailwind)",
+    status: "active",
+    isAgency: true,
+    healthScore: 100,
+    fee: "RD$ 0 / mes (Casa Matriz)",
+    renewalDate: "2027-12-31",
+    joinedDate: "2026-09-01",
+    notes: "Plataforma oficial y casa matriz de ISAPromoRD. Sitio web de alta conversión (<0.5s), posicionamiento SEO Local y GEO con IA, WhatsApp automatizado y Dashboard operativo central.",
+    optimizationMatrix: {
+      seo: "100%",
+      whatsapp: "100%",
+      geo: "100%",
+      ai: "100%"
+    },
+    tasks: [],
+    uptimeStatus: "online",
+    latencyMs: 120
+  },
+  {
     id: "client-pasion-pecuaria",
     name: "Pasión Pecuaria RD",
     category: "Agropecuaria & Tienda Online",

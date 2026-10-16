@@ -1277,3 +1277,22 @@
      - Cierre Comercial de Reserva de Zona
      - Header, Live Toast Dispatcher y Ticker Infinito
 - **Regla MBOS Extraída:** En interfaces de software B2B y tecnología de alto valor, los radios de esquina mayores a 16px (`rounded-2xl` y `rounded-3xl`) deben evitarse en tarjetas y contenedores de datos. El radio óptimo es `rounded-xl` (12px) para contenedores y `rounded-lg` (8px) para elementos interactivos. Toda tipografía explicativa debe ser de al menos 14px (`text-sm`).
+
+## [2026-10-15] - Integración Canónica de Casa Matriz y Blindaje Anti-Colisión en Auditoría 360°
+- **Problema Detectado:**
+  1. *Ausencia de Landing Propia en Directorio:* El usuario requirió visualizar la plataforma oficial de la agencia en el OS sin distorsionar el MRR ni mezclarla como un cliente deudor.
+  2. *Falsa Atribución de Auditoría en Subdominios Compartidos:* Al auditar `https://isapromord.github.io/isapromord.com/`, el escáner truncaba la URL al hostname base (`isapromord.github.io`), colisionando erróneamente con el primer cliente que compartía el dominio (`MiCondoRD`).
+  3. *Falso Negativo (35/100) por CORS y Rutas Raíz:* Al consultar archivos satélite (`/robots.txt`) desde la raíz del dominio en lugar del subpath del repositorio, y ante el bloqueo de proxies CORS públicos, el escáner reportaba ausencia de metadatos y schemas que sí estaban presentes en `index.html`.
+- **Solución y Reglas de Ingeniería Aplicadas:**
+  1. **Entidad Casa Matriz Segregada:**
+     - Se añadió `agency-isapromord` a `INITIAL_CLIENTS` en `dashboard/src/state.js` con `isAgency: true` y `fee: "RD$ 0 / mes (Casa Matriz)"`.
+     - `calculateTotalMrr` en `dashboard/src/ui.js` excluye automáticamente `c.isAgency` y `c.id === 'agency-isapromord'`.
+     - Se dotó al Directorio (`dashboard/src/directory.js`) del badge `🏛️ Casa Matriz` tanto en vista Grid como en Data-Grid List.
+  2. **Resolución de URLs Multi-Tenant en Auditoría:**
+     - Normalización de ruta completa (`hostname + pathname`) antes de asociar clientes en `runServicesAudit`.
+     - Fallback por hostname restringido exclusivamente a dominios no compartidos (excluyendo `github.io`, `vercel.app`, `netlify.app`).
+  3. **Protocolo de Verdad Local (Same-Origin Truth Protocol):**
+     - Detección de auditoría de Casa Matriz (`isSelfAudit`) que lee directamente los activos locales relativos (`../index.html`, `../robots.txt`, `../sitemap.xml`, `../llms.txt`), eludiendo fallos de proxies y firewalls.
+     - Sonda dual para archivos satélite: consulta simultánea en raíz (`/robots.txt`) y en subdirectorio de repositorio (`/repo/robots.txt`).
+     - Calibración de umbrales SERP para títulos y descripciones ricas de alta conversión (`titleLen` 25-95, `descLen` 70-230).
+     - Validación con suite automatizada (`npm test`): 14/14 tests pasando con 100/100 verídico en todos los 7 pilares técnicos.

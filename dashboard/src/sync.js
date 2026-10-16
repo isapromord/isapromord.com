@@ -101,7 +101,8 @@ export function dbRowToClient(row) {
     tasks: Array.isArray(row.tasks) ? row.tasks : [],
     paymentHistory: Array.isArray(row.payment_history) ? row.payment_history : [],
     uptimeStatus: (row.uptime_status === "checking" ? "online" : row.uptime_status) || "online",
-    latencyMs: row.latency_ms
+    latencyMs: row.latency_ms,
+    isAgency: row.id === "agency-isapromord" || (row.fee && row.fee.includes("Casa Matriz")) || false
   };
 }
 

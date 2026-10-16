@@ -147,6 +147,7 @@ export function renderClients(clientsToRender = state.clients) {
     const rawFee = client.fee ? client.fee.replace(' / mes', '').trim() : '';
     const formattedFee = rawFee && rawFee !== 'RD$ 0' ? rawFee : 'Sin Retainer';
     const isZeroFee = !rawFee || rawFee === 'RD$ 0';
+    const isAgency = client.isAgency || client.id === 'agency-isapromord' || (client.fee && client.fee.includes('Casa Matriz'));
 
     // RENDER MODO GRID (TARJETAS INDEPENDIENTES)
     if (currentMode === "expanded") {
@@ -154,19 +155,22 @@ export function renderClients(clientsToRender = state.clients) {
         <!-- TARJETA GRID DE CLIENTE -->
         <div 
           id="client-card-${client.id}" 
-          class="rounded-xl border border-white/[0.08] bg-[#080d19]/90 hover:border-cyan-500/40 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/5 group"
+          class="rounded-xl border ${isAgency ? 'border-purple-500/30 bg-[#0d0d1e]/90 hover:border-purple-500/50' : 'border-white/[0.08] bg-[#080d19]/90 hover:border-cyan-500/40'} p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-lg hover:shadow-cyan-500/5 group"
         >
           <div>
             <!-- Header de Tarjeta: Logo + Nombre + Estado -->
             <div class="flex items-start justify-between gap-3 mb-3">
               <div class="flex items-center gap-3 min-w-0">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 font-bold text-sm shrink-0 shadow-inner">
-                  ${escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${isAgency ? 'from-purple-500/25 to-indigo-500/25 border-purple-500/40 text-purple-300' : 'from-cyan-500/20 to-blue-500/20 border-cyan-500/30 text-cyan-300'} border flex items-center justify-center font-bold text-sm shrink-0 shadow-inner">
+                  ${isAgency ? '🏛️' : escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
                 </div>
                 <div class="min-w-0">
-                  <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate tracking-tight">
-                    ${escapeHtml(client.name)}
-                  </h4>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors truncate tracking-tight">
+                      ${escapeHtml(client.name)}
+                    </h4>
+                    ${isAgency ? `<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[9px] font-black uppercase tracking-wider shrink-0">🏛️ Casa Matriz</span>` : ''}
+                  </div>
                   <div class="text-[11px] font-sans text-slate-400 truncate">${escapeHtml(client.category || 'General')}</div>
                 </div>
               </div>
@@ -269,14 +273,15 @@ export function renderClients(clientsToRender = state.clients) {
         >
           <!-- Identidad y Dominio -->
           <div class="flex items-center gap-3.5 min-w-0 flex-1">
-            <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-white/[0.08] flex items-center justify-center text-cyan-300/90 font-bold text-xs shrink-0 group-hover:border-cyan-400/30 transition-colors">
-              ${escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
+            <div class="w-9 h-9 rounded-lg bg-gradient-to-br ${isAgency ? 'from-purple-500/25 to-indigo-500/25 border-purple-500/40 text-purple-300' : 'from-cyan-500/10 to-blue-500/10 border-white/[0.08] text-cyan-300/90'} border flex items-center justify-center font-bold text-xs shrink-0 group-hover:border-cyan-400/30 transition-colors">
+              ${isAgency ? '🏛️' : escapeHtml((client.name || "C").slice(0, 2).toUpperCase())}
             </div>
             <div class="min-w-0 flex-1 space-y-1">
               <div class="flex items-center gap-2.5 flex-wrap">
                 <h4 class="text-sm font-bold text-white group-hover:text-cyan-300 transition-colors tracking-tight">
                   ${escapeHtml(client.name)}
                 </h4>
+                ${isAgency ? `<span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40 text-[10px] font-black uppercase tracking-wider shrink-0">🏛️ Casa Matriz</span>` : ''}
                 <!-- Selector Rápido de Estado en Tiempo Real -->
                 <div class="relative inline-flex items-center" onclick="event.stopPropagation()">
                   <select 

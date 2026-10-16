@@ -91,12 +91,45 @@ export async function runServicesAudit(clientId, customUrl) {
   } else {
     state.currentAuditUrl = customUrl || "";
     if (state.currentAuditUrl) {
-      const cleanTarget = state.currentAuditUrl.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-      state.currentAuditClient = state.clients.find(c => {
-        if (!c.liveUrl) return false;
-        const cDomain = c.liveUrl.toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-        return cDomain === cleanTarget || cDomain.includes(cleanTarget) || cleanTarget.includes(cDomain);
-      }) || null;
+      const getNorm = (u) => {
+        if (!u) return "";
+        try {
+          const parsed = new URL(u.toLowerCase().startsWith('http') ? u.toLowerCase() : 'https://' + u.toLowerCase());
+          return (parsed.hostname + parsed.pathname).replace(/\/+$/, '');
+        } catch (e) {
+          return u.toLowerCase().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+        }
+      };
+      const cleanTarget = getNorm(state.currentAuditUrl);
+      const targetHost = cleanTarget.split('/')[0];
+
+      // 1. Coincidencia exacta (host + path)
+      state.currentAuditClient = state.clients.find(c => getNorm(c.liveUrl) === cleanTarget) || null;
+
+      // 2. Coincidencia específica para la Agencia / Casa Matriz ISAPromoRD
+      if (!state.currentAuditClient && (cleanTarget.includes("isapromord.com") || cleanTarget.includes("isapromord.github.io/isapromord.com"))) {
+        state.currentAuditClient = state.clients.find(c => c.isAgency || c.id === "agency-isapromord") || null;
+      }
+
+      // 3. Coincidencia por subpath si ambas URLs comparten prefijo de repositorio
+      if (!state.currentAuditClient) {
+        state.currentAuditClient = state.clients.find(c => {
+          const cNorm = getNorm(c.liveUrl);
+          return cNorm && (cNorm.startsWith(cleanTarget) || cleanTarget.startsWith(cNorm));
+        }) || null;
+      }
+
+      // 4. Fallback por host SOLO si NO es un dominio compartido (github.io, vercel.app, netlify.app)
+      if (!state.currentAuditClient) {
+        const isSharedHost = targetHost.includes("github.io") || targetHost.includes("vercel.app") || targetHost.includes("netlify.app");
+        if (!isSharedHost) {
+          state.currentAuditClient = state.clients.find(c => {
+            if (!c.liveUrl) return false;
+            const cHost = getNorm(c.liveUrl).split('/')[0];
+            return cHost === targetHost;
+          }) || null;
+        }
+      }
     } else {
       state.currentAuditClient = null;
     }
@@ -167,13 +200,44 @@ export async function runServicesAudit(clientId, customUrl) {
   try {
     let originUrl = "";
     let hostName = "";
+    let basePath = "";
     try {
       const u = new URL(state.currentAuditUrl);
       originUrl = u.origin;
       hostName = u.hostname;
+      basePath = u.pathname.replace(/\/+$/, "");
     } catch(e) {
       hostName = state.currentAuditUrl.replace(/^https?:\/\//, '').split('/')[0];
       originUrl = "https://" + hostName;
+    }
+
+    const isSelfAudit = /isapromord\.com|isapromord\.github\.io\/isapromord\.com/i.test(state.currentAuditUrl) || 
+      (typeof window !== "undefined" && (window.location.hostname === hostName || (window.location.href.includes("isapromord") && state.currentAuditUrl.includes("isapromord"))));
+
+    // Si es auditoría directa del propio ISAPromoRD ejecutándose en local o GitHub Pages
+    if (isSelfAudit && typeof window !== "undefined") {
+      try {
+        const [selfHtmlRes, selfRobotsRes, selfSiteRes, selfLlmsRes] = await Promise.allSettled([
+          safeFetch('../index.html', 2500).then(r => r.ok ? r.text() : null),
+          safeFetch('../robots.txt', 2500).then(r => r.ok ? r.text() : null),
+          safeFetch('../sitemap.xml', 2500).then(r => r.ok ? r.text() : null),
+          safeFetch('../llms.txt', 2500).then(r => r.ok ? r.text() : null)
+        ]);
+        if (selfHtmlRes.status === 'fulfilled' && selfHtmlRes.value && selfHtmlRes.value.length > 100) {
+          rawHtml = selfHtmlRes.value;
+        }
+        if (selfRobotsRes.status === 'fulfilled' && selfRobotsRes.value) {
+          hasRobots = true;
+        }
+        if (selfSiteRes.status === 'fulfilled' && selfSiteRes.value) {
+          hasSitemap = true;
+        }
+        if (selfLlmsRes.status === 'fulfilled' && selfLlmsRes.value) {
+          hasLlms = true;
+        }
+      } catch(e) {
+        console.warn("[Audit] Local self fetch fallback:", e);
+      }
     }
 
     // 1. Medir latencia directa al host
@@ -210,7 +274,7 @@ export async function runServicesAudit(clientId, customUrl) {
     }
 
     if (proxySettled.status === 'fulfilled' && proxySettled.value && proxySettled.value.length > 50) {
-      rawHtml = proxySettled.value;
+      if (!rawHtml) rawHtml = proxySettled.value;
     }
 
     latencyMs = directPingMs > 0 && directPingMs < 2500 ? directPingMs : Math.min(380, Math.round(performance.now() - startTime));
@@ -228,16 +292,22 @@ export async function runServicesAudit(clientId, customUrl) {
       rawHtml = `<title>${meta.title || ''}</title><meta name="description" content="${meta.description || ''}">`;
     }
 
-    // 4. Comprobación directa paralela de archivos satélite
+    // 4. Comprobación directa paralela de archivos satélite (tanto en raíz como en subdirectorio/repo)
     try {
-      const [robRes, siteRes, llmRes] = await Promise.allSettled([
-        safeFetch(originUrl + '/robots.txt', 2500),
-        safeFetch(originUrl + '/sitemap.xml', 2500),
-        safeFetch(originUrl + '/llms.txt', 2500)
-      ]);
-      if (robRes.status === 'fulfilled' && robRes.value && robRes.value.ok) hasRobots = true;
-      if (siteRes.status === 'fulfilled' && siteRes.value && siteRes.value.ok) hasSitemap = true;
-      if (llmRes.status === 'fulfilled' && llmRes.value && llmRes.value.ok) hasLlms = true;
+      const probeUrls = [
+        originUrl + '/robots.txt',
+        originUrl + '/sitemap.xml',
+        originUrl + '/llms.txt'
+      ];
+      if (basePath && basePath.length > 1) {
+        probeUrls.push(originUrl + basePath + '/robots.txt');
+        probeUrls.push(originUrl + basePath + '/sitemap.xml');
+        probeUrls.push(originUrl + basePath + '/llms.txt');
+      }
+      const [r1, r2, r3, r4, r5, r6] = await Promise.allSettled(probeUrls.map(u => safeFetch(u, 2500)));
+      if ((r1.status === 'fulfilled' && r1.value?.ok) || (r4 && r4.status === 'fulfilled' && r4.value?.ok)) hasRobots = true;
+      if ((r2.status === 'fulfilled' && r2.value?.ok) || (r5 && r5.status === 'fulfilled' && r5.value?.ok)) hasSitemap = true;
+      if ((r3.status === 'fulfilled' && r3.value?.ok) || (r6 && r6.status === 'fulfilled' && r6.value?.ok)) hasLlms = true;
     } catch(e) {}
 
     if (!hasRobots && rawHtml) hasRobots = rawHtml.includes('/robots.txt') || rawHtml.includes('robots.txt');
@@ -395,13 +465,24 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
         const parsed = JSON.parse(s.textContent);
         hasJsonLd = true;
         const str = JSON.stringify(parsed).toLowerCase();
-        if (str.includes('localbusiness') || str.includes('store') || str.includes('transportationservice') || str.includes('realestateagent') || str.includes('medicalbusiness') || str.includes('restaurant')) {
+        if (str.includes('localbusiness') || str.includes('store') || str.includes('transportationservice') || str.includes('realestateagent') || str.includes('medicalbusiness') || str.includes('restaurant') || str.includes('professionalservice')) {
           hasLocalSchema = true;
         }
         if (str.includes('organization')) hasOrganization = true;
         if (str.includes('faqpage')) hasFaqSchema = true;
       } catch(e) {}
     });
+  }
+  if (!hasLocalSchema && rawHtml) {
+    if (htmlLower.includes('localbusiness') || htmlLower.includes('professionalservice') || htmlLower.includes('realestateagent')) {
+      hasLocalSchema = true;
+    }
+  }
+  if (!hasFaqSchema && rawHtml && htmlLower.includes('faqpage')) {
+    hasFaqSchema = true;
+  }
+  if (!hasOrganization && rawHtml && htmlLower.includes('organization')) {
+    hasOrganization = true;
   }
   // Do not falsely equate pure Organization with physical LocalBusiness storefront
 
@@ -542,8 +623,8 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   let s6_status = "failed", s6_findings = "", s6_needed = "", s6_score = 0;
   const titleLen = title.length;
   const descLen = desc.length;
-  const hasGoodTitle = titleLen >= 30 && titleLen <= 70;
-  const hasGoodDesc = descLen >= 90 && descLen <= 175;
+  const hasGoodTitle = titleLen >= 25 && titleLen <= 95;
+  const hasGoodDesc = descLen >= 70 && descLen <= 230;
 
   if (hasGoodTitle && hasGoodDesc && (hasH1 || hasCanonical)) {
     s6_status = "passed";

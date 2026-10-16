@@ -2246,55 +2246,55 @@
             </div>
 
             <!-- PANEL DE PERSONALIZACIÓN DEL PAQUETE SELECCIONADO -->
-            <div id="proposalPackageCustomizer" class="mt-3 p-3.5 rounded-lg bg-[#0e1626]/90 border border-cyan-500/30 space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-2">
+            <div id="proposalPackageCustomizer" class="mt-3.5 p-4 rounded-xl bg-[#0e1626]/90 border border-cyan-500/30 space-y-3.5 shadow-sm">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.06] pb-2.5">
                 <div class="flex items-center gap-2">
-                  <span class="text-sm">🏷️</span>
+                  <span class="text-base">🏷️</span>
                   <div>
-                    <span class="text-xs font-bold text-white">Personalizar Precios del Paquete:</span>
-                    <span id="pkgCustomizerActiveTitle" class="text-xs font-bold text-cyan-300 ml-1">Negocio Inteligente con IA</span>
+                    <span class="text-sm font-bold text-white">Personalizar Precios del Paquete:</span>
+                    <span id="pkgCustomizerActiveTitle" class="text-sm font-bold text-cyan-300 ml-1">Negocio Inteligente con IA</span>
                   </div>
-                  <span id="pkgCustomModifiedBadge" class="hidden px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
+                  <span id="pkgCustomModifiedBadge" class="hidden px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold">
                     ✏️ Precio Personalizado
                   </span>
                 </div>
-                <button type="button" onclick="resetCurrentPackagePrice()" class="text-[11px] text-slate-400 hover:text-cyan-300 flex items-center gap-1 transition-colors cursor-pointer self-end sm:self-auto" title="Volver al precio de lista oficial">
+                <button type="button" onclick="resetCurrentPackagePrice()" class="text-xs text-slate-400 hover:text-cyan-300 flex items-center gap-1 transition-colors cursor-pointer self-end sm:self-auto" title="Volver al precio de lista oficial">
                   <span>↺ Restaurar Precio Oficial</span>
                 </button>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                 <div>
-                  <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Nombre / Título del Paquete</label>
-                  <input type="text" id="pkgCustomTitle" placeholder="Ej: Negocio Inteligente & IA" oninput="updateCustomPackagePrice(undefined, undefined, this.value)" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+                  <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Nombre / Título del Paquete</label>
+                  <input type="text" id="pkgCustomTitle" placeholder="Ej: Negocio Inteligente & IA" oninput="updateCustomPackagePrice(undefined, undefined, this.value)" class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
                 </div>
                 <div>
-                  <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Inversión Setup Única (RD$)</label>
-                  <input type="number" id="pkgCustomSetupPrice" min="0" step="500" placeholder="RD$ Setup" oninput="updateCustomPackagePrice(this.value, undefined, undefined)" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none" />
+                  <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Inversión Setup Única (RD$)</label>
+                  <input type="number" id="pkgCustomSetupPrice" min="0" step="500" placeholder="RD$ Setup" oninput="updateCustomPackagePrice(this.value, undefined, undefined)" class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none" />
                 </div>
                 <div>
-                  <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Mantenimiento Mensual (RD$ / mes)</label>
-                  <input type="number" id="pkgCustomMonthlyPrice" min="0" step="500" placeholder="RD$ Mensual" oninput="updateCustomPackagePrice(undefined, this.value, undefined)" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-cyan-300 font-mono font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+                  <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1.5">Mantenimiento Mensual (RD$ / mes)</label>
+                  <input type="number" id="pkgCustomMonthlyPrice" min="0" step="500" placeholder="RD$ Mensual" oninput="updateCustomPackagePrice(undefined, this.value, undefined)" class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-cyan-300 font-mono font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
                 </div>
               </div>
             </div>
           </div>
 
           <!-- PASO 2: SERVICIOS Y MÓDULOS DE LA PROPUESTA (A LA CARTA) -->
-          <div class="space-y-3 pt-4 border-t border-white/[0.06]">
+          <div class="space-y-4 pt-6 border-t border-white/[0.08]">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <label class="text-xs font-bold text-white uppercase tracking-wider block stitch-title">2. Servicios y Módulos a la Carta</label>
-                <span class="text-[11px] text-slate-400">Selecciona los módulos incluidos, ajusta precios o agrega nuevos servicios a la medida</span>
+                <label class="text-sm sm:text-base font-black text-white uppercase tracking-wider block stitch-title">2. Servicios y Módulos a la Carta</label>
+                <span class="text-xs sm:text-sm text-slate-400">Selecciona los módulos incluidos, ajusta precios o agrega nuevos servicios a la medida</span>
               </div>
-              <div class="flex items-center gap-2 flex-wrap">
-                <button type="button" onclick="addCustomProposalService()" class="px-2.5 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95">
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <button type="button" onclick="addCustomProposalService()" class="px-3.5 py-2 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 shadow-sm">
                   <span>➕ Agregar Servicio</span>
                 </button>
-                <button type="button" onclick="resetProposalAddonsCatalog()" class="px-2.5 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-slate-300 border border-white/10 text-xs font-medium flex items-center gap-1 transition-all cursor-pointer" title="Restablecer catálogo a valores de fábrica">
+                <button type="button" onclick="resetProposalAddonsCatalog()" class="px-3.5 py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] text-slate-200 border border-white/10 text-xs sm:text-sm font-semibold flex items-center gap-1 transition-all cursor-pointer">
                   <span>↺ Restaurar</span>
                 </button>
-                <span id="alacarteSubtotalBadge" class="px-2.5 py-1 rounded-lg bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 text-xs font-bold font-mono">
+                <span id="alacarteSubtotalBadge" class="px-3.5 py-2 rounded-lg bg-cyan-950/70 text-cyan-300 border border-cyan-500/30 text-xs sm:text-sm font-bold font-mono">
                   A la Carta: RD$ 0 setup + RD$ 0/mes
                 </span>
               </div>
@@ -2302,14 +2302,14 @@
 
             <!-- TABLA / LISTA EJECUTIVA UNIFICADA -->
             <div class="rounded-xl border border-white/[0.08] bg-[#0c121e]/90 overflow-hidden shadow-sm">
-              <div class="hidden sm:flex items-center justify-between px-4 py-2.5 bg-white/[0.03] border-b border-white/[0.06] text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              <div class="hidden sm:flex items-center justify-between px-5 py-3 bg-white/[0.04] border-b border-white/[0.06] text-xs font-bold uppercase tracking-wider text-slate-300">
                 <span>Servicio Entregable</span>
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-8">
                   <span>Inversión</span>
-                  <span class="w-8 text-center">Estado</span>
+                  <span class="w-12 text-center">Estado</span>
                 </div>
               </div>
-              <div id="proposalAddonsList" class="divide-y divide-white/[0.04]">
+              <div id="proposalAddonsList" class="divide-y divide-white/[0.05]">
                 <!-- Se inyectan dinámicamente todos los servicios como filas continuas -->
               </div>
             </div>

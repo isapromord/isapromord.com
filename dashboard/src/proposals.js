@@ -193,56 +193,56 @@ export function renderProposalAddonsList() {
 
     if (isEditing) {
       return `
-        <div class="p-3.5 rounded-lg bg-[#0d1424] border border-cyan-500/40 shadow-lg space-y-3 animate-in fade-in duration-150">
-          <div class="flex items-center justify-between gap-2 border-b border-white/[0.06] pb-2">
-            <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
+        <div class="p-4 rounded-xl bg-[#0d1424] border border-cyan-500/40 shadow-lg space-y-3.5 animate-in fade-in duration-150">
+          <div class="flex items-center justify-between gap-2 border-b border-white/[0.06] pb-2.5">
+            <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
               <span>✏️</span> Editando Servicio: <strong class="text-white">${escapeHtml(addon.name)}</strong>
             </span>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-2">
               ${addon.isCustom ? `
-                <button type="button" onclick="deleteCustomProposalService('${addon.id}')" class="px-2 py-1 rounded bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-[11px] font-bold transition-all cursor-pointer" title="Eliminar servicio">
+                <button type="button" onclick="deleteCustomProposalService('${addon.id}')" class="px-2.5 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-bold transition-all cursor-pointer" title="Eliminar servicio">
                   🗑️ Eliminar
                 </button>
               ` : ''}
-              <button type="button" onclick="cancelEditProposalAddon('${addon.id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center gap-1" title="Descartar cambios y conservar el valor que ya tenía">
+              <button type="button" onclick="cancelEditProposalAddon('${addon.id}')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center gap-1" title="Descartar cambios y conservar el valor que ya tenía">
                 ✕ Cancelar
               </button>
-              <button type="button" onclick="saveEditProposalAddon('${addon.id}')" class="px-3 py-1 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all cursor-pointer shadow-md shadow-cyan-500/20">
+              <button type="button" onclick="saveEditProposalAddon('${addon.id}')" class="px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all cursor-pointer shadow-md shadow-cyan-500/20">
                 ✓ Listo
               </button>
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre / Título del Servicio *</label>
+              <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre / Título del Servicio *</label>
               <input 
                 type="text" 
                 value="${escapeHtml(addon.name)}" 
                 oninput="updateProposalAddonField('${addon.id}', 'name', this.value)" 
                 placeholder="Nombre del servicio o módulo" 
-                class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none"
+                class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white font-bold focus:ring-1 focus:ring-cyan-400 focus:outline-none"
               />
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-2.5">
               <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Precio RD$ *</label>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Precio RD$ *</label>
                 <input 
                   type="number" 
                   min="0" 
                   step="500" 
                   value="${addon.price !== undefined ? addon.price : 0}" 
                   oninput="updateProposalAddonField('${addon.id}', 'price', this.value)" 
-                  class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none"
+                  class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tipo de Cobro *</label>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Tipo de Cobro *</label>
                 <select 
                   onchange="updateProposalAddonField('${addon.id}', 'type', this.value)" 
-                  class="w-full px-2.5 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-200 focus:ring-1 focus:ring-cyan-400 focus:outline-none cursor-pointer"
+                  class="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-200 focus:ring-1 focus:ring-cyan-400 focus:outline-none cursor-pointer"
                 >
                   <option value="onetime" ${addon.type === 'onetime' ? 'selected' : ''}>Pago Único</option>
                   <option value="monthly" ${addon.type === 'monthly' ? 'selected' : ''}>Mensual (/mes)</option>
@@ -252,12 +252,12 @@ export function renderProposalAddonsList() {
           </div>
 
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Descripción del Servicio / Entregable</label>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Descripción del Servicio / Entregable</label>
             <textarea 
               rows="2" 
               oninput="updateProposalAddonField('${addon.id}', 'description', this.value)" 
               placeholder="Detalle de qué incluye este servicio..." 
-              class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-slate-300 focus:ring-1 focus:ring-cyan-400 focus:outline-none"
+              class="w-full px-3.5 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs sm:text-sm text-slate-300 focus:ring-1 focus:ring-cyan-400 focus:outline-none"
             >${escapeHtml(addon.description || '')}</textarea>
           </div>
         </div>
@@ -267,23 +267,23 @@ export function renderProposalAddonsList() {
     const isInCombo = selectedBaseKey !== 'pack-none' && includedIds.includes(addon.id);
 
     return `
-      <div class="group px-4 py-2.5 transition-all ${addon.checked ? 'bg-cyan-500/[0.03]' : 'opacity-60 hover:opacity-100'} hover:bg-white/[0.02]">
-        <div class="flex items-center justify-between gap-3">
+      <div class="group px-5 py-3.5 sm:py-4 transition-all ${addon.checked ? 'bg-cyan-500/[0.04]' : 'opacity-60 hover:opacity-100'} hover:bg-white/[0.02]">
+        <div class="flex items-center justify-between gap-4">
           
           <!-- Lado Izquierdo: Título y detalles -->
-          <div class="flex items-center gap-2 min-w-0 flex-1 cursor-pointer select-none" onclick="toggleProposalAddon('${addon.id}')">
-            <span class="text-xs font-semibold ${addon.checked ? 'text-white font-bold' : 'text-slate-300'} truncate group-hover:text-cyan-300 transition-colors">
+          <div class="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer select-none" onclick="toggleProposalAddon('${addon.id}')">
+            <span class="text-sm sm:text-base font-semibold ${addon.checked ? 'text-white font-bold' : 'text-slate-300'} truncate group-hover:text-cyan-300 transition-colors">
               ${escapeHtml(addon.name)}
             </span>
 
             ${isInCombo ? `
-              <span class="text-[10px] font-mono text-emerald-400 font-semibold shrink-0" title="Incluido en el paquete base seleccionado">
+              <span class="text-xs font-mono text-emerald-400 font-semibold shrink-0" title="Incluido en el paquete base seleccionado">
                 • combo
               </span>
             ` : ''}
 
             ${addon.isCustom ? `
-              <span class="text-[9px] font-bold text-purple-300 bg-purple-500/15 px-1.5 py-0.2 rounded border border-purple-500/25 shrink-0">
+              <span class="text-xs font-bold text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded-md border border-purple-500/30 shrink-0">
                 Personalizado
               </span>
             ` : ''}
@@ -292,23 +292,23 @@ export function renderProposalAddonsList() {
             <button 
               type="button" 
               onclick="event.stopPropagation(); toggleProposalAddonDetails('${addon.id}')"
-              class="text-[10px] text-slate-500 hover:text-cyan-300 px-1 py-0.5 rounded transition-colors shrink-0"
+              class="text-xs font-medium text-slate-400 hover:text-cyan-300 px-2 py-0.5 rounded-md bg-white/[0.04] hover:bg-white/[0.1] transition-colors shrink-0"
               title="${isExpanded ? 'Ocultar explicación' : 'Ver explicación breve'}"
             >
-              ${isExpanded ? '▲' : 'ℹ️'}
+              ${isExpanded ? '▲ Ocultar' : 'ℹ️ Detalle'}
             </button>
           </div>
 
           <!-- Lado Derecho: Inversión, lápiz y switch -->
-          <div class="flex items-center gap-3 shrink-0">
+          <div class="flex items-center gap-4 shrink-0">
             
             <!-- Inversión -->
             <div class="text-right">
-              <span class="font-mono font-bold text-xs ${addon.checked ? 'text-white' : 'text-slate-400'}">
+              <span class="font-mono font-bold text-sm sm:text-base ${addon.checked ? 'text-white' : 'text-slate-400'} tracking-tight">
                 RD$ ${(addon.price || 0).toLocaleString('es-DO')}
               </span>
-              <span class="text-[10px] ${addon.type === 'monthly' ? 'text-amber-400/90' : 'text-slate-400'} font-mono ml-0.5">
-                ${addon.type === 'monthly' ? '/m' : 'u'}
+              <span class="text-xs sm:text-sm ${addon.type === 'monthly' ? 'text-amber-400/90 font-medium' : 'text-slate-400'} font-sans ml-1">
+                ${addon.type === 'monthly' ? '/ mes' : 'único'}
               </span>
             </div>
 
@@ -316,10 +316,10 @@ export function renderProposalAddonsList() {
             <button 
               type="button" 
               onclick="toggleEditProposalAddon('${addon.id}')" 
-              class="p-1 rounded text-slate-500 hover:text-cyan-300 hover:bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" 
+              class="p-1.5 rounded-md text-slate-400 hover:text-cyan-300 hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer" 
               title="Editar precio o textos de este servicio"
             >
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
             </button>
 
             <!-- Switch Toggle Moderno (Sin cuadros) -->
@@ -328,10 +328,10 @@ export function renderProposalAddonsList() {
               role="switch" 
               aria-checked="${addon.checked ? 'true' : 'false'}"
               onclick="toggleProposalAddon('${addon.id}')" 
-              class="w-8 h-4.5 rounded-full transition-colors relative cursor-pointer focus:outline-none flex items-center px-0.5 ${addon.checked ? 'bg-cyan-500 shadow-sm shadow-cyan-500/20' : 'bg-slate-700'}"
+              class="w-11 h-6 rounded-full transition-colors relative cursor-pointer focus:outline-none flex items-center px-0.5 ${addon.checked ? 'bg-cyan-500 shadow-sm shadow-cyan-500/25' : 'bg-slate-700'}"
               title="${addon.checked ? 'Activo (Clic para desactivar)' : 'Inactivo (Clic para activar)'}"
             >
-              <span class="block w-3.5 h-3.5 rounded-full bg-white transition-transform shadow-sm ${addon.checked ? 'translate-x-3.5' : 'translate-x-0'}"></span>
+              <span class="block w-5 h-5 rounded-full bg-white transition-transform shadow-md ${addon.checked ? 'translate-x-5' : 'translate-x-0'}"></span>
             </button>
 
           </div>
@@ -339,7 +339,7 @@ export function renderProposalAddonsList() {
 
         <!-- Párrafo explicativo desplegado bajo demanda -->
         ${isExpanded ? `
-          <div class="mt-2 pt-2 border-t border-white/[0.04] text-[11px] text-slate-400 pl-1 leading-relaxed">
+          <div class="mt-3 pt-3 border-t border-white/[0.06] text-xs sm:text-sm text-slate-300 pl-2 leading-relaxed animate-in fade-in duration-150">
             ${escapeHtml(addon.description || 'Sin descripción detallada.')}
           </div>
         ` : ''}

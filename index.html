@@ -513,15 +513,15 @@
   <div id="referralWelcomeBanner" class="hidden bg-emerald-950/90 border-b border-emerald-500/40 text-emerald-200 py-2.5 px-4 text-xs sm:text-sm font-semibold backdrop-blur-xl relative z-50 transition-all">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
       <div class="flex items-center justify-center sm:justify-start gap-2">
-        <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] uppercase font-mono font-bold tracking-wider">Referido Oficial</span>
+        <span class="px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs uppercase font-mono font-bold tracking-wider">Referido Oficial</span>
         <span id="referralBannerText">Visitando desde la web oficial de un cliente aliado de ISAPromoRD.</span>
       </div>
       <div class="flex items-center gap-3">
-        <a id="referralBannerCta" href="https://wa.me/18294554783" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors shrink-0 text-xs shadow-glow-emerald">
+        <a id="referralBannerCta" href="https://wa.me/18294554783" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors shrink-0 text-xs sm:text-sm shadow-glow-emerald">
           <span>Cotizar con Descuento Referido</span>
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
         </a>
-        <button id="closeReferralBannerBtn" onclick="dismissReferralBanner()" type="button" aria-label="Cerrar aviso" class="p-1 rounded-md text-emerald-400/80 hover:text-white hover:bg-emerald-900/60 transition-colors cursor-pointer" title="Cerrar aviso">
+        <button id="closeReferralBannerBtn" onclick="dismissReferralBanner()" type="button" aria-label="Cerrar aviso" class="p-1.5 rounded-md text-emerald-400/80 hover:text-white hover:bg-emerald-900/60 transition-colors cursor-pointer" title="Cerrar aviso">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -531,8 +531,8 @@
   <!-- ========================================================
        LIVE TOAST DISPATCHER (Solo en Desktop para telemetría sutil)
        ======================================================== -->
-  <div id="liveActivityToast" class="hidden sm:flex fixed bottom-6 left-6 z-50 bg-[#121824]/95 backdrop-blur-md text-white border border-[#222f46] rounded-2xl p-4 shadow-2xl items-center gap-3 transition-all duration-500 transform translate-y-32 opacity-0 max-w-sm pointer-events-none">
-    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0 border border-emerald-500/30">
+  <div id="liveActivityToast" class="hidden sm:flex fixed bottom-6 left-6 z-50 bg-[#121824]/95 backdrop-blur-md text-white border border-[#222f46] rounded-xl p-4 shadow-2xl items-center gap-3 transition-all duration-500 transform translate-y-32 opacity-0 max-w-sm pointer-events-none">
+    <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg flex-shrink-0 border border-emerald-500/30">
       ⚡
     </div>
     <div class="text-sm">
@@ -568,7 +568,7 @@
 
       <!-- Fast WhatsApp Header CTA + Mobile Menu Toggle -->
       <div class="flex items-center gap-2.5">
-        <a class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-emerald-400 font-semibold text-xs sm:text-sm transition-all hover:scale-[1.02] active:scale-[0.98] border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 shadow-[0_0_15px_-3px_rgba(16,185,129,0.3)]" 
+        <a class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-emerald-400 font-semibold text-xs sm:text-sm transition-all hover:scale-[1.02] active:scale-[0.98] border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 shadow-[0_0_15px_-3px_rgba(16,185,129,0.3)]" 
            data-purpose="nav-whatsapp-cta" 
            href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20cotizar%20posicionamiento%20en%20Google%20Maps%20y%20p%C3%A1gina%20web%20en%20RD" 
            rel="noopener noreferrer" 
@@ -578,7 +578,7 @@
         </a>
 
         <!-- Mobile Menu Button -->
-        <button id="mobileMenuBtn" type="button" onclick="toggleMobileNav()" aria-label="Abrir menú de navegación" aria-expanded="false" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[#121824] border border-[#222f46] text-slate-200 hover:text-[#00d2ff] hover:border-[#00d2ff]/50 transition-colors cursor-pointer">
+        <button id="mobileMenuBtn" type="button" onclick="toggleMobileNav()" aria-label="Abrir menú de navegación" aria-expanded="false" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[#121824] border border-[#222f46] text-slate-200 hover:text-[#00d2ff] hover:border-[#00d2ff]/50 transition-colors cursor-pointer">
           <svg id="mobileMenuIconOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           <svg id="mobileMenuIconClose" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
@@ -589,22 +589,22 @@
     <!-- Collapsible Mobile Navigation Drawer (Auto-closes on link click or outside tap) -->
     <div id="mobileNavDrawer" class="hidden md:hidden bg-[#0c121e]/98 backdrop-blur-2xl border-b border-[#222f46] px-4 pt-3 pb-5 shadow-2xl">
       <nav class="grid grid-cols-2 gap-2 text-sm font-bold text-slate-200">
-        <a href="#paquetes" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#paquetes" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-[#00d2ff]">📦</span> <span>Paquetes</span>
         </a>
-        <a href="#confianza" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#confianza" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-emerald-400">🏆</span> <span>Portafolio</span>
         </a>
-        <a href="#simulador" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#simulador" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-amber-400">⚡</span> <span>Simulador ROI</span>
         </a>
-        <a href="#servicios" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#servicios" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-cyan-400">🚀</span> <span>4 Pilares</span>
         </a>
-        <a href="#precios" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#precios" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-purple-400">📐</span> <span>A la Carta</span>
         </a>
-        <a href="#faq-tecnico" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
+        <a href="#faq-tecnico" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-slate-300">❓</span> <span>Preguntas</span>
         </a>
       </nav>
@@ -689,13 +689,13 @@
 
       <!-- Dual CTAs -->
       <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-xl lg:max-w-[600px]">
-        <a class="flex-1 inline-flex items-center justify-center gap-2.5 px-5 py-4 rounded-xl text-slate-950 font-black text-sm sm:text-base transition-all shadow-glow-cyan hover:translate-y-[-2px] active:translate-y-0 text-center whitespace-nowrap bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981] tracking-wide" 
+        <a class="flex-1 inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-lg text-slate-950 font-black text-sm sm:text-base transition-all shadow-glow-cyan hover:translate-y-[-2px] active:translate-y-0 text-center whitespace-nowrap bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981] tracking-wide" 
            data-purpose="hero-primary-cta" 
            href="#simulador">
           <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span>Auditar mi Negocio en Tiempo Real</span>
         </a>
-        <a class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 hover:border-emerald-400 font-bold text-sm sm:text-base transition-all text-center shadow-[0_0_20px_-3px_rgba(16,185,129,0.25)] hover:translate-y-[-2px] active:translate-y-0 backdrop-blur-md whitespace-nowrap" 
+        <a class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-lg text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 hover:border-emerald-400 font-bold text-sm sm:text-base transition-all text-center shadow-[0_0_20px_-3px_rgba(16,185,129,0.25)] hover:translate-y-[-2px] active:translate-y-0 backdrop-blur-md whitespace-nowrap" 
            data-purpose="hero-secondary-cta" 
            href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20posicionar%20mi%20negocio%20en%20Google%20Maps%20y%20tener%20una%20web%20r%C3%A1pida" 
            target="_blank" 
@@ -753,7 +753,7 @@
         </a>
         <a href="https://highlandbridges.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Highland Bridge Co." class="flex items-center gap-2.5 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-blue-400 group-hover:scale-110 transition-transform">🌉</span>
-          <span class="font-serif tracking-[0.16em] text-slate-300 group-hover:text-white transition-colors text-xs sm:text-sm uppercase font-semibold">HIGHLAND BRIDGE <span class="font-sans text-[11px] font-mono text-slate-400">CO. ↗</span></span>
+          <span class="font-serif tracking-[0.16em] text-slate-300 group-hover:text-white transition-colors text-xs sm:text-sm uppercase font-semibold">HIGHLAND BRIDGE <span class="font-sans text-xs font-mono text-slate-400">CO. ↗</span></span>
         </a>
         <a href="https://synkrd.github.io/" target="_blank" rel="noopener noreferrer" title="Ver web de SynkRD" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-violet-400 group-hover:scale-110 transition-transform">⚡</span>
@@ -761,11 +761,11 @@
         </a>
         <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" title="Ver web de La Capra Cigars" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-amber-500 group-hover:scale-110 transition-transform">🍂</span>
-          <span class="font-serif tracking-widest text-slate-300 group-hover:text-amber-200 transition-colors text-xs sm:text-sm uppercase font-bold">LA CAPRA <span class="font-sans text-[10px] text-amber-400 font-mono">CIGARS ↗</span></span>
+          <span class="font-serif tracking-widest text-slate-300 group-hover:text-amber-200 transition-colors text-xs sm:text-sm uppercase font-bold">LA CAPRA <span class="font-sans text-xs text-amber-400 font-mono">CIGARS ↗</span></span>
         </a>
         <a href="https://kendysastre-atelier.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Kendy Sastre Atelier" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-rose-400 group-hover:scale-110 transition-transform">🪡</span>
-          <span class="font-serif tracking-wider text-slate-300 group-hover:text-rose-200 transition-colors text-xs sm:text-sm uppercase font-medium">KENDY <span class="font-sans text-[10px] text-rose-400 font-mono">SASTRE ↗</span></span>
+          <span class="font-serif tracking-wider text-slate-300 group-hover:text-rose-200 transition-colors text-xs sm:text-sm uppercase font-medium">KENDY <span class="font-sans text-xs text-rose-400 font-mono">SASTRE ↗</span></span>
         </a>
 
         <!-- Set 2 (Identical Duplicate for Seamless Infinite 360 Loop) -->
@@ -799,7 +799,7 @@
         </a>
         <a href="https://highlandbridges.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Highland Bridge Co." class="flex items-center gap-2.5 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-blue-400 group-hover:scale-110 transition-transform">🌉</span>
-          <span class="font-serif tracking-[0.16em] text-slate-300 group-hover:text-white transition-colors text-xs sm:text-sm uppercase font-semibold">HIGHLAND BRIDGE <span class="font-sans text-[11px] font-mono text-slate-400">CO. ↗</span></span>
+          <span class="font-serif tracking-[0.16em] text-slate-300 group-hover:text-white transition-colors text-xs sm:text-sm uppercase font-semibold">HIGHLAND BRIDGE <span class="font-sans text-xs font-mono text-slate-400">CO. ↗</span></span>
         </a>
         <a href="https://synkrd.github.io/" target="_blank" rel="noopener noreferrer" title="Ver web de SynkRD" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-violet-400 group-hover:scale-110 transition-transform">⚡</span>
@@ -807,11 +807,11 @@
         </a>
         <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" title="Ver web de La Capra Cigars" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-amber-500 group-hover:scale-110 transition-transform">🍂</span>
-          <span class="font-serif tracking-widest text-slate-300 group-hover:text-amber-200 transition-colors text-xs sm:text-sm uppercase font-bold">LA CAPRA <span class="font-sans text-[10px] text-amber-400 font-mono">CIGARS ↗</span></span>
+          <span class="font-serif tracking-widest text-slate-300 group-hover:text-amber-200 transition-colors text-xs sm:text-sm uppercase font-bold">LA CAPRA <span class="font-sans text-xs text-amber-400 font-mono">CIGARS ↗</span></span>
         </a>
         <a href="https://kendysastre-atelier.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Kendy Sastre Atelier" class="flex items-center gap-2 opacity-70 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <span class="text-base text-rose-400 group-hover:scale-110 transition-transform">🪡</span>
-          <span class="font-serif tracking-wider text-slate-300 group-hover:text-rose-200 transition-colors text-xs sm:text-sm uppercase font-medium">KENDY <span class="font-sans text-[10px] text-rose-400 font-mono">SASTRE ↗</span></span>
+          <span class="font-serif tracking-wider text-slate-300 group-hover:text-rose-200 transition-colors text-xs sm:text-sm uppercase font-medium">KENDY <span class="font-sans text-xs text-rose-400 font-mono">SASTRE ↗</span></span>
         </a>
       </div>
     </div>
@@ -821,64 +821,64 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <!-- Caso 1: Pasión Pecuaria RD -->
-        <a href="https://pasion-pecuaria-rd.vercel.app" target="_blank" rel="noopener noreferrer" class="group p-4 rounded-2xl bg-[#121824]/90 border border-[#222f46] hover:border-emerald-500/50 transition-all flex flex-col justify-between">
+        <a href="https://pasion-pecuaria-rd.vercel.app" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl bg-[#121824]/90 border border-[#222f46] hover:border-emerald-500/50 transition-all flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between text-[11px] font-mono text-emerald-400 mb-2">
-              <span>🌾 AGROINDUSTRIA • RD</span>
-              <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 font-bold">0.4s Carga</span>
+            <div class="flex items-center justify-between text-xs font-mono text-emerald-400 mb-2.5">
+              <span class="font-bold">🌾 AGROINDUSTRIA • RD</span>
+              <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 font-bold">0.4s Carga</span>
             </div>
-            <h3 class="text-base font-extrabold text-white group-hover:text-emerald-300 transition-colors">Pasión Pecuaria RD</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">Catálogo agropecuario interactivo y cotizador directo a WhatsApp para productores en todo el país.</p>
+            <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-emerald-300 transition-colors">Pasión Pecuaria RD</h3>
+            <p class="text-sm text-slate-300 mt-2 leading-relaxed">Catálogo agropecuario interactivo y cotizador directo a WhatsApp para productores en todo el país.</p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
+          <div class="mt-4 pt-3 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
             <span>+140 chats/mes</span>
             <span class="group-hover:translate-x-1 transition-transform">Ver web en vivo ↗</span>
           </div>
         </a>
 
         <!-- Caso 2: Torre La Esperilla -->
-        <a href="https://torrelaesperilla.com/" target="_blank" rel="noopener noreferrer" class="group p-4 rounded-2xl bg-[#121824]/90 border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between">
+        <a href="https://torrelaesperilla.com/" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl bg-[#121824]/90 border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between text-[11px] font-mono text-[#00d2ff] mb-2">
-              <span>🏢 REAL ESTATE • DN</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 font-bold">Top #1 SEO</span>
+            <div class="flex items-center justify-between text-xs font-mono text-[#00d2ff] mb-2.5">
+              <span class="font-bold">🏢 REAL ESTATE • DN</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 font-bold">Top #1 SEO</span>
             </div>
-            <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition-colors">Torre La Esperilla</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">Portal inmobiliario de lujo optimizado para inversionistas locales y diáspora dominicana.</p>
+            <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-cyan-300 transition-colors">Torre La Esperilla</h3>
+            <p class="text-sm text-slate-300 mt-2 leading-relaxed">Portal inmobiliario de lujo optimizado para inversionistas locales y diáspora dominicana.</p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
+          <div class="mt-4 pt-3 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
             <span>100/100 Lighthouse</span>
             <span class="group-hover:translate-x-1 transition-transform">Ver web en vivo ↗</span>
           </div>
         </a>
 
         <!-- Caso 3: IsaTransLogic -->
-        <a href="https://isatranslogic.com" target="_blank" rel="noopener noreferrer" class="group p-4 rounded-2xl bg-[#121824]/90 border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between">
+        <a href="https://isatranslogic.com" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl bg-[#121824]/90 border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between text-[11px] font-mono text-cyan-300 mb-2">
-              <span>🚛 LOGÍSTICA B2B • RD</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30 font-bold">Lead Engine</span>
+            <div class="flex items-center justify-between text-xs font-mono text-cyan-300 mb-2.5">
+              <span class="font-bold">🚛 LOGÍSTICA B2B • RD</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 font-bold">Lead Engine</span>
             </div>
-            <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition-colors">IsaTransLogic</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">Plataforma corporativa de transporte de carga y logística portuaria con cotizaciones inmediatas.</p>
+            <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-cyan-300 transition-colors">IsaTransLogic</h3>
+            <p class="text-sm text-slate-300 mt-2 leading-relaxed">Plataforma corporativa de transporte de carga y logística portuaria con cotizaciones inmediatas.</p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
+          <div class="mt-4 pt-3 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
             <span>Cierres B2B Semanales</span>
             <span class="group-hover:translate-x-1 transition-transform">Ver web en vivo ↗</span>
           </div>
         </a>
 
         <!-- Caso 4: La Capra Cigars -->
-        <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" class="group p-4 rounded-2xl bg-[#121824]/90 border border-[#222f46] hover:border-amber-500/50 transition-all flex flex-col justify-between">
+        <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" class="group p-5 rounded-xl bg-[#121824]/90 border border-[#222f46] hover:border-amber-500/50 transition-all flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between text-[11px] font-mono text-amber-400 mb-2">
-              <span>🍂 MARCA PREMIUM • CIBAO</span>
-              <span class="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 font-bold">Ultra-Fast</span>
+            <div class="flex items-center justify-between text-xs font-mono text-amber-400 mb-2.5">
+              <span class="font-bold">🍂 MARCA PREMIUM • CIBAO</span>
+              <span class="px-2 py-0.5 rounded-md bg-amber-500/10 border border-amber-500/30 font-bold">Ultra-Fast</span>
             </div>
-            <h3 class="text-base font-extrabold text-white group-hover:text-amber-300 transition-colors">La Capra Cigars</h3>
-            <p class="text-xs text-slate-300 mt-1 leading-relaxed">Arquitectura de marca de exportación con estética editorial y velocidad instantánea en móvil.</p>
+            <h3 class="text-base sm:text-lg font-extrabold text-white group-hover:text-amber-300 transition-colors">La Capra Cigars</h3>
+            <p class="text-sm text-slate-300 mt-2 leading-relaxed">Arquitectura de marca de exportación con estética editorial y velocidad instantánea en móvil.</p>
           </div>
-          <div class="mt-3 pt-2.5 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
+          <div class="mt-4 pt-3 border-t border-[#222f46]/80 flex items-center justify-between text-xs font-mono text-cyan-400 font-bold">
             <span>Diseño Awwwards</span>
             <span class="group-hover:translate-x-1 transition-transform">Ver web en vivo ↗</span>
           </div>
@@ -909,7 +909,7 @@
       </div>
 
       <!-- Main Simulator Box -->
-      <div class="p-6 sm:p-10 rounded-2xl bg-[#161f30] border-2 border-[#00d2ff]/50 shadow-glow-cyan">
+      <div class="p-6 sm:p-10 rounded-xl bg-[#161f30] border-2 border-[#00d2ff]/50 shadow-glow-cyan">
         
         <!-- Sector & Zone Interactive Selectors -->
         <div class="grid md:grid-cols-2 gap-8 mb-8">
@@ -918,16 +918,16 @@
               1. Selecciona tu Sector Comercial:
             </label>
             <div class="grid grid-cols-2 gap-2.5" id="simSectorBtns">
-              <button class="sim-sector-btn p-3 rounded-xl bg-[#121824] border border-[#00d2ff] text-white text-xs sm:text-sm font-bold text-left transition-all shadow-sm cursor-pointer" type="button" data-sector="clinica" onclick="selectSimSector('clinica', this)">
+              <button class="sim-sector-btn p-3 rounded-lg bg-[#121824] border border-[#00d2ff] text-white text-xs sm:text-sm font-bold text-left transition-all shadow-sm cursor-pointer" type="button" data-sector="clinica" onclick="selectSimSector('clinica', this)">
                 🩺 Clínica / Salud
               </button>
-              <button class="sim-sector-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="legal" onclick="selectSimSector('legal', this)">
+              <button class="sim-sector-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="legal" onclick="selectSimSector('legal', this)">
                 ⚖️ Firma Legal / Asesoría
               </button>
-              <button class="sim-sector-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="inmobiliaria" onclick="selectSimSector('inmobiliaria', this)">
+              <button class="sim-sector-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="inmobiliaria" onclick="selectSimSector('inmobiliaria', this)">
                 🏢 Inmobiliaria / Bienes Raíces
               </button>
-              <button class="sim-sector-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="comercio" onclick="selectSimSector('comercio', this)">
+              <button class="sim-sector-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-sector="comercio" onclick="selectSimSector('comercio', this)">
                 🛍️ Comercio / Servicios Locales
               </button>
             </div>
@@ -938,16 +938,16 @@
               2. Selecciona tu Zona Estratégica:
             </label>
             <div class="grid grid-cols-2 gap-2.5" id="simZoneBtns">
-              <button class="sim-zone-btn p-3 rounded-xl bg-[#121824] border border-[#10b981] text-white text-xs sm:text-sm font-bold text-left transition-all shadow-sm cursor-pointer" type="button" data-zone="piantini" onclick="selectSimZone('piantini', this)">
+              <button class="sim-zone-btn p-3 rounded-lg bg-[#121824] border border-[#10b981] text-white text-xs sm:text-sm font-bold text-left transition-all shadow-sm cursor-pointer" type="button" data-zone="piantini" onclick="selectSimZone('piantini', this)">
                 📍 Piantini / Naco
               </button>
-              <button class="sim-zone-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="bellavista" onclick="selectSimZone('bellavista', this)">
+              <button class="sim-zone-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="bellavista" onclick="selectSimZone('bellavista', this)">
                 📍 Bella Vista / Mirador
               </button>
-              <button class="sim-zone-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="santiago" onclick="selectSimZone('santiago', this)">
+              <button class="sim-zone-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="santiago" onclick="selectSimZone('santiago', this)">
                 📍 Santiago Metropolitano
               </button>
-              <button class="sim-zone-btn p-3 rounded-xl bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="puntacana" onclick="selectSimZone('puntacana', this)">
+              <button class="sim-zone-btn p-3 rounded-lg bg-[#121824] border border-[#222f46] text-slate-300 hover:text-white text-xs sm:text-sm font-semibold text-left transition-all cursor-pointer" type="button" data-zone="puntacana" onclick="selectSimZone('puntacana', this)">
                 📍 Punta Cana / Bávaro
               </button>
             </div>
@@ -955,7 +955,7 @@
         </div>
 
         <!-- Proyección Reactiva del Sector -->
-        <div class="p-6 rounded-xl bg-[#0a0e17] border border-[#222f46] flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
+        <div class="p-6 rounded-lg bg-[#0a0e17] border border-[#222f46] flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
           <div class="text-left">
             <span class="text-xs sm:text-sm font-mono text-cyan-400 font-bold block mb-1">PROYECCIÓN DE BÚSQUEDAS REALES EN REPÚBLICA DOMINICANA:</span>
             <p class="text-base sm:text-lg lg:text-xl font-bold text-slate-100">
@@ -963,7 +963,7 @@
             </p>
           </div>
           <a id="simResultWaBtn" 
-             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-white font-bold text-sm sm:text-base transition-all hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap shadow-md hover:shadow-emerald-500/20" 
+             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-white font-bold text-sm sm:text-base transition-all hover:scale-[1.01] active:scale-[0.99] whitespace-nowrap shadow-md hover:shadow-emerald-500/20" 
              href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20calcul%C3%A9%20el%20ROI%20para%20Cl%C3%ADnica%20en%20Piantini%20y%20quiero%20reclamar%20mi%20zona%20en%20Google%20Maps" 
              rel="noopener noreferrer" 
              target="_blank" 
@@ -980,7 +980,7 @@
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
               Escáner de Velocidad Web & Posicionamiento en Google Maps:
             </span>
-            <span class="text-[11px] font-mono text-emerald-400">Diagnóstico DNS en Vivo</span>
+            <span class="text-xs font-mono text-emerald-400">Diagnóstico DNS en Vivo</span>
           </div>
 
           <form id="auditEngineForm" onsubmit="event.preventDefault(); triggerAuditScan();" class="space-y-4">
@@ -990,13 +990,13 @@
                        id="auditBiz" 
                        required 
                        placeholder="Escribe tu dominio o nombre comercial (ej: tuempresa.com o Clínica Dental)" 
-                       class="w-full px-4 py-3.5 rounded-xl border border-[#222f46] bg-[#0a0e17] text-white font-medium text-sm focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] transition placeholder:text-slate-500" />
+                       class="w-full px-4 py-3.5 rounded-lg border border-[#222f46] bg-[#0a0e17] text-white font-medium text-sm focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] transition placeholder:text-slate-500" />
               </div>
               <input type="hidden" id="auditZone" value="Santo Domingo (Distrito Nacional)" />
               <div class="sm:col-span-4">
                 <button type="submit" 
                         id="btnRunAudit" 
-                        class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-sm transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer">
+                        class="w-full py-3.5 px-4 rounded-lg bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-sm transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer">
                   <span id="auditBtnText">Auditar Mi Negocio Ahora</span>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </button>
@@ -1017,36 +1017,36 @@
 
           <!-- Reporte de Resultados en Tiempo Real (Enfoque Comercial / Alerta de Fuga de Clientes) -->
           <div id="scanReport" class="hidden mt-6 pt-6 border-t border-[#222f46]">
-            <div class="p-6 sm:p-7 rounded-3xl bg-gradient-to-b from-[#101726] to-[#0a0e17] border border-rose-500/30 shadow-2xl relative overflow-hidden">
+            <div class="p-6 sm:p-7 rounded-xl bg-gradient-to-b from-[#101726] to-[#0a0e17] border border-rose-500/30 shadow-2xl relative overflow-hidden">
               
               <!-- Alerta Superior -->
               <div class="flex items-center justify-between flex-wrap gap-3 mb-6 pb-4 border-b border-[#222f46]">
                 <div class="space-y-1">
                   <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-                    <span class="text-[11px] font-mono font-bold text-rose-400 uppercase tracking-wider">Alerta de Pérdida de Prospectos</span>
+                    <span class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider">Alerta de Pérdida de Prospectos</span>
                   </div>
                   <h4 class="text-xl sm:text-2xl font-black text-white" id="repName">Empresa Auditada</h4>
                   <div class="text-xs text-slate-400 font-mono" id="repZone">Sector seleccionado</div>
                 </div>
-                <div id="repScoreBadge" class="px-4 py-2 rounded-2xl bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base shadow-sm">
+                <div id="repScoreBadge" class="px-4 py-2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base shadow-sm">
                   Puntaje: 42/100 (Riesgo Crítico)
                 </div>
               </div>
 
               <!-- Métricas de Impacto Comercial -->
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-6">
-                <div class="p-4 sm:p-5 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
                   <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Visibilidad en Google Maps</div>
                   <div id="repMapsVal" class="text-xl sm:text-2xl font-black text-amber-400 mt-1.5">Página 2-3</div>
                   <div class="text-xs sm:text-sm text-slate-300 mt-1.5">El 80% de llamadas se van a tu competencia directa.</div>
                 </div>
-                <div class="p-4 sm:p-5 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
                   <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Velocidad Móvil en RD</div>
                   <div id="repSpeedVal" class="text-xl sm:text-2xl font-black text-rose-400 mt-1.5">4.8s (Lenta)</div>
                   <div class="text-xs sm:text-sm text-slate-300 mt-1.5">5 de cada 10 usuarios cierran la pestaña antes de cargar.</div>
                 </div>
-                <div class="p-4 sm:p-5 rounded-2xl bg-[#0e1422] border border-[#222f46] text-center">
+                <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
                   <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Clientes Perdidos Estimados</div>
                   <div id="repLossVal" class="text-xl sm:text-2xl font-black text-[#00d2ff] mt-1.5">~95 clientes/mes</div>
                   <div class="text-xs sm:text-sm text-slate-300 mt-1.5">Ventas que podrías cerrar hoy por WhatsApp.</div>
@@ -1054,7 +1054,7 @@
               </div>
 
               <!-- Lista de 3 Fugas Críticas Detectadas -->
-              <div class="p-5 sm:p-6 rounded-2xl bg-[#090e1a] border border-rose-500/30 space-y-3 mb-6">
+              <div class="p-5 sm:p-6 rounded-lg bg-[#090e1a] border border-rose-500/30 space-y-3 mb-6">
                 <div class="flex items-center gap-2 text-rose-400 font-black text-xs sm:text-sm uppercase tracking-wider font-mono">
                   <span>🚨</span>
                   <span>Principales Brechas Comerciales Encontradas:</span>
@@ -1065,7 +1065,7 @@
               </div>
 
               <!-- Banner de Solución y Bloqueo de Receta Técnica -->
-              <div class="p-5 rounded-2xl bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-3.5 mb-6">
+              <div class="p-5 rounded-lg bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-3.5 mb-6">
                 <span class="text-2xl shrink-0 mt-0.5">💼</span>
                 <div class="text-sm sm:text-base leading-relaxed">
                   <span class="font-bold text-cyan-300 block mb-1">Diagnóstico reservado para rescate comercial:</span>
@@ -1081,7 +1081,7 @@
                    href="#" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-2xl text-slate-950 font-black text-sm sm:text-base shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
+                   class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-lg text-slate-950 font-black text-sm sm:text-base shadow-glow-cyan hover:scale-[1.01] active:scale-[0.99] transition-all bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
                   <svg class="w-5 h-5 mr-2.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
                   <span>Solicitar Plan de Corrección y Rescate en WhatsApp →</span>
                 </a>
@@ -1117,9 +1117,9 @@
       <div class="grid md:grid-cols-2 gap-8 items-stretch">
         
         <!-- Tarjeta Obsolescencia Tradicional -->
-        <div class="p-8 sm:p-10 rounded-2xl bg-[#121824]/60 border border-red-900/30 flex flex-col justify-between" data-purpose="traditional-agency-card">
+        <div class="p-8 sm:p-10 rounded-xl bg-[#121824]/60 border border-red-900/30 flex flex-col justify-between" data-purpose="traditional-agency-card">
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-950/60 border border-red-800/40 text-red-400 text-xs font-mono mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-950/60 border border-red-800/40 text-red-400 text-xs font-sans font-bold mb-6">
               <span>✕</span> LO QUE HACE EL 90% DEL MERCADO
             </div>
             <h3 class="text-2xl font-bold text-white mb-6">Página Web Tradicional (Folleto Pasivo)</h3>
@@ -1156,10 +1156,10 @@
         </div>
 
         <!-- Tarjeta Ingeniería ISAPromoRD -->
-        <div class="p-8 sm:p-10 rounded-2xl bg-[#161f30] border-2 border-[#00d2ff]/60 shadow-glow-cyan flex flex-col justify-between relative overflow-hidden" data-purpose="isapromord-solution-card">
+        <div class="p-8 sm:p-10 rounded-xl bg-[#161f30] border-2 border-[#00d2ff]/60 shadow-glow-cyan flex flex-col justify-between relative overflow-hidden" data-purpose="isapromord-solution-card">
           <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00d2ff] via-[#10b981] to-[#00d2ff]"></div>
           <div>
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00d2ff]/10 border border-[#00d2ff]/40 text-[#00d2ff] text-xs font-mono mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#00d2ff]/10 border border-[#00d2ff]/40 text-[#00d2ff] text-xs font-sans font-bold mb-6">
               <span>✓</span> SISTEMA DE CAPTACIÓN ISAPROMORD
             </div>
             <h3 class="text-2xl font-bold text-white mb-6">Diseño Web Ultrarrápido + SEO Local RD</h3>
@@ -1216,7 +1216,7 @@
       
       <!-- Section Header con Escala Amplia -->
       <div class="text-center max-w-4xl mx-auto mb-14 lg:mb-28">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-[#00d2ff] font-mono text-xs font-semibold mb-5">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md border border-cyan-500/30 bg-cyan-950/40 text-[#00d2ff] font-mono text-xs font-semibold mb-5">
           <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
           ARQUITECTURA DE CRECIMIENTO COMERCIAL
         </div>
@@ -1296,7 +1296,7 @@
           <!-- PASO 01 -->
           <div class="story-step space-y-5" data-step="1">
             <!-- Imagen Inline para Móvil (Sin bloquear la pantalla) -->
-            <div class="lg:hidden relative w-full rounded-2xl overflow-hidden aspect-[3/2] border border-cyan-500/30 shadow-lg mb-4">
+            <div class="lg:hidden relative w-full rounded-xl overflow-hidden aspect-[3/2] border border-cyan-500/30 shadow-lg mb-4">
               <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento en Google Maps RD" loading="lazy" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-transparent to-transparent flex items-end p-4">
                 <span class="text-xs font-mono text-cyan-300 font-bold uppercase">01 • Top #1 en Google Maps RD</span>
@@ -1332,7 +1332,7 @@
           <!-- PASO 02 -->
           <div class="story-step space-y-5" data-step="2">
             <!-- Imagen Inline para Móvil -->
-            <div class="lg:hidden relative w-full rounded-2xl overflow-hidden aspect-[3/2] border border-cyan-500/30 shadow-lg mb-4">
+            <div class="lg:hidden relative w-full rounded-xl overflow-hidden aspect-[3/2] border border-cyan-500/30 shadow-lg mb-4">
               <img src="assets/pillar_speed_panned.webp" alt="Diseño de páginas web rápidas en República Dominicana" loading="lazy" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-transparent to-transparent flex items-end p-4">
                 <span class="text-xs font-mono text-cyan-300 font-bold uppercase">02 • Carga Instantánea (&lt;0.5s)</span>
@@ -1368,7 +1368,7 @@
           <!-- PASO 03 -->
           <div class="story-step space-y-5" data-step="3">
             <!-- Imagen Inline para Móvil -->
-            <div class="lg:hidden relative w-full rounded-2xl overflow-hidden aspect-[3/2] border border-emerald-500/30 shadow-lg mb-4">
+            <div class="lg:hidden relative w-full rounded-xl overflow-hidden aspect-[3/2] border border-emerald-500/30 shadow-lg mb-4">
               <img src="assets/pillar_ai_panned.webp" alt="Automatización de WhatsApp con IA en RD" loading="lazy" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-transparent to-transparent flex items-end p-4">
                 <span class="text-xs font-mono text-emerald-300 font-bold uppercase">03 • Agente WhatsApp IA 24/7</span>
@@ -1404,7 +1404,7 @@
           <!-- PASO 04 -->
           <div class="story-step space-y-5" data-step="4">
             <!-- Imagen Inline para Móvil -->
-            <div class="lg:hidden relative w-full rounded-2xl overflow-hidden aspect-[3/2] border border-purple-500/30 shadow-lg mb-4">
+            <div class="lg:hidden relative w-full rounded-xl overflow-hidden aspect-[3/2] border border-purple-500/30 shadow-lg mb-4">
               <img src="assets/pillar_crm_panned.webp" alt="Sistema CRM a medida en República Dominicana" loading="lazy" class="w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#060911]/90 via-transparent to-transparent flex items-end p-4">
                 <span class="text-xs font-mono text-purple-300 font-bold uppercase">04 • CRM Propio en la Nube</span>
@@ -1510,7 +1510,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-cyan-500/30 bg-cyan-950/40 text-[#00d2ff] font-mono text-xs font-semibold mb-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-md border border-cyan-500/30 bg-cyan-950/40 text-[#00d2ff] font-mono text-xs font-semibold mb-4">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           SOLUCIONES LLAVE EN MANO • GARANTÍA 50/50
         </div>
@@ -1525,10 +1525,10 @@
       <div class="grid md:grid-cols-3 gap-8 items-stretch mb-12">
         
         <!-- PAQUETE 1: PRESENCIA LOCAL -->
-        <div class="p-8 rounded-3xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all flex flex-col justify-between group relative">
+        <div class="p-8 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all flex flex-col justify-between group relative">
           <div class="space-y-6">
             <div class="flex items-center justify-between">
-              <span class="px-3 py-1 rounded-full bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-bold uppercase tracking-wider">
+              <span class="px-3 py-1 rounded-md bg-cyan-950/60 text-cyan-300 border border-cyan-500/30 text-xs font-sans font-bold uppercase tracking-wider">
                 Nivel 1 • Captación Local
               </span>
               <span class="text-2xl">📍</span>
@@ -1571,7 +1571,7 @@
             <a href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20consultar%20disponibilidad%20y%20cotizar%20el%20Paquete%20Presencia%20Local" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="w-full inline-flex items-center justify-center gap-2 py-4 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base transition-all border border-slate-700 hover:border-cyan-500/40 cursor-pointer shadow-sm">
+               class="w-full inline-flex items-center justify-center gap-2 py-4 px-5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base transition-all border border-slate-700 hover:border-cyan-500/40 cursor-pointer shadow-sm">
               <span>Solicitar Cotización Local</span>
               <span>→</span>
             </a>
@@ -1579,14 +1579,14 @@
         </div>
 
         <!-- PAQUETE 2: NEGOCIO INTELIGENTE CON IA (DESTACADO / MÁS POPULAR) -->
-        <div class="p-8 rounded-3xl bg-gradient-to-b from-[#111928] to-[#0c121e] border-2 border-[#00d2ff]/60 shadow-[0_0_35px_-5px_rgba(0,210,255,0.25)] flex flex-col justify-between relative transform lg:-translate-y-2">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#00d2ff] to-[#10b981] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider shadow-md whitespace-nowrap">
+        <div class="p-8 rounded-xl bg-gradient-to-b from-[#111928] to-[#0c121e] border-2 border-[#00d2ff]/60 shadow-[0_0_35px_-5px_rgba(0,210,255,0.25)] flex flex-col justify-between relative transform lg:-translate-y-2">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-md bg-gradient-to-r from-[#00d2ff] to-[#10b981] text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider shadow-md whitespace-nowrap">
             Más Elegido ⭐ • Alto Retorno
           </div>
 
           <div class="space-y-6 pt-2">
             <div class="flex items-center justify-between">
-              <span class="px-3 py-1 rounded-full bg-purple-950/60 text-purple-300 border border-purple-500/30 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider">
+              <span class="px-3 py-1 rounded-md bg-purple-950/60 text-purple-300 border border-purple-500/30 text-xs sm:text-sm font-sans font-bold uppercase tracking-wider">
                 Nivel 2 • Ventas con IA 24/7
               </span>
               <span class="text-2xl">🤖</span>
@@ -1629,17 +1629,17 @@
             <a href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20cotizar%20el%20Paquete%20Negocio%20Inteligente%20con%20IA" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="w-full inline-flex items-center justify-center gap-2 py-4 px-4 rounded-xl text-slate-950 font-black text-sm sm:text-base transition-all shadow-glow-cyan hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
+               class="w-full inline-flex items-center justify-center gap-2 py-4 px-4 rounded-lg text-slate-950 font-black text-sm sm:text-base transition-all shadow-glow-cyan hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
               <span>Cotizar Negocio Inteligente →</span>
             </a>
           </div>
         </div>
 
         <!-- PAQUETE 3: ECOSISTEMA DIGITAL 360° -->
-        <div class="p-8 rounded-3xl bg-[#0f131c] border border-slate-800 hover:border-emerald-500/30 transition-all flex flex-col justify-between group relative">
+        <div class="p-8 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-emerald-500/30 transition-all flex flex-col justify-between group relative">
           <div class="space-y-6">
             <div class="flex items-center justify-between">
-              <span class="px-3 py-1 rounded-full bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold uppercase tracking-wider">
+              <span class="px-3 py-1 rounded-md bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 text-xs font-sans font-bold uppercase tracking-wider">
                 Nivel 3 • Corporativo 360°
               </span>
               <span class="text-2xl">💼</span>
@@ -1682,7 +1682,7 @@
             <a href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20cotizar%20el%20Paquete%20Ecosistema%20Digital%20360%C2%B0" 
                target="_blank" 
                rel="noopener noreferrer" 
-               class="w-full inline-flex items-center justify-center gap-2 py-4 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white font-bold text-sm sm:text-base transition-all border border-slate-700 hover:border-emerald-500/40">
+               class="w-full inline-flex items-center justify-center gap-2 py-4 px-4 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-white font-bold text-sm sm:text-base transition-all border border-slate-700 hover:border-emerald-500/40">
               <span>Cotizar Ecosistema 360° →</span>
             </a>
           </div>
@@ -1691,14 +1691,14 @@
       </div>
 
       <!-- BANNER A LA CARTA / PROYECTOS A MEDIDA -->
-      <div class="p-6 sm:p-8 rounded-2xl bg-[#121824] border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div class="p-6 sm:p-8 rounded-xl bg-[#121824] border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
         <div class="space-y-1">
-          <span class="text-xs font-mono font-bold text-[#00d2ff] uppercase tracking-wider">¿Solo necesitas un servicio puntual o una integración específica?</span>
-          <p class="text-sm text-slate-300">
+          <span class="text-xs sm:text-sm font-sans font-bold text-[#00d2ff] uppercase tracking-wider">¿Solo necesitas un servicio puntual o una integración específica?</span>
+          <p class="text-sm sm:text-base text-slate-300">
             Contrata cualquiera de nuestros módulos de forma individual a la carta según la prioridad actual de tu empresa.
           </p>
         </div>
-        <a href="#precios" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs sm:text-sm font-bold transition-all shrink-0">
+        <a href="#precios" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 text-xs sm:text-sm font-bold transition-all shrink-0">
           <span>Ver Módulos A la Carta</span>
           <span>↓</span>
         </a>
@@ -1725,7 +1725,7 @@
       <div class="grid lg:grid-cols-3 gap-8">
         
         <!-- Testimonio 1: IsaTransLogic -->
-        <div class="p-8 rounded-2xl bg-[#121824] border border-[#222f46] flex flex-col justify-between hover:border-[#00d2ff]/50 transition-colors">
+        <div class="p-8 rounded-xl bg-[#121824] border border-[#222f46] flex flex-col justify-between hover:border-[#00d2ff]/50 transition-colors">
           <div class="mb-6">
             <div class="flex items-center gap-1 text-amber-400 text-base mb-4">★★★★★</div>
             <p class="text-slate-200 text-base leading-relaxed italic mb-6">
@@ -1744,7 +1744,7 @@
         </div>
 
         <!-- Testimonio 2: Pasión Pecuaria RD -->
-        <div class="p-8 rounded-2xl bg-[#161f30] border-2 border-[#10b981]/50 shadow-glow-emerald flex flex-col justify-between hover:border-[#10b981] transition-colors relative">
+        <div class="p-8 rounded-xl bg-[#161f30] border-2 border-[#10b981]/50 shadow-glow-emerald flex flex-col justify-between hover:border-[#10b981] transition-colors relative">
           <div class="mb-6">
             <div class="flex items-center gap-1 text-amber-400 text-base mb-4">★★★★★</div>
             <p class="text-slate-100 text-base leading-relaxed italic mb-4">
@@ -1767,7 +1767,7 @@
         </div>
 
         <!-- Testimonio 3: Torre La Esperilla -->
-        <div class="p-8 rounded-2xl bg-[#121824] border border-[#222f46] flex flex-col justify-between hover:border-[#00d2ff]/50 transition-colors">
+        <div class="p-8 rounded-xl bg-[#121824] border border-[#222f46] flex flex-col justify-between hover:border-[#00d2ff]/50 transition-colors">
           <div class="mb-6">
             <div class="flex items-center gap-1 text-amber-400 text-base mb-4">★★★★★</div>
             <p class="text-slate-200 text-base leading-relaxed italic mb-6">
@@ -1797,7 +1797,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-950/30 text-[#10b981] font-mono text-xs font-semibold mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-emerald-500/20 bg-emerald-950/30 text-[#10b981] font-mono text-xs font-semibold mb-4">
           <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
           SEO LOCAL & DESARROLLO WEB • REPÚBLICA DOMINICANA
         </div>
@@ -1812,9 +1812,9 @@
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <!-- BLOQUE 1 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🩺</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">🩺</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">Clínicas &amp; Salud Privada</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Especialistas &bull; Centros Odontológicos</span>
@@ -1824,17 +1824,17 @@
             Atracción de pacientes locales e internacionales de turismo médico con fichas optimizadas por especialidad.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Piantini</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Gazcue</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Naco</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Bella Vista</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Piantini</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Gazcue</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Naco</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Bella Vista</span>
           </div>
         </div>
 
         <!-- BLOQUE 2 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🏢</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">🏢</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">Inmobiliarias &amp; Torres de Lujo</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Desarrollo Inmobiliario &bull; Preventas</span>
@@ -1844,17 +1844,17 @@
             Captación de compradores de alto poder adquisitivo y miembros de la diáspora para proyectos residenciales.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">La Esperilla</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Av. Anacaona</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Punta Cana</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Bávaro</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">La Esperilla</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Av. Anacaona</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Punta Cana</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Bávaro</span>
           </div>
         </div>
 
         <!-- BLOQUE 3 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">⚖️</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">⚖️</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">Firmas Legales &amp; Tributarias</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Litigios &bull; Asesoría Corporativa</span>
@@ -1864,16 +1864,16 @@
             Autoridad de marca jurídica y visibilidad en búsquedas corporativas de alto nivel en corredores financieros.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Polígono Central</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Av. Winston Churchill</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Av. Abraham Lincoln</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Polígono Central</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Av. Winston Churchill</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Av. Abraham Lincoln</span>
           </div>
         </div>
 
         <!-- BLOQUE 4 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🚛</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">🚛</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">Logística, Transporte &amp; Puertos</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Carga Pesada &bull; Operadores Logísticos</span>
@@ -1883,17 +1883,17 @@
             Posicionamiento en nodos portuarios e industriales neurálgicos de importación y distribución en RD.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Puerto de Haina</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Santo Domingo Este</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Autopista Duarte</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Santiago</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Puerto de Haina</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Santo Domingo Este</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Autopista Duarte</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Santiago</span>
           </div>
         </div>
 
         <!-- BLOQUE 5 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🌾</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">🌾</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">AgroTech &amp; Agroindustria</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Insumos &bull; Maquinaria Agrícola</span>
@@ -1903,17 +1903,17 @@
             Conexión con productores agrícolas y ganaderos del corazón del Cibao mediante búsquedas geo-localizadas.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">La Vega</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">San Francisco de Macorís</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Moca</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Bonao</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">La Vega</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">San Francisco de Macorís</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Moca</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Bonao</span>
           </div>
         </div>
 
         <!-- BLOQUE 6 -->
-        <div class="p-6 rounded-2xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
+        <div class="p-6 rounded-xl bg-[#0f131c] border border-slate-800 hover:border-cyan-500/30 transition-all">
           <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl p-2.5 rounded-xl bg-[#161b26] border border-slate-800">🛍️</span>
+            <span class="text-2xl p-2.5 rounded-lg bg-[#161b26] border border-slate-800">🛍️</span>
             <div>
               <h3 class="text-base sm:text-lg font-bold text-white">Comercio B2B &amp; Servicios Técnicos</h3>
               <span class="text-xs sm:text-sm font-mono text-[#00d2ff]">Distribuidores &bull; Mantenimiento Industrial</span>
@@ -1923,9 +1923,9 @@
             Dominancia en licitaciones privadas y suministros empresariales a escala local y nacional.
           </p>
           <div class="flex flex-wrap gap-2 font-mono text-xs text-slate-200">
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Distrito Nacional</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Zona Industrial de Herrera</span>
-            <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 border border-slate-700">Nivel Nacional</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Distrito Nacional</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Zona Industrial de Herrera</span>
+            <span class="px-2.5 py-1 rounded-md bg-slate-800/80 border border-slate-700">Nivel Nacional</span>
           </div>
         </div>
 
@@ -1957,9 +1957,9 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         
         <!-- Módulo 1 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               ⚡
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Web Transaccional (&lt;0.5s)</h3>
@@ -1967,13 +1967,13 @@
               Página web ultrarrápida con 100/100 en Core Web Vitals, catálogo interactivo de productos o servicios y conversión directa a tu WhatsApp.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#00d2ff] font-bold">Módulo Base • Pago Único</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#00d2ff]">Módulo Base • Pago Único</span>
         </div>
 
         <!-- Módulo 2 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#10b981]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#10b981]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               📍
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Google Maps GBP &amp; Placa NFC</h3>
@@ -1981,13 +1981,13 @@
               Verificación, optimización SEO Local y Placa Inteligente física NFC/QR para sumar reseñas de 5 estrellas al instante en tu negocio.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#10b981] font-bold">Setup Comercial + Placa NFC</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#10b981]">Setup Comercial + Placa NFC</span>
         </div>
 
         <!-- Módulo 3 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               🤖
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Agente IA WhatsApp 24/7</h3>
@@ -1995,13 +1995,13 @@
               Atención automática en menos de 3 segundos día y noche. Responde preguntas, envía catálogo, filtra prospectos y agenda citas.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#00d2ff] font-bold">Automatización Inteligente</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#00d2ff]">Automatización Inteligente</span>
         </div>
 
         <!-- Módulo 4 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               💼
             </div>
             <h3 class="text-xl font-bold text-white mb-2">CRM Personalizado a Medida</h3>
@@ -2009,13 +2009,13 @@
               Control centralizado de clientes, cotizaciones, pedidos y embudo comercial en un panel privado en la nube sin pago mensual por usuario.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#00d2ff] font-bold">Gestión & Base de Datos</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#00d2ff]">Gestión & Base de Datos</span>
         </div>
 
         <!-- Módulo 5 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#10b981]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#10b981]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               📧
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Correos Corporativos Blindados</h3>
@@ -2023,13 +2023,13 @@
               Configuración profesional (@tuempresa.com con firmas SPF, DKIM y DMARC) para transmitir seriedad y asegurar entrega en bandeja principal.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#10b981] font-bold">Identidad & Confianza Corporativa</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#10b981]">Identidad & Confianza Corporativa</span>
         </div>
 
         <!-- Módulo 6 -->
-        <div class="p-6 sm:p-7 rounded-2xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
+        <div class="p-6 sm:p-7 rounded-xl bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 transition-all flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+            <div class="w-12 h-12 rounded-lg bg-[#161f30] border border-[#222f46] flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
               🛡️
             </div>
             <h3 class="text-xl font-bold text-white mb-2">Mantenimiento Web &amp; Soporte</h3>
@@ -2037,7 +2037,7 @@
               Alojamiento CDN Anycast de ultra-velocidad, certificado SSL, monitoreo 24/7 y hasta 3 actualizaciones mensuales por WhatsApp.
             </p>
           </div>
-          <span class="text-xs sm:text-sm font-mono text-[#00d2ff] font-bold">RD$ 4,500 / mes • Soporte Directo</span>
+          <span class="text-xs sm:text-sm font-semibold text-[#00d2ff]">RD$ 4,500 / mes • Soporte Directo</span>
         </div>
 
       </div>
@@ -2045,44 +2045,44 @@
       <!-- ========================================================
            COMPONENTE UNIFICADO: CÁPSULA FINANCIERA 50/50 & COTIZACIÓN A LA CARTA
            ======================================================== -->
-      <div class="my-16 max-w-7xl mx-auto rounded-3xl bg-gradient-to-b from-[#131b2a] to-[#0c121e] border border-cyan-500/30 p-8 sm:p-12 relative overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,0,0,0.7)]" data-purpose="unified-financial-trust-capsule">
+      <div class="my-16 max-w-7xl mx-auto rounded-xl bg-gradient-to-b from-[#131b2a] to-[#0c121e] border border-cyan-500/30 p-6 sm:p-10 relative overflow-hidden shadow-2xl" data-purpose="unified-financial-trust-capsule">
         <!-- Glow accents -->
         <div class="absolute -top-24 -right-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           
           <!-- Lado Izquierdo (7 cols): Escudo de Garantía Técnica y Flujo de Pago 50/50 -->
-          <div class="lg:col-span-7 space-y-6">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs font-bold uppercase tracking-wider">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase tracking-wider">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               Garantía de Rendimiento Técnico 50/50 • Cero Riesgo
             </div>
 
-            <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            <h3 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
               Pagas el saldo final solo cuando tu plataforma esté <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">100% verificada en producción</span>.
             </h3>
 
             <!-- HUD Step Progress Bar -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               <!-- Fase 1 -->
-              <div class="p-4 rounded-2xl bg-[#080d16]/90 border border-slate-800/80 hover:border-cyan-500/30 transition-all">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-[11px] font-mono text-cyan-400 font-bold tracking-wider uppercase">Fase 1 • Inicio</span>
-                  <span class="px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 text-[10px] font-mono font-bold">50% Anticipo</span>
+              <div class="p-5 rounded-lg bg-[#080d16] border border-slate-800 hover:border-cyan-500/30 transition-all">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="text-sm sm:text-base font-bold text-white tracking-tight">Fase 1 • Inicio del Proyecto</span>
+                  <span class="px-2.5 py-1 rounded-md bg-cyan-950/90 text-cyan-300 text-xs font-bold border border-cyan-800/40">50% Anticipo</span>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                  Arranca el desarrollo de tu arquitectura web, optimización de Google Maps y configuración técnica.
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  Arranca el desarrollo de tu arquitectura web, optimización completa de Google Maps y configuración técnica.
                 </p>
               </div>
 
               <!-- Fase 2 -->
-              <div class="p-4 rounded-2xl bg-[#080d16]/90 border border-emerald-500/30 hover:border-emerald-500/50 transition-all shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)]">
-                <div class="flex items-center justify-between mb-2">
-                  <span class="text-[11px] font-mono text-emerald-400 font-bold tracking-wider uppercase">Fase 2 • Entrega Verificada</span>
-                  <span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 text-[10px] font-mono font-bold">50% Restante</span>
+              <div class="p-5 rounded-lg bg-[#080d16] border border-emerald-500/30 hover:border-emerald-500/50 transition-all shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)]">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="text-sm sm:text-base font-bold text-white tracking-tight">Fase 2 • Entrega Verificada</span>
+                  <span class="px-2.5 py-1 rounded-md bg-emerald-950/90 text-emerald-300 text-xs font-bold border border-emerald-800/40">50% Saldo Final</span>
                 </div>
-                <p class="text-xs text-slate-300 leading-relaxed">
+                <p class="text-sm text-slate-300 leading-relaxed">
                   Liquidas <strong class="text-white">ÚNICAMENTE</strong> tras comprobar tu web cargando en &lt;1s, tu ficha Maps activa y tu Placa NFC/QR lista.
                 </p>
               </div>
@@ -2090,20 +2090,20 @@
 
             <!-- Canales Bancarios Dominicanos e Internacionales -->
             <div class="pt-2">
-              <span class="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-2.5">
-                Respaldo formal con contrato privado de servicios:
+              <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2.5">
+                Respaldo formal con contrato legal de servicios:
               </span>
-              <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-300">
-                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+              <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-200">
+                <span class="px-3 py-1.5 rounded-md bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-blue-500"></span> Popular
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                <span class="px-3 py-1.5 rounded-md bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Banreservas
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                <span class="px-3 py-1.5 rounded-md bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-cyan-500"></span> BHD
                 </span>
-                <span class="px-3 py-1.5 rounded-lg bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
+                <span class="px-3 py-1.5 rounded-md bg-[#0a0f18] border border-slate-800 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-purple-400"></span> Stripe / Tarjetas
                 </span>
               </div>
@@ -2111,21 +2111,21 @@
           </div>
 
           <!-- Lado Derecho (5 cols): Cotización a la Carta Directa -->
-          <div class="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-[#090e17]/95 border border-cyan-500/40 shadow-glow-cyan text-center flex flex-col justify-between">
+          <div class="lg:col-span-5 p-6 sm:p-8 rounded-lg bg-[#090e17] border border-cyan-500/40 shadow-glow-cyan text-center flex flex-col justify-between">
             <div>
-              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl mx-auto mb-4">
+              <div class="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-2xl mx-auto mb-4">
                 📐
               </div>
               <h4 class="text-xl sm:text-2xl font-black text-white tracking-tight mb-2">
                 Recibe tu Propuesta Interactiva Hoy
               </h4>
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+              <p class="text-sm text-slate-300 leading-relaxed mb-6">
                 Te preparamos un portal interactivo con el alcance exacto, retorno esperado y cronograma de entrega para tu negocio.
               </p>
             </div>
 
             <div class="space-y-3">
-              <a class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-white font-extrabold text-sm transition-all shadow-[0_0_25px_-5px_rgba(37,211,102,0.45)] hover:scale-[1.02] active:scale-[0.98]" 
+              <a class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg text-white font-extrabold text-sm sm:text-base transition-all shadow-[0_0_25px_-5px_rgba(37,211,102,0.45)] hover:scale-[1.01] active:scale-[0.99]" 
                  href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20deseo%20una%20propuesta%20personalizada%20para%20mi%20empresa" 
                  rel="noopener noreferrer" 
                  target="_blank"
@@ -2133,7 +2133,7 @@
                 <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
                 <span>Solicitar Propuesta por WhatsApp</span>
               </a>
-              <a class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl bg-[#121824] hover:bg-[#182132] text-slate-300 hover:text-white border border-slate-800 font-bold text-xs transition-all" 
+              <a class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-lg bg-[#121824] hover:bg-[#182132] text-slate-300 hover:text-white border border-slate-800 font-bold text-xs sm:text-sm transition-all" 
                  href="propuestas/demo/" 
                  target="_blank">
                 <span>Ver Demo de Propuesta Interactiva</span>
@@ -2158,7 +2158,7 @@
         
         <!-- Columna Izquierda Fija: Título & Micro-Badges de Confianza -->
         <div class="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md border border-cyan-500/20 bg-cyan-950/30 text-[#00d2ff] font-mono text-xs font-semibold">
             <span class="w-1.5 h-1.5 rounded-full bg-[#00d2ff]"></span>
             CLARIDAD TÉCNICA • CERO RODEOS
           </div>
@@ -2171,16 +2171,16 @@
             Todo lo que necesitas saber sobre tiempos de entrega, posicionamiento en Google Maps y nuestra garantía 50/50 en República Dominicana.
           </p>
 
-          <div class="p-5 rounded-2xl bg-[#0f1420] border border-slate-800/80 space-y-3">
-            <div class="flex items-center gap-3 text-xs text-slate-300">
+          <div class="p-5 rounded-xl bg-[#0f1420] border border-slate-800/80 space-y-3">
+            <div class="flex items-center gap-3 text-sm text-slate-200">
               <span class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">✓</span>
               <span>Velocidad auditada en vivo (&lt;0.5s en móvil)</span>
             </div>
-            <div class="flex items-center gap-3 text-xs text-slate-300">
+            <div class="flex items-center gap-3 text-sm text-slate-200">
               <span class="w-6 h-6 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold">✓</span>
               <span>Posicionamiento Google Maps + Placa NFC física</span>
             </div>
-            <div class="flex items-center gap-3 text-xs text-slate-300">
+            <div class="flex items-center gap-3 text-sm text-slate-200">
               <span class="w-6 h-6 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold">✓</span>
               <span>Servicio en Santo Domingo, Santiago y todo RD</span>
             </div>
@@ -2191,10 +2191,10 @@
         <div class="lg:col-span-7 space-y-3.5" id="isaFaqAccordion">
           
           <!-- ITEM 1 -->
-          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+          <div class="rounded-xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
             <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
               <span class="text-base sm:text-lg pr-2 leading-snug">¿Por qué una página que abre en menos de 0.5s vende mucho más en RD?</span>
-              <span class="w-8 h-8 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
+              <span class="w-8 h-8 rounded-lg bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
             </button>
             <div class="hidden px-5 sm:px-6 pb-6 text-slate-200 text-sm sm:text-base leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
               Más del 80% de tus clientes en República Dominicana buscan desde su celular usando datos móviles de Claro o Altice. Si una web tarda más de 2 segundos en abrir, la mitad de las personas cierra la pestaña y llama a otro negocio. Al cargar en menos de 0.5 segundos, retienes la atención del cliente al instante y Google premia tu página subiéndola a los primeros lugares.
@@ -2202,10 +2202,10 @@
           </div>
 
           <!-- ITEM 2 -->
-          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+          <div class="rounded-xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
             <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
               <span class="text-base sm:text-lg pr-2 leading-snug">¿En cuántos días estará lista mi página web y mi ficha de Google Maps?</span>
-              <span class="w-8 h-8 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
+              <span class="w-8 h-8 rounded-lg bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
             </button>
             <div class="hidden px-5 sm:px-6 pb-6 text-slate-200 text-sm sm:text-base leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
               Trabajamos con plazos rápidos estipulados por contrato:
@@ -2218,10 +2218,10 @@
           </div>
 
           <!-- ITEM 3 -->
-          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+          <div class="rounded-xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
             <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
               <span class="text-base sm:text-lg pr-2 leading-snug">¿Atienden empresas en todo el país o solo en Santo Domingo?</span>
-              <span class="w-8 h-8 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
+              <span class="w-8 h-8 rounded-lg bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
             </button>
             <div class="hidden px-5 sm:px-6 pb-6 text-slate-200 text-sm sm:text-base leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
               Brindamos servicio en toda la República Dominicana: Distrito Nacional, Santo Domingo Este/Norte/Oeste, Santiago de los Caballeros, La Vega, San Francisco de Macorís, Puerto Plata y Punta Cana/Bávaro, así como a empresarios dominicanos en Estados Unidos y Europa con operaciones en el país.
@@ -2229,10 +2229,10 @@
           </div>
 
           <!-- ITEM 4 -->
-          <div class="rounded-2xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
+          <div class="rounded-xl bg-[#0f131c] border border-slate-800/90 hover:border-slate-700 overflow-hidden transition-all faq-item">
             <button type="button" class="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-bold text-white hover:text-[#00d2ff] transition-colors faq-trigger" aria-expanded="false">
               <span class="text-base sm:text-lg pr-2 leading-snug">¿Cómo me protege la Garantía 50/50?</span>
-              <span class="w-8 h-8 rounded-full bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
+              <span class="w-8 h-8 rounded-lg bg-[#161b26] border border-slate-700/60 flex items-center justify-center shrink-0 text-[#00d2ff] text-lg font-mono faq-icon">+</span>
             </button>
             <div class="hidden px-5 sm:px-6 pb-6 text-slate-200 text-sm sm:text-base leading-relaxed border-t border-slate-800/60 pt-4 faq-content">
               Inicias con el 50% bajo contrato formal, y abonas el 50% restante <strong class="text-white">únicamente cuando ves tu plataforma funcionando en vivo</strong>, cargando en menos de 1 segundo y con tu ficha de Google Maps optimizada. Así tu inversión está 100% respaldada por resultados reales.
@@ -2297,14 +2297,14 @@
     <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="relative rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#111827] via-[#0e1422] to-[#0a0e18] border border-emerald-500/40 shadow-[0_0_50px_-15px_rgba(16,185,129,0.25)] overflow-hidden text-center">
+      <div class="relative rounded-xl p-8 sm:p-14 bg-gradient-to-br from-[#111827] via-[#0e1422] to-[#0a0e18] border border-emerald-500/40 shadow-[0_0_50px_-15px_rgba(16,185,129,0.25)] overflow-hidden text-center">
         
         <!-- Subtle Radar Sweep Accent -->
         <div class="absolute -right-24 -bottom-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -left-24 -top-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <!-- Telemetry Pill Header -->
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#080d16] border border-emerald-500/30 text-emerald-400 font-mono text-xs sm:text-sm font-semibold mb-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-[#080d16] border border-emerald-500/30 text-emerald-400 font-mono text-xs sm:text-sm font-semibold mb-6">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           <span>DISPONIBILIDAD POR ZONA COMERCIAL • REPÚBLICA DOMINICANA</span>
         </div>
@@ -2318,7 +2318,7 @@
         </p>
 
         <!-- Captador Directo a WhatsApp + Supabase -->
-        <form id="auditQuickForm" onsubmit="handleQuickAuditSubmit(event)" class="space-y-4 max-w-xl mx-auto bg-[#070b12]/90 p-5 sm:p-7 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-md">
+        <form id="auditQuickForm" onsubmit="handleQuickAuditSubmit(event)" class="space-y-4 max-w-xl mx-auto bg-[#070b12]/90 p-5 sm:p-7 rounded-xl border border-slate-800 shadow-2xl backdrop-blur-md">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-left">
             <div>
               <label for="auditBusinessName" class="block text-xs sm:text-sm font-mono text-cyan-300 mb-1.5 font-bold uppercase tracking-wider">
@@ -2329,7 +2329,7 @@
                 id="auditBusinessName" 
                 required 
                 placeholder="Ej: Clínica Dental / Inmobiliaria" 
-                class="w-full px-3.5 py-3 rounded-xl bg-[#05080e] border border-cyan-500/25 text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
+                class="w-full px-3.5 py-3 rounded-lg bg-[#05080e] border border-cyan-500/25 text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
               />
             </div>
             <div>
@@ -2341,7 +2341,7 @@
                 id="auditWhatsapp" 
                 required 
                 placeholder="Ej: 829-455-4783" 
-                class="w-full px-3.5 py-3 rounded-xl bg-[#05080e] border border-emerald-500/25 text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all font-sans"
+                class="w-full px-3.5 py-3 rounded-lg bg-[#05080e] border border-emerald-500/25 text-white placeholder-slate-500 text-sm sm:text-base focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 transition-all font-sans"
               />
             </div>
           </div>
@@ -2349,14 +2349,14 @@
           <button 
             type="submit" 
             id="auditSubmitBtn" 
-            class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-xl text-white font-extrabold text-sm sm:text-base transition-all shadow-[0_4px_25px_-4px_rgba(37,211,102,0.45)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            class="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-lg text-white font-extrabold text-sm sm:text-base transition-all shadow-[0_4px_25px_-4px_rgba(37,211,102,0.45)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
             style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%);"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
             <span>Verificar Disponibilidad de Mi Sector por WhatsApp →</span>
           </button>
 
-          <div class="flex items-center justify-center gap-3 text-xs text-slate-300 font-mono pt-1">
+          <div class="flex items-center justify-center gap-3 text-xs sm:text-sm text-slate-300 font-medium pt-1">
             <span>🔒 Datos Protegidos (Ley 172-13)</span>
             <span>•</span>
             <span>⚡ Atención Inmediata</span>
@@ -2596,7 +2596,7 @@
 
           activeDomain = cleanInput.includes('.') ? cleanInput : "isapromord.com";
           scoreText = "Puntaje Actual: 99/100 (Excelente - Grado Ingeniería)";
-          scoreBadgeClass = "px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold text-xs sm:text-sm";
+          scoreBadgeClass = "px-4 py-1.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold text-xs sm:text-sm";
           mapsText = "#1 Polígono Central (Top Rank)";
           mapsClass = "text-lg font-black text-emerald-400 mt-1";
           speedText = "0.42s (Ultrarrápida)";
@@ -2673,8 +2673,8 @@
 
               scoreText = `Puntaje Comercial: ${calcScore}/100 (${calcScore >= 75 ? 'Riesgo Moderado' : 'Riesgo Crítico de Fuga'})`;
               scoreBadgeClass = calcScore >= 75 
-                ? "px-4 py-2 rounded-2xl bg-amber-500/15 text-amber-300 border border-amber-500/40 font-mono font-black text-sm sm:text-base"
-                : "px-4 py-2 rounded-2xl bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base";
+                ? "px-4 py-2 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/40 font-mono font-black text-sm sm:text-base"
+                : "px-4 py-2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base";
 
               mapsText = calcScore >= 75 ? "Página 2 (Fuera del Pack 3)" : "Página 2-4 (Invisible en Google Maps)";
               mapsClass = calcScore >= 75 ? "text-lg font-black text-amber-400 mt-1.5" : "text-lg font-black text-rose-400 mt-1.5";
@@ -2705,7 +2705,7 @@
 
           } else {
             scoreText = "Puntaje Comercial: 24/100 (Inexistente - Fuga Total)";
-            scoreBadgeClass = "px-4 py-2 rounded-2xl bg-rose-500/20 text-rose-300 border border-rose-500/50 font-mono font-black text-sm sm:text-base";
+            scoreBadgeClass = "px-4 py-2 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/50 font-mono font-black text-sm sm:text-base";
             mapsText = "Sin Presencia (0 Clientes)";
             mapsClass = "text-lg font-black text-rose-400 mt-1.5";
             speedText = "Sin Sitio Web Activo";

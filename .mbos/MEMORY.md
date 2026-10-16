@@ -1367,3 +1367,21 @@
   4. **Footer Fijo de Acciones:** Barra inferior fijada con `shrink-0` (`bg-[#090d16]/95 backdrop-blur-sm`), permitiendo guardar los cambios o cancelar en 1 clic de forma permanente sin necesidad de hacer scroll hasta el final.
   5. **Restablecimiento de Scroll:** Al invocar `openNewClientModal` o `editClient`, se resetea automáticamente el `scrollTop = 0` tanto del overlay como del cuerpo interno.
 - **Regla MBOS Extraída:** Todo modal interactivo complejo con formularios extensos debe estructurarse obligatoriamente bajo el patrón de 3 capas: Header Fijo (`shrink-0`), Cuerpo Desplazable (`overflow-y-auto flex-1`) y Footer Fijo (`shrink-0`), asegurando que los botones de acción nunca queden ocultos fuera de la pantalla.
+
+## [2026-10-16] - Blindaje de Ejecución en Modal de Clientes: Corrección de ReferenceError en saveClient & Desbloqueo de Formularios
+- **Problema Reportado por el Usuario:** Al intentar guardar cambios en la ficha de un cliente (ej. actualizar nombre y URL), el botón "Guardar Cliente" no respondía (*"guardar no funciona :( que otro boton no funcionara???"*).
+- **Causa Raíz de Doble Bloqueo:**
+  1. **ReferenceError en ES Modules:** En `dashboard/src/directory.js`, al ensamblar el objeto cliente actualizado (`...state.clients[index], name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes...`), la variable `repoUrl` no había sido declarada al inicio de `saveClient()`. Esto disparaba un error crítico no capturado `Uncaught ReferenceError: repoUrl is not defined`, abortando la función antes de guardar en `localStorage` o refrescar la interfaz.
+  2. **Bloqueo Silencioso de Validación HTML5 Nativa:** El input `clientLiveUrl` poseía `type="url" required`. Si el usuario escribía un dominio directo como `wiseservicesrd.com` (sin `https://`), el motor del navegador bloqueaba silenciosamente el envío del formulario sin disparar el callback de guardado ni emitir un mensaje de error claro en pantalla.
+- **Acción & Blindaje Integral:**
+  1. **Declaración y Sanitización:** Se declaró `const repoUrl = document.getElementById("clientRepo")?.value.trim() || "";` y se implementó auto-prefijado inteligente de protocolo (`if (cleanLiveUrl && !/^https?:\/\//i.test(cleanLiveUrl)) cleanLiveUrl = "https://" + cleanLiveUrl;`).
+  2. **Desacoplamiento de Validación Nativa:** Se cambió `type="url"` a `type="text"` en `clientLiveUrl`, se añadió `novalidate` al `<form id="clientForm">` y se asignó `onclick="saveClient(event)"` explícito al botón `#modalSaveClientBtn`.
+  3. **Manejo Seguro de Errores con Toast:** Se envolvió `saveClient` en un bloque `try / catch` con notificación `showToast(...)` para que cualquier fallo futuro informe inmediatamente al usuario en lugar de fallar en silencio.
+  4. **Auditoría Completa de Botones del Modal:**
+     - **Auto-Escanear (`#autoScanBtn`):** Valida URL, consulta API de metadatos Microlink con fallback heurístico y llena automáticamente Nombre, Categoría y Alcance.
+     - **Cancelar / Cerrar (`#modalCloseBtn`, `#modalCancelBtn`):** Ejecutan `closeClientModal()` y limpian el formulario y las acciones de peligro.
+     - **Archivar Cliente (`#modalArchiveClientBtn`):** Alterna el estado activo/archivado del cliente actual con toast de confirmación.
+     - **Eliminar Cliente (`#modalDeleteClientBtn`):** Solicita confirmación explícita, elimina el registro y sincroniza Supabase y localStorage.
+     - **Seleccionar / Deseleccionar Todos los Servicios (`#modalToggleAllServicesBtn`):** Conmuta masivamente los 7 checkboxes de alcance contratado.
+  5. **Ampliación de Suite a 16 Pruebas:** Se añadió el `Test 16` en `scratch/test_suite.js` simulando la ejecución completa del guardado y verificación de actualización de clientes. 16/16 pruebas unitarias pasando al 100%.
+- **Regla MBOS Extraída:** En formularios web críticos, nunca depender de la validación nativa `type="url"` sin sanitización en JS; y toda función transaccional de guardado debe estar encapsulada en `try/catch` con feedback visual al usuario.

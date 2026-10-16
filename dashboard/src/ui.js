@@ -70,9 +70,13 @@ export function showToast(msg, type = 'info') {
   toast.innerHTML = `${icon} <span>${escapeHtml(msg)}</span>`;
   container.appendChild(toast);
 
-  requestAnimationFrame(() => {
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-y-2', 'opacity-0');
+    });
+  } else {
     toast.classList.remove('translate-y-2', 'opacity-0');
-  });
+  }
 
   setTimeout(() => {
     toast.classList.add('opacity-0', 'translate-y-2');

@@ -942,36 +942,49 @@ export function closeClientModal() {
 
 export function saveClient(e) {
   if (e && e.preventDefault) e.preventDefault();
-  const id = document.getElementById("clientId")?.value || "";
-  const name = document.getElementById("clientName")?.value.trim() || "";
-  const category = document.getElementById("clientCategory")?.value.trim() || "";
-  const liveUrl = document.getElementById("clientLiveUrl")?.value.trim() || "";
-  const platform = document.getElementById("clientPlatform")?.value.trim() || "";
-  const contactPerson = document.getElementById("clientContact")?.value.trim() || "";
-  const phone = document.getElementById("clientPhone")?.value.trim() || "";
-  const email = document.getElementById("clientEmail")?.value.trim() || "";
-  const status = document.getElementById("clientStatus")?.value || "active";
-  const fee = document.getElementById("clientFee")?.value.trim() || "";
-  const renewalDate = document.getElementById("clientRenewal")?.value || "";
-  const notes = document.getElementById("clientNotes")?.value.trim() || "";
+  try {
+    const id = document.getElementById("clientId")?.value || "";
+    const name = document.getElementById("clientName")?.value.trim() || "";
+    const category = document.getElementById("clientCategory")?.value.trim() || "";
+    const liveUrl = document.getElementById("clientLiveUrl")?.value.trim() || "";
+    const platform = document.getElementById("clientPlatform")?.value.trim() || "";
+    const repoUrl = document.getElementById("clientRepo")?.value.trim() || "";
+    const contactPerson = document.getElementById("clientContact")?.value.trim() || "";
+    const phone = document.getElementById("clientPhone")?.value.trim() || "";
+    const email = document.getElementById("clientEmail")?.value.trim() || "";
+    const status = document.getElementById("clientStatus")?.value || "active";
+    const fee = document.getElementById("clientFee")?.value.trim() || "";
+    const renewalDate = document.getElementById("clientRenewal")?.value || "";
+    const notes = document.getElementById("clientNotes")?.value.trim() || "";
 
-  const contractedServices = Array.from(document.querySelectorAll('input[name="contractedService"]:checked')).map(cb => cb.value);
-  const finalContracted = contractedServices.length > 0 
-    ? contractedServices 
-    : ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "cloud_maintenance"];
-
-  const today = new Date().toISOString().split('T')[0];
-
-  if (id) {
-    const index = state.clients.findIndex(c => c.id === id);
-    if (index !== -1) {
-      state.clients[index] = {
-        ...state.clients[index],
-        name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
-        contractedServices: finalContracted
-      };
+    if (!name) {
+      showToast("Por favor introduce el nombre comercial del cliente", "error");
+      document.getElementById("clientName")?.focus();
+      return;
     }
-  } else {
+
+    let cleanLiveUrl = liveUrl;
+    if (cleanLiveUrl && !/^https?:\/\//i.test(cleanLiveUrl)) {
+      cleanLiveUrl = "https://" + cleanLiveUrl;
+    }
+
+    const contractedServices = Array.from(document.querySelectorAll('input[name="contractedService"]:checked')).map(cb => cb.value);
+    const finalContracted = contractedServices.length > 0 
+      ? contractedServices 
+      : ["web_conversion", "google_maps_gbp", "whatsapp_social_cards", "cloud_maintenance"];
+
+    const today = new Date().toISOString().split('T')[0];
+
+    if (id) {
+      const index = state.clients.findIndex(c => c.id === id);
+      if (index !== -1) {
+        state.clients[index] = {
+          ...state.clients[index],
+          name, category, liveUrl: cleanLiveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
+          contractedServices: finalContracted
+        };
+      }
+    } else {
     let initialScore = 70;
     let initialLatency = 350;
     let initialTasks = [
@@ -1085,14 +1098,18 @@ export function saveClient(e) {
   renderClients();
   updateKpis();
 
-  if (window.renderClientDrilldown) {
+  if (typeof window !== "undefined" && window.renderClientDrilldown) {
     window.renderClientDrilldown();
   }
 
-  if (liveUrl) {
-    pingSingleClient(id || state.clients[0].id);
+    if (cleanLiveUrl) {
+      pingSingleClient(id || state.clients[0].id);
+    }
+    showToast(`Cliente "${name}" guardado exitosamente`, 'success');
+  } catch (err) {
+    console.error("[saveClient] Error guardando cliente:", err);
+    showToast(`Error al guardar: ${err.message}`, 'error');
   }
-  showToast(`Cliente "${name}" guardado exitosamente`, 'success');
 }
 
 export function deleteClient(id) {

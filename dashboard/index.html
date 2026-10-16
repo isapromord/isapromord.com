@@ -2955,7 +2955,7 @@
         </button>
       </div>
 
-      <form id="clientForm" onsubmit="saveClient(event)" class="flex flex-col flex-1 overflow-hidden min-h-0 m-0">
+      <form id="clientForm" novalidate onsubmit="saveClient(event)" class="flex flex-col flex-1 overflow-hidden min-h-0 m-0">
         <!-- Cuerpo con scroll interno independiente -->
         <div class="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1">
           <input type="hidden" id="clientId" value="" />
@@ -2976,9 +2976,8 @@
             <div class="relative flex-1">
               <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-mono text-xs">🌐</span>
               <input 
-                type="url" 
+                type="text" 
                 id="clientLiveUrl" 
-                required 
                 placeholder="https://ejemplo.com o www.cliente.com" 
                 class="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-mono focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 focus:outline-none bg-[#06080d] text-white placeholder-slate-500 shadow-inner" 
               />
@@ -3131,7 +3130,7 @@
           </div>
           <div class="flex items-center justify-end gap-3 ml-auto">
             <button type="button" onclick="closeClientModal()" class="px-4 py-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 font-bold text-sm transition-colors cursor-pointer">Cancelar</button>
-            <button type="submit" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">Guardar Cliente</button>
+            <button type="submit" onclick="saveClient(event)" id="modalSaveClientBtn" class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm shadow-md shadow-cyan-500/25 active:scale-[0.98] transition-all cursor-pointer">Guardar Cliente</button>
           </div>
         </div>
       </form>
@@ -4497,7 +4496,7 @@
   <!-- ========================================================
        ARQUITECTURA MODULAR ES MODULES (V2.0 HIGH PERFORMANCE)
        ======================================================== -->
-  <script type="module" src="./src/main.js?v=2.3.3"></script>
+  <script type="module" src="./src/main.js?v=2.3.4"></script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 

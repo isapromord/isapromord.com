@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-16 (v2.2.8: Protocolo de Cero-Simulación & Botón Google PageSpeed Oficial)  
+> **Última Actualización:** 2026-10-16 (v2.2.9: Arquitectura Anti-Overflow en Modal de Clientes)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,18 +13,17 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 15/15 pruebas unitarias pasando al 100%, cachebuster v2.3.2 activo.
+> **Estado del Sistema:** 100% en línea, 15/15 pruebas unitarias pasando al 100%, cachebuster v2.3.3 activo.
 
 ---
 
-### Hitos Completados en v2.2.8 (2026-10-16):
-1. **Calibración Ética de Pilares (Protocolo Cero-Simulación):**
-   - **Agente IA WhatsApp (Pilar 5):** Un link `wa.me` manual ya no da 15/15 fraudulentos; otorga **6/15 pts** (atención manual sujeta a disponibilidad). Los 15/15 requieren automatización IA activa.
-   - **Google Maps GBP (Pilar 2):** Los Schemas y Geo Tags on-page otorgan **12/15 pts** (base técnica lista). Los 15/15 requieren verificación de perfil off-page.
-   - **Web Móvil & Tailwind CDN (Pilar 1):** Detecta `cdn.tailwindcss.com` y otorga **10/15 pts** con recomendación de compilar CSS para optimizar PageSpeed móvil.
-2. **Botón Google PageSpeed Insights Oficial:**
-   - Botón interactivo `⚡ PageSpeed Móvil (Google) ↗` integrado en la barra de acciones de la auditoría para abrir en vivo el análisis oficial de Google.
-3. **Redefinición Transparente del Auditor:**
-   - Renombrado a **"Auditoría de Infraestructura Técnica & Preparación Digital (Pre-Flight Check)"** con badge de Preparación Técnica.
-4. **Pruebas Automatizadas:**
-   - 15/15 pruebas unitarias en `scratch/test_suite.js` pasando al 100%, verificando que la página de la agencia puntúa honestamente 83/100 en crudo y 100/100 con la suite completa verificada.
+### Hitos Completados en v2.2.9 (2026-10-16):
+1. **Solución Definitiva de Viewport Overflow en Modal de Clientes (`#clientModal`):**
+   - Problema: En pantallas estándar, el modal excedía la altura del viewport (`>950px`), empujando el header hacia arriba fuera de pantalla y el footer (botón "Guardar Cliente") hacia abajo fuera de la vista.
+   - Solución de Arquitectura:
+     - Diálogo restringido a `max-h-[92vh] flex flex-col`.
+     - Header fijado (`shrink-0`) con título y botón de cierre visible en todo momento.
+     - Cuerpo con scroll interno independiente (`overflow-y-auto flex-1`), conteniendo todos los campos, auto-scanner, notas y matriz de alcance contratado.
+     - Footer fijado (`shrink-0`) con botones de acción ("Guardar Cliente", "Cancelar", "Archivar", "Eliminar") accesibles de inmediato sin necesidad de scroll vertical para guardar.
+2. **Pruebas Automatizadas:**
+   - 15/15 pruebas unitarias en `scratch/test_suite.js` pasando al 100%.

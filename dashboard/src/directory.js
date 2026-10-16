@@ -837,6 +837,10 @@ export function openNewClientModal() {
   if (modal) {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+    modal.style.display = "flex";
+    modal.scrollTop = 0;
+    const bodyScroll = modal.querySelector(".overflow-y-auto");
+    if (bodyScroll) bodyScroll.scrollTop = 0;
   }
   const urlIn = document.getElementById("clientLiveUrl");
   if (urlIn) urlIn.focus();
@@ -919,6 +923,8 @@ export function editClient(id) {
     modal.classList.add("flex");
     modal.style.display = "flex";
     modal.scrollTop = 0;
+    const bodyScroll = modal.querySelector(".overflow-y-auto");
+    if (bodyScroll) bodyScroll.scrollTop = 0;
   }
 }
 

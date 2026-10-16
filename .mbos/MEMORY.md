@@ -1357,3 +1357,13 @@
   5. **Verificación Automatizada en Test Suite:**
      - Test 14 actualizado en `scratch/test_suite.js`: el análisis crudo de `index.html` reporta fielmente **83/100**, y alcanza **100/100** únicamente tras verificar la compilación CSS, el agente IA y la ficha GBP.
      - 15/15 pruebas pasando con cero simulaciones.
+
+## [2026-10-16] - Arquitectura Anti-Overflow en Modal de Clientes (Sticky Header & Pinned Footer)
+- **Problema de UX Detectado:** Al incorporar los checkboxes de Alcance Contratado, el modal de creación y edición de clientes (`#clientModal`) superaba la altura vertical del viewport (`>950px`). Debido al centrado `items-center` de Flexbox, el cuadro se desplazaba hacia coordenadas negativas superiores e inferiores, dejando inaccesibles la barra de título superior y los botones inferiores de "Guardar Cliente".
+- **Solución de Arquitectura Aplicada:**
+  1. **Restricción de Altura:** Contenedor del diálogo configurado con `max-h-[92vh] flex flex-col overflow-hidden` y margen vertical `my-auto`.
+  2. **Header Fijo:** Sección superior fijada con `shrink-0` y fondo con blur (`bg-[#0b0f17]/95 backdrop-blur-sm`), manteniendo siempre visible el título y el botón de cierre "X".
+  3. **Cuerpo con Scroll Independiente:** Contenedor del formulario con `overflow-y-auto flex-1`, permitiendo deslizar suavemente todos los campos de texto, auto-escáner, checkboxes y notas.
+  4. **Footer Fijo de Acciones:** Barra inferior fijada con `shrink-0` (`bg-[#090d16]/95 backdrop-blur-sm`), permitiendo guardar los cambios o cancelar en 1 clic de forma permanente sin necesidad de hacer scroll hasta el final.
+  5. **Restablecimiento de Scroll:** Al invocar `openNewClientModal` o `editClient`, se resetea automáticamente el `scrollTop = 0` tanto del overlay como del cuerpo interno.
+- **Regla MBOS Extraída:** Todo modal interactivo complejo con formularios extensos debe estructurarse obligatoriamente bajo el patrón de 3 capas: Header Fijo (`shrink-0`), Cuerpo Desplazable (`overflow-y-auto flex-1`) y Footer Fijo (`shrink-0`), asegurando que los botones de acción nunca queden ocultos fuera de la pantalla.

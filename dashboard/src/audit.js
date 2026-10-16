@@ -7,6 +7,7 @@
 import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud } from './sync.js';
 import { openNewClientModal, openClientDrawer } from './directory.js';
+import { showToast } from './ui.js';
 
 export function openDirectAuditModal() {
   state.currentAuditClient = null;
@@ -1232,4 +1233,102 @@ export function convertAuditToClientWithPrefill() {
   if (feedback) feedback.classList.add("hidden");
   if (nameInput) nameInput.focus();
 }
+
+export function createProposalFromAudit() {
+  if (!state.currentAuditResults) {
+    showToast("Ejecuta primero una auditoría para cotizar sus hallazgos", "warning");
+    return;
+  }
+
+  const res = state.currentAuditResults;
+  const url = res.url || state.currentAuditUrl;
+  let domain = "";
+  try {
+    domain = new URL(url).hostname;
+  } catch (e) {
+    domain = (url || "").replace(/^https?:\/\//, '').split('/')[0];
+  }
+
+  let clientName = state.currentAuditClient ? state.currentAuditClient.name : "";
+  if (!clientName) {
+    if (res.meta && res.meta.publisher && !res.meta.publisher.includes(".") && res.meta.publisher.length > 2) {
+      clientName = res.meta.publisher;
+    } else if (res.meta && res.meta.title) {
+      const parts = res.meta.title.split(/[|\-—–•]/).map(p => p.trim()).filter(Boolean);
+      if (parts.length > 0) clientName = parts[0];
+    }
+    if (!clientName || clientName.length < 2) {
+      clientName = domain.replace(/^www\./, '').split('.')[0];
+      clientName = clientName ? clientName.charAt(0).toUpperCase() + clientName.slice(1) : "Prospecto Auditado";
+    }
+  }
+
+  const combinedText = ((res.meta?.title || "") + " " + (res.meta?.description || "")).toLowerCase();
+  let detectedCat = state.currentAuditClient?.category || "Servicios Profesionales";
+  if (!state.currentAuditClient?.category) {
+    if (/apartamento|torre|inmueble|bienes ra[íi]ces|realty|penthouse|residencial/i.test(combinedText)) {
+      detectedCat = "Bienes Raíces & Inmobiliaria";
+    } else if (/veterinari|pecuari|ganader|agrop|finca|animal/i.test(combinedText)) {
+      detectedCat = "Agropecuaria & Tienda Online";
+    } else if (/dent|odont|cl[íi]nic|m[ée]dic|salud|doctor|est[ée]tic/i.test(combinedText)) {
+      detectedCat = "Salud & Especialidades Médicas";
+    } else if (/restauran|caf[ée]|comida|bar|gourmet|pizza/i.test(combinedText)) {
+      detectedCat = "Gastronomía & Restaurante";
+    }
+  }
+
+  closeServicesAuditModal();
+  if (window.switchDashboardTab) {
+    window.switchDashboardTab('proposals');
+  }
+
+  const select = document.getElementById("proposalClientSelect");
+  const customInput = document.getElementById("proposalClientCustom");
+  const catInput = document.getElementById("proposalCategory");
+  const phoneInput = document.getElementById("proposalClientPhone");
+
+  if (select) {
+    const matched = state.clients.find(c => c.name.toLowerCase() === clientName.toLowerCase());
+    if (matched) {
+      select.value = matched.name;
+      if (customInput) customInput.classList.add("hidden");
+      if (phoneInput) phoneInput.value = matched.phone || "";
+    } else {
+      select.value = "__custom__";
+      if (customInput) {
+        customInput.classList.remove("hidden");
+        customInput.value = clientName;
+      }
+    }
+  }
+  if (catInput) catInput.value = detectedCat;
+
+  // Pre-seleccionar servicios según las brechas reales detectadas en la auditoría
+  const gaps = (res.services || []).filter(s => s.status !== 'passed');
+  const recommendedAddonIds = new Set(['srv-hosting']);
+  gaps.forEach(g => {
+    const id = (g.id || '').toLowerCase();
+    const title = (g.title || '').toLowerCase();
+    if (id.includes('web') || title.includes('landing') || title.includes('conversión')) recommendedAddonIds.add('srv-landing');
+    if (id.includes('maps') || title.includes('maps') || title.includes('gbp')) {
+      recommendedAddonIds.add('srv-gbp-setup');
+      recommendedAddonIds.add('srv-gbp-monthly');
+    }
+    if (id.includes('seo') || id.includes('geo') || id.includes('whatsapp_cards') || title.includes('seo') || title.includes('ia')) {
+      recommendedAddonIds.add('srv-seo-geo');
+    }
+    if (id.includes('agent') || title.includes('agente') || title.includes('whatsapp 24/7')) {
+      recommendedAddonIds.add('srv-wa-bot');
+      recommendedAddonIds.add('srv-wa-maint');
+    }
+  });
+
+  if (window.applyAuditPreselectionToProposal) {
+    window.applyAuditPreselectionToProposal(Array.from(recommendedAddonIds));
+  }
+
+  showToast(`📝 Cotizador preparado con los hallazgos técnicos de ${clientName}`, "success");
+  window.scrollTo({ top: 100, behavior: 'smooth' });
+}
+
 

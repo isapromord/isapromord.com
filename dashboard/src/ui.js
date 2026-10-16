@@ -519,7 +519,9 @@ export function switchDashboardTab(tab, pushToHistory = true) {
 
   if (pushToHistory) {
     try {
-      const newHash = tab === 'clients' ? (state.clientViewScreenMode === 'drilldown' ? `#client-${state.currentDrilldownClientId}` : '#directorio') : `#${tab}`;
+      const cid = state.currentDrilldownClientId || '';
+      const clientHash = cid.startsWith('client-') ? `#${cid}` : `#client-${cid}`;
+      const newHash = tab === 'clients' ? (state.clientViewScreenMode === 'drilldown' ? clientHash : '#directorio') : `#${tab}`;
       if (window.location.hash !== newHash) {
         history.pushState({ isDashboardSpa: true, tab: tab, mode: state.clientViewScreenMode, clientId: state.currentDrilldownClientId }, '', newHash);
       }
@@ -583,7 +585,13 @@ export function restoreRouteFromHash() {
   }
 
   if (hash.startsWith('#client-')) {
-    const clientId = hash.replace('#', '');
+    let clientId = hash.replace(/^#/, '').replace(/^client-client-/, 'client-');
+    // Match against existing client IDs if someone passed a slug without 'client-'
+    if (state.clients && state.clients.length > 0 && !state.clients.some(c => c.id === clientId)) {
+      const stripped = clientId.replace(/^client-/, '');
+      const found = state.clients.find(c => c.id === stripped || c.id === `client-${stripped}`);
+      if (found) clientId = found.id;
+    }
     if (clientId) {
       switchDashboardTab('clients', false);
       if (window.selectClientDrilldown) {

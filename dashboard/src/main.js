@@ -12,6 +12,7 @@ import {
   syncClientToCloud, 
   deleteClientFromCloud, 
   manualTriggerCloudSync,
+  syncVaultToCloud,
   supabaseClient 
 } from './sync.js';
 import { 
@@ -84,6 +85,7 @@ import {
   renderProposalAddonsList,
   handlePackageSelect,
   toggleProposalAddon,
+  applyAuditPreselectionToProposal,
   updateProposalTotals,
   handleGenerateProposal,
   closeProposalResultModal,
@@ -226,13 +228,15 @@ import {
   openDirectAuditModal,
   triggerQuickAuditFromHeader,
   quickSaveAuditAsClient,
-  convertAuditToClientWithPrefill
+  convertAuditToClientWithPrefill,
+  createProposalFromAudit
 } from './audit.js';
 import {
   openContractEditorModal,
   closeContractEditorModal,
   openNewContractForClient,
   createContractFromProposal,
+  recordContractDepositInCfo,
   addContractServiceRow,
   removeContractServiceRow,
   recalcContractAmounts,
@@ -288,6 +292,7 @@ const windowBridge = {
   // Sync
   manualTriggerCloudSync,
   saveClientsToStorage,
+  syncVaultToCloud,
 
   // Directory & Clients
   setClientViewMode,
@@ -358,6 +363,8 @@ const windowBridge = {
   initProposalBuilder,
   handlePackageSelect,
   toggleProposalAddon,
+  applyAuditPreselectionToProposal,
+  renderProposalsHistory,
   handleProposalClientSelect,
   handleGenerateProposal,
   closeProposalResultModal,
@@ -385,6 +392,7 @@ const windowBridge = {
   closeContractEditorModal,
   openNewContractForClient,
   createContractFromProposal,
+  recordContractDepositInCfo,
   addContractServiceRow,
   removeContractServiceRow,
   recalcContractAmounts,
@@ -410,8 +418,10 @@ const windowBridge = {
   triggerQuickAuditFromHeader,
   quickSaveAuditAsClient,
   convertAuditToClientWithPrefill,
+  createProposalFromAudit,
 
   // Accounting & Ledger
+  loadAccountingData,
   openManualTransactionModal,
   closeManualTransactionModal,
   openEditTransactionModal,
@@ -466,16 +476,35 @@ const windowBridge = {
 // Mount all handlers onto global `window`
 Object.assign(window, windowBridge);
 
+// Expose reactive state getters on `window` for inline HTML handlers (e.g., onclick="openProposalForClient(currentDrilldownClientId)")
+Object.defineProperties(window, {
+  currentDrilldownClientId: {
+    get: () => state.currentDrilldownClientId,
+    set: (v) => { state.currentDrilldownClientId = v; },
+    configurable: true
+  },
+  currentDrawerClientId: {
+    get: () => state.currentDrawerClientId,
+    set: (v) => { state.currentDrawerClientId = v; },
+    configurable: true
+  },
+  currentRoadmapClientId: {
+    get: () => state.currentRoadmapClientId,
+    set: (v) => { state.currentRoadmapClientId = v; },
+    configurable: true
+  }
+});
+
 // Expose state and module API to `window.ISAPromo` for developer inspection and testing
 window.ISAPromo = {
   state,
   modules: {
-    sync: { initCloudSync, syncAllClientsToCloud, syncClientToCloud },
+    sync: { initCloudSync, syncAllClientsToCloud, syncClientToCloud, syncVaultToCloud },
     directory: { renderClients, filterClients },
     drilldown: { renderClientDrilldown, selectClientDrilldown },
-    contracts: { openContractEditorModal, createContractFromProposal },
-    audit: { runServicesAudit, quickSaveAuditAsClient },
-    proposals: { initProposalBuilder, handleGenerateProposal },
+    contracts: { openContractEditorModal, createContractFromProposal, recordContractDepositInCfo },
+    audit: { runServicesAudit, quickSaveAuditAsClient, createProposalFromAudit },
+    proposals: { initProposalBuilder, handleGenerateProposal, applyAuditPreselectionToProposal },
     accounting: { loadAccountingData, addAccountingTransaction },
     uptime: { pingAllClients, checkUrlUptime }
   }

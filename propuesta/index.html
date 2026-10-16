@@ -1361,11 +1361,11 @@ ${selectedList.join('\n')}
 Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo con ISAPromoRD.`;
       }
 
-      // Sincronizar selección aprobada por el cliente en almacenamiento local
+      // Sincronizar selección aprobada por el cliente en almacenamiento local y en la Nube (Supabase)
         try {
           if (proposal && proposal.id) {
             const storedKey = "proposal_" + proposal.id;
-            const currentData = JSON.parse(localStorage.getItem(storedKey) || "{}");
+            const currentData = JSON.parse(localStorage.getItem(storedKey) || JSON.stringify(proposal || {}));
             currentData.status = "approved";
             currentData.approvedOption = chosenOption;
             currentData.approvedAt = new Date().toISOString();
@@ -1381,6 +1381,61 @@ Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo c
               currentData.proposalMonthly = proposal.alacarteTotals ? proposal.alacarteTotals.monthly : sList.filter(s => s.type === 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
             }
             localStorage.setItem(storedKey, JSON.stringify(currentData));
+
+            // Actualizar también el listado local de historial si está en el mismo navegador
+            try {
+              const histRaw = localStorage.getItem("isapromo_agency_proposals_v1");
+              if (histRaw) {
+                const histList = JSON.parse(histRaw);
+                const hIdx = histList.findIndex(h => h && h.id === proposal.id);
+                if (hIdx !== -1) {
+                  histList[hIdx].status = "approved";
+                  histList[hIdx].approvedAt = currentData.approvedAt;
+                  localStorage.setItem("isapromo_agency_proposals_v1", JSON.stringify(histList));
+                }
+              }
+            } catch (errHist) {}
+
+            // Sincronizar aprobación en la Bóveda Cloud de Supabase para que se refleje en cualquier dispositivo
+            const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+            const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
+            fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
+              headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+            }).then(r => r.ok ? r.json() : []).then(rows => {
+              let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
+              if (rows && rows[0] && rows[0].optimization_matrix) {
+                vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
+              }
+              if (!vaultMatrix.proposalPayloads) vaultMatrix.proposalPayloads = {};
+              vaultMatrix.proposalPayloads[proposal.id] = currentData;
+              if (Array.isArray(vaultMatrix.proposals)) {
+                const pIdx = vaultMatrix.proposals.findIndex(p => p && p.id === proposal.id);
+                if (pIdx !== -1) {
+                  vaultMatrix.proposals[pIdx].status = "approved";
+                  vaultMatrix.proposals[pIdx].approvedAt = currentData.approvedAt;
+                }
+              }
+              vaultMatrix.updatedAt = new Date().toISOString();
+              return fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Prefer": "resolution=merge-duplicates",
+                  apikey: SUPABASE_ANON_KEY,
+                  Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+                },
+                body: JSON.stringify({
+                  id: SYSTEM_VAULT_ID,
+                  name: "ISAPromoRD System Vault",
+                  category: "System Vault",
+                  status: "archived",
+                  live_url: "",
+                  optimization_matrix: vaultMatrix,
+                  updated_at: new Date().toISOString()
+                })
+              });
+            }).catch(() => {});
           }
         } catch (e) {}
 

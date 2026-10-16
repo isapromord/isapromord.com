@@ -427,6 +427,9 @@
        ======================================================== -->
   <script>
     const STORAGE_KEY_CONTRACTS = "isapromord_contracts_v1";
+    const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+    const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
 
     let contract = null;
     let canvas = null;
@@ -440,12 +443,12 @@
       loadContractData();
     });
 
-    // Cargar contrato desde URL o localStorage
-    function loadContractData() {
+    // Cargar contrato desde URL, localStorage o Supabase Cloud Vault
+    async function loadContractData() {
       // 1. Intentar cargar desde URL Hash (Base64 codificado o ID)
       const hash = window.location.hash ? window.location.hash.substring(1) : "";
       const searchParams = new URLSearchParams(window.location.search);
-      const contractId = searchParams.get("id") || hash;
+      const contractId = searchParams.get("id") || (hash.length <= 50 ? hash : "");
 
       // Primero chequear si viene Base64 JSON en el hash
       if (hash && hash.length > 50) {
@@ -457,10 +460,41 @@
         }
       }
 
-      // Si no cargó por base64, buscar en localStorage por ID
-      if (!contract && contractId) {
-        const storedList = getStoredContracts();
-        contract = storedList.find(c => c.id === contractId || c.contractNumber === contractId);
+      // Si también existe en localStorage firmado, priorizar el firmado
+      const storedList = getStoredContracts();
+      const targetId = (contract && contract.id) || contractId;
+      if (targetId) {
+        const localFound = storedList.find(c => c.id === targetId || c.contractNumber === targetId);
+        if (localFound) {
+          if (!contract || localFound.status === 'signed') {
+            contract = localFound;
+          }
+        }
+      }
+
+      // Consultar la Bóveda Cloud en Supabase por si ya fue firmado desde otro dispositivo
+      if (targetId) {
+        try {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+            }
+          });
+          if (res.ok) {
+            const rows = await res.json();
+            const vault = rows && rows[0] && rows[0].optimization_matrix;
+            if (vault && Array.isArray(vault.contracts)) {
+              const cloudContract = vault.contracts.find(c => c.id === targetId || c.contractNumber === targetId);
+              if (cloudContract && (!contract || cloudContract.status === 'signed')) {
+                contract = cloudContract;
+                saveContractLocally(contract, false);
+              }
+            }
+          }
+        } catch (err) {
+          console.warn("Aviso al verificar estado cloud del contrato:", err);
+        }
       }
 
       // Si aún no hay contrato, usar plantilla por defecto de demostración
@@ -518,7 +552,55 @@
       }
     }
 
-    function saveContractLocally(c) {
+    async function syncSignedContractToSupabase(signedContract) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
+          headers: {
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        });
+        let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
+        if (res.ok) {
+          const rows = await res.json();
+          if (rows && rows[0] && rows[0].optimization_matrix) {
+            vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
+          }
+        }
+        const contractsList = Array.isArray(vaultMatrix.contracts) ? vaultMatrix.contracts : [];
+        const idx = contractsList.findIndex(c => c && c.id === signedContract.id);
+        if (idx !== -1) {
+          contractsList[idx] = signedContract;
+        } else {
+          contractsList.unshift(signedContract);
+        }
+        vaultMatrix.contracts = contractsList;
+        vaultMatrix.updatedAt = new Date().toISOString();
+
+        await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates",
+            apikey: SUPABASE_ANON_KEY,
+            Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({
+            id: SYSTEM_VAULT_ID,
+            name: "ISAPromoRD System Vault",
+            category: "System Vault",
+            status: "archived",
+            live_url: "",
+            optimization_matrix: vaultMatrix,
+            updated_at: new Date().toISOString()
+          })
+        });
+      } catch (err) {
+        console.warn("Error sincronizando firma en la nube:", err);
+      }
+    }
+
+    function saveContractLocally(c, syncCloud = true) {
       const list = getStoredContracts();
       const idx = list.findIndex(item => item.id === c.id);
       if (idx !== -1) {
@@ -527,6 +609,9 @@
         list.unshift(c);
       }
       localStorage.setItem(STORAGE_KEY_CONTRACTS, JSON.stringify(list));
+      if (syncCloud) {
+        syncSignedContractToSupabase(c);
+      }
     }
 
     // Renderizar los datos en el documento legal

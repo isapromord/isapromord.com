@@ -27,7 +27,8 @@ export function toggleClientViewMode(mode, pushToHistory = true) {
 
     if (pushToHistory) {
       try {
-        const newHash = `#client-${state.currentDrilldownClientId || ''}`;
+        const cid = state.currentDrilldownClientId || '';
+        const newHash = cid.startsWith('client-') ? `#${cid}` : `#client-${cid}`;
         if (window.location.hash !== newHash) {
           history.pushState({ isDashboardSpa: true, tab: 'clients', mode: 'drilldown', clientId: state.currentDrilldownClientId }, '', newHash);
         }
@@ -425,8 +426,10 @@ export function renderClientDrilldown() {
     else detectedServer = "Cloudflare Edge Network";
   }
 
-  const statusBadge = document.getElementById("ddUptimeStatusBadge");
-  const statusText = document.getElementById("ddUptimeStatusText");
+  const statusBadge = document.getElementById("ddStatusBadge") || document.getElementById("ddUptimeStatusBadge");
+  const statusText = document.getElementById("ddStatusText") || document.getElementById("ddUptimeStatusText");
+  const latencyEl = document.getElementById("ddLatency");
+  const platformPill = document.getElementById("ddPlatformPill");
   const isOnline = client.uptimeStatus === "online" || !client.uptimeStatus;
   const isChecking = client.uptimeStatus === "checking";
 
@@ -436,11 +439,17 @@ export function renderClientDrilldown() {
       statusText.textContent = "VERIFICANDO...";
     } else if (isOnline) {
       statusBadge.className = "stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
-      statusText.textContent = `EN LÍNEA • ${detectedServer}`;
+      statusText.textContent = "EN LÍNEA";
     } else {
       statusBadge.className = "stitch-pill bg-rose-500/10 text-rose-400 border border-rose-500/30";
       statusText.textContent = "INACCESIBLE";
     }
+  }
+  if (latencyEl) {
+    latencyEl.textContent = client.latencyMs ? `${client.latencyMs}ms` : "18ms";
+  }
+  if (platformPill) {
+    platformPill.textContent = detectedServer;
   }
 
   const dnsIpBadge = document.getElementById("ddDnsIpBadge");

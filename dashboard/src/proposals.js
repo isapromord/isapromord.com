@@ -4,7 +4,7 @@
  * and seamless bridging into the 50/50 contracts generator.
  */
 import { state, STORAGE_KEYS, PROPOSAL_BASE_PACKAGES, PROPOSAL_ADDONS } from './state.js';
-import { supabaseClient } from './sync.js';
+import { supabaseClient, syncVaultToCloud } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
 let currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
@@ -391,6 +391,18 @@ export function toggleProposalAddon(id) {
   }
 }
 
+export function applyAuditPreselectionToProposal(addonIds = []) {
+  if (!Array.isArray(addonIds) || addonIds.length === 0) return;
+  const radioNone = document.querySelector('input[name="basePkg"][value="pack-none"]');
+  if (radioNone) radioNone.checked = true;
+  currentProposalAddons.forEach(a => {
+    a.checked = addonIds.includes(a.id);
+  });
+  renderProposalAddonsList();
+  syncPackageCustomizerUI();
+  updateProposalTotals();
+}
+
 export function updateProposalTotals() {
   let alacarteSetup = 0;
   let alacarteMonthly = 0;
@@ -717,6 +729,7 @@ export function saveProposalToHistory(proposal) {
   const list = getStoredProposals();
   list.unshift(proposal);
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
+  syncVaultToCloud();
   renderProposalsHistory();
 }
 
@@ -740,12 +753,17 @@ export function renderProposalsHistory() {
 
   container.innerHTML = list.map(item => {
     const timeFormatted = formatProposalTimestamp(item);
+    const isApproved = item.status === 'approved';
+    const statusBadge = isApproved
+      ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">🟢 Aprobada por Cliente</span>`
+      : '';
 
     return `
-      <div class="stitch-card bg-[#101726] p-4 rounded-md border border-slate-800/80 hover:border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors group">
+      <div class="stitch-card bg-[#101726] p-4 rounded-md border ${isApproved ? 'border-emerald-500/40' : 'border-slate-800/80'} hover:border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors group">
         <div class="space-y-1 min-w-0">
           <div class="flex items-center gap-2 flex-wrap">
             <strong class="text-white font-bold text-sm stitch-title truncate">${escapeHtml(item.clientName)}</strong>
+            ${statusBadge}
             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-cyan-500/10 text-cyan-300 border border-cyan-500/25 shrink-0" title="Fecha y hora de generación">
               🕒 ${timeFormatted}
             </span>
@@ -780,6 +798,7 @@ export function deleteProposalWithUndo(propId) {
 
   const [removedProp] = list.splice(index, 1);
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
+  syncVaultToCloud();
   renderProposalsHistory();
 
   if (pendingProposalDeletions.has(propId)) {
@@ -837,6 +856,7 @@ export function undoProposalDelete(propId) {
   const list = getStoredProposals();
   list.splice(pending.index, 0, pending.item);
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
+  syncVaultToCloud();
 
   renderProposalsHistory();
   showToast(`↩️ Propuesta de ${pending.item.clientName} restaurada`, 'success');
@@ -892,7 +912,8 @@ async function saveProposalToCloud(prop) {
 }
 
 export function openProposalForClient(clientId) {
-  const client = state.clients.find(c => c.id === clientId) || state.clients[0];
+  const resolvedId = clientId || state.currentDrilldownClientId || state.currentDrawerClientId;
+  const client = state.clients.find(c => c.id === resolvedId) || state.clients[0];
   if (!client) return;
 
   if (window.switchDashboardTab) window.switchDashboardTab('proposals');

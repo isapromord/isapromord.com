@@ -137,6 +137,8 @@ function normalizeUrlKey(url) {
   }
 }
 
+export const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
+
 export function loadClients() {
   const stored = localStorage.getItem(STORAGE_KEYS.CLIENTS);
   const deletedIds = getDeletedClientIds();
@@ -146,9 +148,9 @@ export function loadClients() {
       state.clients = JSON.parse(stored);
       let updated = false;
 
-      // Filtrar inmediatamente cualquier cliente que haya sido eliminado explícitamente (Tombstones)
+      // Filtrar inmediatamente cualquier cliente que haya sido eliminado explícitamente (Tombstones) o el System Vault
       const prevCount = state.clients.length;
-      state.clients = state.clients.filter(c => c && c.id && !deletedIds.includes(c.id));
+      state.clients = state.clients.filter(c => c && c.id && c.id !== SYSTEM_VAULT_ID && !deletedIds.includes(c.id));
       if (state.clients.length !== prevCount) updated = true;
 
       // Sincronizar clientes oficiales base SOLO si no han sido eliminados por el usuario
@@ -318,9 +320,149 @@ export async function syncAllClientsToCloud() {
     } else {
       updateCloudSyncBadge("synced", `☁️ ${state.clients.length} Clientes en Nube`);
     }
+    await syncVaultToCloud();
   } catch (err) {
     console.warn("[Sync] syncAllClientsToCloud exception:", err);
   }
+}
+
+// Sincronizar Bóveda del Sistema (Contratos 50/50, Propuestas, Libro Contable CFO y Partners) en Supabase
+export async function syncVaultToCloud() {
+  const sb = getSupabaseClient();
+  if (!sb) return false;
+
+  try {
+    const contracts = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTRACTS) || "[]");
+    const proposals = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROPOSALS) || "[]");
+    const accountingLedger = state.accountingLedger && state.accountingLedger.length > 0
+      ? state.accountingLedger
+      : JSON.parse(localStorage.getItem(STORAGE_KEYS.ACCOUNTING) || "[]");
+    const referrals = JSON.parse(localStorage.getItem(STORAGE_KEYS.REFERRALS) || "[]");
+
+    const proposalPayloads = {};
+    proposals.forEach(p => {
+      if (p && p.id) {
+        const raw = localStorage.getItem(`proposal_${p.id}`);
+        if (raw) {
+          try { proposalPayloads[p.id] = JSON.parse(raw); } catch (e) {}
+        }
+      }
+    });
+
+    const vaultRow = {
+      id: SYSTEM_VAULT_ID,
+      name: "ISAPromoRD System Vault",
+      category: "System Vault",
+      status: "archived",
+      live_url: "",
+      optimization_matrix: {
+        isSystemVault: true,
+        updatedAt: new Date().toISOString(),
+        contracts,
+        proposals,
+        proposalPayloads,
+        accountingLedger,
+        referrals
+      },
+      updated_at: new Date().toISOString()
+    };
+
+    await sb.from(SUPABASE_CONFIG.TABLE_CLIENTS).upsert(vaultRow, { onConflict: "id" });
+    return true;
+  } catch (e) {
+    console.warn("[Sync] syncVaultToCloud warning:", e);
+    return false;
+  }
+}
+
+function mergeSystemVaultFromRemote(remoteVaultMatrix) {
+  if (!remoteVaultMatrix || !remoteVaultMatrix.isSystemVault) return false;
+  let hasChanges = false;
+
+  // 1. Merge Contracts (prioritize signed status & signature data from remote client portal)
+  if (Array.isArray(remoteVaultMatrix.contracts)) {
+    const localContracts = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTRACTS) || "[]");
+    const contractMap = new Map();
+    remoteVaultMatrix.contracts.forEach(rc => { if (rc && rc.id) contractMap.set(rc.id, rc); });
+    localContracts.forEach(lc => {
+      if (!lc || !lc.id) return;
+      if (contractMap.has(lc.id)) {
+        const rc = contractMap.get(lc.id);
+        // Si el contrato remoto fue firmado por el cliente en su móvil/PC, preservar la firma remota
+        if (rc.status === 'signed' && lc.status !== 'signed') {
+          contractMap.set(lc.id, rc);
+        } else if (lc.status === 'signed' && rc.status !== 'signed') {
+          contractMap.set(lc.id, lc);
+        } else {
+          contractMap.set(lc.id, { ...rc, ...lc, status: rc.status === 'signed' ? 'signed' : lc.status });
+        }
+      } else {
+        contractMap.set(lc.id, lc);
+      }
+    });
+    const mergedContracts = Array.from(contractMap.values());
+    localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(mergedContracts));
+    hasChanges = true;
+  }
+
+  // 2. Merge Proposals & Proposal Payloads (prioritize approved status from remote client portal)
+  if (remoteVaultMatrix.proposalPayloads && typeof remoteVaultMatrix.proposalPayloads === 'object') {
+    Object.entries(remoteVaultMatrix.proposalPayloads).forEach(([propId, payload]) => {
+      if (propId && payload) {
+        localStorage.setItem(`proposal_${propId}`, JSON.stringify(payload));
+      }
+    });
+  }
+
+  if (Array.isArray(remoteVaultMatrix.proposals)) {
+    const localProposals = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROPOSALS) || "[]");
+    const propMap = new Map();
+    remoteVaultMatrix.proposals.forEach(rp => { if (rp && rp.id) propMap.set(rp.id, rp); });
+    localProposals.forEach(lp => {
+      if (!lp || !lp.id) return;
+      if (propMap.has(lp.id)) {
+        const rp = propMap.get(lp.id);
+        const isApproved = rp.status === 'approved' || lp.status === 'approved';
+        propMap.set(lp.id, {
+          ...rp,
+          ...lp,
+          status: isApproved ? 'approved' : (rp.status || lp.status || 'draft'),
+          approvedAt: rp.approvedAt || lp.approvedAt || null
+        });
+      } else {
+        propMap.set(lp.id, lp);
+      }
+    });
+    const mergedProposals = Array.from(propMap.values());
+    localStorage.setItem(STORAGE_KEYS.PROPOSALS, JSON.stringify(mergedProposals));
+    hasChanges = true;
+  }
+
+  // 3. Merge Accounting Ledger (CFO)
+  if (Array.isArray(remoteVaultMatrix.accountingLedger) && remoteVaultMatrix.accountingLedger.length > 0) {
+    const localLedger = state.accountingLedger && state.accountingLedger.length > 0
+      ? state.accountingLedger
+      : JSON.parse(localStorage.getItem(STORAGE_KEYS.ACCOUNTING) || "[]");
+    const txMap = new Map();
+    remoteVaultMatrix.accountingLedger.forEach(rt => { if (rt && rt.id) txMap.set(rt.id, rt); });
+    localLedger.forEach(lt => { if (lt && lt.id) txMap.set(lt.id, lt); });
+    const mergedLedger = Array.from(txMap.values()).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+    state.accountingLedger = mergedLedger;
+    localStorage.setItem(STORAGE_KEYS.ACCOUNTING, JSON.stringify(mergedLedger));
+    hasChanges = true;
+  }
+
+  // 4. Merge Referrals
+  if (Array.isArray(remoteVaultMatrix.referrals) && remoteVaultMatrix.referrals.length > 0) {
+    const localRefs = JSON.parse(localStorage.getItem(STORAGE_KEYS.REFERRALS) || "[]");
+    const refMap = new Map();
+    remoteVaultMatrix.referrals.forEach(rr => { if (rr && rr.id) refMap.set(rr.id, rr); });
+    localRefs.forEach(lr => { if (lr && lr.id) refMap.set(lr.id, lr); });
+    localStorage.setItem(STORAGE_KEYS.REFERRALS, JSON.stringify(Array.from(refMap.values())));
+    hasChanges = true;
+  }
+
+  return hasChanges;
 }
 
 // Inicializar sincronización en la nube con Fusión Bidireccional Resiliente (Union Merge)
@@ -348,13 +490,25 @@ export async function initCloudSync(renderCallback) {
       const PURGED_CLIENT_IDS = ['client-synkrd', 'client-nextcrmrd', 'client-vet-metropolitana'];
       const deletedIds = getDeletedClientIds();
 
+      // Extraer y sincronizar Bóveda del Sistema (Contratos, Propuestas, CFO, Referidos)
+      const vaultRow = data.find(r => r.id === SYSTEM_VAULT_ID);
+      if (vaultRow && vaultRow.optimization_matrix) {
+        mergeSystemVaultFromRemote(vaultRow.optimization_matrix);
+        if (window.renderProposalsHistory) window.renderProposalsHistory();
+        if (window.loadAccountingData) window.loadAccountingData();
+      } else {
+        // Si aún no existe la bóveda en Supabase, subirla
+        syncVaultToCloud();
+      }
+
       // Purgar de Supabase en segundo plano cualquier registro remoto que haya sido eliminado localmente
-      const toDeleteFromRemote = data.filter(r => deletedIds.includes(r.id) || PURGED_CLIENT_IDS.includes(r.id));
+      const toDeleteFromRemote = data.filter(r => r.id !== SYSTEM_VAULT_ID && (deletedIds.includes(r.id) || PURGED_CLIENT_IDS.includes(r.id)));
       if (toDeleteFromRemote.length > 0) {
         toDeleteFromRemote.forEach(r => deleteClientFromCloud(r.id));
       }
 
       const rawRemote = data
+        .filter(r => r.id !== SYSTEM_VAULT_ID)
         .map(dbRowToClient)
         .filter(c => !PURGED_CLIENT_IDS.includes(c.id) && 
                      !deletedIds.includes(c.id) &&
@@ -373,7 +527,7 @@ export async function initCloudSync(renderCallback) {
       // 2. FUSIONAR clientes locales (Garantía de no pérdida: NUNCA borrar clientes locales que no estén en deletedIds)
       const localOnlyToUpload = [];
       (state.clients || []).forEach(localC => {
-        if (!localC || !localC.id) return;
+        if (!localC || !localC.id || localC.id === SYSTEM_VAULT_ID) return;
         if (PURGED_CLIENT_IDS.includes(localC.id) || deletedIds.includes(localC.id)) return;
 
         if (clientMap.has(localC.id)) {
@@ -458,6 +612,7 @@ export const loadStoredClients = loadClients;
 export async function manualTriggerCloudSync() {
   updateCloudSyncBadge("syncing", "☁️ Sincronizando...");
   await syncAllClientsToCloud();
+  await syncVaultToCloud();
   await initCloudSync();
 }
 

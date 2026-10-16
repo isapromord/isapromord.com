@@ -7,6 +7,8 @@
 
 import { state, STORAGE_KEYS } from './state.js';
 import { showToast, escapeHtml } from './ui.js';
+import { syncVaultToCloud } from './sync.js';
+import { addAccountingTransaction } from './accounting.js';
 
 const pendingContractDeletions = new Map();
 let currentEditingContract = null;
@@ -81,7 +83,45 @@ export function saveContractToStorage(contract) {
     list.unshift(contract);
   }
   localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(list));
+  syncVaultToCloud();
   return contract;
+}
+
+export function recordContractDepositInCfo(contractId) {
+  const list = getStoredContracts();
+  const contract = list.find(c => c.id === contractId);
+  if (!contract) return;
+
+  const deposit = contract.depositAmount !== undefined ? contract.depositAmount : Math.round((contract.totalSetup || 0) * 0.5);
+  if (deposit <= 0) {
+    showToast("Este contrato no tiene un monto de anticipo (Setup) mayor a 0", "warning");
+    return;
+  }
+
+  const todayStr = new Date().toISOString().split('T')[0];
+  addAccountingTransaction({
+    id: "tx-dep-" + Date.now(),
+    clientId: contract.clientId || ("client-ctr-" + Date.now()),
+    clientName: contract.clientName || "Cliente",
+    concept: `Anticipo 50% Setup Inicial — Contrato ${contract.contractNumber || contract.id}`,
+    type: "setup",
+    amount: deposit,
+    date: todayStr,
+    account: "Banco Popular Dominicano",
+    reference: contract.contractNumber || "CTR-50%",
+    notes: `Registrado desde Contrato 50/50 (${contract.clientName})`
+  });
+
+  contract.depositRecordedInCfo = true;
+  saveContractToStorage(contract);
+
+  if (state.currentDrilldownClientId || state.currentRoadmapClientId) {
+    const cid = state.currentRoadmapClientId || state.currentDrilldownClientId;
+    const clientObj = state.clients.find(c => c.id === cid);
+    if (clientObj) renderRoadmapContractsTab(clientObj);
+  }
+
+  showToast(`💵 Anticipo 50% (RD$ ${deposit.toLocaleString('es-DO')}) asentado en el Libro Diario CFO`, "success");
 }
 
 export function generateContractUrl(c) {
@@ -171,12 +211,15 @@ export function renderRoadmapContractsTab(client) {
             <a href="${contractUrl}" target="_blank" class="px-3 py-1.5 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Abrir documento para firma interactiva">
               <span>👁️ Ver / Firmar</span>
             </a>
-            <button onclick="navigator.clipboard.writeText('${contractUrl}'); showToast('Enlace de firma copiado al portapapeles', 'success');" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Copiar enlace de firma">
+            <button onclick="navigator.clipboard.writeText('${fullShareUrl}'); showToast('Enlace público de firma copiado al portapapeles', 'success');" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Copiar enlace público de firma">
               📋 Link
             </button>
             <a href="${waLink}" target="_blank" class="px-3 py-1.5 rounded bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-colors" title="Compartir vía WhatsApp">
               💬 WhatsApp
             </a>
+            <button onclick="recordContractDepositInCfo('${c.id}')" class="px-2.5 py-1.5 rounded ${c.depositRecordedInCfo ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border-amber-500/30'} border text-xs font-bold transition-colors cursor-pointer" title="Registrar anticipo del 50% en el Libro Diario Contable (CFO)">
+              ${c.depositRecordedInCfo ? '✓ 50% en CFO' : '💵 Asentar 50% CFO'}
+            </button>
             <button onclick="openContractEditorModal('${c.id}')" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Editar contrato">
               ✏️
             </button>
@@ -594,6 +637,7 @@ export function deleteContractWithUndo(contractId) {
 
   const [removed] = list.splice(index, 1);
   localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(list));
+  syncVaultToCloud();
 
   if (state.currentDrilldownClientId) {
     const currentClient = state.clients.find(c => c.id === state.currentDrilldownClientId);
@@ -643,6 +687,7 @@ export function undoContractDelete(contractId) {
   const list = getStoredContracts();
   list.unshift(item);
   localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(list));
+  syncVaultToCloud();
 
   if (state.currentDrilldownClientId) {
     const currentClient = state.clients.find(c => c.id === state.currentDrilldownClientId);

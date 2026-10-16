@@ -4,14 +4,14 @@
  * (Banco Popular Dominicano & Banreservas / BHD), transaction exports, and revenue forecasting.
  */
 import { state, STORAGE_KEYS, INITIAL_ACCOUNTING_LEDGER, DEFAULT_BANK_DETAILS } from './state.js';
-import { saveClientsToStorage } from './sync.js';
+import { saveClientsToStorage, syncVaultToCloud } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis } from './ui.js';
 
 export const forecastState = {
-  web: 1,       // RD$ 4,000/m (Setup 25,000)
+  web: 1,       // RD$ 4,500/m (Setup 28,000)
   esencial: 2,  // RD$ 8,000/m (Setup 30,000)
-  crm: 3,       // RD$ 15,000/m (Setup 60,000)
-  ecosistema: 1 // RD$ 22,000/m (Setup 80,000)
+  crm: 3,       // RD$ 14,000/m (Setup 48,000)
+  ecosistema: 1 // RD$ 20,000/m (Setup 75,000)
 };
 
 const getReceivablesTbody = () => document.getElementById("accountingReceivablesTableBody") || document.getElementById("receivablesTableBody");
@@ -57,6 +57,7 @@ export function loadAccountingData() {
 
 export function saveAccountingLedger() {
   localStorage.setItem(STORAGE_KEYS.accounting, JSON.stringify(state.accountingLedger));
+  syncVaultToCloud();
 }
 
 export function addAccountingTransaction(tx) {
@@ -575,10 +576,10 @@ export function adjustForecastPlan(planKey, delta) {
 
 export function updateForecastSimulation() {
   const planPrices = {
-    web: { monthly: 4000, setup: 25000 },
+    web: { monthly: 4500, setup: 28000 },
     esencial: { monthly: 8000, setup: 30000 },
-    crm: { monthly: 15000, setup: 60000 },
-    ecosistema: { monthly: 22000, setup: 80000 }
+    crm: { monthly: 14000, setup: 48000 },
+    ecosistema: { monthly: 20000, setup: 75000 }
   };
 
   let simMrr = 0;

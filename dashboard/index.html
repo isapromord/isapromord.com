@@ -1383,15 +1383,6 @@
             <span>📱 Placa NFC & QR</span>
           </button>
 
-          <!-- Botón Auditoría 360 Completa -->
-          <button 
-            onclick="openDirectAuditModal()" 
-            class="px-3.5 py-2 rounded bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 border border-purple-500/40 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm hover:scale-105"
-            title="Auditar cualquier URL externa o prospecto"
-          >
-            <span>⚡ Auditar URL</span>
-          </button>
-
           <!-- Botón Directo para Crear Propuestas / Cotizaciones -->
           <button 
             onclick="switchDashboardTab('proposals')" 
@@ -2110,7 +2101,7 @@
           <!-- Datos del Prospecto / Cliente -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Cliente o Prospecto *</label>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Cliente o Prospecto *</label>
               <div class="flex gap-2">
                 <select id="proposalClientSelect" onchange="handleProposalClientSelect()" class="flex-1 px-3.5 py-2.5 rounded border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-brand-600 focus:outline-none">
                   <!-- Se llena dinámicamente -->
@@ -2120,12 +2111,12 @@
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Categoría / Sector *</label>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Categoría / Sector *</label>
               <input type="text" id="proposalCategory" required placeholder="Ej: Clínica Dental, Inmobiliaria" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm focus:ring-2 focus:ring-brand-600 focus:outline-none" />
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">WhatsApp del Cliente (Para Enviar)</label>
+              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">WhatsApp del Cliente (Para Enviar)</label>
               <input type="tel" id="proposalClientPhone" placeholder="Ej: 8293961318" class="w-full px-3.5 py-2.5 rounded border border-slate-200 text-sm font-mono focus:ring-2 focus:ring-brand-600 focus:outline-none" />
             </div>
           </div>
@@ -2172,7 +2163,7 @@
           <!-- PASO 1: PAQUETES COMERCIALES RECOMENDADOS (O A LA CARTA) -->
           <div class="space-y-3">
             <div>
-              <label class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1">1. Paquetes Comerciales Recomendados (Combo con Descuento) *</label>
+              <label class="block text-xs font-bold text-white uppercase tracking-wider mb-1 stitch-title">1. Paquetes Comerciales Recomendados (Combo con Descuento) *</label>
               <p class="text-[11px] text-slate-400">Selecciona el paquete que le ofrecerás al cliente para contrastar su ahorro inmediato vs comprar módulos individuales.</p>
             </div>
 
@@ -2243,7 +2234,7 @@
                   <span class="text-sm">🏷️</span>
                   <div>
                     <span class="text-xs font-bold text-white">Personalizar Precios del Paquete:</span>
-                    <span id="pkgCustomizerActiveTitle" class="text-xs font-bold text-cyan-300 ml-1">Crecimiento & Control CRM</span>
+                    <span id="pkgCustomizerActiveTitle" class="text-xs font-bold text-cyan-300 ml-1">Negocio Inteligente con IA</span>
                   </div>
                   <span id="pkgCustomModifiedBadge" class="hidden px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
                     ✏️ Precio Personalizado
@@ -2257,7 +2248,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Nombre / Título del Paquete</label>
-                  <input type="text" id="pkgCustomTitle" placeholder="Ej: Crecimiento & CRM a Medida" oninput="updateCustomPackagePrice(undefined, undefined, this.value)" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
+                  <input type="text" id="pkgCustomTitle" placeholder="Ej: Negocio Inteligente & IA" oninput="updateCustomPackagePrice(undefined, undefined, this.value)" class="w-full px-3 py-1.5 rounded bg-slate-900 border border-slate-700 text-xs text-white focus:ring-1 focus:ring-cyan-400 focus:outline-none" />
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Inversión Setup Única (RD$)</label>
@@ -2318,8 +2309,8 @@
                 </div>
                 <div>
                   <span class="text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-wider block">2. Paquete Ofrecido</span>
-                  <strong id="compPackageTotal" class="text-sm font-black font-mono text-cyan-300">RD$ 65,000</strong>
-                  <span id="compPackageMonthly" class="text-[11px] font-mono text-cyan-400/80 block">+ RD$ 20,000/mes</span>
+                  <strong id="compPackageTotal" class="text-sm font-black font-mono text-cyan-300">RD$ 48,000</strong>
+                  <span id="compPackageMonthly" class="text-[11px] font-mono text-cyan-400/80 block">+ RD$ 14,000/mes</span>
                 </div>
                 <div class="col-span-2 sm:col-span-1">
                   <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">3. Ahorro al Cliente 🔥</span>
@@ -2334,12 +2325,12 @@
               <div class="flex items-center gap-6">
                 <div>
                   <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Setup Propuesta</span>
-                  <span id="proposalOnetimeTotal" class="text-xl font-black text-white stitch-title">RD$ 65,000</span>
+                  <span id="proposalOnetimeTotal" class="text-xl font-black text-white stitch-title">RD$ 48,000</span>
                 </div>
-                <div class="h-8 w-px bg-slate-200"></div>
+                <div class="h-8 w-px bg-slate-700"></div>
                 <div>
                   <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Mensual Propuesta</span>
-                  <span id="proposalMonthlyTotal" class="text-xl font-black text-brand-600">RD$ 20,000 / mes</span>
+                  <span id="proposalMonthlyTotal" class="text-xl font-black text-cyan-400">RD$ 14,000 / mes</span>
                 </div>
               </div>
 
@@ -2359,7 +2350,7 @@
       <!-- HISTORIAL DE PROPUESTAS GENERADAS -->
       <div class="stitch-card bg-[#0f172a] rounded-lg p-6 sm:p-8 border border-white/[0.08] shadow-sm space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="text-base font-bold text-slate-900">Historial de Propuestas Recientes</h3>
+          <h3 class="text-base font-bold text-white stitch-title">Historial de Propuestas Recientes</h3>
           <span class="text-xs text-slate-400" id="proposalCountText">0 propuestas</span>
         </div>
         <div id="proposalsHistoryContainer" class="space-y-3">
@@ -2379,9 +2370,9 @@
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span class="text-xs font-mono font-bold text-emerald-600 uppercase tracking-wider">Telemetría de Crecimiento Orgánico</span>
+            <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Telemetría de Crecimiento Orgánico</span>
           </div>
-          <h2 class="text-xl sm:text-2xl font-black text-slate-900 mt-1">Rastreo de Referidos & Atribución de Clientes</h2>
+          <h2 class="text-xl sm:text-2xl font-black text-white stitch-title mt-1">Rastreo de Referidos & Atribución de Clientes</h2>
           <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mt-0.5">
             Mide en tiempo real cuántas visitas, llamadas y conversiones por WhatsApp genera la insignia de ISAPromoRD en el pie de página de las webs de tus clientes.
           </p>
@@ -2391,7 +2382,7 @@
           <button 
             onclick="loadReferralsData(true)" 
             id="refreshReferralsBtn"
-            class="px-4 py-2.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1.5"
+            class="px-4 py-2.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer"
             title="Refrescar métricas en vivo"
           >
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -2413,25 +2404,25 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Clics de Footers</span>
-            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center font-bold">
               👆
             </div>
           </div>
           <div class="flex items-baseline gap-2">
-            <span id="kpiRefClicks" class="text-3xl font-black text-slate-900">0</span>
-            <span class="text-xs font-semibold text-emerald-600">En tiempo real</span>
+            <span id="kpiRefClicks" class="text-3xl font-black text-white stitch-title">0</span>
+            <span class="text-xs font-semibold text-emerald-400">En tiempo real</span>
           </div>
         </div>
 
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Leads WhatsApp</span>
-            <div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-600 flex items-center justify-center font-bold">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 flex items-center justify-center font-bold">
               💬
             </div>
           </div>
           <div class="flex items-baseline gap-2">
-            <span id="kpiRefLeads" class="text-3xl font-black text-slate-900">0</span>
+            <span id="kpiRefLeads" class="text-3xl font-black text-white stitch-title">0</span>
             <span class="text-xs font-semibold text-slate-400">Contactos</span>
           </div>
         </div>
@@ -2439,12 +2430,12 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Tasa Conversión</span>
-            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/15 text-purple-400 flex items-center justify-center font-bold">
               📈
             </div>
           </div>
           <div class="flex items-baseline gap-2">
-            <span id="kpiRefRate" class="text-3xl font-black text-slate-900">0.0%</span>
+            <span id="kpiRefRate" class="text-3xl font-black text-white stitch-title">0.0%</span>
             <span class="text-xs font-semibold text-slate-400">Clic a Lead</span>
           </div>
         </div>
@@ -2452,13 +2443,13 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Partners Activos</span>
-            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold">
               🤝
             </div>
           </div>
           <div class="flex items-baseline gap-2">
-            <span id="kpiRefPartners" class="text-3xl font-black text-slate-900">1</span>
-            <span class="text-xs font-semibold text-amber-600">Pasión Pecuaria</span>
+            <span id="kpiRefPartners" class="text-3xl font-black text-white stitch-title">1</span>
+            <span class="text-xs font-semibold text-amber-400">Pasión Pecuaria</span>
           </div>
         </div>
       </div>
@@ -2475,7 +2466,7 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs">
             <thead>
-              <tr class="border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              <tr class="border-b border-white/10 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                 <th class="py-3 px-3">Cliente / Partner</th>
                 <th class="py-3 px-3">Enlace de Atribución</th>
                 <th class="py-3 px-3 text-center">Clics</th>
@@ -2484,7 +2475,7 @@
                 <th class="py-3 px-3 text-right">Acciones</th>
               </tr>
             </thead>
-            <tbody id="referralPartnersTableBody" class="divide-y divide-slate-100">
+            <tbody id="referralPartnersTableBody" class="divide-y divide-white/[0.05]">
               <!-- Inyectado por JS -->
             </tbody>
           </table>
@@ -2547,12 +2538,12 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Cobrado en el Mes</span>
-            <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
           </div>
           <div>
-            <div id="acctKpiCashInflow" class="text-2xl sm:text-3xl font-black text-emerald-600">RD$ 0</div>
+            <div id="acctKpiCashInflow" class="text-2xl sm:text-3xl font-black text-emerald-400">RD$ 0</div>
             <span class="text-[11px] text-slate-400 font-semibold" id="acctKpiCurrentMonthLabel">Octubre 2026</span>
           </div>
         </div>
@@ -2561,12 +2552,12 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">MRR Recurrente</span>
-            <div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/15 text-cyan-400 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
             </div>
           </div>
           <div>
-            <div id="acctKpiMrr" class="text-2xl sm:text-3xl font-black text-slate-900">RD$ 0</div>
+            <div id="acctKpiMrr" class="text-2xl sm:text-3xl font-black text-white stitch-title">RD$ 0</div>
             <span class="text-[11px] text-slate-400 font-semibold">Mensualidades fijas</span>
           </div>
         </div>
@@ -2575,12 +2566,12 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">Cuentas por Cobrar</span>
-            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             </div>
           </div>
           <div>
-            <div id="acctKpiReceivables" class="text-2xl sm:text-3xl font-black text-amber-600">RD$ 0</div>
+            <div id="acctKpiReceivables" class="text-2xl sm:text-3xl font-black text-amber-400">RD$ 0</div>
             <span class="text-[11px] text-slate-400 font-semibold" id="acctKpiReceivablesCount">0 clientes pendientes</span>
           </div>
         </div>
@@ -2589,12 +2580,12 @@
         <div class="stitch-card bg-[#0f172a] rounded-md p-5 border border-white/[0.08] shadow-sm flex flex-col justify-between">
           <div class="flex items-center justify-between text-slate-400 mb-2">
             <span class="text-xs font-bold uppercase tracking-wider">ARR Anualizado</span>
-            <div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/15 text-purple-400 flex items-center justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
             </div>
           </div>
           <div>
-            <div id="acctKpiArr" class="text-2xl sm:text-3xl font-black text-slate-900">RD$ 0</div>
+            <div id="acctKpiArr" class="text-2xl sm:text-3xl font-black text-white stitch-title">RD$ 0</div>
             <span class="text-[11px] text-slate-400 font-semibold">Proyección a 12 meses</span>
           </div>
         </div>
@@ -2622,13 +2613,13 @@
                   BP
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900">Banco Popular Dominicano</h4>
+                  <h4 class="text-xs font-bold text-white stitch-title">Banco Popular Dominicano</h4>
                   <span class="text-[11px] text-slate-400 font-mono">Cta. Ahorros • 8294554783</span>
                 </div>
               </div>
               <div class="text-right">
-                <div class="text-sm font-black text-slate-900" id="bankBalancePopular">RD$ 0</div>
-                <span class="text-[10px] text-emerald-600 font-semibold">Principal</span>
+                <div class="text-sm font-black text-white font-mono stitch-title" id="bankBalancePopular">RD$ 0</div>
+                <span class="text-[10px] text-emerald-400 font-semibold">Principal</span>
               </div>
             </div>
 
@@ -2639,12 +2630,12 @@
                   BHD
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900">Banco BHD / Banreservas</h4>
+                  <h4 class="text-xs font-bold text-white stitch-title">Banco BHD / Banreservas</h4>
                   <span class="text-[11px] text-slate-400 font-mono">Transferencias Secundarias</span>
                 </div>
               </div>
               <div class="text-right">
-                <div class="text-sm font-black text-slate-900" id="bankBalanceBhd">RD$ 0</div>
+                <div class="text-sm font-black text-white font-mono stitch-title" id="bankBalanceBhd">RD$ 0</div>
                 <span class="text-[10px] text-slate-400 font-semibold">Secundaria</span>
               </div>
             </div>
@@ -2656,12 +2647,12 @@
                   💵
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900">Efectivo / Caja Chica</h4>
+                  <h4 class="text-xs font-bold text-white stitch-title">Efectivo / Caja Chica</h4>
                   <span class="text-[11px] text-slate-400 font-mono">Pagos presenciales directos</span>
                 </div>
               </div>
               <div class="text-right">
-                <div class="text-sm font-black text-slate-900" id="bankBalanceCash">RD$ 0</div>
+                <div class="text-sm font-black text-white font-mono stitch-title" id="bankBalanceCash">RD$ 0</div>
                 <span class="text-[10px] text-slate-400 font-semibold">Caja Chica</span>
               </div>
             </div>
@@ -2678,16 +2669,16 @@
           <div class="flex items-center justify-between pb-3 border-b border-white/10">
             <div>
               <h3 class="text-base font-black text-white stitch-title">Simulador de Metas & Proyección de Crecimiento</h3>
-              <p class="text-xs text-slate-400">Calcula tu facturación mensual (MRR) según la cantidad de clientes por paquete.</p>
+              <p class="text-xs text-slate-400">Calcula tu facturación mensual (MRR) y Setup según los 3 paquetes oficiales y servicios a la carta.</p>
             </div>
             <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-300 font-bold text-[11px] border border-cyan-500/20">Calculadora Dinámica</span>
           </div>
 
-          <!-- Controles de Clientes -->
+          <!-- Controles de Clientes (Alineado con Catálogo Oficial: Solo Web 4.5k, Esencial 8k, Negocio IA 14k, Ecosistema 20k) -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-            <!-- Web Básica -->
+            <!-- Web A la Carta -->
             <div class="p-3 bg-[#0a0e17] rounded-lg border border-white/10 text-center space-y-1.5">
-              <span class="font-bold text-slate-300 block truncate">Solo Web</span>
+              <span class="font-bold text-slate-300 block truncate" title="Landing Page + Hosting Anycast">Solo Web</span>
               <span class="text-[11px] text-slate-400 block font-mono">RD$ 4.5k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
                 <button onclick="adjustForecastPlan('web', -1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-white/10 text-slate-200 font-bold hover:bg-slate-700 cursor-pointer">-</button>
@@ -2696,10 +2687,10 @@
               </div>
             </div>
 
-            <!-- Esencial Maps -->
+            <!-- Plan 1: Infraestructura Digital Esencial -->
             <div class="p-3 bg-[#0a0e17] rounded-lg border border-white/10 text-center space-y-1.5">
-              <span class="font-bold text-slate-300 block truncate">Plan Esencial</span>
-              <span class="text-[11px] text-slate-400 block font-mono">RD$ 15k/m</span>
+              <span class="font-bold text-cyan-300 block truncate" title="Setup RD$ 30k + RD$ 8k/mes">Plan Esencial</span>
+              <span class="text-[11px] text-slate-400 block font-mono">RD$ 8k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
                 <button onclick="adjustForecastPlan('esencial', -1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-white/10 text-slate-200 font-bold hover:bg-slate-700 cursor-pointer">-</button>
                 <span id="forecastCount_esencial" class="font-black text-sm text-white w-6 text-center">2</span>
@@ -2707,21 +2698,21 @@
               </div>
             </div>
 
-            <!-- Plan CRM (Popular) -->
-            <div class="p-3 bg-cyan-950/40 rounded-lg border border-cyan-500/30 text-center space-y-1.5">
-              <span class="font-bold text-cyan-300 block truncate">Plan CRM ⭐</span>
-              <span class="text-[11px] text-cyan-400/80 block font-mono">RD$ 20k/m</span>
+            <!-- Plan 2: Negocio Inteligente & IA (Popular) -->
+            <div class="p-3 bg-purple-950/35 rounded-lg border border-purple-500/35 text-center space-y-1.5">
+              <span class="font-bold text-purple-300 block truncate" title="Setup RD$ 48k + RD$ 14k/mes">Negocio IA ⭐</span>
+              <span class="text-[11px] text-purple-300/80 block font-mono">RD$ 14k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
                 <button onclick="adjustForecastPlan('crm', -1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-white/10 text-slate-200 font-bold hover:bg-slate-700 cursor-pointer">-</button>
-                <span id="forecastCount_crm" class="font-black text-sm text-cyan-300 w-6 text-center">3</span>
+                <span id="forecastCount_crm" class="font-black text-sm text-purple-300 w-6 text-center">3</span>
                 <button onclick="adjustForecastPlan('crm', 1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-white/10 text-slate-200 font-bold hover:bg-slate-700 cursor-pointer">+</button>
               </div>
             </div>
 
-            <!-- Ecosistema IA -->
-            <div class="p-3 bg-[#0a0e17] rounded-lg border border-white/10 text-center space-y-1.5">
-              <span class="font-bold text-slate-300 block truncate">Ecosistema</span>
-              <span class="text-[11px] text-slate-400 block font-mono">RD$ 30k/m</span>
+            <!-- Plan 3: Ecosistema Digital 360° -->
+            <div class="p-3 bg-[#0a0e17] rounded-lg border border-emerald-500/25 text-center space-y-1.5">
+              <span class="font-bold text-emerald-300 block truncate" title="Setup RD$ 75k + RD$ 20k/mes">Ecosistema 360°</span>
+              <span class="text-[11px] text-slate-400 block font-mono">RD$ 20k/m</span>
               <div class="flex items-center justify-center gap-2 pt-1">
                 <button onclick="adjustForecastPlan('ecosistema', -1)" class="w-7 h-7 rounded-lg bg-slate-800 border border-white/10 text-slate-200 font-bold hover:bg-slate-700 cursor-pointer">-</button>
                 <span id="forecastCount_ecosistema" class="font-black text-sm text-white w-6 text-center">1</span>
@@ -2731,21 +2722,21 @@
           </div>
 
           <!-- Resultados de la Simulación -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-900 text-white rounded-md">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-slate-900 text-white rounded-md border border-white/[0.06]">
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">MRR Mensual Resultante</span>
-              <div class="text-xl font-black text-emerald-400" id="simResultMrr">RD$ 124,500</div>
-              <span class="text-[10px] text-slate-400">Ingreso pasivo mensual</span>
+              <div class="text-xl font-black text-emerald-400 font-mono" id="simResultMrr">RD$ 82,500</div>
+              <span class="text-[10px] text-slate-400">Ingreso recurrente mensual</span>
             </div>
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Facturación Anual (ARR)</span>
-              <div class="text-xl font-black text-white" id="simResultArr">RD$ 1,494,000</div>
+              <div class="text-xl font-black text-white font-mono" id="simResultArr">RD$ 990,000</div>
               <span class="text-[10px] text-slate-400">En 12 meses de operación</span>
             </div>
             <div>
               <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Ingresos por Setup Inicial</span>
-              <div class="text-xl font-black text-amber-300" id="simResultSetup">RD$ 360,000</div>
-              <span class="text-[10px] text-slate-400">Cobrado al inicio</span>
+              <div class="text-xl font-black text-amber-300 font-mono" id="simResultSetup">RD$ 307,000</div>
+              <span class="text-[10px] text-slate-400">Cobrado en implementación</span>
             </div>
           </div>
         </div>
@@ -2763,8 +2754,8 @@
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-600">
-            <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-[#0a0e17] text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-white/10">
               <tr>
                 <th class="py-3 px-4">Cliente</th>
                 <th class="py-3 px-4">Servicio / Tarifa</th>
@@ -2809,8 +2800,8 @@
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-600">
-            <thead class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-[#0a0e17] text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-white/10">
               <tr>
                 <th class="py-3 px-4">Fecha</th>
                 <th class="py-3 px-4">Cliente</th>
@@ -3554,13 +3545,16 @@
               <span class="font-bold">Acciones para Ejecutar o Cotizar:</span>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-              <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all">
+              <button onclick="syncAuditGapsToClientRoadmap()" id="auditSyncRoadmapBtn" class="px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/25 transition-all cursor-pointer">
                 <span>🚀 Aplicar al Roadmap del Cliente</span>
               </button>
-              <button onclick="quickSaveAuditAsClient()" id="auditQuickSaveClientBtn" class="hidden px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-emerald-500/25 transition-all">
+              <button onclick="quickSaveAuditAsClient()" id="auditQuickSaveClientBtn" class="hidden px-3.5 py-1.5 rounded bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 text-xs font-extrabold flex items-center gap-1.5 shadow-md shadow-emerald-500/25 transition-all cursor-pointer">
                 <span>⚡ Guardar Cliente (1 Clic)</span>
               </button>
-              <button onclick="convertAuditToClientWithPrefill()" id="auditConvertClientBtn" class="hidden px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-white/10 flex items-center gap-1.5 transition-all">
+              <button onclick="createProposalFromAudit()" id="auditQuoteGapsBtn" class="px-3.5 py-1.5 rounded bg-cyan-500/20 hover:bg-cyan-500/35 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Abrir el Cotizador con los hallazgos de esta auditoría pre-seleccionados">
+                <span>📝 Cotizar Hallazgos</span>
+              </button>
+              <button onclick="convertAuditToClientWithPrefill()" id="auditConvertClientBtn" class="hidden px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-white/10 flex items-center gap-1.5 transition-all cursor-pointer">
                 <span>✏️ Ficha Completa</span>
               </button>
               <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
@@ -4380,7 +4374,7 @@
   <!-- ========================================================
        ARQUITECTURA MODULAR ES MODULES (V2.0 HIGH PERFORMANCE)
        ======================================================== -->
-  <script type="module" src="./src/main.js?v=2.2.1"></script>
+  <script type="module" src="./src/main.js?v=2.3.0"></script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 

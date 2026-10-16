@@ -1338,3 +1338,22 @@
   6. **Resiliencia en Base de Datos & Pruebas Unitarias:**
      - `clientToDbRow` y `dbRowToClient` en `dashboard/src/sync.js` resguardan `contractedServices` dentro de `optimization_matrix` garantizando 0 pérdida de datos y compatibilidad total con Supabase.
      - Suite automatizada ampliada a **15 pruebas unitarias** (`scratch/test_suite.js`), pasando al 100%.
+
+## [2026-10-16] - Protocolo de Cero-Simulación (Truthful Pre-Flight Audit Engine) & Calibración Ética
+- **Dilema Ético y Profesional Planteado por el Usuario:**
+  - El usuario cuestionó frontalmente si la auditoría generosa anterior incurría en engaño al dar 15/15 en WhatsApp y Google Maps basándose en simples etiquetas HTML en lugar de operaciones vivas reales.
+- **Acción & Calibración de Verdad Absoluta en el Escáner (`dashboard/src/audit.js`):**
+  1. **Erradicación de Falsa Acreditación de Agente IA (Pilar 5):**
+     - Un enlace directo simple a `wa.me` ahora otorga honestamente **6/15 pts** (Estado: `warning`). Diagnóstico: *"Canal directo WhatsApp detectado en código (wa.me). Opera con atención manual sujeta a disponibilidad humana."*
+     - Los 15/15 pts completos quedan reservados exclusivamente para cuentas con automatización IA verificada (`hasAiAgent: true` o notas de webhook n8n/Make activo).
+  2. **Calibración de Google Maps GBP (Pilar 2):**
+     - La presencia de Schemas JSON-LD `LocalBusiness` y Geo Tags dominicanos en el código acredita la base técnica On-Page con **12/15 pts**.
+     - Los 15/15 pts requieren verificación off-page confirmada (`gbpVerified: true`).
+  3. **Detección Técnica de Tailwind Play CDN (Pilar 1):**
+     - Si el código HTML en producción incluye `cdn.tailwindcss.com`, el escáner otorga **10/15 pts** (Estado: `warning`), señalando el peso de 350KB de runtime JS y recomendando la compilación con `npx tailwindcss -o styles.min.css --minify`.
+  4. **Transparencia en Nomenclatura del Sistema:**
+     - El modal se redefinió como: **"Auditoría de Infraestructura Técnica & Preparación Digital (Pre-Flight Check)"**, declarando con total transparencia que certifica código on-page, servidores CDN, esquemas estructurados y canales de conversión.
+     - Se integró el botón **"⚡ PageSpeed Móvil (Google) ↗"** que abre el análisis oficial en vivo de Google en 1 clic.
+  5. **Verificación Automatizada en Test Suite:**
+     - Test 14 actualizado en `scratch/test_suite.js`: el análisis crudo de `index.html` reporta fielmente **83/100**, y alcanza **100/100** únicamente tras verificar la compilación CSS, el agente IA y la ficha GBP.
+     - 15/15 pruebas pasando con cero simulaciones.

@@ -237,7 +237,8 @@ import {
   triggerQuickAuditFromHeader,
   quickSaveAuditAsClient,
   convertAuditToClientWithPrefill,
-  createProposalFromAudit
+  createProposalFromAudit,
+  openGooglePageSpeedOfficial
 } from './audit.js';
 import {
   openContractEditorModal,
@@ -435,6 +436,7 @@ const windowBridge = {
   quickSaveAuditAsClient,
   convertAuditToClientWithPrefill,
   createProposalFromAudit,
+  openGooglePageSpeedOfficial,
 
   // Accounting & Ledger
   loadAccountingData,

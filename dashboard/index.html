@@ -3469,13 +3469,13 @@
           </div>
           <div class="overflow-hidden">
             <div class="flex items-center gap-2">
-              <h3 class="text-base sm:text-lg font-black text-white tracking-tight truncate" id="auditModalTitle">Auditoría 360° de Servicios Web</h3>
+              <h3 class="text-base sm:text-lg font-black text-white tracking-tight truncate" id="auditModalTitle">Auditoría de Infraestructura Técnica & Preparación Digital</h3>
               <span id="auditModalStatusBadge" class="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
-                Escaneo en Vivo
+                Pre-Flight Check
               </span>
             </div>
             <p class="text-xs text-slate-400 font-mono truncate" id="auditModalUrl">
-              Evaluando requerimientos técnicos y servicios requeridos...
+              Inspección rigurosa de código On-Page, CDN Anycast, Schemas estructurados y canales de conversión...
             </p>
           </div>
         </div>
@@ -3518,8 +3518,8 @@
             <div class="absolute inset-0 flex items-center justify-center text-xl">⚡</div>
           </div>
           <div class="space-y-1">
-            <h4 class="text-base font-bold text-white" id="auditLoadingStep">Ejecutando diagnóstico 360° en tiempo real...</h4>
-            <p class="text-xs text-slate-400 max-w-sm font-sans" id="auditLoadingSub">Auditando Web Speed, SEO, WhatsApp OpenGraph, Google Maps Local Pack, e Indexación para IA (GEO)...</p>
+            <h4 class="text-base font-bold text-white" id="auditLoadingStep">Ejecutando Pre-Flight Check de Infraestructura Técnica...</h4>
+            <p class="text-xs text-slate-400 max-w-sm font-sans" id="auditLoadingSub">Auditando latencia perimetral, etiquetas OpenGraph, Schemas LocalBusiness, protocolo GEO para IA y canales de conversión...</p>
           </div>
         </div>
 
@@ -3531,7 +3531,7 @@
             
             <!-- Score Radial / Badge -->
             <div class="md:col-span-4 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-slate-800 pb-4 md:pb-0 md:pr-4">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Madurez Digital</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Preparación Técnica</span>
               <div class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-white" id="auditScoreValue">
                 --%
               </div>
@@ -3620,6 +3620,9 @@
               <button onclick="copyAuditProposalWhatsapp()" id="auditCopyWhatsappBtn" class="px-3.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 hover:text-emerald-200 text-xs font-bold border border-emerald-500/40 flex items-center gap-1.5 transition-colors">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
                 <span>Copiar para WhatsApp</span>
+              </button>
+              <button onclick="openGooglePageSpeedOfficial()" id="auditPageSpeedBtn" class="px-3.5 py-1.5 rounded bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 hover:text-white text-xs font-bold border border-blue-500/40 flex items-center gap-1.5 transition-colors shadow-sm" title="Abrir análisis oficial de Google PageSpeed Insights">
+                <span>⚡ PageSpeed Móvil (Google) ↗</span>
               </button>
               <button onclick="copyAuditReportForAntigravity()" id="auditCopyAgyBtn" class="px-3.5 py-1.5 rounded bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 hover:text-white text-xs font-bold border border-purple-500/50 flex items-center gap-1.5 transition-colors shadow-sm" title="Copiar reporte técnico formateado para AntiGravity / IA">
                 <span class="text-sm">🤖</span>
@@ -4488,7 +4491,7 @@
   <!-- ========================================================
        ARQUITECTURA MODULAR ES MODULES (V2.0 HIGH PERFORMANCE)
        ======================================================== -->
-  <script type="module" src="./src/main.js?v=2.3.1"></script>
+  <script type="module" src="./src/main.js?v=2.3.2"></script>
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 

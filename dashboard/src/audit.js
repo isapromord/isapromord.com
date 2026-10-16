@@ -505,10 +505,17 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
 
   // --- PILAR 1: Web Transaccional (<0.5s & Infraestructura Anycast) - Max 15 pts
   let s1_status = "failed", s1_findings = "", s1_needed = "", s1_score = 0;
-  if ((latencyMs <= 850 && (isEdgePlatform || isHttps)) || (isEdgePlatform && latencyMs <= 1200)) {
+  const hasTailwindPlayCdn = htmlLower.includes("cdn.tailwindcss.com");
+
+  if (hasTailwindPlayCdn) {
+    s1_status = "warning";
+    s1_score = 10;
+    s1_findings = `Infraestructura Anycast/Edge activa (${latencyMs}ms), pero el código utiliza Tailwind Play CDN en producción (~350KB JS runtime que penaliza el PageSpeed móvil).`;
+    s1_needed = "Compilar CSS nativo estático (npx tailwindcss -o styles.min.css --minify) para asegurar carga <0.5s en conexiones móviles dominicanas.";
+  } else if ((latencyMs <= 850 && (isEdgePlatform || isHttps)) || (isEdgePlatform && latencyMs <= 1200)) {
     s1_status = "passed";
     s1_score = 15;
-    s1_findings = `Latencia Edge Anycast: ${latencyMs}ms. Servido desde infraestructura CDN (${serverHeader || 'Cloud Edge'}) con TLS 1.3. Cumple SLA perimetral.`;
+    s1_findings = `Latencia Edge Anycast: ${latencyMs}ms. Servido desde CDN (${serverHeader || 'Cloud Edge'}) sin bloqueos de compilación CSS y con TLS 1.3.`;
     s1_needed = "Rendimiento óptimo en producción. Mantener monitoreo perimetral continuo.";
   } else if (latencyMs <= 1800 || isEdgePlatform) {
     s1_status = "warning";
@@ -524,16 +531,28 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
 
   // --- PILAR 2: Google Maps GBP & SEO Local - Max 15 pts
   let s2_status = "failed", s2_findings = "", s2_needed = "", s2_score = 0;
+  const isGbpVerified = client?.gbpVerified === true || 
+                        client?.optimizationMatrix?.gbpVerified === true || 
+                        signals.gbpVerified === true || 
+                        (client?.notes && (client.notes.includes("GBP_VERIFIED") || client.notes.includes("GOOGLE_MAPS_VERIFIED")));
+
   if (firewallProtected) {
     s2_status = "warning";
     s2_score = 10;
     s2_findings = "Seguridad de host activa (Firewall / Cloudflare). Verificación de Maps y Schema protegida ante rastreadores públicos.";
     s2_needed = "Comprobar manualmente presencia en Google Business Profile y georreferenciación en Maps.";
   } else if (hasLocalSchema && hasGeoRegion) {
-    s2_status = "passed";
-    s2_score = 15;
-    s2_findings = "Schema LocalBusiness JSON-LD activo y Geo Meta Tags de georreferenciación dominicana verificados.";
-    s2_needed = "Mantener campaña de reseñas locales con palabras clave de la zona en Google Maps.";
+    if (isGbpVerified) {
+      s2_status = "passed";
+      s2_score = 15;
+      s2_findings = "Schema LocalBusiness JSON-LD activo, Geo Meta Tags dominicanos y Ficha Google Business Profile verificada con reseñas activas.";
+      s2_needed = "Mantener campaña de reseñas locales con palabras clave de la zona en Google Maps.";
+    } else {
+      s2_status = "warning";
+      s2_score = 12;
+      s2_findings = "Infraestructura On-Page verificada: Schema LocalBusiness JSON-LD y Geo Meta Tags dominicanos en código (12/15 pts). Ficha GBP pendiente de verificación off-page.";
+      s2_needed = "Completar optimización de Google Business Profile (verificación por video, fotos de fachada y acumular 15+ reseñas) para entrar al Top 3 del Local Pack real.";
+    }
   } else if (hasLocalSchema || hasGeoRegion) {
     s2_status = "warning";
     s2_score = 8;
@@ -602,21 +621,31 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
 
   // --- PILAR 5: Agente IA WhatsApp 24/7 & Conversión - Max 15 pts
   let s5_status = "failed", s5_findings = "", s5_needed = "", s5_score = 0;
-  if (hasWaLink) {
+  const isAiAgentActive = client?.hasAiAgent === true || 
+                          client?.optimizationMatrix?.hasAiAgent === true || 
+                          signals.hasAiAgent === true || 
+                          (client?.notes && (client.notes.includes("AI_AGENT_ACTIVE") || client.notes.includes("WHATSAPP_AI_CONNECTED")));
+
+  if (isAiAgentActive) {
     s5_status = "passed";
     s5_score = 15;
-    s5_findings = "Canal directo WhatsApp detectado en el sitio con botón interactivo verificado.";
-    s5_needed = "Conectar automatización o respuestas pre-cargadas para respuesta inmediata en <3 segundos.";
+    s5_findings = "Agente IA WhatsApp 24/7 verificado y conectado al canal comercial (Atención conversacional en <3s y captura de leads activa).";
+    s5_needed = "Auditar registros de conversaciones mensuales y calibrar base de conocimiento.";
+  } else if (hasWaLink) {
+    s5_status = "warning";
+    s5_score = 6;
+    s5_findings = "Canal directo WhatsApp detectado en código (wa.me). Canal activo pero opera con atención manual sujeta a disponibilidad humana (6/15 pts).";
+    s5_needed = "Conectar Agente IA WhatsApp 24/7 (Webhook n8n / Make + API OpenAI) para agendamiento y ventas nocturnas en <3s.";
   } else if (firewallProtected) {
     s5_status = "warning";
-    s5_score = 9;
+    s5_score = 5;
     s5_findings = "Protegido por firewall. No se pudo verificar botón de WhatsApp de forma automatizada.";
     s5_needed = "Verificar si el sitio cuenta con botón flotante directo a WhatsApp con mensaje transaccional.";
   } else {
     s5_status = "failed";
     s5_score = 0;
-    s5_findings = "Sin botón ni integración visible de WhatsApp. Reduce drásticamente la tasa de conversión.";
-    s5_needed = "Integrar botón directo de WhatsApp de alta conversión con mensaje prellenado.";
+    s5_findings = "Sin botón de WhatsApp ni automatización de chat. 0% de captura transaccional inmediata.";
+    s5_needed = "Integrar botón directo de WhatsApp de alta conversión y conectar flujo de atención automatizada 24/7.";
   }
 
   // --- PILAR 6: SEO On-Page Transaccional - Max 15 pts
@@ -1474,6 +1503,18 @@ export function createProposalFromAudit() {
 
   showToast(`📝 Cotizador preparado con los hallazgos técnicos de ${clientName}`, "success");
   window.scrollTo({ top: 100, behavior: 'smooth' });
+}
+
+export function openGooglePageSpeedOfficial() {
+  const targetUrl = state.currentAuditUrl || state.currentAuditClient?.liveUrl;
+  if (!targetUrl) {
+    showToast("Introduce o selecciona una URL para auditar", "error");
+    return;
+  }
+  const cleanUrl = targetUrl.trim();
+  const psiUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(cleanUrl)}`;
+  window.open(psiUrl, "_blank", "noopener,noreferrer");
+  showToast("Abriendo Google PageSpeed Insights oficial...", "info");
 }
 
 

@@ -2099,7 +2099,10 @@
             <h2 class="text-xl font-black text-white stitch-title">Armar Propuesta Digital Interactiva</h2>
             <p class="text-xs text-slate-400">Selecciona el cliente, el paquete base recomendado y los servicios que podrá activar a la carta.</p>
           </div>
-          <div class="flex items-center gap-2 self-start sm:self-auto">
+          <div class="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <button type="button" onclick="openMasterCatalogModal()" class="px-3.5 py-2 rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-sm" title="Editar precios y servicios globales por defecto">
+              <span>🏷️ Catálogo Maestro</span>
+            </button>
             <button type="button" onclick="switchDashboardTab('clients')" class="px-3.5 py-2 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold text-xs flex items-center gap-2 transition-all active:scale-95 cursor-pointer" title="Regresar al Directorio de Clientes">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
               <span>Volver al Directorio</span>
@@ -3616,6 +3619,51 @@
   </div>
 
   <!-- ========================================================
+       MODAL: CATÁLOGO MAESTRO GLOBAL DE PRECIOS
+       ======================================================== -->
+  <div id="masterCatalogModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#0b0f17] rounded-xl max-w-4xl w-full shadow-2xl border border-white/10 flex flex-col max-h-[92vh] overflow-hidden text-slate-200">
+      
+      <!-- Header -->
+      <div class="p-5 border-b border-white/10 flex items-center justify-between shrink-0 bg-[#0f172a]">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Tarifas Globales • Motor ISAPromoRD</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">Afecta Futuras Cotizaciones</span>
+          </div>
+          <h3 class="text-lg font-black text-white stitch-title">Catálogo Maestro de Precios & Servicios</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Modifica los precios y descripciones base oficiales. Las propuestas ya firmadas o generadas previamente no se modifican.</p>
+        </div>
+        <button onclick="closeMasterCatalogModal()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer" title="Cerrar sin guardar">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Body / Scrollable Form -->
+      <div id="masterCatalogModalBody" class="p-5 overflow-y-auto space-y-6 flex-1">
+        <!-- Renderizado dinámico desde proposals.js -->
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-white/10 bg-[#0f172a] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+        <button type="button" onclick="restoreMasterCatalogFactoryDefaults()" class="w-full sm:w-auto px-4 py-2 rounded bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span>Restaurar Precios de Fábrica</span>
+        </button>
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <button type="button" onclick="closeMasterCatalogModal()" class="flex-1 sm:flex-initial px-4 py-2 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors cursor-pointer">
+            ✕ Cancelar
+          </button>
+          <button type="button" onclick="saveMasterCatalogFromModal()" class="flex-1 sm:flex-initial px-5 py-2 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20 transition-all cursor-pointer">
+            💾 Guardar Catálogo Maestro
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
        MODAL: BACKUP & CONFIGURACIÓN PIN
        ======================================================== -->
   <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
@@ -3645,6 +3693,15 @@
           <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer">Actualizar</button>
         </div>
         <p id="pinSuccess" class="text-emerald-400 text-xs font-semibold hidden">PIN actualizado exitosamente.</p>
+      </div>
+
+      <!-- Catálogo Maestro Global de Precios -->
+      <div class="pt-4 border-t border-white/10 space-y-2">
+        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Tarifas Globales del Sistema</label>
+        <button type="button" onclick="closeBackupModal(); openMasterCatalogModal();" class="w-full py-2.5 px-3 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 font-bold text-xs rounded-lg border border-amber-500/30 flex items-center justify-center gap-2 transition-colors cursor-pointer">
+          🏷️ Gestionar Catálogo Maestro de Precios
+        </button>
+        <p class="text-[11px] text-slate-400 leading-tight">Configura los precios oficiales de paquetes y add-ons para todas las nuevas cotizaciones.</p>
       </div>
 
       <!-- Respaldo JSON -->

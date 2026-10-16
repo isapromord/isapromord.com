@@ -17,6 +17,7 @@ export const STORAGE_KEYS = {
   VIEW_MODE: "isapromo_view_mode",
   THEME: "isapromo_theme",
   DELETED_CLIENT_IDS: "isapromo_deleted_client_ids_v1",
+  MASTER_CATALOG: "isapromo_master_catalog_v1",
   // Lowercase aliases for robust cross-module imports
   clients: "isapromo_agency_clients_v2",
   pin: "isapromo_agency_pin_v1",
@@ -27,7 +28,8 @@ export const STORAGE_KEYS = {
   accounting: "isapromo_agency_accounting_ledger_v1",
   auditHistory: "isapromo_audited_history_v1",
   viewMode: "isapromo_view_mode",
-  theme: "isapromo_theme"
+  theme: "isapromo_theme",
+  masterCatalog: "isapromo_master_catalog_v1"
 };
 
 export const SUPABASE_CONFIG = {
@@ -571,6 +573,88 @@ export const PROPOSAL_ADDONS = [
     checked: false
   }
 ];
+
+export const FACTORY_BASE_PACKAGES = JSON.parse(JSON.stringify(PROPOSAL_BASE_PACKAGES));
+export const FACTORY_ADDONS = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
+
+export function loadMasterCatalog() {
+  if (typeof localStorage === "undefined") return;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.MASTER_CATALOG);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (data.packages) {
+      Object.keys(data.packages).forEach(k => {
+        if (PROPOSAL_BASE_PACKAGES[k]) {
+          Object.assign(PROPOSAL_BASE_PACKAGES[k], data.packages[k]);
+        }
+      });
+    }
+    if (Array.isArray(data.addons)) {
+      data.addons.forEach(savedAddon => {
+        const found = PROPOSAL_ADDONS.find(a => a.id === savedAddon.id);
+        if (found) {
+          found.price = savedAddon.price !== undefined ? savedAddon.price : found.price;
+          found.type = savedAddon.type || found.type;
+          found.name = savedAddon.name || found.name;
+          if (savedAddon.description !== undefined) found.description = savedAddon.description;
+        }
+      });
+    }
+  } catch (e) {
+    console.warn("Error cargando Catálogo Maestro desde localStorage", e);
+  }
+}
+
+// Carga inicial en caliente
+loadMasterCatalog();
+
+export function saveMasterCatalog(packagesData, addonsData) {
+  if (typeof localStorage === "undefined") return;
+  const payload = {
+    packages: packagesData,
+    addons: addonsData,
+    updatedAt: new Date().toISOString()
+  };
+  localStorage.setItem(STORAGE_KEYS.MASTER_CATALOG, JSON.stringify(payload));
+  if (packagesData) {
+    Object.keys(packagesData).forEach(k => {
+      if (PROPOSAL_BASE_PACKAGES[k]) {
+        Object.assign(PROPOSAL_BASE_PACKAGES[k], packagesData[k]);
+      }
+    });
+  }
+  if (Array.isArray(addonsData)) {
+    addonsData.forEach(item => {
+      const found = PROPOSAL_ADDONS.find(a => a.id === item.id);
+      if (found) {
+        found.price = item.price !== undefined ? item.price : found.price;
+        found.type = item.type || found.type;
+        found.name = item.name || found.name;
+        if (item.description !== undefined) found.description = item.description;
+      }
+    });
+  }
+}
+
+export function resetMasterCatalog() {
+  if (typeof localStorage === "undefined") return;
+  localStorage.removeItem(STORAGE_KEYS.MASTER_CATALOG);
+  Object.keys(FACTORY_BASE_PACKAGES).forEach(k => {
+    if (PROPOSAL_BASE_PACKAGES[k]) {
+      Object.assign(PROPOSAL_BASE_PACKAGES[k], FACTORY_BASE_PACKAGES[k]);
+    }
+  });
+  FACTORY_ADDONS.forEach(item => {
+    const found = PROPOSAL_ADDONS.find(a => a.id === item.id);
+    if (found) {
+      found.price = item.price;
+      found.type = item.type;
+      found.name = item.name;
+      found.description = item.description;
+    }
+  });
+}
 
 export const INITIAL_ACCOUNTING_LEDGER = [
   {

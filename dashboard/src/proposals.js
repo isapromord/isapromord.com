@@ -3,7 +3,16 @@
  * Custom pricing, packages, ROI calculator, proposal history, WhatsApp link,
  * and seamless bridging into the 50/50 contracts generator.
  */
-import { state, STORAGE_KEYS, PROPOSAL_BASE_PACKAGES, PROPOSAL_ADDONS } from './state.js';
+import { 
+  state, 
+  STORAGE_KEYS, 
+  PROPOSAL_BASE_PACKAGES, 
+  PROPOSAL_ADDONS,
+  FACTORY_BASE_PACKAGES,
+  FACTORY_ADDONS,
+  saveMasterCatalog,
+  resetMasterCatalog
+} from './state.js';
 import { supabaseClient, syncVaultToCloud } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
@@ -44,6 +53,7 @@ export function initProposalBuilder() {
     if (phoneInput) phoneInput.value = clients[0].phone || "";
   }
 
+  ['pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
   handlePackageSelect('pack-ia');
   renderProposalsHistory();
 }
@@ -1032,4 +1042,249 @@ function formatProposalTimestamp(prop) {
   } catch (e) {
     return 'Reciente';
   }
+}
+
+// ========================================================
+// GESTIÓN DEL CATÁLOGO MAESTRO GLOBAL DE PRECIOS
+// ========================================================
+
+export function openMasterCatalogModal() {
+  const modal = document.getElementById("masterCatalogModal");
+  if (!modal) return;
+  renderMasterCatalogModal();
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+export function closeMasterCatalogModal() {
+  const modal = document.getElementById("masterCatalogModal");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+}
+
+export function renderMasterCatalogModal() {
+  const container = document.getElementById("masterCatalogModalBody");
+  if (!container) return;
+
+  // Render Paquetes Base
+  const pkgKeys = ['pack-esencial', 'pack-ia', 'pack-ecosistema'];
+  const packagesHtml = pkgKeys.map(key => {
+    const pkg = PROPOSAL_BASE_PACKAGES[key] || {};
+    return `
+      <div class="p-4 rounded-lg bg-slate-900/80 border border-white/10 space-y-3">
+        <div class="flex items-center justify-between pb-2 border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold text-cyan-400 uppercase">${escapeHtml(key)}</span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono">Paquete Base Oficial</span>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre Oficial del Paquete</label>
+          <input 
+            type="text" 
+            id="master-pkg-title-${key}" 
+            value="${escapeHtml(pkg.title || '')}" 
+            class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-white font-bold focus:ring-1 focus:ring-amber-400 focus:outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Precio Setup RD$ (Inicial)</label>
+            <input 
+              type="number" 
+              min="0" 
+              step="500" 
+              id="master-pkg-price-${key}" 
+              value="${pkg.price !== undefined ? pkg.price : 0}" 
+              class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Mensualidad RD$ (Mantenimiento)</label>
+            <input 
+              type="number" 
+              min="0" 
+              step="500" 
+              id="master-pkg-monthly-${key}" 
+              value="${pkg.monthlyPrice !== undefined ? pkg.monthlyPrice : 0}" 
+              class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-amber-300 font-mono font-bold focus:ring-1 focus:ring-amber-400 focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Descripción / Alcance Breve</label>
+          <textarea 
+            rows="2" 
+            id="master-pkg-desc-${key}" 
+            class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-slate-300 focus:ring-1 focus:ring-amber-400 focus:outline-none"
+          >${escapeHtml(pkg.description || '')}</textarea>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Render Addons
+  const addonsHtml = PROPOSAL_ADDONS.map(addon => {
+    return `
+      <div class="p-3.5 rounded-lg bg-slate-900/60 border border-white/5 hover:border-white/10 transition-colors space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-mono font-bold text-slate-400 uppercase">${escapeHtml(addon.id)}</span>
+          <span class="text-[10px] font-semibold text-slate-500 font-mono">${addon.type === 'monthly' ? 'Mensual' : 'Pago Único'}</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+          <div class="sm:col-span-6">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre del Servicio</label>
+            <input 
+              type="text" 
+              id="master-addon-name-${addon.id}" 
+              value="${escapeHtml(addon.name)}" 
+              class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-white font-bold focus:ring-1 focus:ring-amber-400 focus:outline-none"
+            />
+          </div>
+          <div class="sm:col-span-3">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Precio RD$</label>
+            <input 
+              type="number" 
+              min="0" 
+              step="500" 
+              id="master-addon-price-${addon.id}" 
+              value="${addon.price !== undefined ? addon.price : 0}" 
+              class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-emerald-400 font-mono font-bold focus:ring-1 focus:ring-emerald-400 focus:outline-none"
+            />
+          </div>
+          <div class="sm:col-span-3">
+            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tipo de Cobro</label>
+            <select 
+              id="master-addon-type-${addon.id}" 
+              class="w-full px-2.5 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-slate-200 focus:ring-1 focus:ring-amber-400 focus:outline-none cursor-pointer"
+            >
+              <option value="onetime" ${addon.type === 'onetime' ? 'selected' : ''}>Pago Único</option>
+              <option value="monthly" ${addon.type === 'monthly' ? 'selected' : ''}>Mensual (/mes)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Descripción del Entregable</label>
+          <textarea 
+            rows="1" 
+            id="master-addon-desc-${addon.id}" 
+            class="w-full px-3 py-1.5 rounded bg-slate-950 border border-slate-700 text-xs text-slate-300 focus:ring-1 focus:ring-amber-400 focus:outline-none"
+          >${escapeHtml(addon.description || '')}</textarea>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = `
+    <!-- Sección 1: Paquetes Base -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between pb-1">
+        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>📦</span> Paquetes Base Oficiales (Precios por Defecto)
+        </h4>
+        <span class="text-[11px] text-slate-400">3 Niveles Estructurados</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        ${packagesHtml}
+      </div>
+    </div>
+
+    <!-- Sección 2: Add-ons y Servicios a la carta -->
+    <div class="space-y-3 pt-4 border-t border-white/10">
+      <div class="flex items-center justify-between pb-1">
+        <h4 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>🧩</span> Servicios & Add-ons a la Carta (${PROPOSAL_ADDONS.length} Módulos)
+        </h4>
+        <span class="text-[11px] text-slate-400">Tarifario Global</span>
+      </div>
+      <div class="grid grid-cols-1 gap-2.5">
+        ${addonsHtml}
+      </div>
+    </div>
+  `;
+}
+
+export function saveMasterCatalogFromModal() {
+  const pkgKeys = ['pack-esencial', 'pack-ia', 'pack-ecosistema'];
+  const packagesData = {};
+
+  pkgKeys.forEach(key => {
+    const titleInput = document.getElementById(`master-pkg-title-${key}`);
+    const priceInput = document.getElementById(`master-pkg-price-${key}`);
+    const monthlyInput = document.getElementById(`master-pkg-monthly-${key}`);
+    const descInput = document.getElementById(`master-pkg-desc-${key}`);
+
+    packagesData[key] = {
+      ...(PROPOSAL_BASE_PACKAGES[key] || {}),
+      title: titleInput ? titleInput.value.trim() : PROPOSAL_BASE_PACKAGES[key].title,
+      price: priceInput ? Math.max(0, Number(priceInput.value) || 0) : PROPOSAL_BASE_PACKAGES[key].price,
+      monthlyPrice: monthlyInput ? Math.max(0, Number(monthlyInput.value) || 0) : PROPOSAL_BASE_PACKAGES[key].monthlyPrice,
+      description: descInput ? descInput.value.trim() : PROPOSAL_BASE_PACKAGES[key].description
+    };
+  });
+
+  const addonsData = PROPOSAL_ADDONS.map(addon => {
+    const nameInput = document.getElementById(`master-addon-name-${addon.id}`);
+    const priceInput = document.getElementById(`master-addon-price-${addon.id}`);
+    const typeInput = document.getElementById(`master-addon-type-${addon.id}`);
+    const descInput = document.getElementById(`master-addon-desc-${addon.id}`);
+
+    return {
+      id: addon.id,
+      name: nameInput ? nameInput.value.trim() : addon.name,
+      price: priceInput ? Math.max(0, Number(priceInput.value) || 0) : addon.price,
+      type: typeInput ? typeInput.value : addon.type,
+      description: descInput ? descInput.value.trim() : addon.description,
+      checked: addon.checked
+    };
+  });
+
+  saveMasterCatalog(packagesData, addonsData);
+
+  // Sincronizar addons activos del cotizador con el nuevo tarifario maestro
+  currentProposalAddons.forEach(item => {
+    const master = PROPOSAL_ADDONS.find(a => a.id === item.id);
+    if (master && !item.isCustom) {
+      item.name = master.name;
+      item.price = master.price;
+      item.type = master.type;
+      item.description = master.description;
+    }
+  });
+
+  // Actualizar UI del cotizador
+  ['pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
+  syncPackageCustomizerUI();
+  renderProposalAddonsList();
+  updateProposalTotals();
+
+  closeMasterCatalogModal();
+  showToast("✓ Tarifas del Catálogo Maestro guardadas exitosamente.", "success");
+}
+
+export function restoreMasterCatalogFactoryDefaults() {
+  if (!confirm("¿Deseas restaurar todos los paquetes y servicios a sus precios oficiales de fábrica? Esta acción descartará tus tarifas personalizadas en el catálogo maestro.")) {
+    return;
+  }
+
+  resetMasterCatalog();
+  renderMasterCatalogModal();
+
+  // Reflejar en el cotizador activo
+  currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
+  customPackageOverrides = {};
+  ['pack-esencial', 'pack-ia', 'pack-ecosistema'].forEach(key => updatePackageCardDisplay(key));
+  const selectedBaseKey = document.querySelector('input[name="basePkg"]:checked')?.value || "pack-ia";
+  handlePackageSelect(selectedBaseKey);
+  renderProposalAddonsList();
+  updateProposalTotals();
+
+  showToast("↺ Catálogo Maestro restablecido a los valores oficiales de fábrica.", "info");
 }

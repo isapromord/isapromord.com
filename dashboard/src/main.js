@@ -111,7 +111,12 @@ import {
   updateProposalAddonField,
   addCustomProposalService,
   deleteCustomProposalService,
-  resetProposalAddonsCatalog
+  resetProposalAddonsCatalog,
+  openMasterCatalogModal,
+  closeMasterCatalogModal,
+  renderMasterCatalogModal,
+  saveMasterCatalogFromModal,
+  restoreMasterCatalogFactoryDefaults
 } from './proposals.js';
 import {
   getBankDetails,
@@ -390,6 +395,11 @@ const windowBridge = {
   addCustomProposalService,
   deleteCustomProposalService,
   resetProposalAddonsCatalog,
+  openMasterCatalogModal,
+  closeMasterCatalogModal,
+  renderMasterCatalogModal,
+  saveMasterCatalogFromModal,
+  restoreMasterCatalogFactoryDefaults,
 
   // Contracts (50/50 Architecture)
   openContractEditorModal,

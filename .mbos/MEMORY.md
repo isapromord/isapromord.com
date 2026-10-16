@@ -1244,3 +1244,36 @@
      - **4. A la Carta (`pack-none`):** Para clientes que solo desean un módulo individual o un CRM custom.
   4. **Archivos Sincronizados:** `dashboard/src/state.js`, `dashboard/index.html`, `dashboard/src/proposals.js`, `propuesta/index.html`, `propuestas/demo/index.html`, `scratch/test_suite.js`.
   5. **Verificación:** 12/12 pruebas unitarias pasando al 100%. Cachebuster actualizado a `v2.2.1`.
+
+
+---
+
+## [2026-10-15] - Normalización Visual de Grado Ingeniería (Anti-Bubble / Anti-Microfont Overhaul)
+- **Diagnóstico y Crítica del Usuario:**
+  - El usuario identificó con total certeza dos problemas críticos de UI en la landing page:
+    1. *Síndrome de "Esquinas Burbuja / Malvavisco" (Over-rounded corners):* Exceso de `rounded-3xl` (24px), `rounded-2xl` (16px) y `rounded-full` en tarjetas y formularios de conversión, que generaban una percepción infantil / juguetona contraria a una firma seria de ingeniería de software.
+    2. *Letras microscópicas no legibles (`text-[10px]`, `text-[11px]`, `text-xs` en párrafos descriptivos):* Forzaban a los visitantes a forzar la vista y violaban las pautas de accesibilidad y usabilidad móvil de Google y Apple HIG.
+- **Solución y Estandarización del Design System en `isapromord.com/index.html`:**
+  1. **Geometría Disciplinada (Linear / Stripe Architecture):**
+     - Contenedores principales y tarjetas madre: estandarizados estrictamente a `rounded-xl` (12px).
+     - Sub-tarjetas internas, métricas y campos de formulario: estandarizados a `rounded-lg` (8px).
+     - Botones principales y secundarios: estandarizados a `rounded-lg` o `rounded-md` (8px / 6px).
+     - Badges de telemetría y chips de estatus: estandarizados a `rounded-md` (6px).
+     - `rounded-full`: Restringido exclusivamente a esferas indicadoras puntuales (`w-2 h-2 rounded-full`), avatares circulares y botón flotante de WhatsApp.
+  2. **Elevación Tipográfica y Legibilidad:**
+     - Erradicación total de `text-[10px]` y `text-[11px]` en todo el documento.
+     - Cuerpo de texto descriptivo y garantías elevado de `text-xs` a `text-sm` (14px) y `text-base` (16px).
+     - Eliminación de `font-mono` en frases descriptivas humanas; `font-mono` se reservó estrictamente para telemetría técnica y métricas numéricas.
+     - Contraste visual reforzado con `text-slate-200` y `text-slate-300` sobre obsidian dark mode.
+  3. **Secciones Auditadas y Refactorizadas:**
+     - Financial Trust Capsule & Pasarela 50/50
+     - Visual Portfolio Showcase Cards
+     - Simulador ROI Box & Live Scan Report
+     - Comparativa Asimétrica IsaPromo vs Agencias Tradicionales
+     - 4 Pilares Sticky Storytelling
+     - Paquetes Comerciales (3 Niveles) y Testimonios
+     - Cobertura Geográfica y Módulos A la Carta
+     - Acordeón Técnico de FAQ
+     - Cierre Comercial de Reserva de Zona
+     - Header, Live Toast Dispatcher y Ticker Infinito
+- **Regla MBOS Extraída:** En interfaces de software B2B y tecnología de alto valor, los radios de esquina mayores a 16px (`rounded-2xl` y `rounded-3xl`) deben evitarse en tarjetas y contenedores de datos. El radio óptimo es `rounded-xl` (12px) para contenedores y `rounded-lg` (8px) para elementos interactivos. Toda tipografía explicativa debe ser de al menos 14px (`text-sm`).

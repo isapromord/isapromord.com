@@ -176,13 +176,16 @@ export function renderProposalAddonsList() {
             <span class="text-xs font-bold text-cyan-300 flex items-center gap-1.5">
               <span>✏️</span> Editando Servicio: <strong class="text-white">${escapeHtml(addon.name)}</strong>
             </span>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
               ${addon.isCustom ? `
                 <button type="button" onclick="deleteCustomProposalService('${addon.id}')" class="px-2 py-1 rounded bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-[11px] font-bold transition-all cursor-pointer" title="Eliminar servicio">
                   🗑️ Eliminar
                 </button>
               ` : ''}
-              <button type="button" onclick="toggleEditProposalAddon('${addon.id}')" class="px-3 py-1 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all cursor-pointer shadow-md shadow-cyan-500/20">
+              <button type="button" onclick="cancelEditProposalAddon('${addon.id}')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center gap-1" title="Descartar cambios y conservar el valor que ya tenía">
+                ✕ Cancelar
+              </button>
+              <button type="button" onclick="saveEditProposalAddon('${addon.id}')" class="px-3 py-1 rounded bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition-all cursor-pointer shadow-md shadow-cyan-500/20">
                 ✓ Listo
               </button>
             </div>
@@ -308,9 +311,53 @@ export function renderProposalAddonsList() {
 
 export function toggleEditProposalAddon(id) {
   const addon = currentProposalAddons.find(a => a.id === id);
-  if (addon) {
-    addon.isEditing = !addon.isEditing;
+  if (!addon) return;
+
+  if (!addon.isEditing) {
+    // Entrar a edición: respaldar valores actuales
+    addon._backup = {
+      name: addon.name,
+      price: addon.price,
+      type: addon.type,
+      description: addon.description
+    };
+    addon.isEditing = true;
     renderProposalAddonsList();
+  } else {
+    saveEditProposalAddon(id);
+  }
+}
+
+export function saveEditProposalAddon(id) {
+  const addon = currentProposalAddons.find(a => a.id === id);
+  if (addon) {
+    delete addon._backup;
+    addon.isEditing = false;
+    delete addon.isNew;
+    renderProposalAddonsList();
+    updateProposalTotals();
+    showToast("✓ Cambios guardados para este servicio", "success");
+  }
+}
+
+export function cancelEditProposalAddon(id) {
+  const addon = currentProposalAddons.find(a => a.id === id);
+  if (addon) {
+    if (addon.isNew) {
+      deleteCustomProposalService(id);
+      return;
+    }
+    if (addon._backup) {
+      addon.name = addon._backup.name;
+      addon.price = addon._backup.price;
+      addon.type = addon._backup.type;
+      addon.description = addon._backup.description;
+      delete addon._backup;
+    }
+    addon.isEditing = false;
+    renderProposalAddonsList();
+    updateProposalTotals();
+    showToast("✕ Edición cancelada. Se mantuvo el valor anterior.", "info");
   }
 }
 

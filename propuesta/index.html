@@ -493,6 +493,70 @@
   </div>
 
   <!-- ========================================================
+       MODAL: PUENTE DIRECTO A CONTRATO DIGITAL 50/50 TRAS APROBACIÓN
+       ======================================================== -->
+  <div id="approvedContractBridgeModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-emerald-200 space-y-5 relative overflow-hidden">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-xl shrink-0">
+            ✓
+          </div>
+          <div>
+            <span class="text-[10px] font-black uppercase tracking-widest text-emerald-600 block">Propuesta Aprobada Oficialmente</span>
+            <h3 class="text-lg font-black text-slate-900 leading-tight">Paso Final: Formalización & Contrato 50/50</h3>
+          </div>
+        </div>
+        <button onclick="closeApprovedBridgeModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Hemos registrado la aprobación de tu propuesta para <strong id="bridgeClientName" class="text-slate-900">tu empresa</strong>. Para iniciar el desarrollo de inmediato, puedes firmar tu <strong>Contrato Digital 50/50</strong> en línea y notificar a nuestro equipo por WhatsApp:
+      </p>
+
+      <!-- Resumen Financiero 50/50 -->
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 grid grid-cols-3 gap-3 text-center">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Inversión Setup</span>
+          <strong id="bridgeSetupAmount" class="text-sm sm:text-base font-black text-slate-900">RD$ 0</strong>
+        </div>
+        <div class="border-x border-slate-200 px-2">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 block">Anticipo 50% Inicio</span>
+          <strong id="bridgeAdvanceAmount" class="text-sm sm:text-base font-black text-emerald-600">RD$ 0</strong>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Mensualidad</span>
+          <strong id="bridgeMonthlyAmount" class="text-sm sm:text-base font-black text-brand-600">RD$ 0</strong>
+        </div>
+      </div>
+
+      <!-- Botones de Acción Directa -->
+      <div class="space-y-2.5 pt-1">
+        <a 
+          id="bridgeContractLinkBtn"
+          href="../contrato/"
+          class="w-full py-3.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs sm:text-sm shadow-lg flex items-center justify-center gap-2 transition-all"
+        >
+          <span>📜 Paso 1: Abrir y Firmar Contrato Oficial 50/50</span>
+          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+
+        <a 
+          id="bridgeWhatsappLinkBtn"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all"
+        >
+          <span>💬 Paso 2: Enviar Confirmación por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
        LÓGICA JAVASCRIPT REACTIVA
        ======================================================== -->
   <script>
@@ -518,7 +582,7 @@
         id: "web-maintenance",
         name: "🛡️ Mantenimiento Web, Hosting Anycast & Soporte WhatsApp",
         description: "Alojamiento Anycast de ultra-velocidad, certificado SSL, monitoreo 24/7, copias de seguridad continuas y bolsa mensual de hasta 3 solicitudes de cambios de contenido (textos, fotos, precios) vía WhatsApp.",
-        price: 4000,
+        price: 4500,
         type: "monthly"
       },
       "google-maps-setup": {
@@ -1361,87 +1425,223 @@ ${selectedList.join('\n')}
 Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo con ISAPromoRD.`;
       }
 
-      // Sincronizar selección aprobada por el cliente en almacenamiento local y en la Nube (Supabase)
-        try {
-          if (proposal && proposal.id) {
-            const storedKey = "proposal_" + proposal.id;
-            const currentData = JSON.parse(localStorage.getItem(storedKey) || JSON.stringify(proposal || {}));
-            currentData.status = "approved";
-            currentData.approvedOption = chosenOption;
-            currentData.approvedAt = new Date().toISOString();
-            if (isComparisonMode && chosenOption === 'package') {
-              const pkg = proposal.offeredPackage || proposal.basePackage || {};
-              currentData.offeredPackage = pkg;
-              currentData.proposalSetup = proposal.packageTotals ? proposal.packageTotals.setup : (pkg.price || 0);
-              currentData.proposalMonthly = proposal.packageTotals ? proposal.packageTotals.monthly : (pkg.monthlyPrice || 0);
-            } else if (isComparisonMode && chosenOption === 'alacarte') {
-              const sList = proposal.selectedServices || proposal.addons || [];
-              currentData.selectedServices = sList;
-              currentData.proposalSetup = proposal.alacarteTotals ? proposal.alacarteTotals.setup : sList.filter(s => s.type !== 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
-              currentData.proposalMonthly = proposal.alacarteTotals ? proposal.alacarteTotals.monthly : sList.filter(s => s.type === 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
-            }
-            localStorage.setItem(storedKey, JSON.stringify(currentData));
+      let finalSetup = 0;
+      let finalMonthly = 0;
+      let contractServices = [];
 
-            // Actualizar también el listado local de historial si está en el mismo navegador
-            try {
-              const histRaw = localStorage.getItem("isapromo_agency_proposals_v1");
-              if (histRaw) {
-                const histList = JSON.parse(histRaw);
-                const hIdx = histList.findIndex(h => h && h.id === proposal.id);
-                if (hIdx !== -1) {
-                  histList[hIdx].status = "approved";
-                  histList[hIdx].approvedAt = currentData.approvedAt;
-                  localStorage.setItem("isapromo_agency_proposals_v1", JSON.stringify(histList));
-                }
-              }
-            } catch (errHist) {}
-
-            // Sincronizar aprobación en la Bóveda Cloud de Supabase para que se refleje en cualquier dispositivo
-            const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
-            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
-            const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
-            fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
-              headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
-            }).then(r => r.ok ? r.json() : []).then(rows => {
-              let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
-              if (rows && rows[0] && rows[0].optimization_matrix) {
-                vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
-              }
-              if (!vaultMatrix.proposalPayloads) vaultMatrix.proposalPayloads = {};
-              vaultMatrix.proposalPayloads[proposal.id] = currentData;
-              if (Array.isArray(vaultMatrix.proposals)) {
-                const pIdx = vaultMatrix.proposals.findIndex(p => p && p.id === proposal.id);
-                if (pIdx !== -1) {
-                  vaultMatrix.proposals[pIdx].status = "approved";
-                  vaultMatrix.proposals[pIdx].approvedAt = currentData.approvedAt;
-                }
-              }
-              vaultMatrix.updatedAt = new Date().toISOString();
-              return fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Prefer": "resolution=merge-duplicates",
-                  apikey: SUPABASE_ANON_KEY,
-                  Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-                },
-                body: JSON.stringify({
-                  id: SYSTEM_VAULT_ID,
-                  name: "ISAPromoRD System Vault",
-                  category: "System Vault",
-                  status: "archived",
-                  live_url: "",
-                  optimization_matrix: vaultMatrix,
-                  updated_at: new Date().toISOString()
-                })
-              });
-            }).catch(() => {});
+      if (isComparisonMode) {
+        if (chosenOption === 'package') {
+          const pkg = proposal.offeredPackage || proposal.basePackage || {};
+          finalSetup = proposal.packageTotals ? proposal.packageTotals.setup : (pkg.price || 0);
+          finalMonthly = proposal.packageTotals ? proposal.packageTotals.monthly : (pkg.monthlyPrice || 0);
+          contractServices.push({
+            name: pkg.title || "Paquete Integral ISAPromoRD",
+            type: "onetime",
+            price: finalSetup,
+            deliverables: pkg.deliverables || ["Implementación integral según propuesta aprobada."]
+          });
+          if (finalMonthly > 0) {
+            contractServices.push({
+              name: "🛡️ Retainer Mensual de Mantenimiento, Hosting Anycast & Soporte",
+              type: "monthly",
+              price: finalMonthly,
+              deliverables: ["Monitoreo 24/7, Hosting Anycast global y soporte técnico continuo."]
+            });
           }
-        } catch (e) {}
-
-        const encoded = encodeURIComponent(message);
-        window.open(`https://wa.me/18294554783?text=${encoded}`, '_blank');
+        } else {
+          const sList = proposal.selectedServices || proposal.addons || [];
+          finalSetup = proposal.alacarteTotals ? proposal.alacarteTotals.setup : sList.filter(s => s.type !== 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+          finalMonthly = proposal.alacarteTotals ? proposal.alacarteTotals.monthly : sList.filter(s => s.type === 'monthly').reduce((sum, s) => sum + (s.price || 0), 0);
+          contractServices = sList.map(s => ({
+            name: s.name,
+            type: s.type || "onetime",
+            price: s.price || 0,
+            deliverables: [s.description || "Servicio profesional aprobado a la carta."]
+          }));
+        }
+      } else {
+        const bp = proposal.basePackage || {};
+        if (bp.id && bp.id !== 'pack-custom' && bp.id !== 'pack-none') {
+          if (bp.monthlyPrice) {
+            finalMonthly += bp.monthlyPrice;
+            finalSetup += bp.price;
+          } else if (bp.type === "monthly") {
+            finalMonthly += bp.price;
+          } else {
+            finalSetup += bp.price;
+          }
+          contractServices.push({
+            name: bp.title,
+            type: bp.type || "onetime",
+            price: bp.price || 0,
+            deliverables: bp.deliverables || [bp.description || "Paquete base aprobado."]
+          });
+        }
+        const activeAddons = proposal.addons || proposal.selectedServices || [];
+        activeAddons.forEach(a => {
+          if (a.checked !== false) {
+            if (a.type === "monthly") finalMonthly += a.price;
+            else finalSetup += a.price;
+            contractServices.push({
+              name: a.name,
+              type: a.type || "onetime",
+              price: a.price || 0,
+              deliverables: [a.description || "Módulo incluido en propuesta."]
+            });
+          }
+        });
       }
+
+      const finalAdvance = finalSetup > 0 ? Math.round(finalSetup * 0.5) : Math.round(finalMonthly * 0.5);
+      const autoContractId = "ctr-" + (proposal && proposal.id ? proposal.id : Date.now());
+      const autoContract = {
+        id: autoContractId,
+        contractNumber: "CTR-" + new Date().getFullYear() + "-" + String(Math.floor(100 + Math.random() * 900)),
+        clientId: (proposal && proposal.clientId) || ("client-" + Date.now()),
+        clientName: (proposal && proposal.clientName) || "Cliente Corporativo",
+        clientRnc: (proposal && proposal.clientRnc) || "Por completar al firmar",
+        clientRepresentative: (proposal && (proposal.contactPerson || proposal.clientRepresentative)) || "Representante Autorizado",
+        clientPhone: (proposal && (proposal.phone || proposal.clientPhone)) || "Registrado en Propuesta",
+        clientEmail: (proposal && (proposal.email || proposal.clientEmail)) || "Registrado en Propuesta",
+        date: new Date().toLocaleDateString('es-DO', { year: 'numeric', month: 'long', day: 'numeric' }),
+        status: "sent",
+        deliveryDays: (proposal && proposal.deliveryDays) || "10 a 15 días laborables",
+        services: contractServices,
+        totalSetup: finalSetup,
+        totalMonthly: finalMonthly,
+        depositAmount: finalAdvance,
+        completionAmount: finalSetup > 0 ? (finalSetup - finalAdvance) : 0
+      };
+
+      // Sincronizar selección aprobada por el cliente y el contrato 50/50 en almacenamiento local y en la Nube (Supabase)
+      try {
+        const storedContractsRaw = localStorage.getItem("isapromo_agency_contracts_v1");
+        const storedContracts = storedContractsRaw ? JSON.parse(storedContractsRaw) : [];
+        const existingCtrIdx = storedContracts.findIndex(c => c && c.id === autoContractId);
+        if (existingCtrIdx !== -1) {
+          if (storedContracts[existingCtrIdx].status !== 'signed') {
+            storedContracts[existingCtrIdx] = autoContract;
+          }
+        } else {
+          storedContracts.unshift(autoContract);
+        }
+        localStorage.setItem("isapromo_agency_contracts_v1", JSON.stringify(storedContracts));
+
+        if (proposal && proposal.id) {
+          const storedKey = "proposal_" + proposal.id;
+          const currentData = JSON.parse(localStorage.getItem(storedKey) || JSON.stringify(proposal || {}));
+          currentData.status = "approved";
+          currentData.approvedOption = chosenOption;
+          currentData.approvedAt = new Date().toISOString();
+          currentData.proposalSetup = finalSetup;
+          currentData.proposalMonthly = finalMonthly;
+          currentData.linkedContractId = autoContractId;
+          localStorage.setItem(storedKey, JSON.stringify(currentData));
+
+          try {
+            const histRaw = localStorage.getItem("isapromo_agency_proposals_v1");
+            if (histRaw) {
+              const histList = JSON.parse(histRaw);
+              const hIdx = histList.findIndex(h => h && h.id === proposal.id);
+              if (hIdx !== -1) {
+                histList[hIdx].status = "approved";
+                histList[hIdx].approvedAt = currentData.approvedAt;
+                histList[hIdx].linkedContractId = autoContractId;
+                localStorage.setItem("isapromo_agency_proposals_v1", JSON.stringify(histList));
+              }
+            }
+          } catch (errHist) {}
+
+          const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+          const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+          const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
+          fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
+            headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+          }).then(r => r.ok ? r.json() : []).then(rows => {
+            let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
+            if (rows && rows[0] && rows[0].optimization_matrix) {
+              vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
+            }
+            if (!vaultMatrix.proposalPayloads) vaultMatrix.proposalPayloads = {};
+            vaultMatrix.proposalPayloads[proposal.id] = currentData;
+            if (Array.isArray(vaultMatrix.proposals)) {
+              const pIdx = vaultMatrix.proposals.findIndex(p => p && p.id === proposal.id);
+              if (pIdx !== -1) {
+                vaultMatrix.proposals[pIdx].status = "approved";
+                vaultMatrix.proposals[pIdx].approvedAt = currentData.approvedAt;
+              }
+            }
+            if (!Array.isArray(vaultMatrix.contracts)) vaultMatrix.contracts = [];
+            const cIdx = vaultMatrix.contracts.findIndex(c => c && c.id === autoContractId);
+            if (cIdx === -1) {
+              vaultMatrix.contracts.unshift(autoContract);
+            } else if (vaultMatrix.contracts[cIdx].status !== 'signed') {
+              vaultMatrix.contracts[cIdx] = autoContract;
+            }
+            vaultMatrix.updatedAt = new Date().toISOString();
+            return fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates",
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+              },
+              body: JSON.stringify({
+                id: SYSTEM_VAULT_ID,
+                name: "ISAPromoRD System Vault",
+                category: "System Vault",
+                status: "archived",
+                live_url: "",
+                optimization_matrix: vaultMatrix,
+                updated_at: new Date().toISOString()
+              })
+            });
+          }).catch(() => {});
+        }
+      } catch (e) {}
+
+      // Poblar y abrir el modal de Puente al Contrato Digital 50/50 + WhatsApp
+      const encodedWa = encodeURIComponent(message);
+      const waUrl = `https://wa.me/18294554783?text=${encodedWa}`;
+      let contractUrl = `../contrato/?id=${encodeURIComponent(autoContractId)}`;
+      try {
+        const b64Contract = btoa(unescape(encodeURIComponent(JSON.stringify(autoContract))));
+        contractUrl = `../contrato/#${b64Contract}`;
+      } catch (errB64) {}
+
+      const bridgeModal = document.getElementById("approvedContractBridgeModal");
+      if (bridgeModal) {
+        const clientEl = document.getElementById("bridgeClientName");
+        const setupEl = document.getElementById("bridgeSetupAmount");
+        const advEl = document.getElementById("bridgeAdvanceAmount");
+        const monthlyEl = document.getElementById("bridgeMonthlyAmount");
+        const ctrBtn = document.getElementById("bridgeContractLinkBtn");
+        const waBtn = document.getElementById("bridgeWhatsappLinkBtn");
+        const acceptBtnText = document.getElementById("acceptButtonText");
+
+        if (clientEl) clientEl.textContent = (proposal && proposal.clientName) || "tu empresa";
+        if (setupEl) setupEl.textContent = `RD$ ${finalSetup.toLocaleString('es-DO')}`;
+        if (advEl) advEl.textContent = `RD$ ${finalAdvance.toLocaleString('es-DO')}`;
+        if (monthlyEl) monthlyEl.textContent = `RD$ ${finalMonthly.toLocaleString('es-DO')}/mes`;
+        if (ctrBtn) ctrBtn.href = contractUrl;
+        if (waBtn) waBtn.href = waUrl;
+        if (acceptBtnText) acceptBtnText.textContent = "✓ Propuesta Aprobada • Ver Contrato";
+
+        bridgeModal.classList.remove("hidden");
+        bridgeModal.classList.add("flex");
+      } else {
+        window.open(waUrl, '_blank');
+      }
+    }
+
+    function closeApprovedBridgeModal() {
+      const m = document.getElementById("approvedContractBridgeModal");
+      if (m) {
+        m.classList.add("hidden");
+        m.classList.remove("flex");
+      }
+    }
 
     function openAdjustModal() {
       document.getElementById("adjustModal").classList.remove("hidden");

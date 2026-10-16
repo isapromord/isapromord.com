@@ -1414,9 +1414,9 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         
         <!-- ==========================================
-             COLUMNA IZQUIERDA (8 COLS): KPIS, FILTROS Y CLIENTES
+             COLUMNA IZQUIERDA (8 COLS -> 12 COLS AL PLEGADO): KPIS, FILTROS Y CLIENTES
              ========================================== -->
-        <div class="lg:col-span-8 space-y-4">
+        <div id="clientsLeftCol" class="lg:col-span-8 space-y-4 transition-all duration-300">
           
           <!-- 4 TARJETAS KPI SUPERIORES (STITCH COMMAND CENTER) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
@@ -1607,6 +1607,18 @@
                 </button>
               </div>
 
+              <!-- Switch Panel de Telemetría Lateral (Full-Width Focus Mode) -->
+              <button 
+                id="btnToggleTelemetry" 
+                type="button"
+                onclick="toggleTelemetrySidebar()" 
+                title="Ocultar / Mostrar Panel de Telemetría Lateral para maximizar el Directorio"
+                class="px-2.5 py-1.5 rounded bg-slate-900 border border-slate-800 text-cyan-400 hover:text-white hover:border-cyan-500/40 text-xs font-mono font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer"
+              >
+                <span>📊</span>
+                <span id="btnToggleTelemetryText" class="hidden xl:inline">Ocultar Telemetría</span>
+              </button>
+
               <!-- Switch Modo Presentación -->
               <button 
                 id="btnPresentationMode" 
@@ -1641,7 +1653,7 @@
         <!-- ==========================================
              COLUMNA DERECHA (4 COLS): WIDGETS DE TELEMETRÍA (STITCH)
              ========================================== -->
-        <div class="lg:col-span-4 space-y-4">
+        <div id="telemetryRightCol" class="lg:col-span-4 space-y-4 transition-all duration-300">
           
           <!-- WIDGET 1: ESTADO DE RED PERIMETRAL -->
           <div class="stitch-card bg-[#0f172a] rounded-md p-4 sm:p-5 border border-white/[0.08] shadow-sm space-y-4 transition-colors">
@@ -1651,9 +1663,14 @@
                 <span class="text-cyan-400">❇️</span>
                 <h3 class="text-xs font-bold uppercase tracking-wider text-white font-mono stitch-title">Estado de Red Perimetral</h3>
               </div>
-              <button onclick="pingAllClients()" class="px-2 py-0.5 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95" title="Hacer ping a todos los dominios activos">
-                <span>↻ Sondeo en Vivo</span>
-              </button>
+              <div class="flex items-center gap-1.5">
+                <button onclick="pingAllClients()" class="px-2 py-0.5 rounded-md bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-[10px] font-mono font-bold transition-all cursor-pointer flex items-center gap-1 active:scale-95" title="Hacer ping a todos los dominios activos">
+                  <span>↻ Sondeo en Vivo</span>
+                </button>
+                <button onclick="toggleTelemetrySidebar()" class="p-1 rounded bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-mono transition-colors cursor-pointer" title="Plegar panel lateral de telemetría">
+                  ✕
+                </button>
+              </div>
             </div>
 
             <!-- Medidor Radial Circular (Espacio Amplio sin Letras Sobresaliendo) -->
@@ -1744,8 +1761,6 @@
         </div>
 
       </div>
-
-    
       </div>
 
       <!-- ========================================================
@@ -4403,5 +4418,48 @@
     </button>
   </nav>
 
+  <script>
+    window.toggleTelemetrySidebar = function(forceState) {
+      const leftCol = document.getElementById('clientsLeftCol');
+      const rightCol = document.getElementById('telemetryRightCol');
+      const btnText = document.getElementById('btnToggleTelemetryText');
+      const btn = document.getElementById('btnToggleTelemetry');
+      if (!leftCol || !rightCol) return;
+
+      const isCurrentlyHidden = rightCol.classList.contains('hidden');
+      const shouldHide = typeof forceState === 'boolean' ? forceState : !isCurrentlyHidden;
+
+      if (shouldHide) {
+        rightCol.classList.add('hidden');
+        leftCol.classList.remove('lg:col-span-8');
+        leftCol.classList.add('lg:col-span-12');
+        if (btnText) btnText.textContent = 'Mostrar Telemetría';
+        if (btn) {
+          btn.classList.remove('text-cyan-400');
+          btn.classList.add('text-slate-400');
+        }
+        try { localStorage.setItem('isapromo_hide_telemetry_sidebar', '1'); } catch (e) {}
+      } else {
+        rightCol.classList.remove('hidden');
+        leftCol.classList.remove('lg:col-span-12');
+        leftCol.classList.add('lg:col-span-8');
+        if (btnText) btnText.textContent = 'Ocultar Telemetría';
+        if (btn) {
+          btn.classList.add('text-cyan-400');
+          btn.classList.remove('text-slate-400');
+        }
+        try { localStorage.setItem('isapromo_hide_telemetry_sidebar', '0'); } catch (e) {}
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        const saved = localStorage.getItem('isapromo_hide_telemetry_sidebar');
+        if (saved === '1') {
+          window.toggleTelemetrySidebar(true);
+        }
+      } catch (e) {}
+    });
+  </script>
 </body>
 </html>

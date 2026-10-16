@@ -1385,3 +1385,19 @@
      - **Seleccionar / Deseleccionar Todos los Servicios (`#modalToggleAllServicesBtn`):** Conmuta masivamente los 7 checkboxes de alcance contratado.
   5. **Ampliación de Suite a 16 Pruebas:** Se añadió el `Test 16` en `scratch/test_suite.js` simulando la ejecución completa del guardado y verificación de actualización de clientes. 16/16 pruebas unitarias pasando al 100%.
 - **Regla MBOS Extraída:** En formularios web críticos, nunca depender de la validación nativa `type="url"` sin sanitización en JS; y toda función transaccional de guardado debe estar encapsulada en `try/catch` con feedback visual al usuario.
+
+## [2026-10-16] - Rediseño de Trust Strip & Portafolio en Landing Page (Marquee High-Stature & Cards Limpias)
+- **Crítica Visual del Usuario:**
+  1. La barra de marcas en scroll infinito (`marquee-track`) se veía muy pequeña y apagada contra el fondo oscuro, con baja legibilidad e impacto.
+  2. Las tarjetas de casos destacados eran demasiado grandes y estaban sobrecargadas de etiquetas de colores (`AGROINDUSTRIA • RD`, `0.4s Carga`, `Top #1 SEO`, etc.) que generaban ruido visual innecesario en lugar de claridad.
+- **Acción & Refinamiento de Diseño:**
+  1. **Potenciación del Ticker Marquee:**
+     - Se aumentó la tipografía de cada marca a `text-base sm:text-lg` con pesos contundentes (`font-black`, `font-extrabold`).
+     - Se ampliaron los iconos/emojis a `text-xl sm:text-2xl`.
+     - Se elevó el contraste a `text-slate-100` con `opacity-90 hover:opacity-100` y transiciones dinámicas.
+     - Se colocó un contenedor con fondo sutil (`bg-[#0d121f]/70 border-y border-[#1e293b]/70 backdrop-blur-sm`) que enmarca la cinta y le da presencia de nivel corporativo internacional.
+  2. **Purga de Ruido y Compactación de Tarjetas Destacadas:**
+     - Se eliminó por completo la fila superior de tags redundantes de cada tarjeta, despejando la interfaz.
+     - Se redujo el padding de `p-5` a `p-3.5 sm:p-4 rounded-xl`, logrando tarjetas más bajas, compactas y estilizadas.
+     - Se simplificó la jerarquía: Nombre de cliente como título limpio con flecha interactiva `↗`, descripción concisa de 2 líneas y métrica clave verificada en el pie (`+140 chats/mes`, `100/100 Lighthouse`, etc.).
+- **Regla MBOS Extraída:** En secciones de prueba social (Social Proof & Trust Strip), el protagonismo debe recaer en la fuerza de la cinta de marcas (Wordmark Track); las tarjetas de casos deben ser concisas, compactas y libres de badges redundantes que compitan con el nombre del cliente.

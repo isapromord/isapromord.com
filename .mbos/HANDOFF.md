@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-16 (v2.3.6: Centrado Vertical Dinámico & Showcase Visual Puro en Sticky Feature)  
+> **Última Actualización:** 2026-10-20 (v2.3.7: Enlaces de Propuestas Ultracompactos <200 Chars, Cloud Hydration & Bitly-Proof)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,17 +13,19 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 16/16 pruebas unitarias pasando al 100%, cachebuster v2.3.6 activo.
+> **Estado del Sistema:** 100% en línea, 17/17 pruebas unitarias pasando al 100%, cachebuster v2.3.7 activo.
 
 ---
 
-### Hitos Completados en v2.3.6 (2026-10-16):
-1. **Centrado Vertical Dinámico en Viewport para Sticky Feature (`#servicios`):**
-   - Eliminación de la posición rígida `lg:top-28` que pegaba la tarjeta contra el navbar inferior.
-   - Implementación de `lg:sticky lg:top-[max(8.5rem,calc(50vh-220px))]`, asegurando suspensión perfectamente centrada en el eje vertical en cualquier tamaño de monitor sin dejar vacíos desproporcionados debajo.
-2. **Showcase Visual Puro (Eliminación de Degradados Oscuros y Textos Duplicados):**
-   - Remoción del degradado denso y los párrafos que cubrían el 50% de las imágenes 3D.
-   - 100% de los renders visibles sin cortes (teléfono WhatsApp, esferas neuronales, mapa holográfico, velocímetro Core Web Vitals y dashboard CRM).
-   - Marco redondeado de grado dispositivo (`rounded-2xl sm:rounded-3xl` + `ring-1 ring-white/10`) y micro-badges flotantes de estado translúcidos.
+### Hitos Completados en v2.3.7 (2026-10-20):
+1. **Compresión Semántica de Enlaces de Propuestas Comerciales (<200-240 Caracteres):**
+   - Eliminación de la codificación Base64 total en `&d=` que generaba URLs monstruosas de ~2,752 caracteres.
+   - Nueva arquitectura de parámetros cortos (`cliente`, `cat`, `plan`, `id`, `svc`, `setup`, `monthly`, `custom`).
+   - Soporte para sobreescritura de precios individuales en formato `svcId:price` (ej: `web-maintenance:2000,google-maps-pack:5000`).
+   - URLs 100% compatibles con Bitly (límite de 2,048 caracteres), WhatsApp, iMessage y SMS sin verse como enlaces de spam.
+2. **Hidratación en la Nube y Compatibilidad hacia Atrás Total:**
+   - Persistencia automática de `payload JSONB` en Supabase `agency_proposals`.
+   - Renderizado visual instantáneo en 0ms vía query params, complementado con enriquecimiento progresivo desde la nube en background.
+   - Preservación del decodificador histórico de `&d=` para asegurar que enlaces antiguos nunca se rompan.
 3. **Pruebas Automatizadas:**
-   - **16/16 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.
+   - **17/17 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.

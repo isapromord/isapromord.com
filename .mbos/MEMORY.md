@@ -1431,3 +1431,22 @@
 - **Regla MBOS Extraída:** En layouts de storytelling interactivo de 2 columnas (Sticky Visual + Scrolling Text), la columna fija debe calcularse siempre con `top-[max(minHeaderOffset, calc(50vh - halfCardHeight))]` para centrado vertical óptimo; y el canvas visual no debe competir con el texto de la columna derecha mediante scrims oscuros invasivos.
 
 - **Regla Estética Inmutable:** El contenedor sticky de los 4 Pilares en `index.html` debe mantenerse con bordes arquitectónicos rectos a 90 grados (`rounded-none`). Queda prohibido redondear sus esquinas (`rounded-2xl`, etc.).
+
+
+## [2026-10-20] - Arquitectura de Enlaces de Propuestas Ultracompactos (<200 Chars), Respaldo Cloud & Bitly-Proof
+- **Problema Detectado por el Usuario:** El generador de propuestas comerciales en el Dashboard generaba enlaces de ~2,752 caracteres al serializar en Base64 todo el payload JSON en el parámetro `&d=`. Bitly rechazaba el enlace por superar el límite de 2,048 caracteres ("not even bitly lo acepta") y en WhatsApp se visualizaba como un bloque masivo de texto ininteligible que generaba desconfianza comercial y riesgo de spam.
+- **Causa Raíz:** El generador serializaba objetos estáticos completos (descripciones de catálogo de hasta 300 caracteres por servicio, arrays redundantes de `selectedServices` + `addons`) dentro de `&d=` en lugar de enviar identificadores semánticos compactos (`svc=landing-page,web-maintenance:2000,google-maps-pack:5000`).
+- **Solución de Ingeniería:**
+  1. **Compresión Semántica de URL en `dashboard/src/proposals.js`:**
+     - Se reemplazó el string Base64 masivo por parámetros limpios: `cliente`, `cat`, `plan`, `id`, `svc`, `setup`, `monthly` y `custom` (para ítems ad-hoc).
+     - Soporte para sobreescritura compacta de precios en servicios de catálogo: `svcId:precio` (ej. `web-maintenance:2000,google-maps-pack:5000`).
+     - La longitud de la URL para propuestas completas bajó de ~2,752 caracteres a menos de 200–240 caracteres (>91% de reducción), 100% compatible con Bitly, WhatsApp, iMessage y SMS.
+  2. **Persistencia en la Nube (Supabase Cloud Hydration):**
+     - Se vinculó `saveProposalToCloud` para registrar el objeto íntegro `payload JSONB` en la tabla `agency_proposals`.
+     - En `propuesta/index.html`, `initProposalData` primero renderiza instantáneamente (0ms) con los parámetros de la URL, y en paralelo ejecuta `hydrateProposalFromCloud(propId)` como progressive enhancement asíncrono para enriquecer notas personalizadas si existen en la nube.
+  3. **Compatibilidad hacia Atrás 100%:**
+     - Se mantuvo el decodificador de `&d=` intacto en `propuesta/index.html` para que cualquier propuesta generada en el pasado siga abriendo perfectamente sin roturas.
+  4. **Suite de Pruebas:**
+     - Se expandió `scratch/test_suite.js` a 17 pruebas unitarias (Test 17: Verificación de compresión de URL a <250 caracteres, compatibilidad Bitly y parsing sin pérdidas).
+- **Regla MBOS Extraída:**
+  - *URL Hygiene:* Jamás serializar textos estáticos de catálogo ni descripciones completas en query strings. Utilizar identificadores semánticos compactos con deltas de personalización (`id:overridePrice`), delegando el payload exhaustivo a almacenamiento persistente (Supabase `JSONB`) o localStorage.

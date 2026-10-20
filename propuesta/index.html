@@ -560,6 +560,9 @@
        LÓGICA JAVASCRIPT REACTIVA
        ======================================================== -->
   <script>
+    const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+
     // ==========================================
     // 1. CATALOGOS (NUEVO ESQUEMA COMPACTO)
     // ==========================================
@@ -839,8 +842,14 @@
       initProposalData();
       renderProposal();
 
-      // Parámetros de URL para descarga directa o impresión
+      // Hidratación en segundo plano desde Supabase si se incluye ID
       const urlParams = new URLSearchParams(window.location.search);
+      const propId = urlParams.get('id');
+      if (propId) {
+        hydrateProposalFromCloud(propId);
+      }
+
+      // Parámetros de URL para descarga directa o impresión
       if (urlParams.get('download') === '1' || urlParams.get('download') === 'true') {
         setTimeout(() => {
           downloadProposalPdf();
@@ -852,6 +861,26 @@
       }
     });
 
+    async function hydrateProposalFromCloud(propId) {
+      if (!propId) return;
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_proposals?id=eq.${encodeURIComponent(propId)}&select=payload`, {
+          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+        });
+        if (!res.ok) return;
+        const rows = await res.json();
+        if (rows && rows.length > 0 && rows[0].payload) {
+          proposal = { ...proposal, ...rows[0].payload };
+          try {
+            localStorage.setItem(`proposal_${propId}`, JSON.stringify(proposal));
+          } catch (e) {}
+          renderProposal();
+        }
+      } catch (e) {
+        // Fallback silencioso a la renderización inmediata por URL
+      }
+    }
+
     function initProposalData() {
       const urlParams = new URLSearchParams(window.location.search);
       const propId = urlParams.get('id');
@@ -862,6 +891,9 @@
       const svcIds = urlParams.get('svc') || urlParams.get('servicios') || urlParams.get('addons');
       const mode = urlParams.get('mode');
       const dataParam = urlParams.get('d');
+      const paramSetup = urlParams.get('setup');
+      const paramMonthly = urlParams.get('monthly');
+      const paramCustom = urlParams.get('custom');
 
       // 0. Preset personalizado por slug (ej: ?p=demo o ?c=demo o legado)
       if (slugPreset.includes('demo') || slugPreset.includes('ejemplo') || slugPreset.includes('pasionpecuaria') || slugPreset.includes('pasion')) {
@@ -882,7 +914,7 @@
         }
       }
 
-      // 1b. Decodificar payload completo si viene por parámetro 'd' (WhatsApp / otros dispositivos)
+      // 1b. Decodificar payload completo si viene por parámetro 'd' (WhatsApp / otros dispositivos / legado)
       if (dataParam) {
         try {
           const jsonStr = decodeURIComponent(escape(atob(dataParam)));
@@ -909,15 +941,46 @@
         let alacarteMonthly = 0;
         
         if (svcIds) {
-          const ids = svcIds.split(',').map(s => s.trim()).filter(Boolean);
-          ids.forEach(id => {
+          const rawItems = svcIds.split(',').map(s => s.trim()).filter(Boolean);
+          rawItems.forEach(item => {
+            const parts = item.split(':');
+            const id = parts[0];
+            const overridePrice = parts.length > 1 && !isNaN(Number(parts[1])) ? Number(parts[1]) : null;
             if (SERVICE_CATALOG[id]) {
-              const svc = { ...SERVICE_CATALOG[id], checked: true };
+              const svc = { 
+                ...SERVICE_CATALOG[id], 
+                price: overridePrice !== null ? overridePrice : SERVICE_CATALOG[id].price,
+                checked: true 
+              };
               selectedServices.push(svc);
               if (svc.type === "monthly") alacarteMonthly += svc.price;
               else alacarteSetup += svc.price;
             }
           });
+        }
+
+        if (paramCustom) {
+          try {
+            const parsedCustom = JSON.parse(paramCustom);
+            if (Array.isArray(parsedCustom)) {
+              parsedCustom.forEach(c => {
+                const customSvc = {
+                  id: c.id || ('custom-' + Math.random().toString(36).substr(2, 9)),
+                  name: c.name || c.n || 'Servicio Personalizado',
+                  description: c.description || c.d || 'Servicio especializado acordado con el cliente.',
+                  price: Number(c.price || c.p || 0),
+                  type: (c.type === 'monthly' || c.t === 'm') ? 'monthly' : 'onetime',
+                  checked: true,
+                  isCustom: true
+                };
+                selectedServices.push(customSvc);
+                if (customSvc.type === 'monthly') alacarteMonthly += customSvc.price;
+                else alacarteSetup += customSvc.price;
+              });
+            }
+          } catch (e) {
+            console.warn("No se pudo decodificar el parámetro custom:", e);
+          }
         }
 
         // Si no se pasaron servicios específicos pero hay un paquete, auto-poblar con los incluidos en el paquete
@@ -931,8 +994,16 @@
             }
           });
         }
+
+        // Si se especificaron totales explícitos en la URL (override)
+        if (paramSetup !== null && !isNaN(Number(paramSetup))) {
+          alacarteSetup = Number(paramSetup);
+        }
+        if (paramMonthly !== null && !isNaN(Number(paramMonthly))) {
+          alacarteMonthly = Number(paramMonthly);
+        }
         
-        const isComparison = resolvedPkgId !== 'pack-none';
+        const isComparison = (resolvedPkgId !== 'pack-none' && mode !== 'alacarte');
         const pkgSetup = isComparison ? offeredPackage.price : alacarteSetup;
         const pkgMonthly = isComparison ? offeredPackage.monthlyPrice : alacarteMonthly;
         const diffSetup = isComparison ? Math.max(0, alacarteSetup - pkgSetup) : 0;
@@ -948,7 +1019,7 @@
           clientCategory: category || "Servicios Comerciales",
           dateStr: dateFormatted,
           validity: "15 Días Hábiles",
-          mode: mode === 'alacarte' ? 'alacarte' : 'comparison',
+          mode: isComparison ? 'comparison' : 'alacarte',
           selectedServices: selectedServices,
           alacarteTotals: {
             setup: alacarteSetup,
@@ -963,6 +1034,8 @@
             setup: diffSetup,
             monthly: diffMonthly
           },
+          proposalSetup: isComparison ? pkgSetup : alacarteSetup,
+          proposalMonthly: isComparison ? pkgMonthly : alacarteMonthly,
           basePackage: isComparison ? offeredPackage : { id: 'pack-custom', title: 'Cotización A la Carta', price: alacarteSetup, monthlyPrice: alacarteMonthly, deliverables: [] },
           addons: selectedServices
         };
@@ -1552,8 +1625,6 @@ Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo c
             }
           } catch (errHist) {}
 
-          const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
-          const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
           const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
           fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
             headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }

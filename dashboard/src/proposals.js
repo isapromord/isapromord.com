@@ -673,9 +673,44 @@ export function handleGenerateProposal(e) {
     fullUrl = `${origin}${pathname}/propuestas/pasionpecuaria/`;
   } else {
     const shortPlan = selectedBaseKey.replace(/^pack-/, '');
-    const jsonStr = JSON.stringify(proposalPayload);
-    const dataParam = btoa(unescape(encodeURIComponent(jsonStr)));
-    fullUrl = `${origin}${pathname}/propuesta/?cliente=${encodeURIComponent(clientName)}&plan=${shortPlan}&id=${proposalPayload.id}&d=${dataParam}`;
+    const searchParams = new URLSearchParams();
+    searchParams.set("cliente", clientName);
+    if (category && category !== "Servicios Comerciales") {
+      searchParams.set("cat", category);
+    }
+    searchParams.set("plan", shortPlan);
+    searchParams.set("id", proposalPayload.id);
+
+    const svcTokens = [];
+    const customItems = [];
+    selectedServices.forEach(s => {
+      if (s.isCustom || (s.id && s.id.startsWith("custom-"))) {
+        customItems.push({
+          n: s.name,
+          p: s.price,
+          t: s.type === "monthly" ? "m" : "o"
+        });
+      } else if (s.id) {
+        const masterItem = PROPOSAL_ADDONS.find(a => a.id === s.id);
+        if (masterItem && masterItem.price !== s.price) {
+          svcTokens.push(`${s.id}:${s.price}`);
+        } else {
+          svcTokens.push(s.id);
+        }
+      }
+    });
+
+    if (svcTokens.length > 0) {
+      searchParams.set("svc", svcTokens.join(","));
+    }
+    if (customItems.length > 0) {
+      searchParams.set("custom", JSON.stringify(customItems));
+    }
+
+    if (alacarteSetup > 0) searchParams.set("setup", alacarteSetup);
+    if (alacarteMonthly > 0) searchParams.set("monthly", alacarteMonthly);
+
+    fullUrl = `${origin}${pathname}/propuesta/?${searchParams.toString()}`;
   }
   
   const downloadPdfUrl = fullUrl.includes('?') ? `${fullUrl}&download=1` : `${fullUrl}?download=1`;
@@ -713,6 +748,7 @@ export function handleGenerateProposal(e) {
     onetime: isComparison ? pkgSetup : alacarteSetup,
     monthly: isComparison ? pkgMonthly : alacarteMonthly,
     url: fullUrl,
+    payload: proposalPayload,
     createdAt: nowIso
   });
 
@@ -987,6 +1023,7 @@ async function saveProposalToCloud(prop) {
       onetime: prop.onetime,
       monthly: prop.monthly,
       url: prop.url,
+      payload: prop.payload,
       created_at: prop.createdAt || new Date().toISOString()
     };
     const { error } = await supabaseClient

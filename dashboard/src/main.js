@@ -40,6 +40,7 @@ import {
   updateEdgePing,
   getBillingStatus,
   calculateTotalMrr,
+  calculateFinancialSummary,
   togglePresentationMode,
   updateKpis,
   renderViralFootersWidget,
@@ -284,6 +285,8 @@ const windowBridge = {
   formatDate,
   showToast,
   updateKpis,
+  calculateTotalMrr,
+  calculateFinancialSummary,
   copyToClipboard,
   copyBankDetails,
   toggleThemeMode,
@@ -536,6 +539,7 @@ window.ISAPromo = {
     audit: { runServicesAudit, quickSaveAuditAsClient, createProposalFromAudit },
     proposals: { initProposalBuilder, handleGenerateProposal, applyAuditPreselectionToProposal },
     accounting: { loadAccountingData, addAccountingTransaction },
+    ui: { calculateFinancialSummary, calculateTotalMrr, updateKpis },
     uptime: { pingAllClients, checkUrlUptime }
   }
 };

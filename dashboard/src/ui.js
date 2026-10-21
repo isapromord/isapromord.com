@@ -249,16 +249,60 @@ export function getBillingStatus(renewalDateStr) {
 }
 
 // ==========================================
-// 8. MRR CALCULATION
+// 8. MRR & FINANCIAL SUMMARY CALCULATIONS
 // ==========================================
 export function calculateTotalMrr(clientList = state.clients) {
   return (clientList || []).reduce((acc, c) => {
-    if (c.status === 'archived' || c.status === 'lead' || c.isAgency || c.id === 'agency-isapromord') return acc;
+    if (c.status === 'archived' || c.status === 'lead' || c.status === 'prospecto' || c.isAgency || c.id === 'agency-isapromord') return acc;
+    if (typeof c.fee === 'number') return acc + c.fee;
     const str = String(c.fee || '');
     const m = str.match(/[\d,]+/);
     const val = m ? parseInt(m[0].replace(/,/g, ''), 10) : 0;
     return acc + (isNaN(val) ? 0 : val);
   }, 0);
+}
+
+export function calculateFinancialSummary(clientList = state.clients) {
+  let totalSetupAgreed = 0;
+  let totalSetupCollected = 0;
+  let totalSetupReceivable = 0;
+
+  (clientList || []).forEach(c => {
+    if (c.status === 'archived' || c.isAgency || c.id === 'agency-isapromord') return;
+    
+    // Ignorar leads o prospectos sin propuesta formal aprobada ni anticipo pagado
+    if (c.status === 'lead' || c.status === 'prospecto') {
+      if (c.setupStatus !== 'deposit_paid' && c.setupStatus !== 'settled' && c.proposalStatus !== 'approved') {
+        return;
+      }
+    }
+
+    const setupPrice = (c.setupPrice !== undefined && c.setupPrice !== null && !isNaN(Number(c.setupPrice))) 
+      ? Number(c.setupPrice) 
+      : 30000;
+    
+    const setupStatus = c.setupStatus || 'settled';
+
+    totalSetupAgreed += setupPrice;
+
+    if (setupStatus === 'settled') {
+      totalSetupCollected += setupPrice;
+    } else if (setupStatus === 'deposit_paid') {
+      totalSetupCollected += Math.round(setupPrice * 0.5);
+      totalSetupReceivable += Math.round(setupPrice * 0.5);
+    } else if (setupStatus === 'pending') {
+      totalSetupReceivable += setupPrice;
+    }
+  });
+
+  const mrr = calculateTotalMrr(clientList);
+
+  return {
+    totalSetupAgreed,
+    totalSetupCollected,
+    totalSetupReceivable,
+    mrr
+  };
 }
 
 // ==========================================
@@ -295,11 +339,40 @@ export function updateKpis() {
   if (overviewNodesSub) overviewNodesSub.textContent = `${activeCount}/${clients.length} Nodos Live`;
   if (totalEl) totalEl.textContent = clients.length;
 
+  // Resumen Financiero Ejecutivo (Visual Ledger: Setups Acordados, Cobrado en Caja, Por Cobrar, MRR)
+  const finances = calculateFinancialSummary(clients);
+
+  const setupAgreedEl = document.getElementById('kpiSetupAgreed');
+  if (setupAgreedEl) {
+    setupAgreedEl.textContent = state.presentationMode ? 'RD$ ••••••' : `RD$ ${finances.totalSetupAgreed.toLocaleString('es-DO')}`;
+  }
+
+  const setupCollectedEl = document.getElementById('kpiSetupCollected');
+  if (setupCollectedEl) {
+    setupCollectedEl.textContent = state.presentationMode ? 'RD$ ••••••' : `RD$ ${finances.totalSetupCollected.toLocaleString('es-DO')}`;
+  }
+
+  const setupReceivableEl = document.getElementById('kpiSetupReceivable');
+  if (setupReceivableEl) {
+    setupReceivableEl.textContent = state.presentationMode ? 'RD$ ••••••' : `RD$ ${finances.totalSetupReceivable.toLocaleString('es-DO')}`;
+  }
+
   // MRR Total
-  const totalMrr = calculateTotalMrr(clients);
   const mrrEl = document.getElementById('kpiMrr');
   if (mrrEl) {
-    mrrEl.textContent = state.presentationMode ? 'RD$ ••••••' : `RD$ ${totalMrr.toLocaleString('es-DO')}`;
+    mrrEl.textContent = state.presentationMode ? 'RD$ ••••••' : `RD$ ${finances.mrr.toLocaleString('es-DO')}`;
+  }
+
+  const ledgerHealthEl = document.getElementById('kpiLedgerHealth');
+  if (ledgerHealthEl) {
+    if (finances.totalSetupReceivable > 0) {
+      const pct = Math.round((finances.totalSetupCollected / (finances.totalSetupAgreed || 1)) * 100);
+      ledgerHealthEl.textContent = `${pct}% en caja`;
+      ledgerHealthEl.className = 'text-amber-400 text-[10px] font-bold';
+    } else {
+      ledgerHealthEl.textContent = '100% al día';
+      ledgerHealthEl.className = 'text-emerald-400 text-[10px] font-bold';
+    }
   }
 
   // Conciliación Bancaria real desde accountingLedger

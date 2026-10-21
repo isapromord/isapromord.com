@@ -1421,18 +1421,49 @@
           <!-- 4 TARJETAS KPI SUPERIORES (STITCH COMMAND CENTER) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
             
-            <!-- 1. MRR Cartera Activa -->
-            <div class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
+            <!-- 1. Resumen Financiero & Ledger Visual -->
+            <div id="financialLedgerCard" class="stitch-card bg-[#0f172a] rounded-md p-3.5 border border-white/[0.08] shadow-sm flex flex-col justify-between transition-colors">
               <div class="flex items-center justify-between text-slate-400 mb-1.5">
-                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">MRR Cartera Activa</span>
-                <span class="text-cyan-400">💵</span>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+                  <span class="text-cyan-400">📊</span>
+                  <span>Ledger de Cobros & MRR</span>
+                </span>
+                <span id="kpiLedgerBadge" class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Caja & MRR</span>
               </div>
               <div>
-                <div class="flex items-baseline gap-1.5">
-                  <span id="kpiMrr" class="text-lg sm:text-xl font-black text-white font-mono stitch-title">RD$ 0</span>
+                <div class="text-[11px] font-mono space-y-0.5">
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400 flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                      <span>Acordado:</span>
+                    </span>
+                    <span id="kpiSetupAgreed" class="text-white font-bold font-mono">RD$ 0</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400 flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                      <span>Cobrado:</span>
+                    </span>
+                    <span id="kpiSetupCollected" class="text-emerald-400 font-bold font-mono">RD$ 0</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-slate-400 flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                      <span>Por Cobrar:</span>
+                    </span>
+                    <span id="kpiSetupReceivable" class="text-amber-400 font-bold font-mono">RD$ 0</span>
+                  </div>
+                  <div class="flex items-center justify-between pt-1 border-t border-white/[0.05]">
+                    <span class="text-cyan-300 font-bold flex items-center gap-1">
+                      <span class="text-[10px]">🔄</span>
+                      <span>MRR Mes:</span>
+                    </span>
+                    <span id="kpiMrr" class="text-cyan-400 font-black font-mono">RD$ 0</span>
+                  </div>
                 </div>
-                <div class="text-[10px] text-slate-400 font-mono mt-1 pt-1 border-t border-white/[0.05] truncate">
-                  Retainers: <span id="kpiTotalClients" class="text-slate-200 font-bold">11</span> Clientes en Cartera
+                <div class="text-[10px] text-slate-400 font-mono mt-1 pt-1 border-t border-white/[0.05] flex items-center justify-between">
+                  <span>Cartera: <span id="kpiTotalClients" class="text-slate-200 font-bold">11</span> Clientes</span>
+                  <span id="kpiLedgerHealth" class="text-emerald-400 text-[10px] font-bold">100% al día</span>
                 </div>
               </div>
             </div>

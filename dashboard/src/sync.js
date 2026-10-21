@@ -646,14 +646,30 @@ export async function initCloudSync(renderCallback) {
         finalMerged.push(c);
       });
 
-      // Reconciliar con INITIAL_CLIENTS para asegurar que cualquier activo interno de la agencia nunca se descalifique por datos antiguos de Supabase
+      // Reconciliar con INITIAL_CLIENTS para asegurar que cualquier activo interno de la agencia nunca se descalifique por datos antiguos de Supabase,
+      // y que los clientes canónicos respeten la realidad financiera exacta
       finalMerged.forEach(c => {
         const initMatch = INITIAL_CLIENTS.find(initC => initC.id === c.id || (initC.liveUrl && c.liveUrl && normalizeUrlKey(initC.liveUrl) === normalizeUrlKey(c.liveUrl)));
-        if (initMatch && initMatch.isInternal) {
-          c.isInternal = true;
-          c.setupPrice = 0;
-          c.setupStatus = 'internal';
-          c.fee = 'RD$ 0 / mes';
+        if (initMatch) {
+          if (initMatch.isInternal) {
+            c.isInternal = true;
+            c.setupPrice = 0;
+            c.setupStatus = 'internal';
+            c.fee = 'RD$ 0 / mes';
+          } else if (initMatch.id === 'client-lacapra') {
+            c.setupPrice = 24000;
+            c.setupStatus = 'deposit_paid';
+            c.fee = 'RD$ 0 / mes';
+          } else if (initMatch.id === 'client-pasion-pecuaria') {
+            c.setupPrice = 30000;
+            c.setupStatus = 'pending';
+            c.fee = 'RD$ 0 / mes';
+          } else if (initMatch.id === 'client-kendysastre' || c.id === 'client-1791645823273') {
+            c.setupPrice = 30000;
+            c.setupStatus = 'pending';
+            c.fee = 'RD$ 0 / mes';
+            c.status = 'lead';
+          }
         }
       });
 

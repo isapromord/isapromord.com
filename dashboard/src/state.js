@@ -522,7 +522,7 @@ export const INITIAL_CLIENTS = [
     platform: "Netlify Anycast (Atelier Digital)",
     status: "active",
     healthScore: 100,
-    fee: "RD$ 4,500 / mes",
+    fee: "RD$ 2,000 / mes",
     renewalDate: "2026-11-07",
     joinedDate: "2026-10-07",
     notes: "Atelier de sastrería a medida, trajes de novio y vestimenta formal en Santo Domingo.",

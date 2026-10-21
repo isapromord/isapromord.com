@@ -39,12 +39,17 @@ export function loadAccountingData() {
   if (stored) {
     try {
       state.accountingLedger = JSON.parse(stored);
+      // Purge any legacy/mock test seeds (tx-init-1, tx-init-2, tx-init-3)
+      state.accountingLedger = (state.accountingLedger || []).filter(
+        t => t.id !== "tx-init-1" && t.id !== "tx-init-2" && t.id !== "tx-init-3"
+      );
       // Asegurar que transacciones canónicas iniciales existan
       INITIAL_ACCOUNTING_LEDGER.forEach(initTx => {
         if (!state.accountingLedger.some(t => t.id === initTx.id)) {
           state.accountingLedger.push(initTx);
         }
       });
+      saveAccountingLedger();
     } catch (e) {
       state.accountingLedger = INITIAL_ACCOUNTING_LEDGER;
     }
@@ -136,7 +141,7 @@ export function updateAccountingKpis() {
   (state.clients || []).forEach(c => {
     if (c.status === "archived" || c.isAgency || c.isInternal || c.setupStatus === "internal" || c.id === "agency-isapromord") return;
 
-    if (c.setupStatus === 'deposit_paid' || c.setupStatus === 'pending') {
+    if (c.setupStatus === 'deposit_paid') {
       pendingClientsCount++;
     }
 
@@ -144,9 +149,11 @@ export function updateAccountingKpis() {
     if (billing.status === "due_soon" || billing.status === "overdue") {
       const m = String(c.fee || '').match(/[\d,]+/);
       const feeNum = m ? parseInt(m[0].replace(/,/g, ''), 10) || 0 : 0;
-      pendingRetainersTotal += feeNum;
-      if (c.setupStatus !== 'deposit_paid' && c.setupStatus !== 'pending') {
-        pendingClientsCount++;
+      if (feeNum > 0) {
+        pendingRetainersTotal += feeNum;
+        if (c.setupStatus !== 'deposit_paid') {
+          pendingClientsCount++;
+        }
       }
     }
   });

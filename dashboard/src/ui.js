@@ -270,18 +270,16 @@ export function calculateFinancialSummary(clientList = state.clients) {
   (clientList || []).forEach(c => {
     if (c.status === 'archived' || c.isAgency || c.isInternal || c.setupStatus === 'internal' || c.id === 'agency-isapromord') return;
     
-    // Ignorar leads o prospectos sin propuesta formal aprobada ni anticipo pagado
-    if (c.status === 'lead' || c.status === 'prospecto') {
-      if (c.setupStatus !== 'deposit_paid' && c.setupStatus !== 'settled' && c.proposalStatus !== 'approved') {
-        return;
-      }
+    // Solo contar proyectos con anticipo pagado o saldados (leads y pendientes sin pago no inflan ingresos)
+    if (c.setupStatus !== 'deposit_paid' && c.setupStatus !== 'settled') {
+      return;
     }
 
     const setupPrice = (c.setupPrice !== undefined && c.setupPrice !== null && !isNaN(Number(c.setupPrice))) 
       ? Number(c.setupPrice) 
-      : 30000;
+      : 24000;
     
-    const setupStatus = c.setupStatus || 'settled';
+    const setupStatus = c.setupStatus || 'pending';
 
     totalSetupAgreed += setupPrice;
 
@@ -290,8 +288,6 @@ export function calculateFinancialSummary(clientList = state.clients) {
     } else if (setupStatus === 'deposit_paid') {
       totalSetupCollected += Math.round(setupPrice * 0.5);
       totalSetupReceivable += Math.round(setupPrice * 0.5);
-    } else if (setupStatus === 'pending') {
-      totalSetupReceivable += setupPrice;
     }
   });
 

@@ -52,6 +52,7 @@ export function updateCloudSyncBadge(status, text) {
 export function clientToDbRow(client) {
   // Asegurar que fechas vacías sean null para respetar tipos Postgres DATE
   const cleanDate = (d) => (d && typeof d === 'string' && d.trim().length >= 8 ? d.trim() : null);
+  const isInternal = Boolean(client.isInternal || client.setupStatus === 'internal');
 
   return {
     id: client.id,
@@ -63,7 +64,7 @@ export function clientToDbRow(client) {
     phone: client.phone || "",
     email: client.email || "",
     status: client.status || "active",
-    fee: client.fee || "",
+    fee: isInternal ? "RD$ 0 / mes" : (client.fee || ""),
     renewal_date: cleanDate(client.renewalDate),
     last_payment_date: cleanDate(client.lastPaymentDate),
     joined_date: cleanDate(client.joinedDate),
@@ -72,9 +73,10 @@ export function clientToDbRow(client) {
     health_score: typeof client.healthScore === "number" ? client.healthScore : 100,
     optimization_matrix: {
       ...(client.optimizationMatrix || {}),
+      isInternal,
       contractedServices: Array.isArray(client.contractedServices) ? client.contractedServices : undefined,
-      setupPrice: client.setupPrice !== undefined ? client.setupPrice : 30000,
-      setupStatus: client.setupStatus || 'settled',
+      setupPrice: isInternal ? 0 : (client.setupPrice !== undefined ? client.setupPrice : 30000),
+      setupStatus: isInternal ? 'internal' : (client.setupStatus || 'settled'),
       proposalUrl: client.proposalUrl,
       proposalId: client.proposalId,
       proposalStatus: client.proposalStatus
@@ -88,6 +90,13 @@ export function clientToDbRow(client) {
 }
 
 export function dbRowToClient(row) {
+  const isInternal = Boolean(
+    row.is_internal || 
+    row.optimization_matrix?.isInternal || 
+    row.optimization_matrix?.setupStatus === 'internal' || 
+    row.setup_status === 'internal'
+  );
+
   return {
     id: row.id,
     name: row.name,
@@ -98,7 +107,8 @@ export function dbRowToClient(row) {
     phone: row.phone,
     email: row.email,
     status: row.status,
-    fee: row.fee,
+    isInternal,
+    fee: isInternal ? "RD$ 0 / mes" : (row.fee || ""),
     renewalDate: row.renewal_date,
     lastPaymentDate: row.last_payment_date,
     joinedDate: row.joined_date,
@@ -111,8 +121,8 @@ export function dbRowToClient(row) {
         ? row.optimization_matrix.contractedServices
         : ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'],
     optimizationMatrix: row.optimization_matrix || {},
-    setupPrice: row.optimization_matrix?.setupPrice !== undefined ? row.optimization_matrix.setupPrice : (row.setup_price !== undefined ? Number(row.setup_price) : 30000),
-    setupStatus: row.optimization_matrix?.setupStatus || row.setup_status || 'settled',
+    setupPrice: isInternal ? 0 : (row.optimization_matrix?.setupPrice !== undefined ? Number(row.optimization_matrix.setupPrice) : (row.setup_price !== undefined ? Number(row.setup_price) : 30000)),
+    setupStatus: isInternal ? 'internal' : (row.optimization_matrix?.setupStatus || row.setup_status || 'settled'),
     proposalUrl: row.optimization_matrix?.proposalUrl || row.proposal_url,
     proposalId: row.optimization_matrix?.proposalId || row.proposal_id,
     proposalStatus: row.optimization_matrix?.proposalStatus || row.proposal_status || 'approved',
@@ -634,6 +644,17 @@ export async function initCloudSync(renderCallback) {
           dedupUrlMap.set(urlKey, finalMerged.length);
         }
         finalMerged.push(c);
+      });
+
+      // Reconciliar con INITIAL_CLIENTS para asegurar que cualquier activo interno de la agencia nunca se descalifique por datos antiguos de Supabase
+      finalMerged.forEach(c => {
+        const initMatch = INITIAL_CLIENTS.find(initC => initC.id === c.id || (initC.liveUrl && c.liveUrl && normalizeUrlKey(initC.liveUrl) === normalizeUrlKey(c.liveUrl)));
+        if (initMatch && initMatch.isInternal) {
+          c.isInternal = true;
+          c.setupPrice = 0;
+          c.setupStatus = 'internal';
+          c.fee = 'RD$ 0 / mes';
+        }
       });
 
       // Consolidar estado unificado

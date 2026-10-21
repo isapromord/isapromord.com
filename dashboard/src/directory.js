@@ -337,18 +337,22 @@ export function renderClients(clientsToRender = state.clients) {
             ${!isAgency ? `
               <div class="text-left md:text-right min-w-[105px]">
                 <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">Setup Proyecto</span>
-                <span class="text-xs font-mono font-bold text-white block">
-                  ${state.presentationMode ? '•••••' : `RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}`}
+                <span class="text-xs font-mono font-bold ${client.isInternal ? 'text-slate-400' : 'text-white'} block">
+                  ${client.isInternal ? 'RD$ 0' : (state.presentationMode ? '•••••' : `RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}`)}
                 </span>
                 <span class="text-[9px] font-mono font-bold block mt-0.5 ${
-                  client.setupStatus === 'deposit_paid' 
-                    ? 'text-amber-300' 
-                    : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400')
+                  client.isInternal
+                    ? 'text-cyan-400'
+                    : (client.setupStatus === 'deposit_paid' 
+                        ? 'text-amber-300' 
+                        : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400'))
                 }">
                   ${
-                    client.setupStatus === 'deposit_paid' 
-                      ? `50% Anticipo (Rem: RD$ ${Math.round((client.setupPrice !== undefined ? Number(client.setupPrice) : 30000) * 0.5).toLocaleString('es-DO')})` 
-                      : (client.setupStatus === 'pending' ? 'Setup Pendiente' : '✓ 100% Saldado')
+                    client.isInternal
+                      ? '🏠 Activo Interno'
+                      : (client.setupStatus === 'deposit_paid' 
+                          ? `50% Anticipo (Rem: RD$ ${Math.round((client.setupPrice !== undefined ? Number(client.setupPrice) : 30000) * 0.5).toLocaleString('es-DO')})` 
+                          : (client.setupStatus === 'pending' ? 'Setup Pendiente' : '✓ 100% Saldado'))
                   }
                 </span>
               </div>
@@ -437,9 +441,9 @@ export function renderClients(clientsToRender = state.clients) {
               <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">💰 Estructura Financiera</span>
               <div>
                 <span class="text-[10px] text-slate-500 block">Setup del Proyecto:</span>
-                <strong class="text-white font-mono text-xs">RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}</strong>
-                <span class="text-[10px] font-mono font-bold ml-1 ${client.setupStatus === 'deposit_paid' ? 'text-amber-300' : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400')}">
-                  ${client.setupStatus === 'deposit_paid' ? '• 50% Anticipo' : (client.setupStatus === 'pending' ? '• Pendiente' : '• 100% Saldado')}
+                <strong class="text-white font-mono text-xs">${client.isInternal ? 'RD$ 0' : `RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}`}</strong>
+                <span class="text-[10px] font-mono font-bold ml-1 ${client.isInternal ? 'text-cyan-400' : (client.setupStatus === 'deposit_paid' ? 'text-amber-300' : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400'))}">
+                  ${client.isInternal ? '• 🏠 Activo Interno' : (client.setupStatus === 'deposit_paid' ? '• 50% Anticipo' : (client.setupStatus === 'pending' ? '• Pendiente' : '• 100% Saldado'))}
                 </span>
               </div>
               <div class="pt-0.5 border-t border-white/5">
@@ -937,9 +941,10 @@ export function editClient(id) {
   setVal("clientPhone", client.phone);
   setVal("clientEmail", client.email);
   setVal("clientStatus", client.status || "active");
-  setVal("clientSetupPrice", client.setupPrice !== undefined ? `RD$ ${Number(client.setupPrice).toLocaleString('es-DO')}` : "RD$ 30,000");
-  setVal("clientSetupStatus", client.setupStatus || "settled");
-  setVal("clientFee", client.fee || "RD$ 2,000 / mes");
+  const isInternal = Boolean(client.isInternal || client.setupStatus === "internal");
+  setVal("clientSetupPrice", isInternal ? "RD$ 0" : (client.setupPrice !== undefined ? `RD$ ${Number(client.setupPrice).toLocaleString('es-DO')}` : "RD$ 30,000"));
+  setVal("clientSetupStatus", isInternal ? "internal" : (client.setupStatus || "settled"));
+  setVal("clientFee", client.fee || (isInternal ? "RD$ 0 / mes (Proyecto Interno)" : "RD$ 2,000 / mes"));
   setVal("clientRenewal", client.renewalDate);
   setVal("clientRepo", client.repoUrl);
   setVal("clientNotes", client.notes);
@@ -1000,9 +1005,10 @@ export function saveClient(e) {
     const phone = document.getElementById("clientPhone")?.value.trim() || "";
     const email = document.getElementById("clientEmail")?.value.trim() || "";
     const status = document.getElementById("clientStatus")?.value || "active";
-    const rawSetup = document.getElementById("clientSetupPrice")?.value.replace(/\D/g, '') || "30000";
-    const setupPrice = Number(rawSetup) || 30000;
     const setupStatus = document.getElementById("clientSetupStatus")?.value || "settled";
+    const isInternal = setupStatus === "internal";
+    const rawSetup = document.getElementById("clientSetupPrice")?.value.replace(/\D/g, '') || "0";
+    const setupPrice = isInternal ? 0 : (Number(rawSetup) || 30000);
     const fee = document.getElementById("clientFee")?.value.trim() || "";
     const renewalDate = document.getElementById("clientRenewal")?.value || "";
     const notes = document.getElementById("clientNotes")?.value.trim() || "";
@@ -1030,7 +1036,7 @@ export function saveClient(e) {
       if (index !== -1) {
         state.clients[index] = {
           ...state.clients[index],
-          name, category, liveUrl: cleanLiveUrl, platform, contactPerson, phone, email, status, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
+          name, category, liveUrl: cleanLiveUrl, platform, contactPerson, phone, email, status, isInternal, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
           contractedServices: finalContracted
         };
       }
@@ -1123,7 +1129,7 @@ export function saveClient(e) {
     const newId = "client-" + Date.now();
     state.clients.unshift({
       id: newId,
-      name, category, liveUrl, platform, contactPerson, phone, email, status, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
+      name, category, liveUrl, platform, contactPerson, phone, email, status, isInternal, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
       contractedServices: finalContracted,
       joinedDate: today,
       healthScore: initialScore,

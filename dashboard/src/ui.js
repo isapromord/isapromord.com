@@ -253,7 +253,7 @@ export function getBillingStatus(renewalDateStr) {
 // ==========================================
 export function calculateTotalMrr(clientList = state.clients) {
   return (clientList || []).reduce((acc, c) => {
-    if (c.status === 'archived' || c.status === 'lead' || c.status === 'prospecto' || c.isAgency || c.id === 'agency-isapromord') return acc;
+    if (c.status === 'archived' || c.status === 'lead' || c.status === 'prospecto' || c.isAgency || c.isInternal || c.setupStatus === 'internal' || c.id === 'agency-isapromord') return acc;
     if (typeof c.fee === 'number') return acc + c.fee;
     const str = String(c.fee || '');
     const m = str.match(/[\d,]+/);
@@ -268,7 +268,7 @@ export function calculateFinancialSummary(clientList = state.clients) {
   let totalSetupReceivable = 0;
 
   (clientList || []).forEach(c => {
-    if (c.status === 'archived' || c.isAgency || c.id === 'agency-isapromord') return;
+    if (c.status === 'archived' || c.isAgency || c.isInternal || c.setupStatus === 'internal' || c.id === 'agency-isapromord') return;
     
     // Ignorar leads o prospectos sin propuesta formal aprobada ni anticipo pagado
     if (c.status === 'lead' || c.status === 'prospecto') {

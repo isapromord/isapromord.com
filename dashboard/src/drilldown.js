@@ -499,9 +499,10 @@ export function renderClientDrilldown() {
   // 4. Setup del Proyecto (Anticipo 50% / Remainder 50% / Saldado)
   const setupEl = document.getElementById("ddSetupAmount");
   const setupBadge = document.getElementById("ddSetupStatusBadge");
-  const setupVal = client.setupPrice !== undefined ? Number(client.setupPrice) : (client.isAgency ? 0 : 30000);
+  const isInternal = Boolean(client.isInternal || client.setupStatus === 'internal');
+  const setupVal = isInternal ? 0 : (client.setupPrice !== undefined ? Number(client.setupPrice) : (client.isAgency ? 0 : 30000));
   const setupHalf = Math.round(setupVal * 0.5);
-  const setupStatus = client.setupStatus || 'settled';
+  const setupStatus = client.setupStatus || (isInternal ? 'internal' : 'settled');
 
   if (setupEl) {
     setupEl.textContent = state.presentationMode ? "••••••" : `RD$ ${setupVal.toLocaleString('es-DO')}`;
@@ -510,6 +511,9 @@ export function renderClientDrilldown() {
     if (client.isAgency) {
       setupBadge.textContent = "Infraestructura Matriz";
       setupBadge.className = "text-[11px] font-mono font-bold text-purple-400 block truncate";
+    } else if (isInternal) {
+      setupBadge.textContent = "Activo Propio (Sin Cargo)";
+      setupBadge.className = "text-[11px] font-mono font-bold text-cyan-400 block truncate";
     } else if (setupStatus === 'deposit_paid') {
       setupBadge.textContent = `50% Anticipo (Rem: RD$ ${setupHalf.toLocaleString('es-DO')})`;
       setupBadge.className = "text-[11px] font-mono font-bold text-amber-300 block truncate";

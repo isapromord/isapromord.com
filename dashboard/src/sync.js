@@ -208,10 +208,21 @@ export function loadClients() {
             state.clients[idx].fee = initC.fee;
             updated = true;
           }
-          if (state.clients[idx].setupPrice === undefined && initC.setupPrice !== undefined) {
-            state.clients[idx].setupPrice = initC.setupPrice;
-            state.clients[idx].setupStatus = initC.setupStatus || 'settled';
-            updated = true;
+          if (initC.isInternal) {
+            if (!state.clients[idx].isInternal || state.clients[idx].setupStatus !== 'internal') {
+              state.clients[idx].isInternal = true;
+              state.clients[idx].setupPrice = 0;
+              state.clients[idx].setupStatus = 'internal';
+              state.clients[idx].fee = initC.fee;
+              updated = true;
+            }
+          } else {
+            state.clients[idx].isInternal = false;
+            if (state.clients[idx].setupPrice === undefined && initC.setupPrice !== undefined) {
+              state.clients[idx].setupPrice = initC.setupPrice;
+              state.clients[idx].setupStatus = initC.setupStatus || 'settled';
+              updated = true;
+            }
           }
           if (initC.tasks) {
             if (!state.clients[idx].tasks) {

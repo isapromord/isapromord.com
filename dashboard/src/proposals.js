@@ -840,20 +840,97 @@ export function copyGeneratedProposalLink() {
   });
 }
 
+export const INITIAL_PROPOSALS = [
+  {
+    id: "prop-1792536147246",
+    clientId: "client-kendysastre",
+    clientName: "Kendy Sastre Atelier",
+    category: "Sastrería & Alta Costura",
+    status: "approved",
+    date: "2026-10-20",
+    createdAt: "2026-10-20T12:00:00.000Z",
+    onetime: 30000,
+    monthly: 2000,
+    url: "https://isapromord.github.io/isapromord.com/propuesta/?id=prop-1792536147246&cliente=Kendy%20Sastre%20Atelier&cat=Saster%C3%ADa%20%26%20Alta%20Costura&setup=30000&monthly=2000&plan=none&mode=alacarte&svc=landing-page%2Cweb-maintenance%3A2000%2Cgoogle-maps-pack%3A5000",
+    basePackageKey: "pack-none",
+    packageTitle: "A la Carta",
+    deliverablesCount: 3
+  }
+];
+
 export function getStoredProposals() {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEYS.proposals) || "[]");
+    const raw = localStorage.getItem(STORAGE_KEYS.proposals);
+    const stored = raw ? JSON.parse(raw) : [];
+    INITIAL_PROPOSALS.forEach(initP => {
+      const exists = stored.some(p => p.id === initP.id || (p.clientId && p.clientId === initP.clientId));
+      if (!exists) {
+        stored.push(initP);
+      }
+    });
+    return stored;
   } catch (e) {
-    return [];
+    return [...INITIAL_PROPOSALS];
   }
+}
+
+export function getClientProposal(clientOrId) {
+  if (!clientOrId) return null;
+  const client = typeof clientOrId === 'string'
+    ? (state.clients || []).find(c => c.id === clientOrId || (c.name && c.name.toLowerCase() === clientOrId.toLowerCase()))
+    : clientOrId;
+
+  // 1. Propiedad directa en la ficha del cliente
+  if (client && client.proposalUrl) {
+    return {
+      id: client.proposalId || ('prop-' + client.id),
+      clientId: client.id,
+      clientName: client.name,
+      url: client.proposalUrl,
+      status: client.proposalStatus || 'approved'
+    };
+  }
+
+  const clientId = client ? client.id : (typeof clientOrId === 'string' ? clientOrId : null);
+  const clientName = client ? (client.name || '').trim().toLowerCase() : (typeof clientOrId === 'string' ? clientOrId.trim().toLowerCase() : '');
+
+  // 2. Búsqueda en historial de propuestas guardadas
+  const list = getStoredProposals();
+  const found = list.find(p => 
+    (clientId && p.clientId === clientId) ||
+    (clientName && p.clientName && p.clientName.trim().toLowerCase() === clientName)
+  );
+
+  return found || null;
 }
 
 export function saveProposalToHistory(proposal) {
   const list = getStoredProposals();
-  list.unshift(proposal);
+  const existingIdx = list.findIndex(p => p.id === proposal.id);
+  if (existingIdx !== -1) {
+    list[existingIdx] = { ...list[existingIdx], ...proposal };
+  } else {
+    list.unshift(proposal);
+  }
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
   syncVaultToCloud();
   renderProposalsHistory();
+
+  // Si está vinculado a un cliente, actualizar su ficha para acceso rápido
+  if (proposal.clientId) {
+    const c = (state.clients || []).find(cl => cl.id === proposal.clientId);
+    if (c) {
+      c.proposalUrl = proposal.url;
+      c.proposalId = proposal.id;
+      c.proposalStatus = proposal.status || 'draft';
+      try {
+        localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(state.clients));
+      } catch (e) {}
+      if (typeof window !== 'undefined' && window.renderClientsList) {
+        window.renderClientsList();
+      }
+    }
+  }
 }
 
 export function renderProposalsHistory() {
@@ -1035,11 +1112,22 @@ async function saveProposalToCloud(prop) {
   }
 }
 
-export function openProposalForClient(clientId) {
+export function openProposalForClient(clientId, forceNew = false) {
   const resolvedId = clientId || state.currentDrilldownClientId || state.currentDrawerClientId;
-  const client = state.clients.find(c => c.id === resolvedId) || state.clients[0];
+  const client = (state.clients || []).find(c => c.id === resolvedId) || (state.clients || [])[0];
   if (!client) return;
 
+  const existing = !forceNew ? getClientProposal(client) : null;
+  if (existing && existing.url) {
+    // Si ya fue creada y/o aceptada, abrirla directamente
+    window.open(existing.url, '_blank');
+    if (typeof showToast === 'function') {
+      showToast(`Abriendo propuesta de ${client.name}`, 'info');
+    }
+    return;
+  }
+
+  // Si nunca se ha creado una propuesta para esta cuenta, abrir el creador pre-rellenado
   if (window.switchDashboardTab) window.switchDashboardTab('proposals');
 
   const select = document.getElementById("proposalClientSelect");
@@ -1071,13 +1159,13 @@ export function openProposalForClient(clientId) {
   if (phoneInput) phoneInput.value = (client.phone || "").replace(/\D/g, '');
 
   handleProposalClientSelect();
-  showToast(`Presupuesto pre-rellenado para ${client.name}`, 'success');
+  showToast(`Configurando nueva propuesta para ${client.name}`, 'success');
   window.scrollTo({ top: 120, behavior: 'smooth' });
 }
 
 export function goToProposalBuilderForClient(clientId) {
   if (window.closeRoadmapManagementModal) window.closeRoadmapManagementModal();
-  openProposalForClient(clientId);
+  openProposalForClient(clientId, true);
 }
 
 export function createContractFromCurrentResultProposal() {

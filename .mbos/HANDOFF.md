@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-21 (v2.4.0: Generador de Recibos Digitales Oficiales & Centro Multietapa de Cobros)  
+> **Última Actualización:** 2026-10-21 (v2.4.1: Botón de Propuestas Dual: Crear si no existe / Abrir si ya fue creada)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -14,7 +14,21 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 19/19 pruebas unitarias pasando al 100%, cachebuster v2.4.0 activo.
+> **Estado del Sistema:** 100% en línea, 20/20 pruebas unitarias pasando al 100%, cachebuster v2.4.1 activo.
+
+---
+
+### Hitos Completados en v2.4.1 (2026-10-21):
+1. **Comportamiento Dual del Botón de Propuestas (Crear vs Abrir):**
+   - Modificado `openProposalForClient(clientId, forceNew)` para evaluar si la cuenta ya tiene una propuesta generada/aprobada (`getClientProposal`).
+   - Si la propuesta ya fue creada: abre inmediatamente el enlace en vivo (`window.open(proposal.url, '_blank')`).
+   - Si nunca se ha creado una propuesta para esa cuenta: redirige a la pestaña de cotizaciones pre-rellenando los datos del cliente para su creación.
+   - En el listado de clientes (Directorio) y en la cabecera de Mission Control, el icono y el texto se actualizan dinámicamente (`📄 Ver Propuesta` si existe, `📝 Crear Propuesta` si no).
+2. **Sincronización de Semilla y Propuesta Oficial de Kendy Sastre Atelier:**
+   - Vinculada la propuesta oficial aprobada de Kendy Sastre (`prop-1792536147246`) en `INITIAL_PROPOSALS` y en `INITIAL_CLIENTS`.
+   - Ajustada la tarifa de mantenimiento a `RD$ 2,000 / mes`, reflejando exactamente la cotización real acordada.
+3. **Pruebas Automatizadas:**
+   - **20/20 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.
 
 ---
 

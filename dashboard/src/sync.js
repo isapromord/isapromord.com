@@ -188,6 +188,16 @@ export function loadClients() {
             state.clients[idx].contractedServices = initC.contractedServices ? [...initC.contractedServices] : ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'];
             updated = true;
           }
+          if (initC.proposalUrl && !state.clients[idx].proposalUrl) {
+            state.clients[idx].proposalUrl = initC.proposalUrl;
+            state.clients[idx].proposalId = initC.proposalId;
+            state.clients[idx].proposalStatus = initC.proposalStatus || 'approved';
+            updated = true;
+          }
+          if (initC.id === "client-kendysastre" && state.clients[idx].fee === "RD$ 4,500 / mes") {
+            state.clients[idx].fee = initC.fee;
+            updated = true;
+          }
           if (initC.tasks) {
             if (!state.clients[idx].tasks) {
               state.clients[idx].tasks = JSON.parse(JSON.stringify(initC.tasks));

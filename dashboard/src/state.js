@@ -526,6 +526,9 @@ export const INITIAL_CLIENTS = [
     renewalDate: "2026-11-07",
     joinedDate: "2026-10-07",
     notes: "Atelier de sastrería a medida, trajes de novio y vestimenta formal en Santo Domingo.",
+    proposalUrl: "https://isapromord.github.io/isapromord.com/propuesta/?id=prop-1792536147246&cliente=Kendy%20Sastre%20Atelier&cat=Saster%C3%ADa%20%26%20Alta%20Costura&setup=30000&monthly=2000&plan=none&mode=alacarte&svc=landing-page%2Cweb-maintenance%3A2000%2Cgoogle-maps-pack%3A5000",
+    proposalId: "prop-1792536147246",
+    proposalStatus: "approved",
     optimizationMatrix: {
       seo: "90%",
       whatsapp: "100%",

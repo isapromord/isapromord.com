@@ -9,6 +9,7 @@ import { checkUrlUptime } from './uptime.js';
 import { saveClientsToStorage } from './sync.js';
 import { openClientDrawer, editClient } from './directory.js';
 import { runServicesAudit, openServicesAuditModal } from './audit.js';
+import { getClientProposal } from './proposals.js';
 
 export function toggleClientViewMode(mode, pushToHistory = true) {
   state.clientViewScreenMode = mode;
@@ -340,6 +341,22 @@ export function renderClientDrilldown() {
   // 1. Header & Información Básica
   const headerName = document.getElementById("ddHeaderClientName");
   if (headerName) headerName.textContent = client.name;
+
+  // Botón Dinámico de Propuesta: Crear si no existe, Ver si ya fue creada
+  const proposal = getClientProposal(client);
+  const ddPropBtn = document.getElementById("ddProposalHeaderBtn");
+  const ddPropBtnText = document.getElementById("ddProposalHeaderBtnText");
+  if (ddPropBtnText) {
+    ddPropBtnText.textContent = proposal ? "Ver Propuesta" : "Crear Propuesta";
+  }
+  if (ddPropBtn) {
+    ddPropBtn.title = proposal ? "Abrir propuesta comercial activa en nueva pestaña" : "Crear propuesta comercial con los datos de esta empresa pre-rellenados";
+    if (proposal) {
+      ddPropBtn.className = "px-3 py-1.5 rounded bg-cyan-600/25 hover:bg-cyan-600/40 text-cyan-300 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95";
+    } else {
+      ddPropBtn.className = "px-3 py-1.5 rounded bg-purple-600/25 hover:bg-purple-600/40 text-purple-300 border border-purple-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm active:scale-95";
+    }
+  }
 
   const titleEl = document.getElementById("ddClientTitle");
   if (titleEl) titleEl.textContent = client.name;

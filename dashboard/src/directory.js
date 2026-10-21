@@ -7,6 +7,7 @@ import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud, deleteClientFromCloud, recordDeletedClientId } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis, renderClientAvatarPills } from './ui.js';
 import { pingSingleClient } from './uptime.js';
+import { getClientProposal } from './proposals.js';
 
 let currentDrawerClientId = null;
 let currentDrawerTab = "roadmap";
@@ -260,6 +261,9 @@ export function renderClients(clientsToRender = state.clients) {
     }
 
     // RENDER MODO LISTA (DATA-GRID MINIMALISTA CON ESPACIADO AMPLIO Y ACORDEÓN)
+    const clientProp = getClientProposal(client);
+    const hasProp = Boolean(clientProp && clientProp.url);
+
     return `
       <!-- FILA EJECUTIVA DE CLIENTE (DATA-GRID MINIMALISTA CON ESPACIADO AMPLIO) -->
       <div 
@@ -348,10 +352,10 @@ export function renderClients(clientsToRender = state.clients) {
               </button>
               <button 
                 onclick="event.stopPropagation(); openProposalForClient('${client.id}')" 
-                class="p-1.5 rounded-md hover:bg-cyan-500/15 text-slate-400 hover:text-cyan-300 transition-all cursor-pointer" 
-                title="Generar Propuesta"
+                class="p-1.5 rounded-md ${hasProp ? 'hover:bg-cyan-500/20 text-cyan-300 font-bold' : 'hover:bg-cyan-500/15 text-slate-400 hover:text-cyan-300'} transition-all cursor-pointer" 
+                title="${hasProp ? 'Abrir Propuesta Comercial Creada' : 'Crear Propuesta Comercial'}"
               >
-                <span class="text-xs">📝</span>
+                <span class="text-xs">${hasProp ? '📄' : '📝'}</span>
               </button>
               <button 
                 onclick="event.stopPropagation(); openClientDrawer('${client.id}')" 
@@ -445,7 +449,7 @@ export function renderClients(clientsToRender = state.clients) {
                 <span>⚡ Auditar 360°</span>
               </button>
               <button onclick="event.stopPropagation(); openProposalForClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
-                <span>📝 Crear Cotización</span>
+                <span>${hasProp ? '📄 Ver Propuesta' : '📝 Crear Cotización'}</span>
               </button>
               <button onclick="event.stopPropagation(); openNewContractForClient('${client.id}')" class="px-3.5 py-2 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
                 <span>📜 Contrato 50/50</span>

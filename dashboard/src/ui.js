@@ -253,7 +253,17 @@ export function getBillingStatus(renewalDateStr) {
 // ==========================================
 export function calculateTotalMrr(clientList = state.clients) {
   return (clientList || []).reduce((acc, c) => {
-    if (c.status === 'archived' || c.status === 'lead' || c.status === 'prospecto' || c.isAgency || c.isInternal || c.setupStatus === 'internal' || c.id === 'agency-isapromord') return acc;
+    // Si está archivado, es prospecto/lead, activo interno, agencia o si el setup está PENDIENTE, NUNCA computa MRR
+    if (
+      c.status === 'archived' ||
+      c.status === 'lead' ||
+      c.status === 'prospecto' ||
+      c.isAgency ||
+      c.isInternal ||
+      c.setupStatus === 'internal' ||
+      c.setupStatus === 'pending' ||
+      c.id === 'agency-isapromord'
+    ) return acc;
     if (typeof c.fee === 'number') return acc + c.fee;
     const str = String(c.fee || '');
     const m = str.match(/[\d,]+/);

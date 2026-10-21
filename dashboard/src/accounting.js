@@ -139,7 +139,16 @@ export function updateAccountingKpis() {
   let pendingClientsCount = 0;
 
   (state.clients || []).forEach(c => {
-    if (c.status === "archived" || c.isAgency || c.isInternal || c.setupStatus === "internal" || c.id === "agency-isapromord") return;
+    if (
+      c.status === "archived" ||
+      c.status === "lead" ||
+      c.status === "prospecto" ||
+      c.isAgency ||
+      c.isInternal ||
+      c.setupStatus === "internal" ||
+      c.setupStatus === "pending" ||
+      c.id === "agency-isapromord"
+    ) return;
 
     if (c.setupStatus === 'deposit_paid') {
       pendingClientsCount++;

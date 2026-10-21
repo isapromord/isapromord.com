@@ -6,8 +6,8 @@
 
 import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud } from './sync.js';
-import { openNewClientModal, openClientDrawer } from './directory.js';
-import { showToast } from './ui.js';
+import { openNewClientModal, openClientDrawer, renderClients, filterClients } from './directory.js';
+import { showToast, updateKpis } from './ui.js';
 
 export function openDirectAuditModal() {
   state.currentAuditClient = null;
@@ -1149,8 +1149,10 @@ export async function quickSaveAuditAsClient() {
     contactPerson: "",
     phone: "",
     email: "",
-    status: "lead",
-    fee: "RD$ 4,500 / mes",
+    status: "active",
+    setupPrice: 30000,
+    setupStatus: "pending",
+    fee: "RD$ 2,000 / mes",
     renewalDate: null,
     repoUrl: "",
     notes: `Cliente registrado automáticamente desde Auditoría 360° (${url}).`,
@@ -1177,22 +1179,18 @@ export async function quickSaveAuditAsClient() {
   saveClientsToStorage(true);
   state.currentAuditClient = newClient;
 
-  await syncClientToCloud(newClient);
+  // Renderizado instantáneo reactivo en el DOM (sin necesidad de refresh)
+  renderClients();
+  filterClients();
+  updateKpis();
 
-  if (window.renderClients) window.renderClients();
-  if (window.updateKpis) window.updateKpis();
+  // Cerrar el modal de auditoría para que el usuario vea de inmediato al cliente en el tope de la lista
+  closeServicesAuditModal();
 
-  const syncBtn = document.getElementById("auditSyncRoadmapBtn");
-  const quickBtn = document.getElementById("auditQuickSaveClientBtn");
-  const convertBtn = document.getElementById("auditConvertClientBtn");
-  if (quickBtn) quickBtn.classList.add("hidden");
-  if (convertBtn) convertBtn.classList.add("hidden");
-  if (syncBtn) {
-    syncBtn.classList.remove("hidden");
-    syncBtn.innerHTML = `<span>🚀 Roadmap Vinculado (${clientName})</span>`;
-  }
+  showToast(`⚡ ¡"${clientName}" guardado y agregado a la lista con éxito!`, "success");
 
-  showToast(`⚡ ¡"${clientName}" guardado y respaldado en la nube con éxito!`, "success");
+  // Sincronización en segundo plano con Supabase Cloud
+  syncClientToCloud(newClient).catch(e => console.warn("Cloud sync background error:", e));
 }
 
 export function syncAuditGapsToClientRoadmap() {

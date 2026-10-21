@@ -283,6 +283,7 @@ const windowBridge = {
   formatMoney,
   formatDate,
   showToast,
+  updateKpis,
   copyToClipboard,
   copyBankDetails,
   toggleThemeMode,
@@ -309,6 +310,7 @@ const windowBridge = {
   syncVaultToCloud,
 
   // Directory & Clients
+  renderClients,
   setClientViewMode,
   toggleClientViewMode,
   toggleClientAccordion,

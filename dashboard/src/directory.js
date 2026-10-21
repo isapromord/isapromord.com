@@ -1146,6 +1146,7 @@ export function saveClient(e) {
   }
   closeClientModal();
   renderClients();
+  filterClients();
   updateKpis();
 
   if (typeof window !== "undefined" && window.renderClientDrilldown) {

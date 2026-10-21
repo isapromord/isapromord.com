@@ -1450,3 +1450,30 @@
      - Se expandió `scratch/test_suite.js` a 17 pruebas unitarias (Test 17: Verificación de compresión de URL a <250 caracteres, compatibilidad Bitly y parsing sin pérdidas).
 - **Regla MBOS Extraída:**
   - *URL Hygiene:* Jamás serializar textos estáticos de catálogo ni descripciones completas en query strings. Utilizar identificadores semánticos compactos con deltas de personalización (`id:overridePrice`), delegando el payload exhaustivo a almacenamiento persistente (Supabase `JSONB`) o localStorage.
+
+
+## [2026-10-21] - Reingeniería de Exportación a PDF e Impresión Ejecutiva Vectorial
+- **Problema Detectado por el Usuario:** El PDF generado desde la propuesta comercial presentaba anomalías graves:
+  1. La Página 1 salía completamente en blanco.
+  2. La tarjeta de encabezado salía con fondo oscuro masivo desgastando tinta innecesariamente.
+  3. Los párrafos de texto salían rebanados horizontalmente por la mitad entre páginas (ej. la mitad superior de una línea en página 2 y la mitad inferior en página 3).
+  4. Márgenes desproporcionados con textos comprimidos y controles de pantalla interactivos ("Haz clic en una opción para seleccionarla", botones de radio).
+  5. Ausencia total de un bloque formal con el resumen financiero (Setup, Mantenimiento y desglose 50/50) antes de las firmas en el documento impreso.
+- **Causa Raíz:** La biblioteca cliente `html2pdf.js` capturaba el DOM de pantalla como un canvas de mapa de bits (raster JPEG) mediante `html2canvas` y lo rebanaba de forma ciega en coordenadas de píxeles sin respetar líneas tipográficas. El flag `pagebreak: { mode: ['avoid-all'] }` forzaba un salto de página antes del primer bloque, dejando la página 1 en blanco.
+- **Solución de Ingeniería:**
+  1. **Eliminación del Motor Raster de `html2pdf`:** Se eliminó la dependencia CDN externa y se unificó la generación a través del motor de impresión vectorial nativo del navegador (`window.print()`), garantizando tipografía vectorial 100% nítida, texto seleccionable y cero páginas en blanco.
+  2. **Hoja de Estilos de Impresión Ejecutiva (`@media print`):**
+     - `@page { size: A4 portrait; margin: 8mm 10mm 10mm 10mm; }`.
+     - `#proposalMainContent`: Anulación de márgenes gigantescos de pantalla (`space-y-8` reducido a `0.75rem`), comenzando directamente en la Página 1.
+     - `#proposalHeroBox`: Transformado en un encabezado corporativo blanco y sobrio (`#f8fafc`, bordes finos `#cbd5e1`, tipografía `#0f172a`), eliminando degradados oscuros y destellos.
+     - `#printLetterhead`: Membrete con logo vectorizado, RNC y datos de contacto con `whitespace-nowrap` para evitar que el teléfono se corte o envuelva.
+     - `break-inside: avoid; page-break-inside: avoid;` aplicado estrictamente a tarjetas, enfoque comercial, ROI, resumen financiero y firmas para erradicar cualquier corte horizontal de líneas.
+     - Ocultación total de radios, checkboxes, botones y textos interactivos de interfaz web.
+  3. **Inclusión de Resumen Financiero Formal (`#printFinancialSummary`):**
+     - Bloque formal con Inversión Setup, Mantenimiento Mensual y desglose legal 50/50 (anticipo vs contra entrega) sincronizado reactivamente con `recalculateTotals()`.
+  4. **Protección del Modo A la Carta:**
+     - Corrección en la condición `isComparisonMode` para que si el cliente eligió cotización A la Carta (`mode: 'alacarte'`), no se fuerce la comparativa con paquetes no solicitados.
+  5. **Suite de Pruebas:**
+     - Se añadió el Test 18 en `scratch/test_suite.js` validando la integridad del stylesheet de impresión, la eliminación de `avoid-all` y la matemática 50/50 del resumen impreso.
+- **Regla MBOS Extraída:**
+  - *Print Document Architecture:* Jamás utilizar rasterizadores de canvas tipo `html2pdf` / `html2canvas` para documentos contractuales o propuestas ejecutivas. Utilizar siempre `@media print` nativo con tipografía vectorial, `break-inside: avoid`, y anulación de márgenes y colores de pantalla.

@@ -16,8 +16,6 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- html2pdf.js for client-side direct PDF downloads -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -47,36 +45,110 @@
     }
   </script>
   <style>
+    /* ========================================================
+       REGLAS DE IMPRESIÓN Y PDF VECTORIAL (SWISS EDITORIAL STANDARD)
+       ======================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 8mm 10mm 10mm 10mm;
+    }
+
     @media print {
-      .no-print { display: none !important; }
-      @page {
-        margin: 10mm 12mm;
-        size: A4 portrait;
+      /* Ocultar elementos interactivos de pantalla */
+      .no-print,
+      header,
+      aside,
+      button,
+      input[type="radio"],
+      input[type="checkbox"],
+      .hero-glow,
+      #adjustModal,
+      #approvedContractBridgeModal {
+        display: none !important;
       }
-      body {
-        background: white !important;
+
+      /* Configuración global del lienzo A4 */
+      html, body {
+        background: #ffffff !important;
         color: #0f172a !important;
-        padding-bottom: 0 !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        font-size: 10pt !important;
+        line-height: 1.35 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
-      .shadow-2xl, .shadow-xl, .shadow-lg, .shadow-md, .shadow-sm { box-shadow: none !important; }
-      header { display: none !important; }
-      .border-2 { border-width: 1px !important; }
-      .break-inside-avoid { break-inside: avoid; page-break-inside: avoid; }
-      
-      /* Transformar el hero oscuro en un membrete ejecutivo blanco sin gasto de tinta */
+
+      /* Contenedor principal sin márgenes ni sombras de pantalla */
+      #proposalMainContent {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+      }
+
+      /* Reducción vertical del espacio entre bloques para encajar con elegancia */
+      #proposalMainContent > * + * {
+        margin-top: 0.75rem !important;
+      }
+
+      /* Guardas estrictas contra cortes horizontales en medio de bloques */
+      .break-inside-avoid,
+      #printLetterhead,
+      #proposalHeroBox,
+      #proposalStrategicFocusBox,
+      #comparisonSection,
+      #cardOptionAlacarte,
+      #cardOptionPackage,
+      #basePackageSection,
+      #basePackageCard,
+      #addonsSectionWrapper,
+      #roiBox,
+      #printFinancialSummary,
+      #proposalTermsBox,
+      #printSignatureSection {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      /* Tipografía editorial contra líneas huérfanas */
+      p, li, h1, h2, h3, h4, h5 {
+        orphans: 3 !important;
+        widows: 3 !important;
+      }
+
+      /* Membrete corporativo formal */
+      #printLetterhead {
+        display: flex !important;
+        padding-bottom: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+        border-bottom: 2px solid #0f172a !important;
+      }
+
+      /* Hero Box transformado en tarjeta ejecutiva de alta gama (blanca, sin gasto de tinta) */
       #proposalHeroBox {
         background: #f8fafc !important;
         color: #0f172a !important;
         border: 1px solid #cbd5e1 !important;
         box-shadow: none !important;
-        padding: 1.5rem !important;
+        padding: 1rem 1.25rem !important;
+        border-radius: 0.75rem !important;
       }
-      #proposalHeroBox h1, 
-      #proposalHeroBox strong,
-      #proposalHeroBox span,
-      #proposalHeroBox p {
+      #proposalHeroBox h1 {
+        font-size: 1.4rem !important;
+        line-height: 1.2 !important;
+        color: #0f172a !important;
+        text-shadow: none !important;
+        margin-top: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
+      }
+      #proposalHeroBox p, 
+      #proposalHeroBox strong, 
+      #proposalHeroBox span {
         color: #0f172a !important;
       }
       #proposalHeroBox .hero-subtext {
@@ -84,24 +156,103 @@
       }
       #proposalHeroBox .hero-badge {
         background: #e2e8f0 !important;
-        color: #1e293b !important;
+        color: #0f172a !important;
         border: 1px solid #cbd5e1 !important;
+        padding: 0.15rem 0.5rem !important;
+        font-size: 8pt !important;
       }
       #proposalHeroBox .hero-accent {
-        color: #059669 !important;
+        color: #047857 !important;
         font-weight: 800 !important;
       }
+      #proposalHeroBox .hero-stat-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 0.4rem 0.6rem !important;
+        border-radius: 0.5rem !important;
+      }
+
+      /* Enfoque estratégico en tamaño proporcionado */
+      #proposalStrategicFocusBox {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.75rem !important;
+        box-shadow: none !important;
+      }
+      #proposalStrategicFocusBox h2 {
+        font-size: 10.5pt !important;
+      }
+      #proposalStrategicFocusBox p {
+        font-size: 8.5pt !important;
+        line-height: 1.4 !important;
+      }
+
+      /* Tarjetas de propuesta */
+      #cardOptionAlacarte, #cardOptionPackage, #basePackageCard {
+        border-width: 1px !important;
+        box-shadow: none !important;
+        padding: 0.85rem !important;
+        border-radius: 0.75rem !important;
+      }
+      #cardOptionPackage {
+        border-color: #059669 !important;
+        background: #fbfdfc !important;
+      }
+      #cardOptionAlacarte {
+        border-color: #cbd5e1 !important;
+      }
+
+      /* Addons en modo A la Carta */
+      #addonsContainer .addon-print-item {
+        border-width: 1px !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: none !important;
+        padding: 0.6rem 0.85rem !important;
+        border-radius: 0.5rem !important;
+      }
+
+      /* ROI Box en impresión */
       #roiBox {
         background: #f8fafc !important;
         color: #0f172a !important;
         border: 1px solid #cbd5e1 !important;
         box-shadow: none !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.75rem !important;
       }
       #roiBox * {
         color: #0f172a !important;
       }
       #roiBox #roiClientCount {
-        color: #059669 !important;
+        color: #047857 !important;
+        font-size: 1.5rem !important;
+      }
+
+      /* Resumen Financiero Formal */
+      #printFinancialSummary {
+        display: block !important;
+        background: #f8fafc !important;
+        border: 2px solid #0f172a !important;
+        padding: 0.85rem 1rem !important;
+        border-radius: 0.75rem !important;
+      }
+
+      /* Términos y condiciones */
+      #proposalTermsBox {
+        padding: 0.65rem 0.85rem !important;
+        border-radius: 0.5rem !important;
+        border-color: #e2e8f0 !important;
+        font-size: 8pt !important;
+        line-height: 1.35 !important;
+      }
+
+      /* Sección de Firmas */
+      #printSignatureSection {
+        display: block !important;
+        padding-top: 0.75rem !important;
+        margin-top: 0.75rem !important;
+        border-top: 1.5px solid #cbd5e1 !important;
       }
     }
   </style>
@@ -124,11 +275,11 @@
       </div>
 
       <div class="flex items-center gap-2">
-        <button id="downloadPdfBtn" onclick="downloadProposalPdf()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <span id="downloadBtnLabel">Descargar en PDF</span>
+        <button id="downloadPdfBtn" onclick="downloadProposalPdf()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span id="downloadBtnLabel">Guardar / Descargar PDF</span>
         </button>
-        <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer" title="Imprimir en papel">
+        <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer" title="Imprimir documento">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
           <span class="hidden sm:inline">Imprimir</span>
         </button>
@@ -145,18 +296,18 @@
   <main id="proposalMainContent" class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 space-y-8 flex-1 w-full bg-white print:bg-white rounded-3xl print:p-0">
 
     <!-- MEMBRETE CORPORATIVO OFICIAL (Visible solo en Impresión / PDF) -->
-    <div id="printLetterhead" class="hidden print:flex items-center justify-between pb-6 mb-6 border-b-2 border-slate-900">
+    <div id="printLetterhead" class="hidden print:flex items-center justify-between pb-4 mb-3 border-b-2 border-slate-900 break-inside-avoid">
       <div class="flex items-center gap-3">
-        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-12 h-12 object-contain" />
+        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-10 h-10 object-contain" />
         <div>
           <span class="text-xl font-black text-slate-950 tracking-tight">ISA<span class="text-slate-600">Promo</span><span class="text-brand-600">RD</span></span>
-          <p class="text-xs text-slate-600 font-semibold">Agencia Digital & Desarrollo de Software • Santo Domingo, República Dominicana</p>
+          <p class="text-[11px] text-slate-600 font-medium">Agencia Digital & Desarrollo de Software • Santo Domingo, República Dominicana</p>
         </div>
       </div>
-      <div class="text-right text-xs text-slate-600 font-mono">
-        <div class="font-bold text-slate-900 uppercase">Propuesta Comercial Formal</div>
-        <div>WhatsApp: +1 (829) 455-4783</div>
-        <div>isapromord.com</div>
+      <div class="text-right text-[11px] text-slate-700 whitespace-nowrap leading-tight">
+        <div class="font-bold text-slate-950 uppercase tracking-wider text-[10px]">Propuesta Comercial Formal</div>
+        <div class="font-semibold text-slate-900 mt-0.5">WhatsApp: +1 (829) 455-4783</div>
+        <div class="text-slate-500 font-mono text-[10px]">isapromord.com</div>
       </div>
     </div>
 
@@ -182,19 +333,19 @@
         </div>
 
         <div class="pt-5 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+          <div class="bg-slate-900/50 hero-stat-card p-3 rounded-xl border border-slate-800/80">
             <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Agencia Responsable:</span>
             <strong class="text-white font-bold">ISAPromoRD</strong>
           </div>
-          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+          <div class="bg-slate-900/50 hero-stat-card p-3 rounded-xl border border-slate-800/80">
             <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Objetivo Estratégico:</span>
             <strong class="text-white font-bold">Máxima Visibilidad Local & Ventas</strong>
           </div>
-          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+          <div class="bg-slate-900/50 hero-stat-card p-3 rounded-xl border border-slate-800/80">
             <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Canal de Captación:</span>
             <strong class="hero-accent text-emerald-400 font-bold">Llamadas & WhatsApp Directo</strong>
           </div>
-          <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+          <div class="bg-slate-900/50 hero-stat-card p-3 rounded-xl border border-slate-800/80">
             <span class="hero-subtext text-slate-400 block text-[11px] mb-0.5">Validez de la Oferta:</span>
             <strong class="text-amber-400 font-bold" id="validityDays">15 Días Hábiles</strong>
           </div>
@@ -376,7 +527,7 @@
     </div>
 
     <!-- CALCULADORA DE RETORNO (ROI) ESTIMADO -->
-    <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white border border-emerald-900/60 shadow-lg break-inside-avoid">
+    <div id="roiBox" class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white border border-emerald-900/60 shadow-lg break-inside-avoid">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="space-y-2 max-w-xl">
           <span class="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider">Matemática Comercial</span>
@@ -394,7 +545,7 @@
     </div>
 
     <!-- TÉRMINOS & CONDICIONES CLARAS -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 text-xs text-slate-500 space-y-3 break-inside-avoid">
+    <div id="proposalTermsBox" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 text-xs text-slate-500 space-y-3 break-inside-avoid">
       <h5 class="font-bold text-slate-800 uppercase tracking-wider text-[11px]">Condiciones de Servicio y Transparencia:</h5>
       <ul class="list-disc pl-5 space-y-1.5 leading-relaxed">
         <li><strong>Forma de Pago:</strong> 50% de anticipo al formalizar el inicio del proyecto y 50% contra entrega de la plataforma o al completar el primer mes de servicio.</li>
@@ -403,27 +554,51 @@
       </ul>
     </div>
 
+    <!-- RESUMEN FINANCIERO EJECUTIVO (Visible en Impresión y PDF) -->
+    <div id="printFinancialSummary" class="hidden print:block p-4 sm:p-5 rounded-2xl bg-slate-50 border-2 border-slate-900 break-inside-avoid">
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-200">
+        <div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Inversión Inicial de Setup</span>
+          <div id="printSetupTotal" class="text-2xl font-black text-slate-950">RD$ 0</div>
+          <span class="text-[11px] text-slate-500">Esquema 50/50: RD$ <span id="printDepositSplit">0</span> de anticipo y RD$ <span id="printFinalSplit">0</span> contra entrega</span>
+        </div>
+        <div class="h-12 w-px bg-slate-300"></div>
+        <div class="text-right">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Mantenimiento Mensual Recurrente</span>
+          <div id="printMonthlyTotal" class="text-2xl font-black text-brand-600">RD$ 0 / mes</div>
+          <span class="text-[11px] text-slate-500">Alojamiento Anycast, soporte y copias continuas</span>
+        </div>
+      </div>
+      <div class="text-[10px] text-slate-600 flex items-center justify-between">
+        <span>Plan Acordado: <strong id="printPlanName" class="text-slate-900 font-bold">Servicios A la Carta</strong></span>
+        <span>Moneda: <strong class="text-slate-900 font-bold">Pesos Dominicanos (RD$)</strong></span>
+      </div>
+    </div>
+
     <!-- SECCIÓN DE APROBACIÓN Y FIRMA FORMAL (Visible en PDF/Impresión) -->
-    <div id="printSignatureSection" class="hidden print:block pt-8 mt-8 border-t-2 border-slate-200 break-inside-avoid">
-      <h4 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Aceptación Formal y Autorización de Inicio:</h4>
-      <p class="text-xs text-slate-600 mb-8 leading-relaxed">
+    <div id="printSignatureSection" class="hidden print:block pt-6 mt-6 border-t-2 border-slate-200 break-inside-avoid">
+      <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-1.5">Aceptación Formal y Autorización de Inicio:</h4>
+      <p class="text-[11px] text-slate-600 mb-6 leading-relaxed">
         Al firmar este documento o confirmar por WhatsApp, la empresa autoriza el inicio de los trabajos conforme al alcance, montos de inversión y condiciones estipuladas en esta propuesta formal.
       </p>
-      <div class="grid grid-cols-2 gap-12 pt-4 text-xs text-slate-700">
-        <div class="space-y-4">
-          <div class="border-b border-slate-400 h-10"></div>
+      <div class="grid grid-cols-2 gap-10 pt-2 text-xs text-slate-700">
+        <div class="space-y-3">
+          <div class="border-b border-slate-400 h-8"></div>
           <div>
             <strong class="block text-slate-900 font-bold" id="printClientName">Firma Autorizada del Cliente</strong>
-            <span class="text-slate-500">Propietario / Representante Legal</span>
+            <span class="text-slate-500 text-[11px]">Propietario / Representante Legal</span>
           </div>
         </div>
-        <div class="space-y-4">
-          <div class="border-b border-slate-400 h-10"></div>
+        <div class="space-y-3">
+          <div class="border-b border-slate-400 h-8"></div>
           <div>
             <strong class="block text-slate-900 font-bold">Por ISAPromoRD</strong>
-            <span class="text-slate-500">Dirección de Operaciones & Tecnología</span>
+            <span class="text-slate-500 text-[11px]">Dirección de Operaciones & Tecnología</span>
           </div>
         </div>
+      </div>
+      <div class="text-[10px] text-slate-400 font-mono text-center pt-4 mt-4 border-t border-slate-100">
+        Documento Comercial Generado por ISAPromoRD • Santo Domingo, República Dominicana • Validez: 15 Días Hábiles
       </div>
     </div>
 
@@ -1120,9 +1295,9 @@
       const addonsWrapper = document.getElementById("addonsSectionWrapper");
 
       // Verificar si es modo comparativa
-      const hasOfferedPkg = proposal.offeredPackage && proposal.offeredPackage.id && proposal.offeredPackage.id !== 'pack-none';
-      const hasSelectedServices = proposal.selectedServices && proposal.selectedServices.length > 0;
-      const isComparisonMode = proposal.mode === 'comparison' || (hasOfferedPkg && hasSelectedServices);
+      const hasOfferedPkg = Boolean(proposal.offeredPackage && proposal.offeredPackage.id && proposal.offeredPackage.id !== 'pack-none');
+      const hasSelectedServices = Boolean(proposal.selectedServices && proposal.selectedServices.length > 0);
+      const isComparisonMode = (proposal.mode === 'comparison' || !proposal.mode) && hasOfferedPkg;
 
       if (isComparisonMode && compSection) {
         // Mostrar sección de comparativa
@@ -1255,7 +1430,7 @@
               : '<span class="px-2 py-0.5 rounded-md bg-blue-50 text-brand-700 text-[10px] font-bold border border-blue-200">Pago Único</span>';
 
             return `
-              <label class="group relative bg-white rounded-2xl p-5 border ${addon.checked !== false ? 'border-brand-500 ring-1 ring-brand-500 shadow-sm' : 'border-slate-200/80 hover:border-slate-300'} flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer transition-all">
+              <label class="group addon-print-item relative bg-white rounded-2xl p-4 sm:p-5 border ${addon.checked !== false ? 'border-brand-500 ring-1 ring-brand-500 shadow-sm' : 'border-slate-200/80 hover:border-slate-300'} flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer transition-all">
                 <div class="flex items-start gap-3.5 flex-1">
                   <input 
                     type="checkbox" 
@@ -1376,12 +1551,38 @@
       }
 
       // Actualizar Barra Inferior
-      document.getElementById("barOnetimeTotal").textContent = `RD$ ${onetime.toLocaleString('es-DO')}`;
-      document.getElementById("barMonthlyTotal").textContent = `RD$ ${monthly.toLocaleString('es-DO')} / mes`;
+      const barOnetimeEl = document.getElementById("barOnetimeTotal");
+      if (barOnetimeEl) barOnetimeEl.textContent = `RD$ ${onetime.toLocaleString('es-DO')}`;
+      const barMonthlyEl = document.getElementById("barMonthlyTotal");
+      if (barMonthlyEl) barMonthlyEl.textContent = `RD$ ${monthly.toLocaleString('es-DO')} / mes`;
+
+      // Actualizar Resumen Financiero Formal en PDF / Impresión
+      const printSetupEl = document.getElementById("printSetupTotal");
+      const printMonthlyEl = document.getElementById("printMonthlyTotal");
+      const printDepositEl = document.getElementById("printDepositSplit");
+      const printFinalEl = document.getElementById("printFinalSplit");
+      const printPlanNameEl = document.getElementById("printPlanName");
+
+      if (printSetupEl) printSetupEl.textContent = `RD$ ${onetime.toLocaleString('es-DO')}`;
+      if (printMonthlyEl) printMonthlyEl.textContent = `RD$ ${monthly.toLocaleString('es-DO')} / mes`;
+      const depositVal = Math.round(onetime * 0.5);
+      const finalVal = onetime - depositVal;
+      if (printDepositEl) printDepositEl.textContent = depositVal.toLocaleString('es-DO');
+      if (printFinalEl) printFinalEl.textContent = finalVal.toLocaleString('es-DO');
+      if (printPlanNameEl) {
+        if (isComparisonMode) {
+          printPlanNameEl.textContent = chosenOption === 'package' 
+            ? (proposal.offeredPackage?.title || 'Paquete Recomendado') 
+            : 'Servicios A la Carta';
+        } else {
+          printPlanNameEl.textContent = proposal.basePackage?.title || 'Servicios Seleccionados';
+        }
+      }
 
       // Recalcular ROI aproximado
       const clientsNeeded = Math.max(1, Math.ceil(((monthly || 0) + (onetime ? onetime * 0.15 : 0)) / 4500));
-      document.getElementById("roiClientCount").textContent = `${clientsNeeded} a ${clientsNeeded + 2}`;
+      const roiCountEl = document.getElementById("roiClientCount");
+      if (roiCountEl) roiCountEl.textContent = `${clientsNeeded} a ${clientsNeeded + 2}`;
     }
 
     // ==========================================
@@ -1743,76 +1944,24 @@ Por favor comunicarse conmigo para revisar los detalles.`;
     }
 
     // ==========================================
-    // 6. DESCARGA DIRECTA DE ARCHIVO PDF (Industry Standard)
+    // 6. DESCARGA DIRECTA DE ARCHIVO PDF (Standard Ejecutivo Vectorial)
     // ==========================================
     function downloadProposalPdf() {
       const btn = document.getElementById("downloadPdfBtn");
       const label = document.getElementById("downloadBtnLabel");
-      const origText = label ? label.textContent : "Descargar en PDF";
+      const origText = label ? label.textContent : "Guardar / Descargar PDF";
 
-      if (label) label.textContent = "Generando PDF...";
+      if (label) label.textContent = "Abriendo vista PDF...";
       if (btn) btn.disabled = true;
 
-      const element = document.getElementById("proposalMainContent");
-      const printLetterhead = document.getElementById("printLetterhead");
-      const printSignatureSection = document.getElementById("printSignatureSection");
+      // Asegurar que todos los desgloses financieros y firmas estén sincronizados
+      recalculateTotals();
 
-      // Mostrar membrete y firmas durante la captura
-      if (printLetterhead) {
-        printLetterhead.classList.remove("hidden");
-        printLetterhead.classList.add("flex");
-      }
-      if (printSignatureSection) {
-        printSignatureSection.classList.remove("hidden");
-        printSignatureSection.classList.add("block");
-      }
-
-      const clientClean = (proposal.clientName || 'Cliente').replace(/[^a-zA-Z0-9]/g, '_');
-      const filename = `Propuesta_ISAPromoRD_${clientClean}.pdf`;
-
-      const opt = {
-        margin: [8, 8, 10, 8],
-        filename: filename,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      };
-
-      if (window.html2pdf) {
-        window.html2pdf().set(opt).from(element).save().then(() => {
-          if (printLetterhead) {
-            printLetterhead.classList.add("hidden");
-            printLetterhead.classList.remove("flex");
-          }
-          if (printSignatureSection) {
-            printSignatureSection.classList.add("hidden");
-            printSignatureSection.classList.remove("block");
-          }
-          if (label) label.textContent = "✅ ¡PDF Descargado!";
-          setTimeout(() => {
-            if (label) label.textContent = origText;
-            if (btn) btn.disabled = false;
-          }, 3000);
-        }).catch(err => {
-          console.warn("Fallo html2pdf, abriendo impresión estándar...", err);
-          if (printLetterhead) {
-            printLetterhead.classList.add("hidden");
-            printLetterhead.classList.remove("flex");
-          }
-          if (printSignatureSection) {
-            printSignatureSection.classList.add("hidden");
-            printSignatureSection.classList.remove("block");
-          }
-          if (label) label.textContent = origText;
-          if (btn) btn.disabled = false;
-          window.print();
-        });
-      } else {
-        window.print();
+      setTimeout(() => {
         if (label) label.textContent = origText;
         if (btn) btn.disabled = false;
-      }
+        window.print();
+      }, 150);
     }
   </script>
 </body>

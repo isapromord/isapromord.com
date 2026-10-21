@@ -1,7 +1,7 @@
 # 🤝 HANDOFF.md — Estado Técnico de IsaPromo RD (isapromord.com)
 
 > **Nodo MBOS:** `isapromord.com`  
-> **Última Actualización:** 2026-10-20 (v2.3.7: Enlaces de Propuestas Ultracompactos <200 Chars, Cloud Hydration & Bitly-Proof)  
+> **Última Actualización:** 2026-10-21 (v2.3.8: Reingeniería de Exportación a PDF e Impresión Ejecutiva Vectorial)  
 > **Repositorio Oficial:** [https://github.com/isapromord/isapromord.com](https://github.com/isapromord/isapromord.com)  
 > **Repositorio Root Pages:** [https://github.com/isapromord/isapromord.github.io](https://github.com/isapromord/isapromord.github.io)  
 > **URLs EN VIVO Y FUNCIONALES ($0 Costo):**  
@@ -13,19 +13,17 @@
 > - 📄 **Propuesta Demo Interactiva:** [https://isapromord.github.io/propuestas/demo/](https://isapromord.github.io/propuestas/demo/)  
 > - 📄 **Motor de Propuestas Dinámicas:** [https://isapromord.github.io/propuesta/](https://isapromord.github.io/propuesta/)  
 > - 🗄️ **Base de Datos Multi-Tenant Oficial (Supabase):** `isapromord-hub` (`biomfntvqbhjmmmggxzj`) en organización `isapromo-cloud` — Tablas activas: `agency_clients`, `agency_proposals`, `isapromo_referrals`.  
-> **Estado del Sistema:** 100% en línea, 17/17 pruebas unitarias pasando al 100%, cachebuster v2.3.7 activo.
+> **Estado del Sistema:** 100% en línea, 18/18 pruebas unitarias pasando al 100%, cachebuster v2.3.8 activo.
 
 ---
 
-### Hitos Completados en v2.3.7 (2026-10-20):
-1. **Compresión Semántica de Enlaces de Propuestas Comerciales (<200-240 Caracteres):**
-   - Eliminación de la codificación Base64 total en `&d=` que generaba URLs monstruosas de ~2,752 caracteres.
-   - Nueva arquitectura de parámetros cortos (`cliente`, `cat`, `plan`, `id`, `svc`, `setup`, `monthly`, `custom`).
-   - Soporte para sobreescritura de precios individuales en formato `svcId:price` (ej: `web-maintenance:2000,google-maps-pack:5000`).
-   - URLs 100% compatibles con Bitly (límite de 2,048 caracteres), WhatsApp, iMessage y SMS sin verse como enlaces de spam.
-2. **Hidratación en la Nube y Compatibilidad hacia Atrás Total:**
-   - Persistencia automática de `payload JSONB` en Supabase `agency_proposals`.
-   - Renderizado visual instantáneo en 0ms vía query params, complementado con enriquecimiento progresivo desde la nube en background.
-   - Preservación del decodificador histórico de `&d=` para asegurar que enlaces antiguos nunca se rompan.
-3. **Pruebas Automatizadas:**
-   - **17/17 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.
+### Hitos Completados en v2.3.8 (2026-10-21):
+1. **Reingeniería de Impresión y Generación de PDF Ejecutiva (0 Páginas en Blanco, 0 Cortes de Texto):**
+   - Eliminación del motor rasterizado `html2pdf.bundle.min.js` y de la regla `avoid-all` que generaba una primera página 100% en blanco y rebanaba líneas de texto a la mitad horizontalmente.
+   - Migración al estándar de impresión vectorial nativa del navegador con tipografía 100% nítida, seleccionable y enlaces activos.
+   - Transformación de `#proposalHeroBox` en encabezado corporativo sobrio sobre fondo blanco/slate sin degradados negros ni derroche de tinta.
+   - Ajuste de márgenes y ritmo vertical (`margin-top: 0.75rem`) eliminando vacíos gigantescos y apretones de pantalla.
+   - Adición de `#printFinancialSummary`: Resumen de Inversión formal con totales Setup, Retainer Mensual y desglose legal 50/50 antes de las firmas.
+   - Blindaje de `break-inside: avoid` y `page-break-inside: avoid` en todas las secciones críticas para que ninguna tarjeta ni párrafo se parta entre páginas.
+2. **Pruebas Automatizadas:**
+   - **18/18 pruebas unitarias** pasando al 100% de éxito en `scratch/test_suite.js`.

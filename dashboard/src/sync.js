@@ -72,7 +72,12 @@ export function clientToDbRow(client) {
     health_score: typeof client.healthScore === "number" ? client.healthScore : 100,
     optimization_matrix: {
       ...(client.optimizationMatrix || {}),
-      contractedServices: Array.isArray(client.contractedServices) ? client.contractedServices : undefined
+      contractedServices: Array.isArray(client.contractedServices) ? client.contractedServices : undefined,
+      setupPrice: client.setupPrice !== undefined ? client.setupPrice : 30000,
+      setupStatus: client.setupStatus || 'settled',
+      proposalUrl: client.proposalUrl,
+      proposalId: client.proposalId,
+      proposalStatus: client.proposalStatus
     },
     tasks: Array.isArray(client.tasks) ? client.tasks : [],
     payment_history: Array.isArray(client.paymentHistory) ? client.paymentHistory : [],
@@ -106,6 +111,11 @@ export function dbRowToClient(row) {
         ? row.optimization_matrix.contractedServices
         : ['web_conversion', 'google_maps_gbp', 'whatsapp_social_cards', 'geo_ai_schemas', 'onpage_seo_console', 'cloud_maintenance'],
     optimizationMatrix: row.optimization_matrix || {},
+    setupPrice: row.optimization_matrix?.setupPrice !== undefined ? row.optimization_matrix.setupPrice : (row.setup_price !== undefined ? Number(row.setup_price) : 30000),
+    setupStatus: row.optimization_matrix?.setupStatus || row.setup_status || 'settled',
+    proposalUrl: row.optimization_matrix?.proposalUrl || row.proposal_url,
+    proposalId: row.optimization_matrix?.proposalId || row.proposal_id,
+    proposalStatus: row.optimization_matrix?.proposalStatus || row.proposal_status || 'approved',
     tasks: Array.isArray(row.tasks) ? row.tasks : [],
     paymentHistory: Array.isArray(row.payment_history) ? row.payment_history : [],
     uptimeStatus: (row.uptime_status === "checking" ? "online" : row.uptime_status) || "online",
@@ -196,6 +206,11 @@ export function loadClients() {
           }
           if (initC.id === "client-kendysastre" && state.clients[idx].fee === "RD$ 4,500 / mes") {
             state.clients[idx].fee = initC.fee;
+            updated = true;
+          }
+          if (state.clients[idx].setupPrice === undefined && initC.setupPrice !== undefined) {
+            state.clients[idx].setupPrice = initC.setupPrice;
+            state.clients[idx].setupStatus = initC.setupStatus || 'settled';
             updated = true;
           }
           if (initC.tasks) {

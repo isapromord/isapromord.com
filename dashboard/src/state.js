@@ -523,6 +523,8 @@ export const INITIAL_CLIENTS = [
     status: "active",
     healthScore: 100,
     fee: "RD$ 2,000 / mes",
+    setupPrice: 30000,
+    setupStatus: "deposit_paid",
     renewalDate: "2026-11-07",
     joinedDate: "2026-10-07",
     notes: "Atelier de sastrería a medida, trajes de novio y vestimenta formal en Santo Domingo.",

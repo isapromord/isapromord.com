@@ -1901,19 +1901,29 @@
                 </p>
               </div>
 
-              <!-- Cajas Duales de Métricas del Cliente -->
-              <div class="grid grid-cols-2 gap-3 pt-1">
-                <div class="p-3.5 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
-                  <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">Health Score</span>
-                  <div class="text-2xl sm:text-3xl font-black font-mono flex items-baseline gap-1">
-                    <span id="ddScoreNumber" class="text-emerald-400">--</span><span class="text-sm text-slate-400 font-normal">/100</span>
+              <!-- Cajas Métricas del Cliente: Técnica, Setup e Ingreso Mensual -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                <!-- Health Score -->
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.08] space-y-0.5">
+                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">Salud Técnica</span>
+                  <div class="text-2xl font-black font-mono flex items-baseline gap-1">
+                    <span id="ddScoreNumber" class="text-emerald-400">--</span><span class="text-xs text-slate-500 font-normal">/100</span>
                   </div>
-                  <span id="ddScoreSubtitle" class="text-xs text-emerald-400 font-mono font-semibold block">Salud técnica óptima</span>
+                  <span id="ddScoreSubtitle" class="text-[11px] text-emerald-400 font-mono font-semibold block truncate">Salud técnica óptima</span>
                 </div>
-                <div class="p-3.5 rounded bg-[#0a0e17] border border-white/[0.08] space-y-1">
-                  <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300 block">Tarifa Mensual</span>
-                  <div id="ddMrrFee" class="text-2xl sm:text-3xl font-black text-white font-mono stitch-title">RD$ 4,500</div>
-                  <span id="ddPlanName" class="text-xs text-cyan-400 font-mono font-semibold block">Plan Retainer</span>
+
+                <!-- Setup / Proyecto (Inversión Inicial) -->
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.08] space-y-0.5">
+                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">Setup Proyecto</span>
+                  <div id="ddSetupAmount" class="text-xl font-black font-mono text-white truncate">RD$ 30,000</div>
+                  <span id="ddSetupStatusBadge" class="text-[11px] font-mono font-bold text-emerald-400 block truncate">100% Saldado</span>
+                </div>
+
+                <!-- Mantenimiento Mensual Recurrente -->
+                <div class="p-3 rounded bg-[#0a0e17] border border-white/[0.08] space-y-0.5">
+                  <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">Mantenimiento</span>
+                  <div id="ddMrrFee" class="text-xl font-black text-emerald-300 font-mono truncate">RD$ 2,000</div>
+                  <span id="ddPlanName" class="text-[11px] text-cyan-400 font-mono font-semibold block truncate">Plan Retainer</span>
                 </div>
               </div>
 
@@ -3042,29 +3052,58 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- Estado -->
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Estado</label>
-            <select id="clientStatus" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
-              <option value="active">🟢 Activo</option>
-              <option value="maintenance">🟡 En Mantenimiento</option>
-              <option value="pending_payment">🔴 Cobro Pendiente</option>
-              <option value="lead">⚪ Prospecto</option>
-              <option value="archived">📁 Archivado</option>
-            </select>
+        <!-- ESTRUCTURA FINANCIERA (SETUP VS MANTENIMIENTO RECURRENTE) -->
+        <div class="p-4 rounded-xl bg-[#070b14] border border-white/10 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="block text-xs font-bold text-white uppercase tracking-wider">💰 Estructura Financiera & Contratación</span>
+            <span class="text-[10px] text-slate-400 font-mono">Diferenciación estricta Setup vs Mantenimiento</span>
           </div>
 
-          <!-- Monto Mensual -->
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Mantenimiento Mensual</label>
-            <input type="text" id="clientFee" placeholder="RD$ 4,500 / mes" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+            <!-- Estado -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Estado Cuenta</label>
+              <select id="clientStatus" class="w-full px-3 py-2 rounded-lg border border-white/10 text-xs font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+                <option value="active">🟢 Activo</option>
+                <option value="maintenance">🟡 En Mantenimiento</option>
+                <option value="pending_payment">🔴 Cobro Pendiente</option>
+                <option value="lead">⚪ Prospecto</option>
+                <option value="archived">📁 Archivado</option>
+              </select>
+            </div>
+
+            <!-- Setup del Proyecto (One-Time) -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Setup Proyecto (RD$)</label>
+              <input type="text" id="clientSetupPrice" placeholder="RD$ 30,000" class="w-full px-3 py-2 rounded-lg border border-white/10 text-xs font-bold bg-[#06080d] text-cyan-300 placeholder-slate-500 focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+
+            <!-- Estado de Liquidación del Setup -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Estado de Setup</label>
+              <select id="clientSetupStatus" class="w-full px-3 py-2 rounded-lg border border-white/10 text-xs font-semibold bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none">
+                <option value="settled">✅ 100% Saldado (Completado)</option>
+                <option value="deposit_paid">🚀 50% Anticipo (Remainder Pendiente)</option>
+                <option value="pending">⏳ Pendiente de Cobro</option>
+              </select>
+            </div>
+
+            <!-- Mantenimiento Mensual Recurrente -->
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Mantenimiento Mensual</label>
+              <input type="text" id="clientFee" placeholder="RD$ 2,000 / mes" class="w-full px-3 py-2 rounded-lg border border-white/10 text-xs font-bold bg-[#06080d] text-emerald-300 placeholder-slate-500 focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
           </div>
 
-          <!-- Próxima Renovación -->
-          <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Próxima Fecha Cobro</label>
-            <input type="date" id="clientRenewal" class="w-full px-3.5 py-2.5 rounded-lg border border-white/10 text-sm bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+          <!-- Próxima Fecha de Corte Mensual -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1 border-t border-white/5">
+            <div>
+              <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Próxima Fecha de Corte Mensual</label>
+              <input type="date" id="clientRenewal" class="w-full px-3 py-2 rounded-lg border border-white/10 text-xs bg-[#06080d] text-white focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
+            </div>
+            <div class="flex items-center text-[11px] text-slate-400 font-mono pt-3 sm:pt-4">
+              <span>💡 El Setup se divide en 50% Anticipo + 50% Remainder. El Mantenimiento es mensual recurrente por ciclo.</span>
+            </div>
           </div>
         </div>
 

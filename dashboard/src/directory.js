@@ -333,11 +333,35 @@ export function renderClients(clientsToRender = state.clients) {
               ${client.contractedServices && client.contractedServices.length < 7 ? `<span class="text-[9px] font-mono text-cyan-400 block mt-0.5">${client.contractedServices.length} serv.</span>` : ''}
             </div>
 
-            <!-- Retainer Mensual -->
+            <!-- Setup / Proyecto (Inversión Inicial) -->
+            ${!isAgency ? `
+              <div class="text-left md:text-right min-w-[105px]">
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">Setup Proyecto</span>
+                <span class="text-xs font-mono font-bold text-white block">
+                  ${state.presentationMode ? '•••••' : `RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}`}
+                </span>
+                <span class="text-[9px] font-mono font-bold block mt-0.5 ${
+                  client.setupStatus === 'deposit_paid' 
+                    ? 'text-amber-300' 
+                    : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400')
+                }">
+                  ${
+                    client.setupStatus === 'deposit_paid' 
+                      ? `50% Anticipo (Rem: RD$ ${Math.round((client.setupPrice !== undefined ? Number(client.setupPrice) : 30000) * 0.5).toLocaleString('es-DO')})` 
+                      : (client.setupStatus === 'pending' ? 'Setup Pendiente' : '✓ 100% Saldado')
+                  }
+                </span>
+              </div>
+            ` : ''}
+
+            <!-- Mantenimiento Mensual Recurrente -->
             <div class="text-left md:text-right min-w-[95px]">
-              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">Retainer</span>
+              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-0.5">Mantenimiento</span>
               <span class="text-xs font-mono font-bold ${isZeroFee ? 'text-slate-500' : 'text-emerald-400'} block">
                 ${state.presentationMode ? '•••••' : formattedFee}
+              </span>
+              <span class="text-[9px] font-mono text-cyan-400/80 block mt-0.5">
+                ${client.renewalDate ? `Corte: ${client.renewalDate.slice(5)}` : 'Ciclo Activo'}
               </span>
             </div>
 
@@ -382,8 +406,8 @@ export function renderClients(clientsToRender = state.clients) {
           id="client-detail-${client.id}" 
           class="${isExpanded ? '' : 'hidden'} border-t border-slate-800/80 p-5 sm:p-6 bg-[#0c1322]/80 space-y-5 animate-in fade-in duration-150"
         >
-          <!-- Grid Operativo: Contacto + Hosting + Roadmap -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <!-- Grid Operativo: Contacto + Hosting + Finanzas + Roadmap -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5">
             <!-- Contacto y WhatsApp -->
             <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
               <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">👤 Contacto Directo</span>
@@ -408,10 +432,27 @@ export function renderClients(clientsToRender = state.clients) {
               ` : ''}
             </div>
 
+            <!-- Estructura Financiera Inteligente -->
+            <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">💰 Estructura Financiera</span>
+              <div>
+                <span class="text-[10px] text-slate-500 block">Setup del Proyecto:</span>
+                <strong class="text-white font-mono text-xs">RD$ ${(client.setupPrice !== undefined ? Number(client.setupPrice) : 30000).toLocaleString('es-DO')}</strong>
+                <span class="text-[10px] font-mono font-bold ml-1 ${client.setupStatus === 'deposit_paid' ? 'text-amber-300' : (client.setupStatus === 'pending' ? 'text-rose-400' : 'text-emerald-400')}">
+                  ${client.setupStatus === 'deposit_paid' ? '• 50% Anticipo' : (client.setupStatus === 'pending' ? '• Pendiente' : '• 100% Saldado')}
+                </span>
+              </div>
+              <div class="pt-0.5 border-t border-white/5">
+                <span class="text-[10px] text-slate-500 block">Mantenimiento Mensual:</span>
+                <strong class="text-emerald-300 font-mono text-xs">${client.fee || 'RD$ 2,000 / mes'}</strong>
+                <span class="text-[10px] text-slate-400 font-mono block">${client.renewalDate ? `Renueva: ${client.renewalDate}` : 'Ciclo Activo'}</span>
+              </div>
+            </div>
+
             <!-- Roadmap Operativo -->
             <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
               <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">🚀 Roadmap de Entregables</span>
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">🚀 Roadmap Entregables</span>
                 <span class="font-mono text-xs font-bold text-cyan-300">${completedTasks}/${totalTasks} (${progressPct}%)</span>
               </div>
               <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
@@ -896,7 +937,9 @@ export function editClient(id) {
   setVal("clientPhone", client.phone);
   setVal("clientEmail", client.email);
   setVal("clientStatus", client.status || "active");
-  setVal("clientFee", client.fee);
+  setVal("clientSetupPrice", client.setupPrice !== undefined ? `RD$ ${Number(client.setupPrice).toLocaleString('es-DO')}` : "RD$ 30,000");
+  setVal("clientSetupStatus", client.setupStatus || "settled");
+  setVal("clientFee", client.fee || "RD$ 2,000 / mes");
   setVal("clientRenewal", client.renewalDate);
   setVal("clientRepo", client.repoUrl);
   setVal("clientNotes", client.notes);
@@ -957,6 +1000,9 @@ export function saveClient(e) {
     const phone = document.getElementById("clientPhone")?.value.trim() || "";
     const email = document.getElementById("clientEmail")?.value.trim() || "";
     const status = document.getElementById("clientStatus")?.value || "active";
+    const rawSetup = document.getElementById("clientSetupPrice")?.value.replace(/\D/g, '') || "30000";
+    const setupPrice = Number(rawSetup) || 30000;
+    const setupStatus = document.getElementById("clientSetupStatus")?.value || "settled";
     const fee = document.getElementById("clientFee")?.value.trim() || "";
     const renewalDate = document.getElementById("clientRenewal")?.value || "";
     const notes = document.getElementById("clientNotes")?.value.trim() || "";
@@ -984,7 +1030,7 @@ export function saveClient(e) {
       if (index !== -1) {
         state.clients[index] = {
           ...state.clients[index],
-          name, category, liveUrl: cleanLiveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
+          name, category, liveUrl: cleanLiveUrl, platform, contactPerson, phone, email, status, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
           contractedServices: finalContracted
         };
       }
@@ -1077,7 +1123,7 @@ export function saveClient(e) {
     const newId = "client-" + Date.now();
     state.clients.unshift({
       id: newId,
-      name, category, liveUrl, platform, contactPerson, phone, email, status, fee, renewalDate, repoUrl, notes,
+      name, category, liveUrl, platform, contactPerson, phone, email, status, setupPrice, setupStatus, fee, renewalDate, repoUrl, notes,
       contractedServices: finalContracted,
       joinedDate: today,
       healthScore: initialScore,

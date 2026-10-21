@@ -496,16 +496,43 @@ export function renderClientDrilldown() {
       : "Pendiente de auditoría";
   }
 
+  // 4. Setup del Proyecto (Anticipo 50% / Remainder 50% / Saldado)
+  const setupEl = document.getElementById("ddSetupAmount");
+  const setupBadge = document.getElementById("ddSetupStatusBadge");
+  const setupVal = client.setupPrice !== undefined ? Number(client.setupPrice) : (client.isAgency ? 0 : 30000);
+  const setupHalf = Math.round(setupVal * 0.5);
+  const setupStatus = client.setupStatus || 'settled';
+
+  if (setupEl) {
+    setupEl.textContent = state.presentationMode ? "••••••" : `RD$ ${setupVal.toLocaleString('es-DO')}`;
+  }
+  if (setupBadge) {
+    if (client.isAgency) {
+      setupBadge.textContent = "Infraestructura Matriz";
+      setupBadge.className = "text-[11px] font-mono font-bold text-purple-400 block truncate";
+    } else if (setupStatus === 'deposit_paid') {
+      setupBadge.textContent = `50% Anticipo (Rem: RD$ ${setupHalf.toLocaleString('es-DO')})`;
+      setupBadge.className = "text-[11px] font-mono font-bold text-amber-300 block truncate";
+    } else if (setupStatus === 'pending') {
+      setupBadge.textContent = "Pendiente (0% Cobrado)";
+      setupBadge.className = "text-[11px] font-mono font-bold text-rose-400 block truncate";
+    } else {
+      setupBadge.textContent = "100% Saldado";
+      setupBadge.className = "text-[11px] font-mono font-bold text-emerald-400 block truncate";
+    }
+  }
+
+  // 5. Mantenimiento Mensual Recurrente (MRR)
   const mrrFee = document.getElementById("ddMrrFee");
-  const hasFee = client.fee && client.fee.trim() !== "" && client.fee !== "RD$ 0";
+  const hasFee = client.fee && client.fee.trim() !== "" && client.fee !== "RD$ 0" && client.fee !== "0";
 
   const retainerBadge = document.getElementById("ddRetainerBadge");
   if (retainerBadge) {
     if (hasFee) {
-      retainerBadge.textContent = "Retainer Activo";
+      retainerBadge.textContent = "Mantenimiento Activo";
       retainerBadge.className = "text-cyan-400 font-mono text-xs font-bold";
     } else {
-      retainerBadge.textContent = "A la Carta (Sin Retainer)";
+      retainerBadge.textContent = "A la Carta (Sin Mantenimiento)";
       retainerBadge.className = "text-slate-500 font-mono text-xs font-semibold";
     }
   }

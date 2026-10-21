@@ -5,7 +5,7 @@
  */
 import { state, STORAGE_KEYS, INITIAL_ACCOUNTING_LEDGER, DEFAULT_BANK_DETAILS } from './state.js';
 import { saveClientsToStorage, syncVaultToCloud } from './sync.js';
-import { showToast, escapeHtml, getBillingStatus, updateKpis } from './ui.js';
+import { showToast, escapeHtml, getBillingStatus, updateKpis, calculateFinancialSummary } from './ui.js';
 
 export const forecastState = {
   web: 1,       // RD$ 4,500/m (Setup 28,000)
@@ -39,6 +39,12 @@ export function loadAccountingData() {
   if (stored) {
     try {
       state.accountingLedger = JSON.parse(stored);
+      // Asegurar que transacciones canónicas iniciales existan
+      INITIAL_ACCOUNTING_LEDGER.forEach(initTx => {
+        if (!state.accountingLedger.some(t => t.id === initTx.id)) {
+          state.accountingLedger.push(initTx);
+        }
+      });
     } catch (e) {
       state.accountingLedger = INITIAL_ACCOUNTING_LEDGER;
     }
@@ -105,48 +111,67 @@ export function updateAccountingKpis() {
     }
   });
 
+  // Sincronización 100% con el Motor Financiero Central
+  const finances = calculateFinancialSummary(state.clients);
+  const mrrTotal = finances.mrr;
+  const arrTotal = mrrTotal * 12;
+
+  // Si no hay cobro en el mes de calendario pero hay cobrado acumulado o realizado de setups
+  const displayInflow = currentMonthInflow > 0 ? currentMonthInflow : finances.totalSetupCollected;
+
   const inflowEl = document.getElementById("acctKpiCashInflow");
-  if (inflowEl) inflowEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${currentMonthInflow.toLocaleString('es-DO')}`;
+  if (inflowEl) {
+    inflowEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${displayInflow.toLocaleString('es-DO')}`;
+  }
 
   const allTimeEl = document.getElementById("allTimeCollectedTotal");
-  if (allTimeEl) allTimeEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${allTimeCollected.toLocaleString('es-DO')}`;
+  if (allTimeEl) {
+    allTimeEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${allTimeCollected.toLocaleString('es-DO')}`;
+  }
 
-  let mrrTotal = 0;
-  let receivablesTotal = 0;
+  // Cuentas por cobrar: Remainder de setups (50% contra entrega) + mensualidades en mora o por vencer
+  let pendingRetainersTotal = 0;
   let pendingClientsCount = 0;
 
   (state.clients || []).forEach(c => {
-    if (c.status === "active") {
-      let feeNum = 0;
-      if (c.fee) {
-        const m = c.fee.match(/[\d,]+/);
-        if (m) feeNum = parseInt(m[0].replace(/,/g, ''), 10) || 0;
-      }
-      mrrTotal += feeNum;
+    if (c.status === "archived" || c.isAgency || c.isInternal || c.setupStatus === "internal" || c.id === "agency-isapromord") return;
 
-      const billing = getBillingStatus(c.renewalDate);
-      if (billing.status === "due_soon" || billing.status === "overdue") {
-        receivablesTotal += feeNum;
+    if (c.setupStatus === 'deposit_paid' || c.setupStatus === 'pending') {
+      pendingClientsCount++;
+    }
+
+    const billing = getBillingStatus(c.renewalDate);
+    if (billing.status === "due_soon" || billing.status === "overdue") {
+      const m = String(c.fee || '').match(/[\d,]+/);
+      const feeNum = m ? parseInt(m[0].replace(/,/g, ''), 10) || 0 : 0;
+      pendingRetainersTotal += feeNum;
+      if (c.setupStatus !== 'deposit_paid' && c.setupStatus !== 'pending') {
         pendingClientsCount++;
       }
     }
   });
 
+  const totalReceivables = finances.totalSetupReceivable + pendingRetainersTotal;
+
   const mrrEl = document.getElementById("acctKpiMrr");
   if (mrrEl) mrrEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${mrrTotal.toLocaleString('es-DO')}`;
 
-  const arrTotal = mrrTotal * 12;
   const arrEl = document.getElementById("acctKpiArr");
   if (arrEl) arrEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${arrTotal.toLocaleString('es-DO')}`;
 
   const recEl = document.getElementById("acctKpiReceivables");
-  if (recEl) recEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${receivablesTotal.toLocaleString('es-DO')}`;
+  if (recEl) recEl.textContent = state.presentationMode ? "RD$ ••••••" : `RD$ ${totalReceivables.toLocaleString('es-DO')}`;
 
   const recCountEl = document.getElementById("acctKpiReceivablesCount");
-  if (recCountEl) recCountEl.textContent = `${pendingClientsCount} ${pendingClientsCount === 1 ? 'cliente pendiente' : 'clientes pendientes'}`;
+  if (recCountEl) {
+    recCountEl.textContent = `${pendingClientsCount} ${pendingClientsCount === 1 ? 'saldo pendiente' : 'saldos pendientes'}`;
+  }
 
   const recSummaryEl = document.getElementById("receivablesSummaryCount");
-  if (recSummaryEl) recSummaryEl.textContent = `${state.clients.length} ${state.clients.length === 1 ? 'cliente en radar' : 'clientes en radar'}`;
+  if (recSummaryEl) {
+    const realClientsCount = (state.clients || []).filter(c => !c.isInternal && !c.isAgency && c.id !== 'agency-isapromord').length;
+    recSummaryEl.textContent = `${realClientsCount} ${realClientsCount === 1 ? 'cliente en radar' : 'clientes en radar'}`;
+  }
 }
 
 export function renderAccountingBankBalances() {
@@ -183,24 +208,33 @@ export function renderAccountingReceivables() {
   const tbody = getReceivablesTbody();
   if (!tbody) return;
 
-  const clients = state.clients || [];
+  const clients = (state.clients || []).filter(c => !c.isInternal && !c.isAgency && c.id !== 'agency-isapromord' && c.status !== 'archived');
   if (clients.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400">No hay clientes registrados en el directorio.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" class="py-6 text-center text-slate-400">No hay clientes facturables registrados en el directorio.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = clients.map(client => {
     const billing = getBillingStatus(client.renewalDate);
     const feeStr = state.presentationMode ? "•••••" : (client.fee || "RD$ 0 / mes");
+    const hasRemainder = client.setupStatus === 'deposit_paid';
+    const remainderAmt = Math.round((Number(client.setupPrice) || 30000) * 0.5);
 
     return `
       <tr class="hover:bg-white/[0.02] transition-colors border-b border-white/[0.04]">
-        <td class="py-3 px-4 font-bold text-white">${escapeHtml(client.name)}</td>
-        <td class="py-3 px-4 font-mono text-cyan-300">${feeStr}</td>
+        <td class="py-3 px-4 font-bold text-white">
+          <div class="flex items-center gap-2">
+            <span>${escapeHtml(client.name)}</span>
+            ${hasRemainder ? `<span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30">Rem: RD$ ${remainderAmt.toLocaleString('es-DO')}</span>` : ''}
+          </div>
+        </td>
+        <td class="py-3 px-4 font-mono text-cyan-300">
+          <span>${feeStr}</span>
+        </td>
         <td class="py-3 px-4 font-mono text-slate-400">${client.renewalDate || '—'}</td>
         <td class="py-3 px-4">
-          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${billing.badgeClass}">
-            ${billing.text}
+          <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${hasRemainder ? 'bg-amber-500/10 text-amber-300 border-amber-500/30' : billing.badgeClass}">
+            ${hasRemainder ? '⏳ 50% Anticipo (Rem. Pendiente)' : billing.text}
           </span>
         </td>
         <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">

@@ -854,6 +854,18 @@ export const INITIAL_ACCOUNTING_LEDGER = [
     account: "Banco Popular Dominicano",
     reference: "BP-892150",
     notes: "Facturación inicial mensual de servicio"
+  },
+  {
+    id: "tx-init-3",
+    date: "2026-10-07",
+    clientId: "client-kendysastre",
+    clientName: "Kendy Sastre Atelier",
+    concept: "Anticipo 50% — Desarrollo Atelier Digital & Google Maps",
+    type: "setup",
+    amount: 15000,
+    account: "Banco Popular Dominicano",
+    reference: "BP-910442",
+    notes: "Anticipo 50% recibido para inicio de desarrollo"
   }
 ];
 

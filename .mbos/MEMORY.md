@@ -1477,3 +1477,9 @@
      - Se añadió el Test 18 en `scratch/test_suite.js` validando la integridad del stylesheet de impresión, la eliminación de `avoid-all` y la matemática 50/50 del resumen impreso.
 - **Regla MBOS Extraída:**
   - *Print Document Architecture:* Jamás utilizar rasterizadores de canvas tipo `html2pdf` / `html2canvas` para documentos contractuales o propuestas ejecutivas. Utilizar siempre `@media print` nativo con tipografía vectorial, `break-inside: avoid`, y anulación de márgenes y colores de pantalla.
+
+- [2026-10-21] Digital Receipts & Financial Taxonomy Clarification:
+  - *Distinción Conceptual Innegociable:* Los cobros de desarrollo y setup son puntuales (one-time) divididos estrictamente en 50% de anticipo para iniciar ingeniería y 50% completivo contra entrega de la plataforma. Jamás confundir estos hitos con el cobro mensual (Retainer/Mantenimiento), el cual corresponde a servicios prestados mes a mes (hosting Anycast, soporte y monitoreo) con fechas de corte y renovación.
+  - *Arquitectura de Recibos Digitales (`recibo/index.html`):* Creada plataforma ligera y vector-printable para comprobantes comerciales con resolución nativa A4, compartición directa en WhatsApp y soporte para anticipos (muestra saldo pendiente contra entrega), completivos (muestra saldo RD$ 0.00 saldado), mensualidades (muestra período activo cubierto) y pagos totales.
+  - *Centro de Cobros & Recordatorios en Dashboard:* El modal de WhatsApp (`billingNoticeModal`) ahora soporta de forma modular Avisos Preventivos, Día de Corte, Vencido (en Gracia), Anticipo 50%, Completivo 50% y Emisión de Recibo Digital con enlace directo.
+  - *Ledger CFO Direct Receipt Action:* Cada transacción de ingreso en el libro contable ahora cuenta con un botón de acción directo para emitir o visualizar su recibo digital oficial al instante.

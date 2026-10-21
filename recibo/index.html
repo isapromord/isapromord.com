@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Recibo Oficial de Pago | ISAPromoRD</title>
+  <meta name="description" content="Recibo Oficial de Pago y Liquidación Comercial emitido por ISAPromoRD. Comprobante digital verificado." />
+  
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Recibo Oficial de Pago | ISAPromoRD" />
+  <meta property="og:description" content="Comprobante digital formal de liquidación y servicios tecnológicos emitido por ISAPromoRD." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#090d16" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/logo_icon.png" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ========================================================
+       REGLAS DE IMPRESIÓN Y PDF VECTORIAL (SWISS STANDARD)
+       ======================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+
+    @media print {
+      .no-print, header, aside, button {
+        display: none !important;
+      }
+      html, body {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        font-size: 10pt !important;
+        line-height: 1.35 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #receiptDocumentArea {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+      }
+      .break-inside-avoid {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 font-sans text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-slate-950 pb-16">
+
+  <!-- ========================================================
+       BARRA SUPERIOR CORPORATIVA
+       ======================================================== -->
+  <header class="bg-[#0b0f17]/95 backdrop-blur-md border-b border-white/10 sticky top-0 z-30 no-print">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-8 h-8 object-contain drop-shadow-sm" />
+        <span class="text-base sm:text-lg font-black tracking-tight text-white">
+          ISA<span class="text-slate-400">Promo</span><span class="text-emerald-400">RD</span>
+        </span>
+        <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-mono font-bold uppercase tracking-wider border border-emerald-500/20">
+          Comprobante Oficial
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="downloadPdfBtn" onclick="downloadReceiptPdf()" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 border border-white/10 shadow-sm transition-all cursor-pointer">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span id="downloadBtnLabel">Guardar / Descargar PDF</span>
+        </button>
+        <button onclick="window.print()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 border border-white/10 transition-colors cursor-pointer" title="Imprimir comprobante">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <span class="hidden sm:inline">Imprimir</span>
+        </button>
+        <a id="shareWhatsappBtn" href="https://wa.me/18294554783" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+          <span>Compartir por WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       DOCUMENTO DEL RECIBO (EXECUTIVE VIEWPORT)
+       ======================================================== -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 flex-1 w-full space-y-6">
+
+    <div id="receiptDocumentArea" class="bg-white text-slate-900 rounded-2xl shadow-xl p-6 sm:p-10 space-y-6 border border-slate-200 relative overflow-hidden break-inside-avoid">
+      
+      <!-- SELLO DE AGUA / BADGE DIGITAL DE VALIDACIÓN -->
+      <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/5 pointer-events-none"></div>
+
+      <!-- 1. MEMBRETE OFICIAL Y NUMERACIÓN -->
+      <div class="flex flex-col sm:flex-row sm:items-start justify-between pb-5 border-b-2 border-slate-900 gap-4">
+        <div class="flex items-start gap-3.5">
+          <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-12 h-12 object-contain shrink-0" />
+          <div class="space-y-0.5">
+            <span class="text-2xl font-black text-slate-950 tracking-tight">ISA<span class="text-slate-500">Promo</span><span class="text-emerald-600">RD</span></span>
+            <p class="text-xs text-slate-600 font-bold">Agencia de Ingeniería Web, Software & Crecimiento Digital</p>
+            <p class="text-[11px] text-slate-500">Santo Domingo, D.N., República Dominicana • WhatsApp: +1 (829) 455-4783</p>
+          </div>
+        </div>
+
+        <div class="text-left sm:text-right font-mono text-xs text-slate-700 space-y-1 shrink-0 min-w-[240px]">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-600 text-white font-black uppercase tracking-wider text-[11px] rounded-md shadow-xs">
+            <span>✓</span>
+            <span id="receiptBadgeText">RECIBO DE PAGO</span>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs pt-1">
+            <span class="text-slate-500 font-sans">No. Recibo:</span>
+            <span id="receiptNumber" class="text-slate-950 font-bold text-sm">REC-2026-001</span>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+            <span class="text-slate-500 font-sans">Fecha de Emisión:</span>
+            <span id="receiptDate" class="font-semibold text-slate-800">21 de octubre de 2026</span>
+          </div>
+          <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
+            <span class="text-slate-500 font-sans">Estado del Pago:</span>
+            <span id="receiptStatusSeal" class="font-black text-emerald-700 uppercase tracking-wider">● PAGADO / VALIDADO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. DATOS DEL CLIENTE Y RECEPTOR -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+        <div class="space-y-1">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Recibido de (Cliente / Empresa):</span>
+          <h2 id="receiptClientName" class="text-base font-black text-slate-900">Kendy Sastre Atelier</h2>
+          <p id="receiptClientCategory" class="text-slate-600 font-medium">Sastrería & Alta Costura</p>
+          <p id="receiptClientContact" class="text-slate-500 font-mono text-[11px]"></p>
+        </div>
+        <div class="space-y-1 sm:text-right">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Emitido por:</span>
+          <strong class="text-slate-900 block font-bold text-sm">ISAPromoRD</strong>
+          <span class="text-slate-600 block">Dirección de Operaciones & Finanzas</span>
+          <span class="text-slate-500 font-mono text-[11px]">isapromord.com</span>
+        </div>
+      </div>
+
+      <!-- 3. CUADRO CENTRAL DE CONCEPTO Y MONTO PAGADO -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wider border-b border-slate-200 pb-1">
+          Detalle de la Operación y Liquidación
+        </h3>
+        
+        <div class="overflow-hidden rounded-xl border border-slate-200">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] tracking-wider border-b border-slate-200">
+              <tr>
+                <th class="p-3">Concepto / Descripción del Pago</th>
+                <th class="p-3">Tipo de Cobro</th>
+                <th class="p-3 text-right">Monto Liquidado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-slate-800">
+              <tr>
+                <td class="p-3.5 space-y-1">
+                  <strong id="receiptConceptTitle" class="text-sm font-bold text-slate-950 block">Anticipo del 50% para Inicio de Desarrollo Web</strong>
+                  <p id="receiptConceptDesc" class="text-slate-600 leading-relaxed text-[11px]">
+                    Desarrollo de plataforma web transaccional ultrarrápida, optimización para dispositivos móviles, configuración de Google Business Profile y placa inteligente con NFC + QR.
+                  </p>
+                </td>
+                <td class="p-3.5 align-top">
+                  <span id="receiptTypeBadge" class="inline-block px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 text-[10px] font-bold whitespace-nowrap">
+                    Anticipo 50%
+                  </span>
+                </td>
+                <td class="p-3.5 text-right align-top">
+                  <span id="receiptAmountTable" class="text-base font-black text-slate-950 font-mono">RD$ 15,000</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. TOTAL PAGADO Y ESTADO DE SALDO RESTANTE -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center p-5 rounded-xl bg-slate-900 text-white">
+        <div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Pagado en este Recibo</span>
+          <div id="receiptTotalAmount" class="text-3xl font-black text-emerald-400 font-mono leading-tight">RD$ 15,000</div>
+          <span id="receiptAmountWords" class="text-[11px] text-slate-300 italic block mt-0.5">Pesos Dominicanos (DOP)</span>
+        </div>
+        <div class="sm:text-right space-y-1 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-800">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block" id="receiptBalanceLabel">Estado de Cuenta del Proyecto:</span>
+          <div id="receiptBalanceValue" class="text-lg font-bold text-amber-300 font-mono">Saldo Pendiente 50%: RD$ 15,000</div>
+          <p id="receiptBalanceNote" class="text-[11px] text-slate-400">Pagadero contra entrega final de la plataforma.</p>
+        </div>
+      </div>
+
+      <!-- 5. INFORMACIÓN DEL MÉTODO DE PAGO Y REFERENCIA -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+        <div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Método de Pago:</span>
+          <strong id="receiptMethod" class="text-slate-900 font-semibold">Transferencia Bancaria</strong>
+        </div>
+        <div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Banco Receptor:</span>
+          <strong id="receiptBank" class="text-slate-900 font-semibold">Banco Popular Dominicano</strong>
+        </div>
+        <div class="sm:text-right">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">No. Comprobante / Ref:</span>
+          <strong id="receiptReference" class="font-mono text-slate-900 font-bold">TR-179203847</strong>
+        </div>
+      </div>
+
+      <!-- 6. TÉRMINOS, CONDICIONES Y FIRMAS -->
+      <div class="pt-4 border-t border-slate-200 space-y-4 text-xs text-slate-600">
+        <p class="text-[11px] leading-relaxed text-slate-500">
+          Este recibo digital certifica la recepción conforme del pago especificado. Los fondos han sido conciliados en las cuentas oficiales de ISAPromoRD. Este documento sirve como prueba formal de pago comercial para todos los fines de lugar entre las partes.
+        </p>
+
+        <div class="grid grid-cols-2 gap-8 pt-4">
+          <div class="space-y-2">
+            <div class="border-b border-slate-400 h-8"></div>
+            <div>
+              <strong class="block text-slate-900 font-bold text-xs" id="receiptSignerClient">Kendy Sastre Atelier</strong>
+              <span class="text-slate-500 text-[10px]">Cliente / Receptor de Servicios</span>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="border-b border-slate-400 h-8"></div>
+            <div>
+              <strong class="block text-slate-900 font-bold text-xs">Por ISAPromoRD</strong>
+              <span class="text-slate-500 text-[10px]">Dirección de Operaciones & Tecnología</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center pt-3 border-t border-slate-100 text-[10px] font-mono text-slate-400">
+          ISAPromoRD • Santo Domingo, República Dominicana • Plataforma Oficial: isapromord.com • WhatsApp: +1 (829) 455-4783
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================
+       LÓGICA JAVASCRIPT
+       ======================================================== -->
+  <script>
+    let receiptData = {};
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initReceiptData();
+      renderReceipt();
+
+      // Soporte para URL con ?download=1 o ?print=1
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('download') === '1' || urlParams.get('print') === '1') {
+        setTimeout(() => {
+          downloadReceiptPdf();
+        }, 500);
+      }
+    });
+
+    function initReceiptData() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id') || "REC-" + new Date().getFullYear() + "-" + String(Date.now()).slice(-4);
+      const client = urlParams.get('cliente') || urlParams.get('client') || "Cliente Estimado";
+      const category = urlParams.get('cat') || urlParams.get('categoria') || "Servicios Comerciales";
+      const type = (urlParams.get('tipo') || urlParams.get('type') || 'anticipo').toLowerCase();
+      const amount = Number(urlParams.get('monto') || urlParams.get('amount') || 15000);
+      const totalSetup = Number(urlParams.get('setup') || (amount * 2));
+      const monthly = Number(urlParams.get('mensual') || urlParams.get('monthly') || 0);
+      const method = urlParams.get('metodo') || "Transferencia Bancaria";
+      const bank = urlParams.get('banco') || "Banco Popular Dominicano";
+      const ref = urlParams.get('ref') || urlParams.get('comprobante') || "REF-" + Math.floor(100000 + Math.random() * 900000);
+      const date = urlParams.get('fecha') || urlParams.get('date') || new Date().toLocaleDateString('es-DO', { year: 'numeric', month: 'long', day: 'numeric' });
+      const customConcept = urlParams.get('concepto');
+      const period = urlParams.get('periodo');
+
+      // 1. Intentar cargar desde localStorage si existe
+      try {
+        const cached = localStorage.getItem(`receipt_${id}`);
+        if (cached) {
+          receiptData = JSON.parse(cached);
+          return;
+        }
+      } catch (e) {}
+
+      receiptData = {
+        id,
+        client,
+        category,
+        type,
+        amount,
+        totalSetup,
+        monthly,
+        method,
+        bank,
+        reference: ref,
+        date,
+        customConcept,
+        period
+      };
+    }
+
+    function renderReceipt() {
+      document.getElementById("pageTitle").textContent = `Recibo ${receiptData.id} - ${receiptData.client} | ISAPromoRD`;
+      document.getElementById("receiptNumber").textContent = receiptData.id;
+      document.getElementById("receiptDate").textContent = receiptData.date;
+      document.getElementById("receiptClientName").textContent = receiptData.client;
+      document.getElementById("receiptClientCategory").textContent = receiptData.category;
+      document.getElementById("receiptSignerClient").textContent = receiptData.client;
+      document.getElementById("receiptTotalAmount").textContent = `RD$ ${receiptData.amount.toLocaleString('es-DO')}`;
+      document.getElementById("receiptAmountTable").textContent = `RD$ ${receiptData.amount.toLocaleString('es-DO')}`;
+      document.getElementById("receiptMethod").textContent = receiptData.method;
+      document.getElementById("receiptBank").textContent = receiptData.bank;
+      document.getElementById("receiptReference").textContent = receiptData.reference;
+
+      const badgeText = document.getElementById("receiptBadgeText");
+      const typeBadge = document.getElementById("receiptTypeBadge");
+      const titleEl = document.getElementById("receiptConceptTitle");
+      const descEl = document.getElementById("receiptConceptDesc");
+      const balanceLabel = document.getElementById("receiptBalanceLabel");
+      const balanceValue = document.getElementById("receiptBalanceValue");
+      const balanceNote = document.getElementById("receiptBalanceNote");
+
+      // Renderizar según el tipo estricto de cobro
+      if (receiptData.type === 'anticipo') {
+        badgeText.textContent = "RECIBO DE ANTICIPO (50%)";
+        typeBadge.className = "inline-block px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 text-[10px] font-bold whitespace-nowrap";
+        typeBadge.textContent = "Anticipo 50% de Inicio";
+
+        titleEl.textContent = receiptData.customConcept || `Anticipo del 50% para Inicio de Proyecto`;
+        descEl.textContent = `Pago del 50% de anticipo acordado para inicio de ingeniería, diseño web y configuración de servicios tecnológicos para ${receiptData.client}.`;
+
+        const pending = Math.max(0, receiptData.totalSetup - receiptData.amount);
+        balanceLabel.textContent = "Balance Pendiente de Setup:";
+        balanceValue.className = "text-lg font-bold text-amber-300 font-mono";
+        balanceValue.textContent = `Saldo Contra Entrega (50%): RD$ ${pending.toLocaleString('es-DO')}`;
+        balanceNote.textContent = "El 50% restante se liquida al completar y verificar la plataforma.";
+
+      } else if (receiptData.type === 'completivo' || receiptData.type === 'liquidacion') {
+        badgeText.textContent = "RECIBO COMPLETIVO (50% FINAL)";
+        typeBadge.className = "inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold whitespace-nowrap";
+        typeBadge.textContent = "Completivo 50% Final";
+
+        titleEl.textContent = receiptData.customConcept || `Pago Completivo del 50% (Entrega Final del Proyecto)`;
+        descEl.textContent = `Liquidación del saldo completivo contra entrega de la plataforma web en vivo y activación formal de los servicios para ${receiptData.client}.`;
+
+        balanceLabel.textContent = "Balance del Setup:";
+        balanceValue.className = "text-lg font-black text-emerald-400 font-mono";
+        balanceValue.textContent = "RD$ 0.00 — 100% SALDADO";
+        balanceNote.textContent = "Todos los servicios de implementación y desarrollo han sido saldados a satisfacción.";
+
+      } else if (receiptData.type === 'mensual' || receiptData.type === 'mantenimiento') {
+        badgeText.textContent = "RECIBO DE MENSUALIDAD";
+        typeBadge.className = "inline-block px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-[10px] font-bold whitespace-nowrap";
+        typeBadge.textContent = "Mantenimiento Mensual Recurrente";
+
+        const now = new Date();
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        const curMonth = monthNames[now.getMonth()];
+        const periodStr = receiptData.period || `Período Mensual: ${curMonth} ${now.getFullYear()}`;
+
+        titleEl.textContent = receiptData.customConcept || `Mensualidad de Mantenimiento Web & Hosting Cloud Anycast`;
+        descEl.textContent = `Servicios prestados de alojamiento Anycast ultrarrápido, certificado SSL, monitoreo 24/7, soporte continuo y bolsa mensual de cambios. (${periodStr})`;
+
+        balanceLabel.textContent = "Estado de Cobertura:";
+        balanceValue.className = "text-lg font-bold text-emerald-400 font-mono";
+        balanceValue.textContent = "CICLO MENSUAL AL DÍA";
+        balanceNote.textContent = `Servicio activo y cubierto conforme al ciclo de renovación contratado.`;
+
+      } else {
+        // Pago Total o Especial
+        badgeText.textContent = "RECIBO OFICIAL DE PAGO";
+        typeBadge.className = "inline-block px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold whitespace-nowrap";
+        typeBadge.textContent = "Liquidación Total 100%";
+
+        titleEl.textContent = receiptData.customConcept || `Pago Total de Servicios Tecnológicos`;
+        descEl.textContent = `Pago total liquidado de contado para ${receiptData.client}.`;
+
+        balanceLabel.textContent = "Balance Total:";
+        balanceValue.className = "text-lg font-black text-emerald-400 font-mono";
+        balanceValue.textContent = "RD$ 0.00 — SALDADO";
+        balanceNote.textContent = "Servicios 100% liquidados en una sola exhibición.";
+      }
+
+      // Preparar enlace para compartir en WhatsApp
+      updateWhatsappShareLink();
+    }
+
+    function updateWhatsappShareLink() {
+      const shareBtn = document.getElementById("shareWhatsappBtn");
+      if (!shareBtn) return;
+
+      const currentUrl = window.location.href;
+      const typeLabel = receiptData.type === 'anticipo' 
+        ? 'el Anticipo del 50%' 
+        : (receiptData.type === 'completivo' ? 'el 50% Completivo' : 'la Mensualidad de Mantenimiento');
+
+      const msg = 
+`🧾 *COMPROBANTE OFICIAL DE PAGO | ISAPromoRD*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Hola *${receiptData.client}*, hemos confirmado y asentado con éxito su pago de *RD$ ${receiptData.amount.toLocaleString('es-DO')}* correspondiente a *${typeLabel}*.
+
+📄 *No. Recibo:* ${receiptData.id}
+💳 *Método:* ${receiptData.method} (${receiptData.bank})
+🔢 *Referencia:* ${receiptData.reference}
+📅 *Fecha:* ${receiptData.date}
+
+🔗 Puede ver y descargar su recibo oficial en PDF aquí:
+${currentUrl}
+
+¡Muchas gracias por su confianza en ISAPromoRD!`;
+
+      shareBtn.href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    }
+
+    function downloadReceiptPdf() {
+      window.print();
+    }
+  </script>
+
+</body>
+</html>

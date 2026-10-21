@@ -256,6 +256,11 @@ export function renderAccountingTransactions(listToRender = state.accountingLedg
           ${isExpense ? '-' : '+'} RD$ ${formattedAmount}
         </td>
         <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+          ${!isExpense ? `
+            <button onclick="openTransactionReceipt('${tx.id}')" class="p-1.5 rounded text-emerald-400 hover:text-white hover:bg-emerald-500/20 transition-colors cursor-pointer" title="Ver / Descargar Recibo Digital en PDF">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </button>
+          ` : ''}
           <button onclick="openEditTransactionModal('${tx.id}')" class="p-1.5 rounded text-indigo-400 hover:text-white hover:bg-indigo-500/20 transition-colors cursor-pointer" title="Editar esta transacción">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
           </button>
@@ -266,6 +271,48 @@ export function renderAccountingTransactions(listToRender = state.accountingLedg
       </tr>
     `;
   }).join('');
+}
+
+export function openTransactionReceipt(txId) {
+  const tx = (state.accountingLedger || []).find(t => t.id === txId);
+  if (!tx) return;
+
+  const typeMap = {
+    setup: 'anticipo',
+    settlement: 'completivo',
+    retainer: 'mensual',
+    alacarte: 'total',
+    addon: 'total',
+    other: 'total'
+  };
+  const receiptType = typeMap[tx.type] || 'total';
+
+  const client = (state.clients || []).find(c => c.name === tx.clientName || c.id === tx.clientId);
+  const clientName = tx.clientName || client?.name || "Cliente Estimado";
+  const category = client?.category || "Servicios Web & Tecnología";
+  const amount = Number(tx.amount || 0);
+  const setupTotal = (receiptType === 'anticipo' || receiptType === 'completivo') ? (amount * 2) : amount;
+  const numId = tx.receiptNumber || `REC-${(tx.date || '').replace(/\D/g, '')}-${(tx.id || '').replace(/\D/g, '').slice(-4) || '001'}`;
+
+  const isProd = typeof window !== 'undefined' && window.location.origin.includes('github.io');
+  const receiptBase = isProd 
+    ? 'https://isapromord.github.io/isapromord.com/recibo/' 
+    : (typeof window !== 'undefined' ? `${window.location.origin}/recibo/` : '../recibo/');
+
+  const params = new URLSearchParams({
+    id: numId,
+    cliente: clientName,
+    cat: category,
+    tipo: receiptType,
+    monto: amount,
+    setup: setupTotal,
+    metodo: tx.account || 'Transferencia Bancaria',
+    ref: tx.reference || 'REF-OK',
+    fecha: tx.date || new Date().toISOString().split('T')[0],
+    concepto: tx.concept || ''
+  });
+
+  window.open(`${receiptBase}?${params.toString()}`, '_blank');
 }
 
 export function filterLedgerTransactions() {

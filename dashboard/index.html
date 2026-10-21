@@ -3179,19 +3179,19 @@
   </div>
 
   <!-- ========================================================
-       MODAL: AVISO DE RENOVACIÓN & COBRO MENSUAL (WHATSAPP)
+       MODAL: CENTRO DE COBROS, RECORDATORIOS Y RECIBOS (WHATSAPP)
        ======================================================== -->
   <div id="billingNoticeModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
+    <div class="bg-[#0b0f17] rounded-xl max-w-xl w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 sm:p-7 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm font-bold">
             💳
           </div>
           <div>
-            <h3 class="text-base font-bold text-white" id="billingModalClientName">Aviso de Renovación Mensual</h3>
-            <span class="text-[11px] text-slate-400 font-medium">Facturación de Retainer & Cobertura de Servicio</span>
+            <h3 class="text-base font-bold text-white" id="billingModalClientName">Centro de Cobros & Recordatorios</h3>
+            <span class="text-[11px] text-slate-400 font-medium" id="billingModalSubtitle">Avisos de Pago, Mensualidades y Recibos Oficiales</span>
           </div>
         </div>
         <button onclick="closeBillingNoticeModal()" class="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
@@ -3201,6 +3201,40 @@
 
       <!-- BODY (SCROLLABLE) -->
       <div class="p-6 sm:p-7 overflow-y-auto flex-1 space-y-4">
+        
+        <!-- SELECTOR DE PROPÓSITO DE COBRO (ESTRICTAMENTE SEPARADO) -->
+        <div class="space-y-1.5">
+          <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Concepto de Cobro:</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 rounded-lg bg-[#06080d] border border-white/10 text-xs">
+            <button type="button" id="noticeTab-monthly" onclick="setNoticeType('monthly')" class="px-2 py-1.5 rounded font-bold transition-all text-center bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+              📅 Mensualidad
+            </button>
+            <button type="button" id="noticeTab-deposit" onclick="setNoticeType('deposit')" class="px-2 py-1.5 rounded font-medium text-slate-400 hover:text-white transition-all text-center">
+              🚀 Anticipo 50%
+            </button>
+            <button type="button" id="noticeTab-settlement" onclick="setNoticeType('settlement')" class="px-2 py-1.5 rounded font-medium text-slate-400 hover:text-white transition-all text-center">
+              🏁 Completivo 50%
+            </button>
+            <button type="button" id="noticeTab-receipt" onclick="setNoticeType('receipt')" class="px-2 py-1.5 rounded font-medium text-slate-400 hover:text-white transition-all text-center">
+              🧾 Recibo Emitido
+            </button>
+          </div>
+        </div>
+
+        <!-- SUB-SELECTOR PARA MENSUALIDADES (FECHAS DE CORTE) -->
+        <div id="monthlySubtypesRow" class="flex flex-wrap items-center gap-2 p-2 rounded-lg bg-[#06080d] border border-white/5 text-xs">
+          <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Momento:</span>
+          <button type="button" id="subTab-due_soon" onclick="setMonthlySubtype('due_soon')" class="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            Preventivo (3-5d antes)
+          </button>
+          <button type="button" id="subTab-today" onclick="setMonthlySubtype('today')" class="px-2.5 py-1 rounded text-[11px] font-medium text-slate-400 hover:text-white">
+            Día de Corte (Hoy)
+          </button>
+          <button type="button" id="subTab-overdue" onclick="setMonthlySubtype('overdue')" class="px-2.5 py-1 rounded text-[11px] font-medium text-slate-400 hover:text-white">
+            Vencido (En Gracia)
+          </button>
+        </div>
+
         <!-- Teléfono y Monto -->
         <div class="grid grid-cols-2 gap-3 text-xs">
           <div>
@@ -3208,23 +3242,32 @@
             <input type="text" id="billingNoticePhone" oninput="updateBillingNoticeWhatsappLink()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-mono text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
           </div>
           <div>
-            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto a Cobrar:</label>
+            <label class="block font-bold text-slate-300 uppercase tracking-wider mb-1">Monto a Cobrar / Recibo:</label>
             <input type="text" id="billingNoticeAmount" oninput="regenerateBillingMessage()" class="w-full px-3 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white font-bold text-xs focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
           </div>
         </div>
 
         <div class="space-y-1.5">
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Mensaje Formal de Cobro (Editable):</label>
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Mensaje Formal de Cobro (Editable):</label>
+            <span class="text-[10px] text-slate-500 font-mono">Con formato WhatsApp</span>
+          </div>
           <textarea id="billingNoticeText" oninput="updateBillingNoticeWhatsappLink()" rows="9" class="w-full p-3.5 bg-[#06080d] text-slate-200 font-mono text-xs rounded-lg border border-white/10 focus:ring-2 focus:ring-cyan-400 focus:outline-none leading-relaxed"></textarea>
         </div>
       </div>
 
       <!-- FOOTER (PINNED) -->
       <div class="p-4 sm:p-6 pt-3 border-t border-white/10 shrink-0 bg-[#070a10] flex flex-col sm:flex-row items-center justify-between gap-3">
-        <button onclick="copyBillingNoticeText()" id="copyBillingNoticeBtn" class="w-full sm:w-auto px-4 py-2.5 rounded-lg border border-white/10 hover:bg-white/5 text-slate-300 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-          <span>Copiar Mensaje</span>
-        </button>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button onclick="copyBillingNoticeText()" id="copyBillingNoticeBtn" class="px-3.5 py-2.5 rounded-lg border border-white/10 hover:bg-white/5 text-slate-300 hover:text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            <span>Copiar</span>
+          </button>
+          <button onclick="openNoticeReceiptDirect()" id="viewReceiptFromNoticeBtn" class="px-3.5 py-2.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer" title="Abrir Recibo Oficial en PDF">
+            <span>🧾 Ver Recibo PDF</span>
+          </button>
+        </div>
+
         <a id="sendBillingWhatsappLink" target="_blank" class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all cursor-pointer">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 2.052.88 3.203.88l.004-.001 5.769-.001c3.18 0 5.766-2.587 5.766-5.767.001-3.18-2.585-5.764-5.765-5.764z"></path></svg>
           <span>Enviar por WhatsApp</span>

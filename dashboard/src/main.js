@@ -142,7 +142,8 @@ import {
   registerClientPayment,
   drawerRegisterPayment,
   openEditTransactionModal,
-  openManualTransactionForClient
+  openManualTransactionForClient,
+  openTransactionReceipt
 } from './accounting.js';
 import {
   openReportModal,
@@ -154,7 +155,10 @@ import {
   regenerateBillingMessage,
   updateBillingNoticeWhatsappLink,
   copyBillingNoticeText,
-  drawerOpenBillingNotice
+  drawerOpenBillingNotice,
+  setNoticeType,
+  setMonthlySubtype,
+  openNoticeReceiptDirect
 } from './reports.js';
 import {
   getStoredReferralPartners,
@@ -452,6 +456,7 @@ const windowBridge = {
   adjustForecastPlan,
   saveBankDetails,
   registerClientPayment,
+  openTransactionReceipt,
 
   // Reports
   openReportModal,
@@ -462,6 +467,9 @@ const windowBridge = {
   regenerateBillingMessage,
   updateBillingNoticeWhatsappLink,
   copyBillingNoticeText,
+  setNoticeType,
+  setMonthlySubtype,
+  openNoticeReceiptDirect,
 
   // Referrals
   loadReferralsData,

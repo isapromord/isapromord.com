@@ -209,11 +209,11 @@ export function loadClients() {
             updated = true;
           }
           if (initC.isInternal) {
-            if (!state.clients[idx].isInternal || state.clients[idx].setupStatus !== 'internal') {
+            if (!state.clients[idx].isInternal || state.clients[idx].setupStatus !== 'internal' || state.clients[idx].setupPrice !== 0 || state.clients[idx].fee !== 'RD$ 0 / mes') {
               state.clients[idx].isInternal = true;
               state.clients[idx].setupPrice = 0;
               state.clients[idx].setupStatus = 'internal';
-              state.clients[idx].fee = initC.fee;
+              state.clients[idx].fee = 'RD$ 0 / mes';
               updated = true;
             }
           } else {

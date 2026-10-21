@@ -145,9 +145,10 @@ export function renderClients(clientsToRender = state.clients) {
           : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '380'}ms</span>`);
 
     const healthBadgeBg = score >= 85 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : (score >= 60 ? "bg-amber-500/10 text-amber-400 border-amber-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20");
+    const isInternal = Boolean(client.isInternal || client.setupStatus === 'internal');
     const rawFee = client.fee ? client.fee.replace(' / mes', '').trim() : '';
-    const formattedFee = rawFee && rawFee !== 'RD$ 0' ? rawFee : 'Sin Retainer';
-    const isZeroFee = !rawFee || rawFee === 'RD$ 0';
+    const formattedFee = isInternal ? 'RD$ 0 (Propio)' : (rawFee && rawFee !== 'RD$ 0' ? rawFee : 'Sin Retainer');
+    const isZeroFee = isInternal || !rawFee || rawFee === 'RD$ 0';
     const isAgency = client.isAgency || client.id === 'agency-isapromord' || (client.fee && client.fee.includes('Casa Matriz'));
 
     // RENDER MODO GRID (TARJETAS INDEPENDIENTES)

@@ -49,41 +49,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS CDN con Plugins -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            obsidian: '#0a0e17',
-            surface: {
-              DEFAULT: '#121824',
-              card: '#161f30',
-              border: '#222f46'
-            },
-            cyan: {
-              brand: '#00d2ff',
-              glow: '#00d2ff33'
-            },
-            emerald: {
-              brand: '#10b981',
-              glow: '#10b98133'
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
-          },
-          boxShadow: {
-            'glow-cyan': '0 0 35px -5px rgba(0, 210, 255, 0.35)',
-            'glow-emerald': '0 0 35px -5px rgba(16, 185, 129, 0.35)'
-          }
-        }
-      }
-    }
-  </script>
-
+  <link rel="stylesheet" href="assets/css/home.css" />
   <!-- Ambient Aurora & Interactive Cyber Grid FX (100% GPU Accelerated - 0 Latency) -->
   <style>
     .aurora-orb-cyan {
@@ -546,7 +512,7 @@
       
       <!-- Brand Logo (Enlarged with High Visibility) -->
       <a class="flex items-center gap-3 group py-1" data-purpose="brand-logo" href="#" onclick="if(window.closeMobileNav) window.closeMobileNav();">
-        <img src="assets/logo_stitch.png" alt="ISAPromoRD - Diseño de Páginas Web y Posicionamiento Google Maps en República Dominicana" class="h-14 sm:h-16 lg:h-[64px] w-auto object-contain transition-transform group-hover:scale-105" style="height: 62px; max-height: 70px; width: auto; object-fit: contain; filter: drop-shadow(rgba(0, 210, 255, 0.35) 0px 3px 14px);" />
+        <img src="assets/logo_stitch.webp" alt="ISAPromoRD - Diseño de Páginas Web y Posicionamiento Google Maps en República Dominicana" class="h-14 sm:h-16 lg:h-[64px] w-auto object-contain transition-transform group-hover:scale-105" style="height: 62px; max-height: 70px; width: auto; object-fit: contain; filter: drop-shadow(rgba(0, 210, 255, 0.35) 0px 3px 14px);" />
       </a>
 
       <!-- Desktop Nav Anchors -->
@@ -717,7 +683,7 @@
       <div class="marquee-track">
         <!-- Set 1 -->
         <a href="https://pasion-pecuaria-rd.vercel.app" target="_blank" rel="noopener noreferrer" title="Ver web de Pasión Pecuaria RD" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/pasion-pecuaria.png" alt="Pasión Pecuaria" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <img src="./assets/clients/pasion-pecuaria.webp" alt="Pasión Pecuaria" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
           <span class="font-black tracking-wider text-slate-100 group-hover:text-emerald-300 transition-colors text-base sm:text-lg uppercase">PASIÓN PECUARIA <span class="font-mono text-xs sm:text-sm text-emerald-400 font-semibold">RD ↗</span></span>
         </a>
         <a href="https://torrelaesperilla.com/" target="_blank" rel="noopener noreferrer" title="Ver web de Torre La Esperilla" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
@@ -725,7 +691,7 @@
           <span class="font-serif tracking-[0.18em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">TORRE LA ESPERILLA <span class="font-sans text-xs sm:text-sm text-cyan-400">↗</span></span>
         </a>
         <a href="https://isapromord.github.io/elements-jarabacoa/" target="_blank" rel="noopener noreferrer" title="Ver web de Elements Jarabacoa" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/elements-jarabacoa.png" alt="Elements Jarabacoa" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/elements-jarabacoa.webp" alt="Elements Jarabacoa" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-black tracking-wider text-slate-100 group-hover:text-emerald-300 transition-colors text-base sm:text-lg uppercase">ELEMENTS <span class="font-mono text-xs sm:text-sm text-emerald-400 font-semibold">JARABACOA ↗</span></span>
         </a>
         <a href="https://trendyrd.com" target="_blank" rel="noopener noreferrer" title="Ver web de TrendyRD" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
@@ -737,33 +703,33 @@
           <span class="font-mono tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg font-black">granja<span class="text-amber-400">tracker ↗</span></span>
         </a>
         <a href="https://isapromord.github.io/wiseservicesrd/" target="_blank" rel="noopener noreferrer" title="Ver web de Wise Services RD (MiCondoRD)" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/wise-services.png" alt="Wise Services RD" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/wise-services.webp" alt="Wise Services RD" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-bold tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg">WISE <span class="text-indigo-300 font-black">SERVICES</span><span class="text-xs sm:text-sm text-indigo-400 font-mono"> RD ↗</span></span>
         </a>
         <a href="https://isatranslogic.com" target="_blank" rel="noopener noreferrer" title="Ver web de IsaTransLogic" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/isatranslogic.png" alt="IsaTransLogic" class="h-7 sm:h-8 w-auto max-w-[42px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/isatranslogic.webp" alt="IsaTransLogic" class="h-7 sm:h-8 w-auto max-w-[42px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-black tracking-widest text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase">ISA<span class="font-medium text-cyan-400">TRANSLOGIC ↗</span></span>
         </a>
         <a href="https://highlandbridges.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Highland Bridge Co." class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/highland-bridge.jpg" alt="Highland Bridge Co." class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
-          <span class="font-serif tracking-[0.16em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">HIGHLAND BRIDGE <span class="font-sans text-xs sm:text-sm font-mono text-slate-300">CO. ↗</span></span>
+          <img src="./assets/clients/highland-bridge.webp" alt="Highland Bridge Co." class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <span class="font-serif tracking-[0.16em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">HIGHLAND BRIDGE <span class="text-xs sm:text-sm font-mono text-slate-300">CO. ↗</span></span>
         </a>
         <a href="https://synkrd.github.io/" target="_blank" rel="noopener noreferrer" title="Ver web de SynkRD" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <img src="./assets/clients/synkrd.svg" alt="SynkRD" class="h-7 sm:h-8 w-7 sm:w-8 object-contain group-hover:scale-110 transition-transform" />
           <span class="font-mono tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg font-black">synk<span class="text-violet-400">.rd ↗</span></span>
         </a>
         <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" title="Ver web de La Capra Cigars" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/la-capra.png" alt="La Capra Cigars" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
-          <span class="font-serif tracking-widest text-slate-100 group-hover:text-amber-200 transition-colors text-base sm:text-lg uppercase font-black">LA CAPRA <span class="font-sans text-xs sm:text-sm text-amber-400 font-mono font-bold">CIGARS ↗</span></span>
+          <img src="./assets/clients/la-capra.webp" alt="La Capra Cigars" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <span class="font-serif tracking-widest text-slate-100 group-hover:text-amber-200 transition-colors text-base sm:text-lg uppercase font-black">LA CAPRA <span class="text-xs sm:text-sm text-amber-400 font-mono font-bold">CIGARS ↗</span></span>
         </a>
         <a href="https://kendysastre-atelier.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Kendy Sastre Atelier" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/kendy-sastre.jpg" alt="Kendy Sastre" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
-          <span class="font-serif tracking-wider text-slate-100 group-hover:text-rose-200 transition-colors text-base sm:text-lg uppercase font-bold">KENDY <span class="font-sans text-xs sm:text-sm text-rose-400 font-mono">SASTRE ↗</span></span>
+          <img src="./assets/clients/kendy-sastre.webp" alt="Kendy Sastre" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <span class="font-serif tracking-wider text-slate-100 group-hover:text-rose-200 transition-colors text-base sm:text-lg uppercase font-bold">KENDY <span class="text-xs sm:text-sm text-rose-400 font-mono">SASTRE ↗</span></span>
         </a>
 
         <!-- Set 2 (Identical Duplicate for Seamless Infinite 360 Loop) -->
         <a href="https://pasion-pecuaria-rd.vercel.app" target="_blank" rel="noopener noreferrer" title="Ver web de Pasión Pecuaria RD" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/pasion-pecuaria.png" alt="Pasión Pecuaria" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <img src="./assets/clients/pasion-pecuaria.webp" alt="Pasión Pecuaria" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
           <span class="font-black tracking-wider text-slate-100 group-hover:text-emerald-300 transition-colors text-base sm:text-lg uppercase">PASIÓN PECUARIA <span class="font-mono text-xs sm:text-sm text-emerald-400 font-semibold">RD ↗</span></span>
         </a>
         <a href="https://torrelaesperilla.com/" target="_blank" rel="noopener noreferrer" title="Ver web de Torre La Esperilla" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
@@ -771,7 +737,7 @@
           <span class="font-serif tracking-[0.18em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">TORRE LA ESPERILLA <span class="font-sans text-xs sm:text-sm text-cyan-400">↗</span></span>
         </a>
         <a href="https://isapromord.github.io/elements-jarabacoa/" target="_blank" rel="noopener noreferrer" title="Ver web de Elements Jarabacoa" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/elements-jarabacoa.png" alt="Elements Jarabacoa" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/elements-jarabacoa.webp" alt="Elements Jarabacoa" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-black tracking-wider text-slate-100 group-hover:text-emerald-300 transition-colors text-base sm:text-lg uppercase">ELEMENTS <span class="font-mono text-xs sm:text-sm text-emerald-400 font-semibold">JARABACOA ↗</span></span>
         </a>
         <a href="https://trendyrd.com" target="_blank" rel="noopener noreferrer" title="Ver web de TrendyRD" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
@@ -783,28 +749,28 @@
           <span class="font-mono tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg font-black">granja<span class="text-amber-400">tracker ↗</span></span>
         </a>
         <a href="https://isapromord.github.io/wiseservicesrd/" target="_blank" rel="noopener noreferrer" title="Ver web de Wise Services RD (MiCondoRD)" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/wise-services.png" alt="Wise Services RD" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/wise-services.webp" alt="Wise Services RD" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-bold tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg">WISE <span class="text-indigo-300 font-black">SERVICES</span><span class="text-xs sm:text-sm text-indigo-400 font-mono"> RD ↗</span></span>
         </a>
         <a href="https://isatranslogic.com" target="_blank" rel="noopener noreferrer" title="Ver web de IsaTransLogic" class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/isatranslogic.png" alt="IsaTransLogic" class="h-7 sm:h-8 w-auto max-w-[42px] object-contain group-hover:scale-110 transition-transform" />
+          <img src="./assets/clients/isatranslogic.webp" alt="IsaTransLogic" class="h-7 sm:h-8 w-auto max-w-[42px] object-contain group-hover:scale-110 transition-transform" />
           <span class="font-black tracking-widest text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase">ISA<span class="font-medium text-cyan-400">TRANSLOGIC ↗</span></span>
         </a>
         <a href="https://highlandbridges.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Highland Bridge Co." class="flex items-center gap-3 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/highland-bridge.jpg" alt="Highland Bridge Co." class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
-          <span class="font-serif tracking-[0.16em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">HIGHLAND BRIDGE <span class="font-sans text-xs sm:text-sm font-mono text-slate-300">CO. ↗</span></span>
+          <img src="./assets/clients/highland-bridge.webp" alt="Highland Bridge Co." class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <span class="font-serif tracking-[0.16em] text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg uppercase font-bold">HIGHLAND BRIDGE <span class="text-xs sm:text-sm font-mono text-slate-300">CO. ↗</span></span>
         </a>
         <a href="https://synkrd.github.io/" target="_blank" rel="noopener noreferrer" title="Ver web de SynkRD" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
           <img src="./assets/clients/synkrd.svg" alt="SynkRD" class="h-7 sm:h-8 w-7 sm:w-8 object-contain group-hover:scale-110 transition-transform" />
           <span class="font-mono tracking-tight text-slate-100 group-hover:text-white transition-colors text-base sm:text-lg font-black">synk<span class="text-violet-400">.rd ↗</span></span>
         </a>
         <a href="https://lacapra.vercel.app/" target="_blank" rel="noopener noreferrer" title="Ver web de La Capra Cigars" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/la-capra.png" alt="La Capra Cigars" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
-          <span class="font-serif tracking-widest text-slate-100 group-hover:text-amber-200 transition-colors text-base sm:text-lg uppercase font-black">LA CAPRA <span class="font-sans text-xs sm:text-sm text-amber-400 font-mono font-bold">CIGARS ↗</span></span>
+          <img src="./assets/clients/la-capra.webp" alt="La Capra Cigars" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain group-hover:scale-110 transition-transform" />
+          <span class="font-serif tracking-widest text-slate-100 group-hover:text-amber-200 transition-colors text-base sm:text-lg uppercase font-black">LA CAPRA <span class="text-xs sm:text-sm text-amber-400 font-mono font-bold">CIGARS ↗</span></span>
         </a>
         <a href="https://kendysastre-atelier.netlify.app/" target="_blank" rel="noopener noreferrer" title="Ver web de Kendy Sastre Atelier" class="flex items-center gap-2.5 opacity-90 hover:opacity-100 transition-all duration-300 filter cursor-pointer select-none shrink-0 group hover:scale-105">
-          <img src="./assets/clients/kendy-sastre.jpg" alt="Kendy Sastre" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
-          <span class="font-serif tracking-wider text-slate-100 group-hover:text-rose-200 transition-colors text-base sm:text-lg uppercase font-bold">KENDY <span class="font-sans text-xs sm:text-sm text-rose-400 font-mono">SASTRE ↗</span></span>
+          <img src="./assets/clients/kendy-sastre.webp" alt="Kendy Sastre" class="h-7 sm:h-8 w-auto max-w-[36px] object-contain rounded group-hover:scale-110 transition-transform shadow-xs" />
+          <span class="font-serif tracking-wider text-slate-100 group-hover:text-rose-200 transition-colors text-base sm:text-lg uppercase font-bold">KENDY <span class="text-xs sm:text-sm text-rose-400 font-mono">SASTRE ↗</span></span>
         </a>
       </div>
     </div>
@@ -1228,7 +1194,7 @@
             
             <!-- SLIDE 1: Google Maps Top 1 -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-100 scale-100" data-slide="1">
-              <img src="assets/pillar_maps_panned.webp" alt="Posicionamiento en Google Maps y SEO Local en Santo Domingo y República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_maps_panned.webp" loading="lazy" decoding="async" alt="Posicionamiento en Google Maps y SEO Local en Santo Domingo y República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
               <!-- Micro-Badge Flotante Traslúcido de Estado -->
               <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-cyan-500/40 text-[11px] sm:text-xs font-mono font-bold text-cyan-300 tracking-wider shadow-xl">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
@@ -1240,7 +1206,7 @@
 
             <!-- SLIDE 2: Web Ultrarrápida -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="2">
-              <img src="assets/pillar_speed_panned.webp" alt="Diseño de páginas web rápidas en República Dominicana con 100/100 Core Web Vitals" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_speed_panned.webp" loading="lazy" decoding="async" alt="Diseño de páginas web rápidas en República Dominicana con 100/100 Core Web Vitals" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
               <!-- Micro-Badge Flotante Traslúcido de Estado -->
               <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-cyan-500/40 text-[11px] sm:text-xs font-mono font-bold text-cyan-300 tracking-wider shadow-xl">
                 <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
@@ -1251,7 +1217,7 @@
 
             <!-- SLIDE 3: WhatsApp con IA -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="3">
-              <img src="assets/pillar_ai_panned.webp" alt="Automatización de WhatsApp con Inteligencia Artificial en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_ai_panned.webp" loading="lazy" decoding="async" alt="Automatización de WhatsApp con Inteligencia Artificial en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
               <!-- Micro-Badge Flotante Traslúcido de Estado -->
               <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-emerald-500/40 text-[11px] sm:text-xs font-mono font-bold text-emerald-300 tracking-wider shadow-xl">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -1262,7 +1228,7 @@
 
             <!-- SLIDE 4: CRM Personalizado -->
             <div class="sticky-slide absolute inset-0 transition-all duration-700 opacity-0 scale-95 pointer-events-none" data-slide="4">
-              <img src="assets/pillar_crm_panned.webp" alt="Desarrollo de sistemas CRM a medida en la nube en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
+              <img src="assets/pillar_crm_panned.webp" loading="lazy" decoding="async" alt="Desarrollo de sistemas CRM a medida en la nube en República Dominicana" class="w-full h-full object-cover object-center filter brightness-[0.98] contrast-[1.05] transition-all duration-700" />
               <!-- Micro-Badge Flotante Traslúcido de Estado -->
               <div class="absolute top-4 sm:top-5 left-4 sm:left-5 z-10 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#060911]/85 backdrop-blur-md border border-purple-500/40 text-[11px] sm:text-xs font-mono font-bold text-purple-300 tracking-wider shadow-xl">
                 <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
@@ -2346,7 +2312,7 @@
         <div class="md:col-span-2">
           <div class="flex items-center gap-2 mb-4">
             <a href="#" class="inline-block">
-              <img src="assets/logo_stitch.png" alt="ISAPromoRD Logo" class="h-10 w-auto object-contain" style="height: 38px; width: auto; object-fit: contain; filter: drop-shadow(rgba(0, 210, 255, 0.2) 0px 2px 6px);" />
+              <img src="assets/logo_stitch.webp" alt="ISAPromoRD Logo" class="h-10 w-auto object-contain" style="height: 38px; width: auto; object-fit: contain; filter: drop-shadow(rgba(0, 210, 255, 0.2) 0px 2px 6px);" />
             </a>
           </div>
           <p class="text-slate-400 text-sm max-w-sm mb-6 leading-relaxed">

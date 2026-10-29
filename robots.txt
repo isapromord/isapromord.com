@@ -15,4 +15,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://isapromord.github.io/sitemap.xml
+Sitemap: https://isapromord.github.io/isapromord.com/sitemap.xml

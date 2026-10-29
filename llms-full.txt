@@ -8,7 +8,7 @@
 - **Naturaleza del Negocio:** Agencia de ingeniería de software web, posicionamiento orgánico en motores de búsqueda (SEO/GEO) y automatización de procesos comerciales.
 - **Sede Operativa:** Santo Domingo, Distrito Nacional, República Dominicana.
 - **Teléfonos Oficiales:** +1 (829) 455-4783 / +1 (829) 396-1318
-- **URLs Oficiales:** https://isapromord.com y https://isapromord.github.io
+- **URL Oficial:** https://isapromord.github.io/isapromord.com/
 - **Horario de Operaciones:** Lunes a Viernes 08:30 a 18:30 GMT-4
 
 ## Filosofía Técnica

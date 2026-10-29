@@ -930,41 +930,41 @@
           </a>
         </div>
 
-        <!-- SEPARADOR / SECCIÓN DEL ESCÁNER DNS EN VIVO -->
+        <!-- ESCÁNER DE VELOCIDAD (medición real con Google PageSpeed Insights) -->
         <div class="pt-6 border-t border-[#222f46]">
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
             <span class="text-xs font-mono uppercase tracking-wider text-slate-300 font-bold flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              Escáner de Velocidad Web & Posicionamiento en Google Maps:
+              Escáner de Velocidad Web:
             </span>
-            <span class="text-xs font-mono text-emerald-400">Diagnóstico DNS en Vivo</span>
+            <span class="text-xs font-mono text-emerald-400">Medición real con Google PageSpeed</span>
           </div>
 
           <form id="auditEngineForm" onsubmit="event.preventDefault(); triggerAuditScan();" class="space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div class="sm:col-span-8">
-                <input type="text" 
-                       id="auditBiz" 
-                       required 
-                       placeholder="Escribe tu dominio o nombre comercial (ej: tuempresa.com o Clínica Dental)" 
+                <input type="text"
+                       id="auditBiz"
+                       required
+                       placeholder="Escribe la dirección de tu web (ej: tuempresa.com) o el nombre de tu negocio"
                        class="w-full px-4 py-3.5 rounded-lg border border-[#222f46] bg-[#0a0e17] text-white font-medium text-sm focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] transition placeholder:text-slate-500" />
               </div>
-              <input type="hidden" id="auditZone" value="Santo Domingo (Distrito Nacional)" />
               <div class="sm:col-span-4">
-                <button type="submit" 
-                        id="btnRunAudit" 
-                        class="w-full py-3.5 px-4 rounded-lg bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-sm transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer">
-                  <span id="auditBtnText">Auditar Mi Negocio Ahora</span>
+                <button type="submit"
+                        id="btnRunAudit"
+                        class="w-full py-3.5 px-4 rounded-lg bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] text-slate-950 font-black text-sm transition-all shadow-glow-cyan flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-wait">
+                  <span id="auditBtnText">Medir Mi Web Ahora</span>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </button>
               </div>
             </div>
+            <p class="text-xs text-slate-400">Medimos tu página en celular con Google Lighthouse, la misma herramienta de pagespeed.web.dev. Tarda entre 15 y 40 segundos.</p>
           </form>
 
-          <!-- Barra de Progreso del Escaneo en Vivo -->
+          <!-- Progreso del escaneo -->
           <div id="scanProgressBar" class="hidden mt-6 pt-4 border-t border-[#222f46]">
             <div class="flex items-center justify-between text-xs font-mono text-slate-300 mb-2">
-              <span id="scanStatusText">Conectando con servidores DNS y analizando parámetros...</span>
+              <span id="scanStatusText">Buscando tu web...</span>
               <span id="scanPercent" class="font-bold text-[#00d2ff]">0%</span>
             </div>
             <div class="w-full h-2.5 bg-[#0a0e17] rounded-full overflow-hidden border border-[#222f46]">
@@ -972,79 +972,52 @@
             </div>
           </div>
 
-          <!-- Reporte de Resultados en Tiempo Real (Enfoque Comercial / Alerta de Fuga de Clientes) -->
+          <!-- Resultado -->
           <div id="scanReport" class="hidden mt-6 pt-6 border-t border-[#222f46]">
-            <div class="p-6 sm:p-7 rounded-xl bg-gradient-to-b from-[#101726] to-[#0a0e17] border border-rose-500/30 shadow-2xl relative overflow-hidden">
-              
-              <!-- Alerta Superior -->
+            <div class="p-6 sm:p-7 rounded-xl bg-gradient-to-b from-[#101726] to-[#0a0e17] border border-[#222f46] shadow-2xl">
               <div class="flex items-center justify-between flex-wrap gap-3 mb-6 pb-4 border-b border-[#222f46]">
                 <div class="space-y-1">
-                  <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
-                    <span class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider">Alerta de Pérdida de Prospectos</span>
-                  </div>
-                  <h4 class="text-xl sm:text-2xl font-black text-white" id="repName">Empresa Auditada</h4>
-                  <div class="text-xs text-slate-400 font-mono" id="repZone">Sector seleccionado</div>
+                  <span class="text-xs font-mono font-bold text-[#00d2ff] uppercase tracking-wider">Resultado de la medición</span>
+                  <h4 class="text-xl sm:text-2xl font-black text-white break-all" id="repName">Tu web</h4>
+                  <div class="text-xs text-slate-400 font-mono break-all" id="repZone"></div>
                 </div>
-                <div id="repScoreBadge" class="px-4 py-2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base shadow-sm">
-                  Puntaje: 42/100 (Riesgo Crítico)
-                </div>
+                <div id="repScoreBadge" class="hidden"></div>
               </div>
 
-              <!-- Métricas de Impacto Comercial -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-6">
+              <div id="repMetrics" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3.5 mb-6">
                 <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
-                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Visibilidad en Google Maps</div>
-                  <div id="repMapsVal" class="text-xl sm:text-2xl font-black text-amber-400 mt-1.5">Página 2-3</div>
-                  <div class="text-xs sm:text-sm text-slate-300 mt-1.5">El 80% de llamadas se van a tu competencia directa.</div>
+                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Contenido principal visible</div>
+                  <div id="repLcpVal" class="text-xl sm:text-2xl font-black text-white mt-1.5">—</div>
+                  <div class="text-xs sm:text-sm text-slate-400 mt-1.5">LCP en celular. Google recomienda 2,5 s o menos.</div>
                 </div>
                 <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
-                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Velocidad Móvil en RD</div>
-                  <div id="repSpeedVal" class="text-xl sm:text-2xl font-black text-rose-400 mt-1.5">4.8s (Lenta)</div>
-                  <div class="text-xs sm:text-sm text-slate-300 mt-1.5">5 de cada 10 usuarios cierran la pestaña antes de cargar.</div>
+                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Peso de la página</div>
+                  <div id="repWeightVal" class="text-xl sm:text-2xl font-black text-white mt-1.5">—</div>
+                  <div class="text-xs sm:text-sm text-slate-400 mt-1.5">Datos que descarga cada visitante.</div>
                 </div>
                 <div class="p-4 sm:p-5 rounded-lg bg-[#0e1422] border border-[#222f46] text-center">
-                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">Clientes Perdidos Estimados</div>
-                  <div id="repLossVal" class="text-xl sm:text-2xl font-black text-[#00d2ff] mt-1.5">~95 clientes/mes</div>
-                  <div class="text-xs sm:text-sm text-slate-300 mt-1.5">Ventas que podrías cerrar hoy por WhatsApp.</div>
+                  <div class="text-xs sm:text-sm text-slate-300 font-bold uppercase tracking-wider">SEO técnico</div>
+                  <div id="repSeoVal" class="text-xl sm:text-2xl font-black text-white mt-1.5">—</div>
+                  <div class="text-xs sm:text-sm text-slate-400 mt-1.5">Puntuación de Lighthouse sobre 100.</div>
                 </div>
               </div>
 
-              <!-- Lista de 3 Fugas Críticas Detectadas -->
-              <div class="p-5 sm:p-6 rounded-lg bg-[#090e1a] border border-rose-500/30 space-y-3 mb-6">
-                <div class="flex items-center gap-2 text-rose-400 font-black text-xs sm:text-sm uppercase tracking-wider font-mono">
-                  <span>🚨</span>
-                  <span>Principales Brechas Comerciales Encontradas:</span>
-                </div>
-                <div id="repDiagBox" class="text-sm sm:text-base text-slate-200 leading-relaxed space-y-2.5">
-                  <p id="repDiagText">Analizando parámetros...</p>
-                </div>
+              <div class="p-5 sm:p-6 rounded-lg bg-[#090e1a] border border-[#222f46] space-y-3 mb-6">
+                <div id="repDiagTitle" class="text-[#00d2ff] font-black text-xs sm:text-sm uppercase tracking-wider font-mono">Qué encontró Google</div>
+                <div id="repDiagBox" class="text-sm sm:text-base text-slate-200 leading-relaxed space-y-2.5"></div>
+                <a id="repPsiLink" href="https://pagespeed.web.dev/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00d2ff] hover:text-cyan-300">Ver el informe completo en PageSpeed Insights ↗</a>
               </div>
 
-              <!-- Banner de Solución y Bloqueo de Receta Técnica -->
-              <div class="p-5 rounded-lg bg-cyan-950/20 border border-cyan-500/30 flex items-start gap-3.5 mb-6">
-                <span class="text-2xl shrink-0 mt-0.5">💼</span>
-                <div class="text-sm sm:text-base leading-relaxed">
-                  <span class="font-bold text-cyan-300 block mb-1">Diagnóstico reservado para rescate comercial:</span>
-                  <p class="text-slate-200">
-                    Las especificaciones de código, optimización Top 1 de Google Maps y aceleración de velocidad están listas para ser aplicadas por el equipo de ISAPromoRD. Agenda ahora para reservar la exclusividad de tu sector.
-                  </p>
-                </div>
-              </div>
-
-              <!-- Botón Primario a WhatsApp -->
               <div class="text-center pt-1">
-                <a id="repWaBtn" 
-                   href="#" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
+                <a id="repWaBtn"
+                   href="https://wa.me/18294554783"
+                   target="_blank"
+                   rel="noopener noreferrer"
                    class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-lg text-slate-950 font-black text-sm sm:text-base shadow-glow-cyan hover:scale-[1.01] active:scale-[0.99] transition-all bg-gradient-to-r from-[#00d2ff] via-[#38bdf8] to-[#10b981]">
                   <svg class="w-5 h-5 mr-2.5 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
-                  <span>Solicitar Plan de Corrección y Rescate en WhatsApp →</span>
+                  <span>Que me expliquen el resultado por WhatsApp →</span>
                 </a>
-                <div class="text-xs sm:text-sm text-slate-300 font-mono mt-2.5">
-                  ⚡ Respuesta en menos de 15 minutos • Diagnóstico confidencial
-                </div>
+                <div class="text-xs sm:text-sm text-slate-400 mt-2.5">Te explicamos el informe y qué corregiríamos, sin costo. <a href="casos-de-exito/" class="underline hover:text-slate-200">Ver casos medidos</a>.</div>
               </div>
             </div>
           </div>
@@ -2473,229 +2446,184 @@
       }
     }
 
-    // 2. REAL LIVE AUDIT SCANNER ENGINE (Cloudflare DoH en Vivo)
+    // 2. ESCÁNER DE VELOCIDAD: solo muestra datos medidos por Google PageSpeed Insights.
+    // PSI_API_KEY: clave gratuita de Google Cloud (API "PageSpeed Insights", restringida a isapromord.github.io/*).
+    // Sin clave, Google usa una cuota compartida que suele estar agotada y el escáner ofrece el enlace a pagespeed.web.dev.
+    const PSI_API_KEY = "";
+    const OWN_SITE_URL = "https://isapromord.github.io/isapromord.com/";
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function candidateDomainsFor(cleanInput) {
+      if (cleanInput.includes('.') && !cleanInput.includes(' ')) return [cleanInput];
+      const words = cleanInput.split(/[^a-z0-9]+/).filter(w => w.length > 0);
+      if (words.length === 0) return [];
+      const fullSlug = words.join('');
+      const hyphenSlug = words.join('-');
+      return [...new Set([fullSlug + '.com', fullSlug + '.do', fullSlug + '.com.do', hyphenSlug + '.com', fullSlug + 'rd.com'])];
+    }
+
+    async function resolves(domain) {
+      try {
+        const res = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`, {
+          headers: { 'Accept': 'application/dns-json' }
+        });
+        const data = await res.json();
+        return data.Status === 0 && Array.isArray(data.Answer) && data.Answer.length > 0;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    async function runPageSpeed(url) {
+      const params = new URLSearchParams({ url, strategy: 'mobile', locale: 'es' });
+      params.append('category', 'performance');
+      params.append('category', 'seo');
+      if (PSI_API_KEY) params.append('key', PSI_API_KEY);
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 70000);
+      try {
+        const res = await fetch(`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`, { signal: ctrl.signal });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.lighthouseResult || null;
+      } catch (e) {
+        return null;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
     async function triggerAuditScan() {
-      const rawBiz = document.getElementById("auditBiz").value.trim() || "Tu Empresa";
-      const zone = document.getElementById("auditZone").value;
+      const rawBiz = document.getElementById("auditBiz").value.trim();
+      if (!rawBiz) return;
+      const btn = document.getElementById("btnRunAudit");
+      const btnText = document.getElementById("auditBtnText");
       const progressBox = document.getElementById("scanProgressBar");
       const barInner = document.getElementById("scanBarInner");
       const statusText = document.getElementById("scanStatusText");
       const percentText = document.getElementById("scanPercent");
       const reportBox = document.getElementById("scanReport");
-
       const repName = document.getElementById("repName");
       const repZone = document.getElementById("repZone");
       const repScoreBadge = document.getElementById("repScoreBadge");
-      const repMapsVal = document.getElementById("repMapsVal");
-      const repSpeedVal = document.getElementById("repSpeedVal");
-      const repLossVal = document.getElementById("repLossVal");
-      const repDiagText = document.getElementById("repDiagText");
+      const repMetrics = document.getElementById("repMetrics");
+      const repDiagTitle = document.getElementById("repDiagTitle");
+      const repDiagBox = document.getElementById("repDiagBox");
+      const repPsiLink = document.getElementById("repPsiLink");
       const repWaBtn = document.getElementById("repWaBtn");
 
+      const setProgress = (pct, text) => {
+        barInner.style.width = pct + "%";
+        percentText.textContent = pct + "%";
+        statusText.textContent = text;
+      };
+
+      btn.disabled = true;
+      btnText.textContent = "Midiendo...";
       progressBox.classList.remove("hidden");
       reportBox.classList.add("hidden");
+      repScoreBadge.className = "hidden";
+      repMetrics.classList.add("hidden");
 
-      let cleanInput = rawBiz.toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      const cleanInput = rawBiz.toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
         .replace(/^https?:\/\//i, '')
         .replace(/\/.*$/, '')
         .trim();
 
-      const isOurSite = cleanInput.includes('isapromord') || cleanInput.includes('isapromo');
+      let targetUrl = "";
+      let waMsg = "";
+      setProgress(15, `Buscando la web de "${rawBiz}"...`);
 
-      barInner.style.width = "20%";
-      percentText.textContent = "20%";
-      statusText.textContent = `Buscando registros y presencia web para "${rawBiz}"...`;
-
-      try {
-        let scoreText = "";
-        let scoreBadgeClass = "";
-        let mapsText = "";
-        let mapsClass = "";
-        let speedText = "";
-        let speedClass = "";
-        let lossText = "";
-        let diagText = "";
-        let activeDomain = "";
-        let activeIp = "";
-        let measuredLatency = 120;
-
-        if (isOurSite) {
-          await new Promise(r => setTimeout(r, 600));
-          barInner.style.width = "70%";
-          percentText.textContent = "70%";
-          statusText.textContent = "Verificando el sitio...";
-          await new Promise(r => setTimeout(r, 500));
-
-          activeDomain = cleanInput.includes('.') ? cleanInput : "isapromord.com";
-          scoreText = "Sitio de ISAPromoRD";
-          scoreBadgeClass = "px-4 py-1.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold text-xs sm:text-sm";
-          mapsText = "Ver nuestros casos de éxito";
-          mapsClass = "text-lg font-black text-emerald-400 mt-1";
-          speedText = "Mídela en PageSpeed Insights";
-          speedClass = "text-lg font-black text-emerald-400 mt-1";
-          lossText = "—";
-          diagText = `Este es el sitio de ISAPromoRD. Puedes medir su velocidad real en pagespeed.web.dev y ver los resultados medidos de nuestros clientes en la sección de casos de éxito.`;
-
-        } else {
-          let candidateDomains = [];
-          if (cleanInput.includes('.') && !cleanInput.includes(' ')) {
-            candidateDomains = [cleanInput];
-          } else {
-            const words = cleanInput.split(/[^a-z0-9]+/).filter(w => w.length > 0);
-            const fullSlug = words.join('');
-            const hyphenSlug = words.join('-');
-            const descriptors = ['realty', 'constructora', 'inmobiliaria', 'clinica', 'panaderia', 'pasteleria', 'hotel', 'restaurante', 'banco', 'grupo', 'servicios', 'rd'];
-            const brandWords = words.filter(w => !descriptors.includes(w));
-            const bSlug = brandWords.length > 0 ? brandWords.join('') : words[0];
-
-            if (bSlug && bSlug !== fullSlug) {
-              candidateDomains.push(bSlug + '.do');
-              candidateDomains.push(bSlug + '.com');
-              candidateDomains.push(fullSlug + '.com');
-              candidateDomains.push(fullSlug + '.do');
-              candidateDomains.push(bSlug + '.com.do');
-              candidateDomains.push(fullSlug + '.com.do');
-              candidateDomains.push(bSlug + 'rd.com');
-            } else {
-              candidateDomains.push(fullSlug + '.com');
-              candidateDomains.push(fullSlug + '.do');
-              candidateDomains.push(fullSlug + '.com.do');
-            }
-            candidateDomains.push(hyphenSlug + '.com');
-            candidateDomains.push(hyphenSlug + '.do');
-            candidateDomains.push(fullSlug + 'rd.com');
-            candidateDomains = [...new Set(candidateDomains)];
-          }
-
-          barInner.style.width = "45%";
-          percentText.textContent = "45%";
-          statusText.textContent = "Consultando servidores DNS en tiempo real...";
-
-          const t0 = performance.now();
-          const dnsResults = await Promise.all(candidateDomains.map(async (domain, rank) => {
-            try {
-              const res = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`, {
-                headers: { 'Accept': 'application/dns-json' }
-              });
-              const data = await res.json();
-              if (data.Status === 0 && data.Answer && data.Answer.length > 0) {
-                return { domain, ip: data.Answer[0].data, rank };
-              }
-            } catch (e) {}
-            return null;
-          }));
-          const t1 = performance.now();
-          measuredLatency = Math.max(45, Math.round((t1 - t0) / Math.max(1, dnsResults.length)));
-
-          const foundDomains = dnsResults.filter(Boolean).sort((a, b) => a.rank - b.rank);
-
-          barInner.style.width = "85%";
-          percentText.textContent = "85%";
-          statusText.textContent = "Auditando velocidad móvil, servidor y presencia en Google...";
-          await new Promise(r => setTimeout(r, 450));
-
-          if (foundDomains.length > 0) {
-            const best = foundDomains[0];
-            activeDomain = best.domain;
-            activeIp = best.ip;
-
-            const isCdn = measuredLatency < 110;
-            const estSeconds = isCdn ? (measuredLatency / 80 + 0.8).toFixed(1) : Math.min(6.5, (measuredLatency / 50) + 2.4).toFixed(1);
-            const calcScore = isCdn ? Math.max(72, Math.min(84, 100 - Math.round(measuredLatency / 8))) : Math.max(38, Math.min(64, Math.round(100 - (estSeconds * 11))));
-
-              scoreText = `Puntaje Comercial: ${calcScore}/100 (${calcScore >= 75 ? 'Riesgo Moderado' : 'Riesgo Crítico de Fuga'})`;
-              scoreBadgeClass = calcScore >= 75 
-                ? "px-4 py-2 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/40 font-mono font-black text-sm sm:text-base"
-                : "px-4 py-2 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/40 font-mono font-black text-sm sm:text-base";
-
-              mapsText = calcScore >= 75 ? "Página 2 (Fuera del Pack 3)" : "Página 2-4 (Invisible en Google Maps)";
-              mapsClass = calcScore >= 75 ? "text-lg font-black text-amber-400 mt-1.5" : "text-lg font-black text-rose-400 mt-1.5";
-
-              speedText = `${estSeconds}s (${calcScore >= 75 ? 'Lenta' : 'Crítica en 4G RD'})`;
-              speedClass = calcScore >= 75 ? "text-lg font-black text-amber-400 mt-1.5" : "text-lg font-black text-rose-400 mt-1.5";
-
-              const lostLeads = Math.round((100 - calcScore) * 1.8);
-              lossText = `~${lostLeads} clientes/mes`;
-              
-              // Brechas comerciales redactadas para generar urgencia sin dar el cómo técnico
-              diagText = `
-                <div class="space-y-2.5">
-                  <div class="flex items-start gap-2.5">
-                    <span class="text-rose-400 font-bold shrink-0">1.</span>
-                    <p><strong class="text-white">Fuga de Llamadas en Google Maps:</strong> El perfil de ${rawBiz} no se encuentra consolidado en el Local 3-Pack de su zona. Más del 75% de las llamadas de clientes con intención inmediata de compra se las están llevando negocios cercanos de la competencia.</p>
-                  </div>
-                  <div class="flex items-start gap-2.5">
-                    <span class="text-rose-400 font-bold shrink-0">2.</span>
-                    <p><strong class="text-white">Abandono Móvil en Redes Dominicanas (${estSeconds}s):</strong> Según Google, el 53% de las visitas en celular se abandonan si la página tarda más de 3 segundos. Se estima una pérdida directa de aproximadamente ${lostLeads} prospectos mensuales antes de iniciar contacto.</p>
-                  </div>
-                  <div class="flex items-start gap-2.5">
-                    <span class="text-rose-400 font-bold shrink-0">3.</span>
-                    <p><strong class="text-white">Enlaces Fríos sin Conversión:</strong> Al compartir enlaces en WhatsApp o redes, la página carece de tarjetas transaccionales magnéticas ni automatización de respuesta instantánea para capturar ventas 24/7.</p>
-                  </div>
-                </div>
-              `;
-
-          } else {
-            scoreText = "Puntaje Comercial: 24/100 (Inexistente - Fuga Total)";
-            scoreBadgeClass = "px-4 py-2 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/50 font-mono font-black text-sm sm:text-base";
-            mapsText = "Sin Presencia (0 Clientes)";
-            mapsClass = "text-lg font-black text-rose-400 mt-1.5";
-            speedText = "Sin Sitio Web Activo";
-            speedClass = "text-lg font-black text-slate-400 mt-1.5";
-            lossText = "~140 clientes/mes";
-            diagText = `
-              <div class="space-y-2.5">
-                <div class="flex items-start gap-2.5">
-                  <span class="text-rose-400 font-bold shrink-0">1.</span>
-                  <p><strong class="text-white">Invisibilidad Total en Internet:</strong> No se detectó sitio web activo para "${rawBiz}". En República Dominicana, el 84% de consumidores que buscan en Google descartan empresas que no tienen presencia oficial verificada.</p>
-                </div>
-                <div class="flex items-start gap-2.5">
-                  <span class="text-rose-400 font-bold shrink-0">2.</span>
-                  <p><strong class="text-white">Regalando Mercado a la Competencia:</strong> Negocios de su mismo rubro en Santo Domingo y Santiago están captando aproximadamente ~140 llamadas al mes que deberían ser suyas.</p>
-                </div>
-              </div>
-            `;
-          }
+      if (cleanInput.includes('isapromord')) {
+        targetUrl = OWN_SITE_URL;
+      } else {
+        const candidates = candidateDomainsFor(cleanInput);
+        for (const domain of candidates) {
+          if (await resolves(domain)) { targetUrl = `https://${domain}/`; break; }
         }
-
-        barInner.style.width = "100%";
-        percentText.textContent = "100%";
-        statusText.textContent = "¡Auditoría completada con éxito!";
-
-        await new Promise(r => setTimeout(r, 250));
-        progressBox.classList.add("hidden");
-        reportBox.classList.remove("hidden");
-
-        repName.textContent = rawBiz;
-        repZone.textContent = activeDomain 
-          ? `Sitio Web Detectado: ${activeDomain} • Zona: ${zone}`
-          : `Sitio Web: No detectado en registros de RD • Zona: ${zone}`;
-
-        repScoreBadge.className = scoreBadgeClass;
-        repScoreBadge.textContent = scoreText;
-
-        repMapsVal.className = mapsClass;
-        repMapsVal.textContent = mapsText;
-
-        repSpeedVal.className = speedClass;
-        repSpeedVal.textContent = speedText;
-
-        repLossVal.textContent = lossText;
-        repDiagText.innerHTML = diagText;
-
-        const waMsg = encodeURIComponent(`Hola ISAPromoRD, ejecuté la auditoría de mi negocio "${rawBiz}" (${activeDomain || 'Sin Web'}). Mi resultado arrojó riesgo de fuga de clientes con velocidad ${speedText}. Deseo solicitar el plan de corrección técnica y Google Maps.`);
-        repWaBtn.href = `https://wa.me/18294554783?text=${waMsg}`;
-
-        reportBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-      } catch (err) {
-        progressBox.classList.add("hidden");
-        reportBox.classList.remove("hidden");
-        repName.textContent = rawBiz;
-        repScoreBadge.textContent = "Puntaje: 48/100 (Requiere Revisión)";
-        repDiagText.textContent = "No pudimos completar la consulta de red en este momento. Te invitamos a solicitar una auditoría manual sin costo por WhatsApp.";
       }
+
+      repName.textContent = rawBiz;
+
+      if (!targetUrl) {
+        progressBox.classList.add("hidden");
+        reportBox.classList.remove("hidden");
+        repZone.textContent = "No encontramos una web activa con ese nombre.";
+        repDiagTitle.textContent = "Qué hicimos";
+        const tried = candidateDomainsFor(cleanInput).map(d => `<code class="text-slate-300">${escapeHtml(d)}</code>`).join(', ');
+        repDiagBox.innerHTML = `<p>Probamos ${tried || 'la dirección escrita'} y ninguna respondió. Si tu negocio tiene web, escribe su dirección exacta (por ejemplo <strong class="text-white">tuempresa.com</strong>).</p><p>Si todavía no tienes web, podemos hacerte una y enlazarla con tu ficha de Google Maps.</p>`;
+        repPsiLink.classList.add("hidden");
+        waMsg = `Hola ISAPromoRD, usé el escáner con "${rawBiz}" y no encontró una web. Quiero información para tener mi página.`;
+        repWaBtn.href = `https://wa.me/18294554783?text=${encodeURIComponent(waMsg)}`;
+        btn.disabled = false;
+        btnText.textContent = "Medir Mi Web Ahora";
+        return;
+      }
+
+      const shownUrl = targetUrl.replace(/^https:\/\//, '').replace(/\/$/, '');
+      const psiUrl = `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(targetUrl)}&form_factor=mobile`;
+      repPsiLink.href = psiUrl;
+      repPsiLink.classList.remove("hidden");
+
+      setProgress(35, `Midiendo ${shownUrl} con Google (15–40 s)...`);
+      const slowTicker = setInterval(() => {
+        const current = parseInt(percentText.textContent, 10) || 35;
+        if (current < 90) setProgress(current + 3, statusText.textContent);
+      }, 1500);
+      const lh = await runPageSpeed(targetUrl);
+      clearInterval(slowTicker);
+
+      progressBox.classList.add("hidden");
+      reportBox.classList.remove("hidden");
+      repZone.textContent = `Web medida: ${shownUrl} • Perfil móvil`;
+
+      if (!lh) {
+        repZone.textContent = `Web encontrada: ${shownUrl}`;
+        repDiagTitle.textContent = "No pudimos completar la medición";
+        repDiagBox.innerHTML = `<p>Google no respondió a la medición en este momento. Puedes verla tú mismo, gratis, en PageSpeed Insights, o pedirnos que la midamos y te expliquemos el resultado.</p>`;
+        waMsg = `Hola ISAPromoRD, quiero que midan la velocidad de mi web ${shownUrl} y me expliquen el resultado.`;
+      } else {
+        const audits = lh.audits || {};
+        const perf = Math.round((lh.categories.performance?.score ?? 0) * 100);
+        const seo = Math.round((lh.categories.seo?.score ?? 0) * 100);
+        const lcp = audits['largest-contentful-paint']?.displayValue || '—';
+        const kb = Math.round((audits['total-byte-weight']?.numericValue || 0) / 1024);
+        const weight = kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`;
+
+        // Same thresholds as PageSpeed Insights: 90+ good, 50-89 needs improvement, <50 poor
+        const tone = perf >= 90
+          ? ['bg-emerald-500/15 text-emerald-300 border-emerald-500/40', 'Buena']
+          : perf >= 50
+            ? ['bg-amber-500/15 text-amber-300 border-amber-500/40', 'Mejorable']
+            : ['bg-rose-500/15 text-rose-300 border-rose-500/40', 'Lenta'];
+        repScoreBadge.className = `px-4 py-2 rounded-md border font-mono font-black text-sm sm:text-base ${tone[0]}`;
+        repScoreBadge.textContent = `Rendimiento móvil: ${perf}/100 (${tone[1]})`;
+        document.getElementById("repLcpVal").textContent = lcp;
+        document.getElementById("repWeightVal").textContent = weight;
+        document.getElementById("repSeoVal").textContent = `${seo}/100`;
+        repMetrics.classList.remove("hidden");
+
+        const opportunities = Object.values(audits)
+          .filter(x => x && x.details && x.details.type === 'opportunity' && typeof x.score === 'number' && x.score < 0.9
+            && ((x.details.overallSavingsMs || 0) > 0 || (x.details.overallSavingsBytes || 0) > 0))
+          .sort((x, y) => (y.details.overallSavingsMs || 0) - (x.details.overallSavingsMs || 0)
+            || (y.details.overallSavingsBytes || 0) - (x.details.overallSavingsBytes || 0))
+          .slice(0, 3);
+        repDiagTitle.textContent = "Qué encontró Google";
+        repDiagBox.innerHTML = opportunities.length
+          ? opportunities.map((o, i) => `<div class="flex items-start gap-2.5"><span class="text-[#00d2ff] font-bold shrink-0">${i + 1}.</span><p><strong class="text-white">${escapeHtml(o.title)}</strong>${o.displayValue ? ` <span class="text-slate-400">(${escapeHtml(o.displayValue)})</span>` : ''}</p></div>`).join('')
+          : `<p>Google no encontró oportunidades de mejora importantes en la velocidad de esta página.</p>`;
+        waMsg = `Hola ISAPromoRD, medí mi web ${shownUrl} en su escáner: rendimiento móvil ${perf}/100, LCP ${lcp}, peso ${weight}, SEO ${seo}/100. Quiero que me expliquen el resultado.`;
+      }
+
+      repWaBtn.href = `https://wa.me/18294554783?text=${encodeURIComponent(waMsg)}`;
+      reportBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      btn.disabled = false;
+      btnText.textContent = "Medir Mi Web Ahora";
     }
 
     // 3. TELEMETRÍA & ATRIBUCIÓN DE REFERIDOS CON SUPABASE

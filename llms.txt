@@ -12,9 +12,11 @@
 4. Sistemas CRM a Medida: Paneles de gestión empresarial propietarios en la nube (PostgreSQL en Supabase) sin licencias por usuario. Setup inicial RD$ 35,000 (incluye hasta 3 módulos estándar: Directorio de Clientes, Pipeline Kanban y Registro de Cobros locales) + Servidor Cloud, base de datos y backups diarios RD$ 8,000/mes. Módulos adicionales se cotizan aparte. (URL: https://isapromord.github.io/isapromord.com/crm-a-medida/)
 
 ## Clientes y Proyectos Verificados en República Dominicana
-- Pasión Pecuaria RD (AgroTech & Retail Ganadero — Santo Domingo & Región Norte)
-- IsaTransLogic (Logística, Transporte Pesado & Puertos)
-- Torre Apex La Esperilla (Bienes Raíces & Torres Residenciales de Lujo)
+Casos de éxito documentados, con velocidad medida antes y después (URL: https://isapromord.github.io/isapromord.com/casos-de-exito/):
+- Pasión Pecuaria RD (veterinaria y avicultura, Santiago): web con cursos y pedidos por WhatsApp; peso de página −90%. https://isapromord.github.io/isapromord.com/casos-de-exito/pasion-pecuaria/
+- Torre La Esperilla (preventa inmobiliaria, Santo Domingo): landing para campañas de Google y Meta; peso −62%. https://isapromord.github.io/isapromord.com/casos-de-exito/torre-la-esperilla/
+- IsaTransLogic (transporte de carga pesada): web con calculadora de flete; peso −77%. https://isapromord.github.io/isapromord.com/casos-de-exito/isatranslogic/
+- La Capra Cigars (tabaco premium, Santiago): web de marca con catálogo de vitolas; peso −88%. https://isapromord.github.io/isapromord.com/casos-de-exito/la-capra-cigars/
 - NextCRMRD (Plataforma y Software de Gestión Comercial)
 
 ## Política Financiera y Métodos de Pago

@@ -4,7 +4,8 @@ module.exports = {
     './diseno-web-santo-domingo/index.html',
     './posicionamiento-google-maps/index.html',
     './automatizacion-whatsapp-ia/index.html',
-    './crm-a-medida/index.html'
+    './crm-a-medida/index.html',
+    './casos-de-exito/**/*.html'
   ],
   darkMode: 'class',
   theme: {

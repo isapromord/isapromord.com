@@ -101,7 +101,7 @@
   <!-- TOP BAR & BREADCRUMB -->
   <header class="border-b border-slate-800/80 bg-[#0f131c]/90 backdrop-blur-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="inline-flex items-center gap-2 text-sm font-semibold text-[#00d2ff] hover:text-cyan-300 transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">
+      <a href="../" class="inline-flex items-center gap-2 text-sm font-semibold text-[#00d2ff] hover:text-cyan-300 transition-colors py-2 px-3 rounded-lg hover:bg-slate-800/50">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         <span>&larr; Volver al Centro de Mando Principal (ISAPromoRD)</span>
       </a>
@@ -272,43 +272,39 @@
     <section class="py-20 border-b border-slate-800 bg-[#0b0f17]">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mb-12">
-          <span class="text-[#00d2ff] font-mono text-xs uppercase tracking-wider font-semibold">Validación en Producción</span>
+          <span class="text-[#00d2ff] font-mono text-xs uppercase tracking-wider font-semibold">Proyectos en producción</span>
           <h2 class="text-2xl sm:text-4xl font-extrabold text-white mt-2">Casos de Éxito en Empresas Dominicanas</h2>
-          <p class="text-slate-400 mt-3">Proyectos reales con telemetría verificada en Santo Domingo y el Cibao.</p>
+          <p class="text-slate-400 mt-3">Webs reales en Santiago y Santo Domingo, con la velocidad medida en Google Lighthouse antes y después de optimizarlas.</p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
-          <!-- CASO 1: Pasión Pecuaria RD -->
-          <div class="p-8 rounded-2xl bg-[#0f131c] border border-cyan-500/15 relative">
+          <a href="../casos-de-exito/pasion-pecuaria/" class="group p-8 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all relative block">
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-mono font-bold text-[#00d2ff] px-2.5 py-1 rounded bg-cyan-950/40 border border-cyan-500/20">AGROTECH &amp; RETAIL</span>
-              <span class="text-xs font-mono text-[#10b981]">Telemetría Verificada &bull; 0.28s</span>
+              <span class="text-xs font-mono font-bold text-[#00d2ff] px-2.5 py-1 rounded bg-cyan-950/40 border border-cyan-500/20">VETERINARIA &amp; AVICULTURA</span>
+              <span class="text-xs font-mono text-[#10b981]">Ver caso &rarr;</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Pasión Pecuaria RD</h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-6">
-              Migración de catálogo completo a frontend estático de alta fidelidad. Pasaron de esperar 4.2 segundos en celular a abrir en 0.28 segundos en redes Claro del interior del país, generando más de 140 chats comerciales calificados por WhatsApp mensuales.
-            </p>
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition-colors">Pasión Pecuaria RD</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">Web con cursos, servicio veterinario y tienda de equipos con pedido por WhatsApp. Al optimizarla, la página pasó de 3,3 MB a 355 KB.</p>
             <div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-[#161b26] font-mono text-xs text-slate-300 border border-slate-800">
-              <div><span class="text-slate-500 block">Velocidad Móvil:</span> <strong class="text-[#10b981]">0.28s FCP</strong></div>
-              <div><span class="text-slate-500 block">Conversión:</span> <strong class="text-[#00d2ff]">+140 chats/mes</strong></div>
+              <div><span class="text-slate-500 block">Peso de la página:</span> <strong class="text-[#10b981]">−90%</strong></div>
+              <div><span class="text-slate-500 block">Rendimiento móvil:</span> <strong class="text-[#00d2ff]">66 → 78</strong></div>
             </div>
-          </div>
-
-          <!-- CASO 2: Torre Apex La Esperilla -->
-          <div class="p-8 rounded-2xl bg-[#0f131c] border border-cyan-500/15 relative">
+          </a>
+          <a href="../casos-de-exito/isatranslogic/" class="group p-8 rounded-2xl bg-[#0f131c] border border-cyan-500/15 hover:border-cyan-500/40 transition-all relative block">
             <div class="flex items-center justify-between mb-4">
-              <span class="text-xs font-mono font-bold text-[#00d2ff] px-2.5 py-1 rounded bg-cyan-950/40 border border-cyan-500/20">BIENES RAÍCES POLÍGONO CENTRAL</span>
-              <span class="text-xs font-mono text-[#10b981]">Core Web Vitals &bull; 100/100</span>
+              <span class="text-xs font-mono font-bold text-[#00d2ff] px-2.5 py-1 rounded bg-cyan-950/40 border border-cyan-500/20">TRANSPORTE DE CARGA</span>
+              <span class="text-xs font-mono text-[#10b981]">Ver caso &rarr;</span>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">Torre Apex La Esperilla</h3>
-            <p class="text-slate-300 text-sm leading-relaxed mb-6">
-              Landing page de preventa inmobiliaria de alta gama para captación de compradores locales e inversionistas de la diáspora. Carga fotográfica WebP de ultra compresión sin pérdida visual y formulario de agendamiento instantáneo con asesores.
-            </p>
+            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-[#00d2ff] transition-colors">IsaTransLogic</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">Web con calculadora de flete y cotización por WhatsApp. Reemplazamos el CDN de Tailwind por CSS precompilado y aligeramos el video sin cambiar el diseño.</p>
             <div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-[#161b26] font-mono text-xs text-slate-300 border border-slate-800">
-              <div><span class="text-slate-500 block">Lighthouse:</span> <strong class="text-[#10b981]">100/100 Móvil</strong></div>
-              <div><span class="text-slate-500 block">Captación:</span> <strong class="text-[#00d2ff]">84 citas agendadas</strong></div>
+              <div><span class="text-slate-500 block">Peso de la página:</span> <strong class="text-[#10b981]">−77%</strong></div>
+              <div><span class="text-slate-500 block">Rendimiento móvil:</span> <strong class="text-[#00d2ff]">69 → 83</strong></div>
             </div>
-          </div>
+          </a>
+        </div>
+        <div class="mt-8">
+          <a href="../casos-de-exito/" class="inline-flex items-center gap-2 text-sm font-semibold text-[#00d2ff] hover:text-cyan-300">Ver todos los casos de éxito &rarr;</a>
         </div>
       </div>
     </section>
@@ -414,10 +410,10 @@
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>&copy; 2026 ISAPromoRD. Todos los derechos reservados.</div>
       <div class="flex gap-4">
-        <a href="/" class="hover:text-[#00d2ff] transition-colors">&larr; Centro de Mando</a>
-        <a href="/posicionamiento-google-maps/" class="hover:text-[#00d2ff] transition-colors">Google Maps</a>
-        <a href="/automatizacion-whatsapp-ia/" class="hover:text-[#00d2ff] transition-colors">WhatsApp IA</a>
-        <a href="/crm-a-medida/" class="hover:text-[#00d2ff] transition-colors">CRM Cloud</a>
+        <a href="../" class="hover:text-[#00d2ff] transition-colors">&larr; Centro de Mando</a>
+        <a href="../posicionamiento-google-maps/" class="hover:text-[#00d2ff] transition-colors">Google Maps</a>
+        <a href="../automatizacion-whatsapp-ia/" class="hover:text-[#00d2ff] transition-colors">WhatsApp IA</a>
+        <a href="../crm-a-medida/" class="hover:text-[#00d2ff] transition-colors">CRM Cloud</a>
       </div>
     </div>
   </footer>

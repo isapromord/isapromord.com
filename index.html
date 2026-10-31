@@ -2630,8 +2630,8 @@
 
     // 3. TELEMETRÍA & ATRIBUCIÓN DE REFERIDOS CON SUPABASE
     (function initReferralTracking() {
-      const SUPABASE_URL = "https://biomfntvqbhjmmmggxzj.supabase.co";
-      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8";
+      const SUPABASE_URL = "https://gaorbufugmltlrssfgzc.supabase.co";
+      const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb3JidWZ1Z21sdGxyc3NmZ3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjI4NzIsImV4cCI6MjEwOTAzODg3Mn0.855iRr4G1QKem2_y16kujtnQSd5cWYm1vh3OHGer0XQ";
       
       const KNOWN_PARTNERS = {
         'pasionpecuaria': 'Pasión Pecuaria RD',
@@ -2831,11 +2831,11 @@
 
       // 1. Guardar silenciosamente en Supabase Cloud
       try {
-        fetch("https://biomfntvqbhjmmmggxzj.supabase.co/rest/v1/rpc/public_submit_lead", {
+        fetch("https://gaorbufugmltlrssfgzc.supabase.co/rest/v1/rpc/public_submit_lead", {
           method: "POST",
           headers: {
-            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb3JidWZ1Z21sdGxyc3NmZ3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjI4NzIsImV4cCI6MjEwOTAzODg3Mn0.855iRr4G1QKem2_y16kujtnQSd5cWYm1vh3OHGer0XQ",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb3JidWZ1Z21sdGxyc3NmZ3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjI4NzIsImV4cCI6MjEwOTAzODg3Mn0.855iRr4G1QKem2_y16kujtnQSd5cWYm1vh3OHGer0XQ",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ p_name: businessName, p_whatsapp: whatsapp })

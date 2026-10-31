@@ -1,12 +1,83 @@
 -- ========================================================
--- ISAPROMORD-HUB (biomfntvqbhjmmmggxzj) · Cierre de acceso público
--- Ejecutar en el SQL Editor de Supabase EN DOS PASOS:
---   PASO 1 (seguro, no rompe nada): administradores + funciones públicas.
---   PASO 2 (después de publicar la web nueva): activar RLS solo-dueño.
+-- ISAPROMORD-HUB (gaorbufugmltlrssfgzc) · Esquema completo, cerrado desde el inicio
+-- Panel: solo correos en public.isapromo_admins. Público: solo funciones acotadas.
 -- ========================================================
 
+CREATE TABLE IF NOT EXISTS public.agency_clients (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL DEFAULT 'Sin nombre',
+    category TEXT DEFAULT 'General',
+    live_url TEXT DEFAULT '',
+    platform TEXT DEFAULT '',
+    contact_person TEXT DEFAULT '',
+    phone TEXT DEFAULT '',
+    email TEXT DEFAULT '',
+    status TEXT DEFAULT 'active',
+    fee TEXT DEFAULT '',
+    renewal_date DATE,
+    last_payment_date DATE,
+    joined_date DATE,
+    repo_url TEXT DEFAULT '',
+    notes TEXT DEFAULT '',
+    health_score INTEGER DEFAULT 100,
+    optimization_matrix JSONB DEFAULT '{}'::jsonb,
+    tasks JSONB DEFAULT '[]'::jsonb,
+    payment_history JSONB DEFAULT '[]'::jsonb,
+    uptime_status TEXT,
+    latency_ms INTEGER,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
 
--- ======================= PASO 1 =========================
+CREATE TABLE IF NOT EXISTS public.agency_leads (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    created_at TIMESTAMPTZ DEFAULT now(),
+    client_id TEXT NOT NULL,
+    type TEXT,
+    full_name TEXT,
+    phone TEXT,
+    email TEXT,
+    farm_or_company TEXT,
+    service_or_product TEXT,
+    amount NUMERIC DEFAULT 0,
+    details JSONB DEFAULT '{}'::jsonb,
+    status TEXT DEFAULT 'nuevo',
+    notes TEXT,
+    attribution TEXT
+);
+
+CREATE TABLE IF NOT EXISTS public.isapromo_referrals (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_slug TEXT NOT NULL UNIQUE,
+    client_name TEXT NOT NULL,
+    website_url TEXT,
+    reward_description TEXT DEFAULT '1 Mes de Mantenimiento Web Gratis',
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.isapromo_referral_clicks (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_slug TEXT NOT NULL,
+    referrer_url TEXT,
+    utm_source TEXT,
+    utm_medium TEXT,
+    utm_campaign TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.isapromo_referral_conversions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    client_slug TEXT NOT NULL,
+    conversion_type TEXT DEFAULT 'whatsapp_click',
+    contact_name TEXT,
+    contact_phone TEXT,
+    details TEXT,
+    status TEXT DEFAULT 'lead',
+    deal_value NUMERIC DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
 
 -- 1.1 Correos con acceso al panel
 CREATE TABLE IF NOT EXISTS public.isapromo_admins (
@@ -15,9 +86,6 @@ CREATE TABLE IF NOT EXISTS public.isapromo_admins (
 ALTER TABLE public.isapromo_admins ENABLE ROW LEVEL SECURITY;
 -- Sin políticas: nadie la lee desde la web; solo las funciones de abajo.
 
--- >>> Cambia el correo por el de tu cuenta del panel (Authentication > Users) <<<
-INSERT INTO public.isapromo_admins (email) VALUES ('TU_CORREO@ejemplo.com')
-ON CONFLICT DO NOTHING;
 
 CREATE OR REPLACE FUNCTION public.is_isapromo_admin()
 RETURNS BOOLEAN
@@ -173,32 +241,30 @@ GRANT EXECUTE ON FUNCTION public.public_approve_proposal(TEXT, JSONB, JSONB) TO 
 GRANT EXECUTE ON FUNCTION public.is_isapromo_admin() TO anon, authenticated;
 
 
--- ======================= PASO 2 =========================
--- Ejecutar SOLO después de publicar la web nueva y de entrar al panel con tu correo.
 
--- 2.1 Clientes, prospectos y bóveda (contratos, contabilidad): solo el dueño
+-- Políticas: todo cerrado salvo lo indispensable para las páginas públicas
 ALTER TABLE public.agency_clients ENABLE ROW LEVEL SECURITY;
-DO $$
-DECLARE pol RECORD;
-BEGIN
-  FOR pol IN SELECT policyname FROM pg_policies WHERE schemaname = 'public' AND tablename = 'agency_clients' LOOP
-    EXECUTE format('DROP POLICY %I ON public.agency_clients', pol.policyname);
-  END LOOP;
-END $$;
+ALTER TABLE public.agency_leads ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.isapromo_referrals ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.isapromo_referral_clicks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.isapromo_referral_conversions ENABLE ROW LEVEL SECURITY;
+
 CREATE POLICY "Solo administradores" ON public.agency_clients
   FOR ALL TO authenticated USING (public.is_isapromo_admin()) WITH CHECK (public.is_isapromo_admin());
 
--- 2.2 Referidos: los socios se pueden leer (enlaces públicos); solo el dueño los edita
-DROP POLICY IF EXISTS "Permitir lectura publica a referrals" ON public.isapromo_referrals;
-DROP POLICY IF EXISTS "Permitir insercion a referrals" ON public.isapromo_referrals;
+CREATE POLICY "Formularios registran prospectos" ON public.agency_leads
+  FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Solo administradores leen prospectos" ON public.agency_leads
+  FOR ALL TO authenticated USING (public.is_isapromo_admin()) WITH CHECK (public.is_isapromo_admin());
+
 CREATE POLICY "Lectura publica de socios" ON public.isapromo_referrals FOR SELECT USING (true);
 CREATE POLICY "Solo administradores editan socios" ON public.isapromo_referrals
   FOR ALL TO authenticated USING (public.is_isapromo_admin()) WITH CHECK (public.is_isapromo_admin());
 
--- 2.3 Clics y conversiones: el público solo registra; solo el dueño lee (tienen teléfonos)
-DROP POLICY IF EXISTS "Permitir lectura publica a referral_clicks" ON public.isapromo_referral_clicks;
-DROP POLICY IF EXISTS "Permitir lectura publica a referral_conversions" ON public.isapromo_referral_conversions;
+CREATE POLICY "Registrar clics" ON public.isapromo_referral_clicks FOR INSERT WITH CHECK (true);
 CREATE POLICY "Solo administradores leen clics" ON public.isapromo_referral_clicks
   FOR SELECT TO authenticated USING (public.is_isapromo_admin());
+
+CREATE POLICY "Registrar conversiones" ON public.isapromo_referral_conversions FOR INSERT WITH CHECK (true);
 CREATE POLICY "Solo administradores leen conversiones" ON public.isapromo_referral_conversions
   FOR SELECT TO authenticated USING (public.is_isapromo_admin());

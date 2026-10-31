@@ -33,12 +33,12 @@ export const STORAGE_KEYS = {
 };
 
 export const SUPABASE_CONFIG = {
-  URL: "https://biomfntvqbhjmmmggxzj.supabase.co",
-  ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+  URL: "https://gaorbufugmltlrssfgzc.supabase.co",
+  ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb3JidWZ1Z21sdGxyc3NmZ3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjI4NzIsImV4cCI6MjEwOTAzODg3Mn0.855iRr4G1QKem2_y16kujtnQSd5cWYm1vh3OHGer0XQ",
   TABLE_CLIENTS: "agency_clients",
   // Lowercase aliases
-  url: "https://biomfntvqbhjmmmggxzj.supabase.co",
-  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
+  url: "https://gaorbufugmltlrssfgzc.supabase.co",
+  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdhb3JidWZ1Z21sdGxyc3NmZ3pjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NjI4NzIsImV4cCI6MjEwOTAzODg3Mn0.855iRr4G1QKem2_y16kujtnQSd5cWYm1vh3OHGer0XQ",
   tableClients: "agency_clients"
 };
 

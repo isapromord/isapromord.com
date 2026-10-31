@@ -475,21 +475,20 @@
       // Consultar la Bóveda Cloud en Supabase por si ya fue firmado desde otro dispositivo
       if (targetId) {
         try {
-          const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/public_get_contract`, {
+            method: "POST",
             headers: {
+              "Content-Type": "application/json",
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-            }
+            },
+            body: JSON.stringify({ p_id: targetId })
           });
           if (res.ok) {
-            const rows = await res.json();
-            const vault = rows && rows[0] && rows[0].optimization_matrix;
-            if (vault && Array.isArray(vault.contracts)) {
-              const cloudContract = vault.contracts.find(c => c.id === targetId || c.contractNumber === targetId);
-              if (cloudContract && (!contract || cloudContract.status === 'signed')) {
-                contract = cloudContract;
-                saveContractLocally(contract, false);
-              }
+            const cloudContract = await res.json();
+            if (cloudContract && cloudContract.id && (!contract || cloudContract.status === 'signed')) {
+              contract = cloudContract;
+              saveContractLocally(contract, false);
             }
           }
         } catch (err) {
@@ -554,45 +553,23 @@
 
     async function syncSignedContractToSupabase(signedContract) {
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
-          headers: {
-            apikey: SUPABASE_ANON_KEY,
-            Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-          }
-        });
-        let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
-        if (res.ok) {
-          const rows = await res.json();
-          if (rows && rows[0] && rows[0].optimization_matrix) {
-            vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
-          }
-        }
-        const contractsList = Array.isArray(vaultMatrix.contracts) ? vaultMatrix.contracts : [];
-        const idx = contractsList.findIndex(c => c && c.id === signedContract.id);
-        if (idx !== -1) {
-          contractsList[idx] = signedContract;
-        } else {
-          contractsList.unshift(signedContract);
-        }
-        vaultMatrix.contracts = contractsList;
-        vaultMatrix.updatedAt = new Date().toISOString();
-
-        await fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
+        // Solo se envía la firma; el servidor conserva precios y servicios del contrato original
+        await fetch(`${SUPABASE_URL}/rest/v1/rpc/public_sign_contract`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Prefer": "resolution=merge-duplicates",
             apikey: SUPABASE_ANON_KEY,
             Authorization: `Bearer ${SUPABASE_ANON_KEY}`
           },
           body: JSON.stringify({
-            id: SYSTEM_VAULT_ID,
-            name: "ISAPromoRD System Vault",
-            category: "System Vault",
-            status: "archived",
-            live_url: "",
-            optimization_matrix: vaultMatrix,
-            updated_at: new Date().toISOString()
+            p_id: signedContract.id,
+            p_signed: {
+              signedAt: signedContract.signedAt,
+              signedBy: signedContract.signedBy,
+              signerDocId: signedContract.signerDocId,
+              signatureData: signedContract.signatureData,
+              signatureHash: signedContract.signatureHash
+            }
           })
         });
       } catch (err) {

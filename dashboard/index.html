@@ -944,64 +944,6 @@
 <body class="bg-[#0a0e17] font-sans text-slate-100 antialiased min-h-screen flex flex-col selection:bg-[#00d2ff] selection:text-black">
 
   <!-- ========================================================
-       FAIL-SAFE IMMEDIATE AUTH BRIDGE (Zero Network Latency)
-       ======================================================== -->
-  <script>
-    window.emergencyBypassAuth = function() {
-      sessionStorage.setItem("isapromo_agency_session_auth", "true");
-      localStorage.setItem("isapromo_auth_remember", "true");
-      var m = document.getElementById("authLockModal");
-      if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
-      if (window.showToast) window.showToast("⚡ Acceso Maestro Concedido: Bienvenido Isaías", "success");
-    };
-    window.switchAuthMode = function(mode) {
-      var p = document.getElementById("authSectionPin");
-      var e = document.getElementById("authSectionEmail");
-      var tbP = document.getElementById("authTabPinBtn");
-      var tbE = document.getElementById("authTabEmailBtn");
-      if (mode === 'email') {
-        if (p) p.classList.add("hidden");
-        if (e) e.classList.remove("hidden");
-        if (tbE) tbE.className = "flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all";
-        if (tbP) tbP.className = "flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all";
-        var em = document.getElementById("authEmailInput");
-        if (em) em.focus();
-      } else {
-        if (e) e.classList.add("hidden");
-        if (p) p.classList.remove("hidden");
-        if (tbP) tbP.className = "flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all";
-        if (tbE) tbE.className = "flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all";
-        var pn = document.getElementById("pinInput");
-        if (pn) pn.focus();
-      }
-    };
-    window.handlePinSubmit = function(ev) {
-      if (ev) ev.preventDefault();
-      var inp = document.getElementById("pinInput");
-      var err = document.getElementById("pinError");
-      var val = inp ? inp.value.trim() : "";
-      var cur = localStorage.getItem("isapromo_agency_pin_v1") || "3690";
-      if (val === cur || val === "3690" || val === "369") {
-        sessionStorage.setItem("isapromo_agency_session_auth", "true");
-        var rem = document.getElementById("pinRememberMe");
-        if (rem && rem.checked) localStorage.setItem("isapromo_auth_remember", "true");
-        var m = document.getElementById("authLockModal");
-        if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
-        if (inp) inp.value = "";
-        if (window.showToast) window.showToast("✓ Panel desbloqueado con éxito", "success");
-      } else {
-        if (err) { err.classList.remove("hidden"); err.textContent = "PIN incorrecto. Usa 3690 o Acceso de Emergencia."; }
-      }
-    };
-    if (sessionStorage.getItem("isapromo_agency_session_auth") === "true" || localStorage.getItem("isapromo_auth_remember") === "true") {
-      document.addEventListener("DOMContentLoaded", function() {
-        var m = document.getElementById("authLockModal");
-        if (m) { m.classList.add("hidden"); m.classList.remove("flex"); }
-      });
-    }
-  </script>
-
-  <!-- ========================================================
        MODAL DE AUTENTICACIÓN / ENTERPRISE MULTI-AUTH
        ======================================================== -->
   <div id="authLockModal" class="fixed inset-0 z-[9999] bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
@@ -1019,63 +961,8 @@
       <h2 class="text-xl font-black text-white mb-0.5">ISAPromoRD Admin</h2>
       <p class="text-xs text-slate-400 mb-5">Centro de Control & Gestión de Clientes</p>
 
-      <!-- Selector de Modo de Autenticación -->
-      <div class="flex items-center p-1 bg-[#0a0e17] rounded-lg border border-[#222f46] mb-5 gap-1">
-        <button 
-          id="authTabPinBtn" 
-          type="button" 
-          onclick="switchAuthMode('pin')" 
-          class="flex-1 py-2 text-xs font-bold rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm transition-all"
-        >
-          🔑 PIN Rápido
-        </button>
-        <button 
-          id="authTabEmailBtn" 
-          type="button" 
-          onclick="switchAuthMode('email')" 
-          class="flex-1 py-2 text-xs font-semibold rounded-md text-slate-400 hover:text-white transition-all"
-        >
-          ✉️ Google & Correo
-        </button>
-      </div>
-
-      <!-- MODO 1: PIN RÁPIDO -->
-      <div id="authSectionPin" class="space-y-4">
-        <form id="pinForm" onsubmit="handlePinSubmit(event)" class="space-y-3">
-          <div>
-            <input 
-              type="password" 
-              id="pinInput" 
-              maxlength="6" 
-              placeholder="••••" 
-              autocomplete="current-password"
-              class="w-full text-center text-2xl tracking-[0.5em] font-mono font-bold py-3 px-4 rounded-lg border border-[#222f46] focus:outline-none focus:ring-2 focus:ring-[#00d2ff] focus:border-[#00d2ff] bg-[#0a0e17] text-white"
-              required
-              autofocus
-            />
-            <p id="pinError" class="text-rose-400 text-xs font-semibold mt-2 hidden">PIN incorrecto. Puedes usar 3690 o Acceso de Emergencia.</p>
-          </div>
-
-          <div class="flex items-center justify-between text-xs text-slate-400 px-1">
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <input type="checkbox" id="pinRememberMe" class="rounded border-slate-700 bg-slate-900 text-cyan-500 focus:ring-cyan-500" checked />
-              <span>Recordar este equipo</span>
-            </label>
-            <span class="text-[11px] font-mono text-slate-500">PIN: <strong class="text-slate-300">3690</strong></span>
-          </div>
-
-          <button 
-            type="submit" 
-            class="w-full py-3 px-5 bg-gradient-to-r from-[#00d2ff] to-[#0284c7] hover:from-[#38bdf8] hover:to-[#0369a1] active:scale-[0.98] text-slate-950 font-black rounded-lg shadow-glow-cyan transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-            Desbloquear con PIN
-          </button>
-        </form>
-      </div>
-
       <!-- MODO 2: GOOGLE & CORREO SUPABASE -->
-      <div id="authSectionEmail" class="space-y-3 hidden text-left">
+      <div id="authSectionEmail" class="space-y-3 text-left">
         <!-- Botón Google OAuth -->
         <button 
           type="button" 
@@ -1134,17 +1021,8 @@
         </form>
       </div>
 
-      <!-- CONTINGENCIA Y ACCESO DE EMERGENCIA GARANTIZADO -->
+      <!-- PIE DEL MODAL -->
       <div class="mt-5 pt-4 border-t border-[#222f46] space-y-2">
-        <button 
-          type="button" 
-          onclick="emergencyBypassAuth()" 
-          class="w-full py-2.5 px-3 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 hover:text-amber-200 text-xs font-bold transition-all flex items-center justify-center gap-2 group shadow-sm"
-          title="Acceso directo de contingencia garantizado para Isaías Santana"
-        >
-          <span class="text-amber-400 text-sm group-hover:scale-125 transition-transform">⚡</span>
-          <span>Acceso de Emergencia (Isaías Santana)</span>
-        </button>
         <div class="flex items-center justify-between text-[11px] text-slate-400 font-mono px-1">
           <span class="text-slate-500">Nodo: <span class="text-slate-300">isapromord.com</span></span>
           <a href="../" class="hover:text-[#00d2ff] transition-colors">Volver a la Web</a>
@@ -3858,16 +3736,6 @@
             <span id="bankSuccessMsg" class="text-emerald-400 text-xs font-semibold hidden">Datos guardados.</span>
             <button onclick="saveBankDetails()" class="ml-auto px-3.5 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg text-xs font-bold transition-all cursor-pointer">Guardar Cuenta</button>
           </div>
-        </div>
-
-        <!-- Cambiar PIN -->
-        <div class="pt-4 border-t border-white/10 space-y-2">
-          <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">Cambiar PIN de Acceso</label>
-          <div class="flex gap-2">
-            <input type="password" id="newPinInput" maxlength="6" placeholder="Nuevo PIN (ej: 3690)" class="flex-1 px-3.5 py-2 rounded-lg border border-white/10 bg-[#06080d] text-white text-sm font-mono focus:ring-2 focus:ring-cyan-400 focus:outline-none" />
-            <button onclick="saveNewPin()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors cursor-pointer">Actualizar</button>
-          </div>
-          <p id="pinSuccess" class="text-emerald-400 text-xs font-semibold hidden">PIN actualizado exitosamente.</p>
         </div>
 
         <!-- Catálogo Maestro Global de Precios -->

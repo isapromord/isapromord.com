@@ -2831,28 +2831,14 @@
 
       // 1. Guardar silenciosamente en Supabase Cloud
       try {
-        const payload = {
-          name: businessName,
-          category: "Lead Diagnóstico Maps",
-          status: "lead",
-          fee: "Prospecto Entrante",
-          tasks: [
-            { id: "t1", title: "Analizar posición en Google Maps y 3 competidores", done: false },
-            { id: "t2", title: "Enviar diagnóstico por WhatsApp", done: false }
-          ],
-          liveUrl: businessName.includes(".") ? (businessName.startsWith("http") ? businessName : `https://${businessName}`) : "",
-          notes: `WhatsApp: ${whatsapp} • Solicitud de Diagnóstico Maps captada desde isapromord.com.`
-        };
-
-        fetch("https://biomfntvqbhjmmmggxzj.supabase.co/rest/v1/agency_clients", {
+        fetch("https://biomfntvqbhjmmmggxzj.supabase.co/rest/v1/rpc/public_submit_lead", {
           method: "POST",
           headers: {
             "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJpb21mbnR2cWJoam1tbWdneHpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyNDk1NjYsImV4cCI6MjEwNjgyNTU2Nn0.YYmH4QtcPaoHo2Yo-2dEhkQK8u9qz4o-XCI4Cm9X4k8",
-            "Content-Type": "application/json",
-            "Prefer": "return=minimal"
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ p_name: businessName, p_whatsapp: whatsapp })
         }).catch(err => console.debug("Supabase background save:", err));
       } catch (err) {
         console.debug("Lead capture error:", err);

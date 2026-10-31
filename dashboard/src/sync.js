@@ -19,6 +19,16 @@ export function getSupabaseClient() {
   return supabaseClient;
 }
 
+// Token de la sesión del administrador para llamadas REST directas (RLS solo-dueño)
+export async function getAccessToken() {
+  const sb = getSupabaseClient();
+  try {
+    const { data } = await sb.auth.getSession();
+    if (data?.session?.access_token) return data.session.access_token;
+  } catch (e) {}
+  return SUPABASE_CONFIG.ANON_KEY;
+}
+
 // Auto-initialize if running in browser with Supabase CDN loaded
 if (typeof window !== "undefined" && window.supabase) {
   getSupabaseClient();

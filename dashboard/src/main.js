@@ -17,14 +17,10 @@ import {
 } from './sync.js';
 import { 
   initAuth, 
-  handlePinSubmit, 
   lockDashboard, 
-  saveNewPin,
-  emergencyBypassAuth,
   handleEmailPasswordLogin,
   handleGoogleLogin,
-  handleMagicLinkLogin,
-  switchAuthMode
+  handleMagicLinkLogin
 } from './auth.js';
 import {
   escapeHtml,
@@ -298,14 +294,10 @@ const windowBridge = {
   toggleStitchSidebar,
 
   // Auth
-  handlePinSubmit,
   lockDashboard,
-  saveNewPin,
-  emergencyBypassAuth,
   handleEmailPasswordLogin,
   handleGoogleLogin,
   handleMagicLinkLogin,
-  switchAuthMode,
 
   // Sync
   manualTriggerCloudSync,
@@ -556,25 +548,34 @@ function bootstrap() {
   updateEdgePing();
   setInterval(updateEdgePing, 30000);
 
-  // 3. Security / Multi-Auth System
-  initAuth();
+  // 3. Acceso: los datos solo se cargan después de una sesión de administrador
+  let dataLoaded = false;
+  initAuth(() => {
+    if (dataLoaded) return;
+    dataLoaded = true;
 
-  // 4. Data Loading & Cloud Sync
-  loadStoredClients();
-  renderClients();
-  updateKpis();
-  initCloudSync(() => {
+    // 4. Data Loading & Cloud Sync
+    loadStoredClients();
     renderClients();
     updateKpis();
-    if (state.clientViewScreenMode === 'drilldown') {
-      renderClientDrilldown();
-    }
-  });
+    initCloudSync(() => {
+      renderClients();
+      updateKpis();
+      if (state.clientViewScreenMode === 'drilldown') {
+        renderClientDrilldown();
+      }
+    });
 
-  // 5. Accounting, Referrals & HQ
-  loadAccountingData();
-  loadReferralsData();
-  loadHqTasks();
+    // 5. Accounting, Referrals & HQ
+    loadAccountingData();
+    loadReferralsData();
+    loadHqTasks();
+
+    // 8. Initial Ping of clients
+    setTimeout(() => {
+      pingAllClients();
+    }, 1000);
+  });
 
   // 6. Global Search Keyboard Shortcut (⌘K / Ctrl+K)
   document.addEventListener('keydown', (e) => {
@@ -590,11 +591,6 @@ function bootstrap() {
 
   // 7. SPA History & Router Trap (Prevent accidental exit on Back / popstate)
   initDashboardRouter();
-
-  // 8. Initial Ping of clients
-  setTimeout(() => {
-    pingAllClients();
-  }, 1000);
 
   console.log("🚀 [ISAPromoRD] Plataforma modular v2.0 inicializada correctamente.");
 }

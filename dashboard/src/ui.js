@@ -710,7 +710,7 @@ export function initDashboardRouter() {
 
   // 2. Soporte para cambios directos de Hash en navegador
   window.addEventListener('hashchange', () => {
-    const isAuth = sessionStorage.getItem('isapromo_agency_session_auth') === 'true' || localStorage.getItem('isapromo_auth_remember') === 'true';
+    const isAuth = !document.getElementById('authLockModal')?.classList.contains('flex');
     if (!isAuth) return;
     restoreRouteFromHash();
   });
@@ -718,7 +718,7 @@ export function initDashboardRouter() {
   // 3. Manejo de navegación "Atrás / Adelante" (popstate)
   window.addEventListener('popstate', (e) => {
     // Si la sesión no está activa, no intervenir
-    const isAuth = sessionStorage.getItem('isapromo_agency_session_auth') === 'true' || localStorage.getItem('isapromo_auth_remember') === 'true';
+    const isAuth = !document.getElementById('authLockModal')?.classList.contains('flex');
     if (!isAuth) return;
 
     // 1. Si hay algún modal abierto, el botón Atrás cierra el modal y retiene la pantalla actual

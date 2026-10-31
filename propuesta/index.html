@@ -1826,49 +1826,14 @@ Deseo formalizar el inicio del proyecto y coordinar los datos de pago/anticipo c
             }
           } catch (errHist) {}
 
-          const SYSTEM_VAULT_ID = "__isapromo_system_vault__";
-          fetch(`${SUPABASE_URL}/rest/v1/agency_clients?id=eq.${SYSTEM_VAULT_ID}&select=optimization_matrix`, {
-            headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
-          }).then(r => r.ok ? r.json() : []).then(rows => {
-            let vaultMatrix = { isSystemVault: true, contracts: [], proposals: [], proposalPayloads: {}, accountingLedger: [], referrals: [] };
-            if (rows && rows[0] && rows[0].optimization_matrix) {
-              vaultMatrix = { ...vaultMatrix, ...rows[0].optimization_matrix };
-            }
-            if (!vaultMatrix.proposalPayloads) vaultMatrix.proposalPayloads = {};
-            vaultMatrix.proposalPayloads[proposal.id] = currentData;
-            if (Array.isArray(vaultMatrix.proposals)) {
-              const pIdx = vaultMatrix.proposals.findIndex(p => p && p.id === proposal.id);
-              if (pIdx !== -1) {
-                vaultMatrix.proposals[pIdx].status = "approved";
-                vaultMatrix.proposals[pIdx].approvedAt = currentData.approvedAt;
-              }
-            }
-            if (!Array.isArray(vaultMatrix.contracts)) vaultMatrix.contracts = [];
-            const cIdx = vaultMatrix.contracts.findIndex(c => c && c.id === autoContractId);
-            if (cIdx === -1) {
-              vaultMatrix.contracts.unshift(autoContract);
-            } else if (vaultMatrix.contracts[cIdx].status !== 'signed') {
-              vaultMatrix.contracts[cIdx] = autoContract;
-            }
-            vaultMatrix.updatedAt = new Date().toISOString();
-            return fetch(`${SUPABASE_URL}/rest/v1/agency_clients?on_conflict=id`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Prefer": "resolution=merge-duplicates",
-                apikey: SUPABASE_ANON_KEY,
-                Authorization: `Bearer ${SUPABASE_ANON_KEY}`
-              },
-              body: JSON.stringify({
-                id: SYSTEM_VAULT_ID,
-                name: "ISAPromoRD System Vault",
-                category: "System Vault",
-                status: "archived",
-                live_url: "",
-                optimization_matrix: vaultMatrix,
-                updated_at: new Date().toISOString()
-              })
-            });
+          fetch(`${SUPABASE_URL}/rest/v1/rpc/public_approve_proposal`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ p_id: proposal.id, p_payload: currentData, p_contract: autoContract })
           }).catch(() => {});
         }
       } catch (e) {}

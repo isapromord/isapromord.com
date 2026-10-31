@@ -4,6 +4,7 @@
  * and conversion rewards management.
  */
 import { SUPABASE_CONFIG } from './state.js';
+import { getAccessToken } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
 const STORAGE_KEY_REFERRAL_PARTNERS = "isapromo_agency_referral_partners_v1";
@@ -45,7 +46,7 @@ export async function loadReferralsData(forceSync = false) {
     const resPartners = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referrals?select=*&order=created_at.desc`, {
       headers: {
         'apikey': SUPABASE_CONFIG.anonKey,
-        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
+        'Authorization': `Bearer ${await getAccessToken()}`
       }
     });
     if (resPartners.ok) {
@@ -59,7 +60,7 @@ export async function loadReferralsData(forceSync = false) {
     const resClicks = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referral_clicks?select=*&order=created_at.desc&limit=50`, {
       headers: {
         'apikey': SUPABASE_CONFIG.anonKey,
-        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
+        'Authorization': `Bearer ${await getAccessToken()}`
       }
     });
     if (resClicks.ok) {
@@ -69,7 +70,7 @@ export async function loadReferralsData(forceSync = false) {
     const resConvs = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referral_conversions?select=*&order=created_at.desc`, {
       headers: {
         'apikey': SUPABASE_CONFIG.anonKey,
-        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`
+        'Authorization': `Bearer ${await getAccessToken()}`
       }
     });
     if (resConvs.ok) {
@@ -329,7 +330,7 @@ export async function saveNewPartner(e) {
       method: 'POST',
       headers: {
         'apikey': SUPABASE_CONFIG.anonKey,
-        'Authorization': `Bearer ${SUPABASE_CONFIG.anonKey}`,
+        'Authorization': `Bearer ${await getAccessToken()}`,
         'Content-Type': 'application/json',
         'Prefer': 'resolution=merge-duplicates'
       },

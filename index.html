@@ -2637,15 +2637,22 @@
         'pasionpecuaria': 'Pasión Pecuaria RD',
         'pasionpecuariard': 'Pasión Pecuaria RD',
         'pasion-pecuaria': 'Pasión Pecuaria RD',
-        'pasion-pecuaria-rd': 'Pasión Pecuaria RD'
+        'pasion-pecuaria-rd': 'Pasión Pecuaria RD',
+        'alveare': 'Torre La Esperilla',
+        'isatranslogic': 'IsaTransLogic',
+        'lacapra': 'La Capra Cigars',
+        'kendysastre': 'Kendy Sastre',
+        'wiseservicesrd': 'Wise Services RD'
       };
 
       const urlParams = new URLSearchParams(window.location.search);
       const rawRef = urlParams.get('ref') || urlParams.get('utm_source');
       let activeRef = null;
 
-      if (rawRef) {
-        activeRef = rawRef.toLowerCase().trim();
+      // Solo identificadores simples (letras, números y guiones); cualquier otra cosa se ignora
+      const cleanRef = rawRef ? rawRef.toLowerCase().trim() : '';
+      if (cleanRef && /^[a-z0-9-]{1,40}$/.test(cleanRef)) {
+        activeRef = cleanRef;
         localStorage.setItem('isapromo_ref', activeRef);
         localStorage.setItem('isapromo_ref_timestamp', Date.now().toString());
         // Fresh referral click: clear prior dismissal so welcome banner appears
@@ -2674,7 +2681,7 @@
         const storedRef = localStorage.getItem('isapromo_ref');
         const storedTime = parseInt(localStorage.getItem('isapromo_ref_timestamp') || '0', 10);
         const ninetyDaysMs = 90 * 24 * 60 * 60 * 1000;
-        if (storedRef && (Date.now() - storedTime < ninetyDaysMs)) {
+        if (storedRef && /^[a-z0-9-]{1,40}$/.test(storedRef) && (Date.now() - storedTime < ninetyDaysMs)) {
           activeRef = storedRef;
         }
       }
@@ -2688,18 +2695,22 @@
       };
 
       if (activeRef) {
-        const partnerName = KNOWN_PARTNERS[activeRef] || activeRef.toUpperCase();
+        const partnerName = KNOWN_PARTNERS[activeRef] || null;
         const isDismissed = localStorage.getItem("isapromo_ref_banner_dismissed") === "1";
         
         const banner = document.getElementById("referralWelcomeBanner");
         const bannerText = document.getElementById("referralBannerText");
         const bannerCta = document.getElementById("referralBannerCta");
-        if (banner && bannerText && !isDismissed) {
-          bannerText.innerHTML = `Visitando desde la web oficial de <strong>${partnerName}</strong>. ¿Deseas una plataforma con esta misma tecnología para tu negocio?`;
+        // El banner solo nombra socios conocidos y se arma con nodos de texto
+        if (banner && bannerText && partnerName && !isDismissed) {
+          const strong = document.createElement('strong');
+          strong.textContent = partnerName;
+          bannerText.replaceChildren('Visitando desde la web oficial de ', strong, '. ¿Deseas una plataforma con esta misma tecnología para tu negocio?');
           banner.classList.remove("hidden");
         }
 
-        const customWaMsg = encodeURIComponent(`Hola ISAPromoRD, vi la web de ${partnerName} y me interesa cotizar una página web o sistema similar para mi negocio.`);
+        const partnerLabel = partnerName || activeRef;
+        const customWaMsg = encodeURIComponent(`Hola ISAPromoRD, vi la web de ${partnerLabel} y me interesa cotizar una página web o sistema similar para mi negocio.`);
         const customWaUrl = `https://wa.me/18294554783?text=${customWaMsg}`;
 
         if (bannerCta) bannerCta.href = customWaUrl;
@@ -2719,7 +2730,7 @@
                 body: JSON.stringify({
                   client_slug: activeRef,
                   conversion_type: 'whatsapp_click',
-                  details: `Clic hacia WhatsApp desde landing page referido por ${partnerName}`
+                  details: `Clic hacia WhatsApp desde landing page referido por ${partnerLabel}`
                 })
               }).catch(() => {});
             } catch (err) {}

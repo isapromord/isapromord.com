@@ -447,7 +447,7 @@ export function renderClientDrilldown() {
   const statusText = document.getElementById("ddStatusText") || document.getElementById("ddUptimeStatusText");
   const latencyEl = document.getElementById("ddLatency");
   const platformPill = document.getElementById("ddPlatformPill");
-  const isOnline = client.uptimeStatus === "online" || !client.uptimeStatus;
+  const isOnline = client.uptimeStatus === "online";
   const isChecking = client.uptimeStatus === "checking";
 
   if (statusBadge && statusText) {
@@ -457,20 +457,23 @@ export function renderClientDrilldown() {
     } else if (isOnline) {
       statusBadge.className = "stitch-pill bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
       statusText.textContent = "EN LÍNEA";
+    } else if (client.uptimeStatus !== "offline") {
+      statusBadge.className = "stitch-pill bg-slate-800 text-slate-300 border border-slate-700";
+      statusText.textContent = "SIN VERIFICAR";
     } else {
       statusBadge.className = "stitch-pill bg-rose-500/10 text-rose-400 border border-rose-500/30";
       statusText.textContent = "INACCESIBLE";
     }
   }
   if (latencyEl) {
-    latencyEl.textContent = client.latencyMs ? `${client.latencyMs}ms` : "18ms";
+    latencyEl.textContent = Number(client.latencyMs) > 0 ? `${client.latencyMs}ms` : "—";
   }
   if (platformPill) {
     platformPill.textContent = detectedServer;
   }
 
   const dnsIpBadge = document.getElementById("ddDnsIpBadge");
-  if (dnsIpBadge) dnsIpBadge.textContent = client.dnsRecord || "Resolviendo DNS...";
+  if (dnsIpBadge) dnsIpBadge.textContent = client.dnsRecord || "Sin dato";
 
   const isHttps = client.liveUrl && client.liveUrl.startsWith('https');
   const sslBadge = document.getElementById("ddSslBadge");

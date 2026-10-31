@@ -615,11 +615,11 @@ export function handleGenerateProposal(e) {
   } else if (focusMode === "web") {
     customFocusTitle = "Enfoque Comercial: Plataforma Web de Alta Conversión & Velocidad";
     customFocusSubtitle = `Diseñado para proyectar la identidad de ${clientName} y maximizar conversiones directas.`;
-    customFocusBody = `Más del <strong>80% de los visitantes abandona un sitio web si tarda más de 3 segundos en cargar</strong>. Esta propuesta implementa una plataforma digital moderna, ultrarrápida (<1s) y optimizada para dispositivos móviles, diseñada para proyectar la máxima exclusividad y canalizar cada interacción directamente a compras y consultas vía WhatsApp.`;
+    customFocusBody = `Un sitio lento o difícil de usar en el celular hace que <strong>los visitantes se vayan antes de escribirte</strong>. Esta propuesta implementa una plataforma digital moderna, rápida y optimizada para dispositivos móviles, diseñada para proyectar la máxima exclusividad y canalizar cada interacción directamente a compras y consultas vía WhatsApp.`;
   } else if (focusMode === "google") {
     customFocusTitle = "Enfoque Comercial: Posicionamiento en Google & Retorno de Inversión";
     customFocusSubtitle = "Diseñado para captar clientes con alta intención de compra en República Dominicana.";
-    customFocusBody = `En República Dominicana, el <strong>92% de los usuarios de smartphones</strong> busca servicios locales en Google y el <strong>75% genera una llamada, mensaje de WhatsApp o visita en menos de 24 horas</strong>. Esta propuesta está diseñada para posicionar tu negocio en las primeras posiciones de Google Search y Google Maps, canalizando la demanda transaccional directamente hacia tu WhatsApp y equipo de ventas.`;
+    customFocusBody = `Cuando alguien en República Dominicana necesita un servicio, <strong>lo primero que hace es buscarlo en Google o en Google Maps</strong>. Esta propuesta está diseñada para que tu negocio aparezca en esas búsquedas y que cada persona interesada llegue directamente a tu WhatsApp y a tu equipo de ventas.`;
   } else if (focusMode === "crm") {
     customFocusTitle = "Enfoque Operativo: Control, Automatización & Eficiencia";
     customFocusSubtitle = `Optimización de procesos comerciales y gestión de operaciones para ${clientName}.`;

@@ -387,7 +387,7 @@
             <div id="signerMetadataBox" class="text-[11px] text-slate-600 font-mono space-y-0.5">
               <div><strong>Firmante:</strong> <span id="metaSignerName">Pendiente</span></div>
               <div><strong>Documento:</strong> <span id="metaSignerDoc">Pendiente</span></div>
-              <div id="metaHashRow" class="hidden"><strong>Hash Criptográfico:</strong> <span id="metaSignerHash" class="text-[9px] text-indigo-600 break-all">--</span></div>
+              <div id="metaHashRow" class="hidden"><strong>Huella SHA-256:</strong> <span id="metaSignerHash" class="text-[9px] text-indigo-600 break-all">--</span></div>
             </div>
 
           </div>
@@ -551,10 +551,11 @@
       }
     }
 
+    // Devuelve true solo si el servidor guardó la firma (el contrato existe y no estaba firmado)
     async function syncSignedContractToSupabase(signedContract) {
       try {
         // Solo se envía la firma; el servidor conserva precios y servicios del contrato original
-        await fetch(`${SUPABASE_URL}/rest/v1/rpc/public_sign_contract`, {
+        const resp = await fetch(`${SUPABASE_URL}/rest/v1/rpc/public_sign_contract`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -572,9 +573,18 @@
             }
           })
         });
+        return resp.ok && (await resp.json()) === true;
       } catch (err) {
         console.warn("Error sincronizando firma en la nube:", err);
+        return false;
       }
+    }
+
+    // Huella SHA-256 del contrato y la firma: permite comprobar después que el documento no cambió
+    async function computeSignatureFingerprint(payload) {
+      const bytes = new TextEncoder().encode(JSON.stringify(payload));
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, "0")).join("");
     }
 
     function saveContractLocally(c, syncCloud = true) {
@@ -678,7 +688,7 @@
 
         // Metadatos
         document.getElementById("metaSignerName").textContent = contract.signedBy || contract.clientRepresentative || "Firmado";
-        document.getElementById("metaSignerDoc").textContent = contract.signerDocId || contract.clientRnc || "Verificado";
+        document.getElementById("metaSignerDoc").textContent = contract.signerDocId || contract.clientRnc || "No indicado";
         if (contract.signatureHash) {
           document.getElementById("metaHashRow").classList.remove("hidden");
           document.getElementById("metaSignerHash").textContent = contract.signatureHash;
@@ -800,7 +810,7 @@
       // Sello de certificación 1-clic
       ctx.fillStyle = "#64748b";
       ctx.font = "9px monospace";
-      ctx.fillText("Firma Electrónica Verificada 1-Clic • ISAPromoRD", canvas.width / 2, canvas.height - 10);
+      ctx.fillText("Firma tipográfica generada en línea • ISAPromoRD", canvas.width / 2, canvas.height - 10);
 
       hasSignature = true;
       const badge = document.getElementById("signatureTypeBadge");
@@ -808,7 +818,7 @@
     }
 
     // Enviar y Registrar Firma Digital del Cliente
-    function submitClientSignature() {
+    async function submitClientSignature() {
       const signerName = document.getElementById("signerNameInput").value.trim();
       const signerDoc = document.getElementById("signerDocInput").value.trim();
       const accepted = document.getElementById("termsAcceptedCheckbox").checked;
@@ -841,29 +851,37 @@
         year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
       });
 
-      // Generar hash de verificación legal
-      const rawString = `${contract.id}-${signerName}-${signerDoc}-${timestamp}`;
-      let hash = 0;
-      for (let i = 0; i < rawString.length; i++) {
-        hash = ((hash << 5) - hash) + rawString.charCodeAt(i);
-        hash |= 0;
+      const signBtn = document.getElementById("signContractBtn");
+      if (signBtn) signBtn.disabled = true;
+
+      const { signatureData: _ignored, signatureHash: _ignoredHash, ...contractTerms } = contract;
+      const signatureHash = await computeSignatureFingerprint({
+        contract: contractTerms, signerName, signerDoc, timestamp, signature: sigBase64
+      });
+
+      const signedContract = {
+        ...contract,
+        status: "signed",
+        signedAt: friendlyDate,
+        signedBy: signerName,
+        signerDocId: signerDoc,
+        signatureData: sigBase64,
+        signatureHash
+      };
+
+      // Solo se muestra como firmado cuando el servidor lo registró
+      const saved = await syncSignedContractToSupabase(signedContract);
+      if (signBtn) signBtn.disabled = false;
+      if (!saved) {
+        alert("No pudimos registrar tu firma en este momento. Revisa tu conexión e inténtalo de nuevo, o escríbenos por WhatsApp y te ayudamos.");
+        return;
       }
-      const signatureHash = "VAL-DOM-" + Math.abs(hash).toString(16).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
 
-      contract.status = "signed";
-      contract.signedAt = friendlyDate;
-      contract.signedBy = signerName;
-      contract.signerDocId = signerDoc;
-      contract.signatureData = sigBase64;
-      contract.signatureHash = signatureHash;
-
-      // Guardar en almacenamiento local
-      saveContractLocally(contract);
-
-      // Re-renderizar
+      contract = signedContract;
+      saveContractLocally(contract, false);
       renderContractView();
 
-      alert("🎉 ¡Contrato firmado exitosamente! Tu aceptación ha sido registrada formalmente con validez legal. Ya puedes descargar tu copia en PDF.");
+      alert("🎉 ¡Contrato firmado! Tu firma quedó registrada en nuestro sistema con la fecha y hora del servidor. Ya puedes descargar tu copia en PDF.");
     }
 
     // Descarga Directa en PDF de Grado Legal
@@ -909,7 +927,7 @@
 📄 *No. Contrato:* ${contract.contractNumber}
 ✍️ *Firmado Por:* ${contract.signedBy} (Céd/RNC: ${contract.signerDocId})
 🕒 *Fecha/Hora:* ${contract.signedAt}
-🔒 *Hash de Validación:* ${contract.signatureHash}
+🔒 *Huella SHA-256 (referencia):* ${contract.signatureHash}
 
 💰 *Condiciones Financieras Acordadas (50/50):*
 • *Inversión Total Setup:* RD$ ${(contract.totalSetup || 0).toLocaleString('es-DO')}

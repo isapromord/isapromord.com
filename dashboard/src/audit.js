@@ -277,7 +277,7 @@ export async function runServicesAudit(clientId, customUrl) {
       if (!rawHtml) rawHtml = proxySettled.value;
     }
 
-    latencyMs = directPingMs > 0 && directPingMs < 2500 ? directPingMs : Math.min(380, Math.round(performance.now() - startTime));
+    latencyMs = directPingMs > 0 && directPingMs < 2500 ? directPingMs : Math.round(performance.now() - startTime);
 
     if (rawHtml && !meta) {
       const tm = rawHtml.match(/<title[^>]*>(.*?)<\/title>/i);

@@ -55,7 +55,7 @@ export async function checkUrlUptime(urlStr) {
     const elapsed = Math.round(performance.now() - start);
 
     if (dnsRes.success) {
-      return { online: true, latency: Math.max(35, elapsed), dnsStatus: 'NOERROR (Activo)', ip: dnsRes.ip, isHttps: isHttps };
+      return { online: true, latency: elapsed, dnsStatus: 'NOERROR (Activo)', ip: dnsRes.ip, isHttps: isHttps };
     }
     if (dnsRes.isNxdomain) {
       return { online: false, latency: elapsed, dnsStatus: 'NXDOMAIN (Inexistente)', ip: null, isHttps: isHttps };
@@ -68,14 +68,20 @@ export async function checkUrlUptime(urlStr) {
       await fetch(urlObj.origin, { method: 'HEAD', mode: 'no-cors', signal: directCtrl.signal });
       clearTimeout(directTid);
       const headElapsed = Math.round(performance.now() - start);
-      return { online: true, latency: Math.max(45, headElapsed), dnsStatus: 'NOERROR (HTTP Live)', ip: 'Anycast DNS', isHttps: isHttps };
+      return { online: true, latency: headElapsed, dnsStatus: 'NOERROR (HTTP Live)', ip: null, isHttps: isHttps };
     } catch(netErr) {
-      // Si el dominio está activo en la cartera oficial, reportar en línea con latencia estimada
-      return { online: true, latency: 380, dnsStatus: 'NOERROR (Edge DNS)', ip: 'Anycast CDN', isHttps: isHttps };
+      // Sin respuesta de DNS ni HTTP: no sabemos si está en línea, no lo inventamos
+      return { online: null, latency: null, dnsStatus: 'Sin respuesta (no verificado)', ip: null, isHttps: isHttps };
     }
   } catch (err) {
-    return { online: true, latency: 380, dnsStatus: 'NOERROR (Edge Cache)', ip: 'Anycast', isHttps: true };
+    return { online: null, latency: null, dnsStatus: 'Error al verificar', ip: null, isHttps: false };
   }
+}
+
+// online: true = en línea, false = caído, null = no se pudo verificar
+function uptimeStatusFrom(result) {
+  if (result.online === null) return "unknown";
+  return result.online ? "online" : "offline";
 }
 
 export async function pingSingleClient(id) {
@@ -86,8 +92,8 @@ export async function pingSingleClient(id) {
   if (window.renderClients) window.renderClients();
 
   const result = await checkUrlUptime(client.liveUrl);
-  client.uptimeStatus = result.online ? "online" : "offline";
-  client.latencyMs = result.latency || client.latencyMs || 380;
+  client.uptimeStatus = uptimeStatusFrom(result);
+  client.latencyMs = result.latency;
   client.dnsStatus = result.dnsStatus;
   client.dnsRecord = result.ip;
   if (window.renderClients) window.renderClients();
@@ -107,12 +113,16 @@ export async function pingCurrentDrilldownClient() {
   const result = await checkUrlUptime(client.liveUrl);
   if (spinner) spinner.classList.add("hidden");
 
-  client.uptimeStatus = result.online ? "online" : "offline";
-  client.latencyMs = result.latency || client.latencyMs || 380;
+  client.uptimeStatus = uptimeStatusFrom(result);
+  client.latencyMs = result.latency;
   client.dnsStatus = result.dnsStatus;
   client.dnsRecord = result.ip;
   if (window.renderClientDrilldown) window.renderClientDrilldown();
-  showToast(result.online ? `Auditoría web en vivo completada: En línea (~${result.latency}ms)` : `Atención: Fallo en resolución DNS o URL inaccesible`, result.online ? "success" : "error");
+  if (result.online === null) {
+    showToast("No se pudo verificar el sitio desde este navegador (sin respuesta). Inténtalo de nuevo.", "warning");
+  } else {
+    showToast(result.online ? `Auditoría web en vivo completada: En línea (~${result.latency}ms)` : `Atención: Fallo en resolución DNS o URL inaccesible`, result.online ? "success" : "error");
+  }
 }
 
 export async function pingAllClients() {
@@ -121,21 +131,22 @@ export async function pingAllClients() {
     if (!client.liveUrl) return;
     try {
       const res = await checkUrlUptime(client.liveUrl);
-      client.uptimeStatus = res.online ? "online" : "offline";
-      client.latencyMs = res.latency || client.latencyMs || 380;
+      client.uptimeStatus = uptimeStatusFrom(res);
+      client.latencyMs = res.latency;
       client.dnsStatus = res.dnsStatus;
       client.dnsRecord = res.ip;
     } catch(e) {
-      client.uptimeStatus = "online";
+      client.uptimeStatus = "unknown";
+      client.latencyMs = null;
     }
   }));
 
   // 2. Garantizar que ningún cliente quede en estado transitorio
   state.clients.forEach(c => {
-    if (!c.uptimeStatus || c.uptimeStatus === "checking") c.uptimeStatus = "online";
+    if (!c.uptimeStatus || c.uptimeStatus === "checking") c.uptimeStatus = "unknown";
   });
 
-  const totalProbed = state.clients.filter(c => c.liveUrl);
+  const totalProbed = state.clients.filter(c => c.liveUrl && c.uptimeStatus !== "unknown");
   const onlineProbed = totalProbed.filter(c => c.uptimeStatus === "online");
   const dnsEl = document.getElementById("telemetryDnsStatus");
   if (dnsEl && totalProbed.length > 0) {

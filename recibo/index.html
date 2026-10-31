@@ -156,7 +156,7 @@
           </div>
           <div class="flex items-center justify-between sm:justify-end gap-3 text-xs">
             <span class="text-slate-500 font-sans">Estado del Pago:</span>
-            <span id="receiptStatusSeal" class="font-black text-emerald-700 uppercase tracking-wider">● PAGADO / VALIDADO</span>
+            <span id="receiptStatusSeal" class="font-black text-emerald-700 uppercase tracking-wider">● EMITIDO POR ISAPROMORD</span>
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Método de Pago:</span>
           <strong id="receiptMethod" class="text-slate-900 font-semibold">Transferencia Bancaria</strong>
         </div>
-        <div>
+        <div id="receiptBankCell">
           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Banco Receptor:</span>
           <strong id="receiptBank" class="text-slate-900 font-semibold">Banco Popular Dominicano</strong>
         </div>
@@ -247,7 +247,7 @@
       <!-- 6. TÉRMINOS, CONDICIONES Y FIRMAS -->
       <div class="pt-4 border-t border-slate-200 space-y-4 text-xs text-slate-600">
         <p class="text-[11px] leading-relaxed text-slate-500">
-          Este recibo digital certifica la recepción conforme del pago especificado. Los fondos han sido conciliados en las cuentas oficiales de ISAPromoRD. Este documento sirve como prueba formal de pago comercial para todos los fines de lugar entre las partes.
+          Este recibo se genera a partir de un enlace emitido por ISAPromoRD. Para confirmar que es auténtico, escríbenos por WhatsApp al +1 (829) 455-4783 con el número de recibo y lo verificamos contra nuestros registros contables.
         </p>
 
         <div class="grid grid-cols-2 gap-8 pt-4">
@@ -301,12 +301,14 @@
       const client = urlParams.get('cliente') || urlParams.get('client') || "Cliente Estimado";
       const category = urlParams.get('cat') || urlParams.get('categoria') || "Servicios Comerciales";
       const type = (urlParams.get('tipo') || urlParams.get('type') || 'anticipo').toLowerCase();
-      const amount = Number(urlParams.get('monto') || urlParams.get('amount') || 15000);
+      // Sin número de recibo o monto en el enlace, la página solo muestra un ejemplo
+      const isSample = !urlParams.get('id') || !(urlParams.get('monto') || urlParams.get('amount'));
+      const amount = Number(urlParams.get('monto') || urlParams.get('amount') || 15000) || 0;
       const totalSetup = Number(urlParams.get('setup') || (amount * 2));
       const monthly = Number(urlParams.get('mensual') || urlParams.get('monthly') || 0);
       const method = urlParams.get('metodo') || "Transferencia Bancaria";
-      const bank = urlParams.get('banco') || "Banco Popular Dominicano";
-      const ref = urlParams.get('ref') || urlParams.get('comprobante') || "REF-" + Math.floor(100000 + Math.random() * 900000);
+      const bank = urlParams.get('banco') || "";
+      const ref = urlParams.get('ref') || urlParams.get('comprobante') || "No indicada";
       const date = urlParams.get('fecha') || urlParams.get('date') || new Date().toLocaleDateString('es-DO', { year: 'numeric', month: 'long', day: 'numeric' });
       const customConcept = urlParams.get('concepto');
       const period = urlParams.get('periodo');
@@ -333,7 +335,8 @@
         reference: ref,
         date,
         customConcept,
-        period
+        period,
+        isSample
       };
     }
 
@@ -348,6 +351,13 @@
       document.getElementById("receiptAmountTable").textContent = `RD$ ${receiptData.amount.toLocaleString('es-DO')}`;
       document.getElementById("receiptMethod").textContent = receiptData.method;
       document.getElementById("receiptBank").textContent = receiptData.bank;
+      document.getElementById("receiptBankCell").classList.toggle("hidden", !receiptData.bank);
+
+      const seal = document.getElementById("receiptStatusSeal");
+      if (receiptData.isSample) {
+        seal.textContent = "● EJEMPLO — SIN VALOR";
+        seal.className = "font-black text-amber-700 uppercase tracking-wider";
+      }
       document.getElementById("receiptReference").textContent = receiptData.reference;
 
       const badgeText = document.getElementById("receiptBadgeText");
@@ -438,7 +448,7 @@
 Hola *${receiptData.client}*, hemos confirmado y asentado con éxito su pago de *RD$ ${receiptData.amount.toLocaleString('es-DO')}* correspondiente a *${typeLabel}*.
 
 📄 *No. Recibo:* ${receiptData.id}
-💳 *Método:* ${receiptData.method} (${receiptData.bank})
+💳 *Método:* ${receiptData.method}${receiptData.bank ? ` (${receiptData.bank})` : ''}
 🔢 *Referencia:* ${receiptData.reference}
 📅 *Fecha:* ${receiptData.date}
 

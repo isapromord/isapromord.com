@@ -7,6 +7,21 @@ import { state, STORAGE_KEYS } from './state.js';
 import { saveClientsToStorage, syncClientToCloud, deleteClientFromCloud, recordDeletedClientId } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis, renderClientAvatarPills } from './ui.js';
 import { pingSingleClient } from './uptime.js';
+
+// Solo enlaces http(s); cualquier otro esquema (javascript:, data:) se anula.
+function safeHref(url) {
+  try {
+    const raw = String(url || '').trim();
+    const parsed = new URL(/^[a-z][a-z0-9+.-]*:/i.test(raw) ? raw : 'https://' + raw);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.href : '#';
+  } catch (e) {
+    return '#';
+  }
+}
+
+function safeUrl(url) {
+  return escapeHtml(safeHref(url));
+}
 import { getClientProposal } from './proposals.js';
 
 let currentDrawerClientId = null;
@@ -142,7 +157,9 @@ export function renderClients(clientsToRender = state.clients) {
       ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Offline</span>`
       : (client.uptimeStatus === "checking" 
           ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-400 animate-ping"></span>Verificando</span>`
-          : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${client.latencyMs || '380'}ms</span>`);
+          : (client.uptimeStatus === "online"
+              ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>${Number(client.latencyMs) > 0 ? Number(client.latencyMs) + 'ms' : 'En línea'}</span>`
+              : `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono text-slate-400 bg-slate-800/60 border border-slate-700/60" title="Aún no se ha verificado este sitio"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Sin verificar</span>`));
 
     const healthBadgeBg = score >= 85 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : (score >= 60 ? "bg-amber-500/10 text-amber-400 border-amber-500/20" : "bg-rose-500/10 text-rose-400 border-rose-500/20");
     const isInternal = Boolean(client.isInternal || client.setupStatus === 'internal');
@@ -198,7 +215,7 @@ export function renderClients(clientsToRender = state.clients) {
             <!-- Enlace Web & Uptime -->
             <div class="flex items-center justify-between gap-2 py-2 border-y border-white/[0.04] mb-3 text-xs font-mono">
               <a 
-                href="${client.liveUrl}" 
+                href="${safeUrl(client.liveUrl)}" 
                 target="_blank" 
                 class="text-cyan-400/80 hover:text-cyan-300 hover:underline truncate"
                 title="Visitar web oficial"
@@ -308,7 +325,7 @@ export function renderClients(clientsToRender = state.clients) {
               </div>
               <div class="flex items-center gap-2 text-xs font-mono text-slate-400 truncate">
                 <a 
-                  href="${client.liveUrl}" 
+                  href="${safeUrl(client.liveUrl)}" 
                   target="_blank" 
                   onclick="event.stopPropagation()" 
                   class="text-cyan-400/70 hover:text-cyan-300 hover:underline truncate"
@@ -429,9 +446,9 @@ export function renderClients(clientsToRender = state.clients) {
             <div class="p-3.5 rounded-lg bg-[#080d19] border border-slate-800 space-y-2 text-xs">
               <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">☁️ Infraestructura Web</span>
               <div class="font-bold text-cyan-300 truncate">${escapeHtml(client.platform || 'Hosting Cloud')}</div>
-              <div class="text-slate-400 font-mono text-[11px]">Latencia Anycast: <strong class="text-emerald-400">${client.latencyMs || '380'} ms</strong></div>
+              <div class="text-slate-400 font-mono text-[11px]">Latencia medida: <strong class="text-emerald-400">${Number(client.latencyMs) > 0 ? Number(client.latencyMs) + ' ms' : 'sin medir'}</strong></div>
               ${client.repoUrl ? `
-                <a href="${client.repoUrl}" target="_blank" onclick="event.stopPropagation()" class="text-slate-400 hover:text-cyan-300 text-[11px] font-mono underline block truncate">
+                <a href="${safeUrl(client.repoUrl)}" target="_blank" onclick="event.stopPropagation()" class="text-slate-400 hover:text-cyan-300 text-[11px] font-mono underline block truncate">
                   🐙 Repo GitHub ↗
                 </a>
               ` : ''}
@@ -1043,7 +1060,7 @@ export function saveClient(e) {
       }
     } else {
     let initialScore = 70;
-    let initialLatency = 350;
+    let initialLatency = null;
     let initialTasks = [
       {
         id: 1,
@@ -1142,7 +1159,7 @@ export function saveClient(e) {
         ai: "60%"
       },
       tasks: initialTasks,
-      uptimeStatus: "online"
+      uptimeStatus: "unknown"
     });
   }
 
@@ -1248,12 +1265,12 @@ export function openClientDrawer(clientId, forceModal = false) {
   const visitBtn = document.getElementById("drawerVisitWebBtn");
   if (client.liveUrl) {
     if (linkEl) {
-      linkEl.href = client.liveUrl;
+      linkEl.href = safeHref(client.liveUrl);
       linkEl.textContent = client.liveUrl.replace(/^https?:\/\//, '');
       linkEl.onclick = null;
     }
     if (visitBtn) {
-      visitBtn.href = client.liveUrl;
+      visitBtn.href = safeHref(client.liveUrl);
       visitBtn.onclick = null;
       visitBtn.title = 'Visitar ' + client.liveUrl;
     }
@@ -1528,7 +1545,7 @@ export function renderDrawerContent() {
           ${client.repoUrl ? `
             <div class="pt-2 border-t border-slate-800">
               <span class="text-slate-400 block text-[11px]">Repositorio GitHub:</span>
-              <a href="${client.repoUrl}" target="_blank" class="font-mono text-cyan-400 hover:underline">
+              <a href="${safeUrl(client.repoUrl)}" target="_blank" class="font-mono text-cyan-400 hover:underline">
                 ${escapeHtml(client.repoUrl)}
               </a>
             </div>

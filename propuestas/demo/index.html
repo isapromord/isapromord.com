@@ -214,7 +214,7 @@
         </div>
       </div>
       <p class="text-sm text-slate-600 leading-relaxed">
-        En República Dominicana, el <strong>92% de los usuarios de smartphones</strong> busca servicios locales en Google y el <strong>75% genera una llamada, mensaje de WhatsApp o visita en menos de 24 horas</strong>. Esta propuesta está diseñada para posicionar tu negocio en las primeras posiciones de Google Search y Google Maps, canalizando la demanda transaccional directamente hacia tu WhatsApp y equipo de ventas.
+        Cuando alguien en República Dominicana necesita un servicio, <strong>lo primero que hace es buscarlo en Google o en Google Maps</strong>. Esta propuesta está diseñada para que tu negocio aparezca en esas búsquedas y que cada persona interesada llegue directamente a tu WhatsApp y a tu equipo de ventas.
       </p>
     </div>
 
@@ -942,10 +942,10 @@
             <div class="flex items-start justify-between gap-2 py-1.5 border-b border-slate-50 last:border-b-0">
               <div class="flex items-start gap-2">
                 <span class="text-emerald-500 font-bold mt-0.5">•</span>
-                <span class="text-slate-800 font-medium">${s.name}</span>
+                <span class="text-slate-800 font-medium">${escapeHtml(s.name)}</span>
               </div>
               <div class="text-right shrink-0">
-                <span class="font-bold text-slate-900">RD$ ${(s.price || 0).toLocaleString('es-DO')}</span>
+                <span class="font-bold text-slate-900">RD$ ${(Number(s.price) || 0).toLocaleString('es-DO')}</span>
                 <span class="text-[10px] text-slate-400 block">${s.type === 'monthly' ? '/ mes' : 'único'}</span>
               </div>
             </div>
@@ -968,7 +968,7 @@
           delivEl.innerHTML = (pkg.deliverables || []).map(d => `
             <div class="flex items-start gap-2">
               <svg class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-              <span>${d}</span>
+              <span>${escapeHtml(d)}</span>
             </div>
           `).join('');
         }
@@ -980,8 +980,8 @@
         document.getElementById("compPackageMonthlyPrice").textContent = `RD$ ${pkgMonthly.toLocaleString('es-DO')} / mes`;
 
         // 3. Renderizar Banner de Ahorro
-        const savingsSetup = proposal.savings ? proposal.savings.setup : Math.max(0, alacarteSetup - pkgSetup);
-        const savingsMonthly = proposal.savings ? proposal.savings.monthly : Math.max(0, alacarteMonthly - pkgMonthly);
+        const savingsSetup = proposal.savings ? Number(proposal.savings.setup) || 0 : Math.max(0, alacarteSetup - pkgSetup);
+        const savingsMonthly = proposal.savings ? Number(proposal.savings.monthly) || 0 : Math.max(0, alacarteMonthly - pkgMonthly);
         const bannerEl = document.getElementById("compSavingsBanner");
 
         if (savingsSetup > 0 || savingsMonthly > 0) {
@@ -1021,7 +1021,7 @@
           document.getElementById("basePackageDesc").textContent = bp.description || "";
           
           if (bp.monthlyPrice) {
-            document.getElementById("basePackagePrice").innerHTML = `RD$ ${(bp.price || 0).toLocaleString('es-DO')} <span class="text-xs font-normal text-slate-500">+ RD$ ${(bp.monthlyPrice || 0).toLocaleString('es-DO')}/mes</span>`;
+            document.getElementById("basePackagePrice").innerHTML = `RD$ ${(Number(bp.price) || 0).toLocaleString('es-DO')} <span class="text-xs font-normal text-slate-500">+ RD$ ${(Number(bp.monthlyPrice) || 0).toLocaleString('es-DO')}/mes</span>`;
             document.getElementById("basePackageType").textContent = "Inversión Setup + Retainer Mensual";
           } else {
             document.getElementById("basePackagePrice").textContent = `RD$ ${(bp.price || 0).toLocaleString('es-DO')}`;
@@ -1032,7 +1032,7 @@
           delivEl.innerHTML = (bp.deliverables || []).map(d => `
             <div class="flex items-start gap-2">
               <svg class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-              <span>${d}</span>
+              <span>${escapeHtml(d)}</span>
             </div>
           `).join('');
         }
@@ -1063,22 +1063,22 @@
                 <div class="flex items-start gap-3.5 flex-1">
                   <input 
                     type="checkbox" 
-                    id="addon_${addon.id}" 
+                    id="addon_${escapeHtml(addon.id)}" 
                     ${addon.checked !== false ? 'checked' : ''} 
                     onchange="toggleAddon(${index})" 
                     class="mt-1 w-5 h-5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 transition-colors cursor-pointer"
                   />
                   <div class="space-y-1">
                     <div class="flex flex-wrap items-center gap-2">
-                      <span class="text-sm font-bold text-slate-900 group-hover:text-brand-600 transition-colors">${addon.name}</span>
+                      <span class="text-sm font-bold text-slate-900 group-hover:text-brand-600 transition-colors">${escapeHtml(addon.name)}</span>
                       ${typeBadge}
                       ${addon.popular ? '<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-wider">Más Elegido</span>' : ''}
                     </div>
-                    <p class="text-xs text-slate-500 leading-relaxed">${addon.description}</p>
+                    <p class="text-xs text-slate-500 leading-relaxed">${escapeHtml(addon.description)}</p>
                   </div>
                 </div>
                 <div class="text-left sm:text-right shrink-0 pl-8 sm:pl-0">
-                  <div class="text-lg font-black text-slate-900">RD$ ${addon.price.toLocaleString('es-DO')}</div>
+                  <div class="text-lg font-black text-slate-900">RD$ ${(Number(addon.price) || 0).toLocaleString('es-DO')}</div>
                   <span class="text-[11px] text-slate-400 font-medium">${addon.type === "monthly" ? '/ mes' : 'pago único'}</span>
                 </div>
               </label>
@@ -1088,6 +1088,11 @@
 
         recalculateTotals();
       }
+    }
+
+    // Los datos de la propuesta llegan en la URL: todo texto se escapa antes de usar innerHTML.
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
     }
 
     // ==========================================

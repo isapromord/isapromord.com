@@ -478,7 +478,7 @@ export function renderClientDrilldown() {
   const isHttps = client.liveUrl && client.liveUrl.startsWith('https');
   const sslBadge = document.getElementById("ddSslBadge");
   if (sslBadge) {
-    sslBadge.textContent = isHttps ? "HTTPS TLS 1.3" : "HTTP (Inseguro)";
+    sslBadge.textContent = isHttps ? "HTTPS" : "HTTP (Inseguro)";
     sslBadge.className = isHttps ? "text-emerald-400 font-bold text-[11px] block" : "text-amber-400 font-bold text-[11px] block";
   }
 

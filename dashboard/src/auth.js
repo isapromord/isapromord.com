@@ -11,12 +11,21 @@ import { showToast } from './ui.js';
 let onUnlockedCallback = null;
 let unlocked = false;
 
+// Mientras el acceso está bloqueado, el resto de la página no recibe foco ni lectores de pantalla
+function setPageBehindLockInert(isInert) {
+  const modal = document.getElementById("authLockModal");
+  Array.from(document.body.children).forEach(el => {
+    if (el !== modal && el.tagName !== "SCRIPT") el.inert = isInert;
+  });
+}
+
 function showLockModal() {
   const modal = document.getElementById("authLockModal");
   if (modal) {
     modal.classList.remove("hidden");
     modal.classList.add("flex");
   }
+  setPageBehindLockInert(true);
   const sidebar = document.getElementById("stitchSidebar");
   if (sidebar) sidebar.classList.add("!hidden");
   const mobileNav = document.getElementById("mobileBottomNav");
@@ -83,6 +92,7 @@ export function unlockDashboardModal() {
     modal.classList.add("hidden");
     modal.classList.remove("flex");
   }
+  setPageBehindLockInert(false);
 
   const sidebar = document.getElementById("stitchSidebar");
   if (sidebar) sidebar.classList.remove("!hidden");

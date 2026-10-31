@@ -496,7 +496,7 @@
     </div>
     <div class="text-sm">
       <div class="font-bold text-slate-100 flex items-center gap-1.5">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Proyecto realizado ·</span>
         <span id="toastBiz">Pasión Pecuaria RD</span>
       </div>
       <div class="text-slate-300 mt-0.5 text-xs sm:text-sm" id="toastAction">Web con catálogo y pedidos por WhatsApp</div>
@@ -2669,11 +2669,11 @@
             },
             body: JSON.stringify({
               client_slug: activeRef,
-              referrer_url: document.referrer || '',
+              // Solo el sitio de origen, sin la ruta completa ni datos del navegador
+              referrer_url: (() => { try { return document.referrer ? new URL(document.referrer).origin : ''; } catch (e) { return ''; } })(),
               utm_source: urlParams.get('utm_source') || activeRef,
               utm_medium: urlParams.get('utm_medium') || 'client_footer',
-              utm_campaign: urlParams.get('utm_campaign') || 'referral_badge',
-              user_agent: navigator.userAgent
+              utm_campaign: urlParams.get('utm_campaign') || 'referral_badge'
             })
           }).catch(() => {});
         } catch (e) {}

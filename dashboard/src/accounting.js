@@ -25,6 +25,7 @@ export function saveBankDetails() {
   const input = document.getElementById("bankDetailsInput");
   if (input) {
     localStorage.setItem(STORAGE_KEYS.bank, input.value.trim());
+    syncVaultToCloud();
     const msg = document.getElementById("bankSuccessMsg");
     if (msg) {
       msg.classList.remove("hidden");

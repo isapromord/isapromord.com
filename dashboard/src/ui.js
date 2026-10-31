@@ -183,11 +183,11 @@ export async function updateEdgePing() {
   if (!pingEl) return;
   const t0 = performance.now();
   try {
-    await fetch(SUPABASE_CONFIG.url + '/rest/v1/', { method: 'HEAD', headers: { apikey: SUPABASE_CONFIG.anonKey } });
-    const ms = Math.max(14, Math.round(performance.now() - t0));
+    await fetch(SUPABASE_CONFIG.url + '/auth/v1/health', { headers: { apikey: SUPABASE_CONFIG.anonKey } });
+    const ms = Math.round(performance.now() - t0);
     pingEl.textContent = ms + 'ms';
   } catch (e) {
-    pingEl.textContent = '19ms';
+    pingEl.textContent = 'sin conexión';
   }
 }
 

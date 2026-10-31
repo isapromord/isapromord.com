@@ -946,7 +946,7 @@
   <!-- ========================================================
        MODAL DE AUTENTICACIÓN / ENTERPRISE MULTI-AUTH
        ======================================================== -->
-  <div id="authLockModal" class="fixed inset-0 z-[9999] bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
+  <div id="authLockModal" role="dialog" aria-modal="true" aria-labelledby="authLockTitle" class="fixed inset-0 z-[9999] bg-[#0a0e17]/95 backdrop-blur-xl flex items-center justify-center p-4 transition-opacity duration-300">
     <div class="bg-[#121824] rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-[#222f46] text-center relative overflow-hidden animate-in fade-in zoom-in-95 duration-200">
       
       <!-- Ambient Glow Decorator -->
@@ -958,7 +958,7 @@
           <img src="../assets/logo_icon.png" alt="ISAPromoRD" class="w-9 h-9 object-contain" />
         </div>
       </a>
-      <h2 class="text-xl font-black text-white mb-0.5">ISAPromoRD Admin</h2>
+      <h2 id="authLockTitle" class="text-xl font-black text-white mb-0.5">ISAPromoRD Admin</h2>
       <p class="text-xs text-slate-400 mb-5">Centro de Control & Gestión de Clientes</p>
 
       <!-- MODO 2: GOOGLE & CORREO SUPABASE -->
@@ -2860,7 +2860,7 @@
   <!-- ========================================================
        MODAL: CREAR / EDITAR CLIENTE
        ======================================================== -->
-  <div id="clientModal" class="fixed inset-0 z-[99999] bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="clientModal" role="dialog" aria-modal="true" class="fixed inset-0 z-[99999] bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl border border-white/10 max-w-2xl w-full shadow-2xl my-auto flex flex-col max-h-[92vh] text-slate-200 overflow-hidden">
       
       <!-- Header Fijo (Siempre visible al tope) -->
@@ -3090,7 +3090,7 @@
   <!-- ========================================================
        MODAL: GENERADOR DE REPORTE WHATSAPP
        ======================================================== -->
-  <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="reportModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 sm:p-7 pb-4 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3130,7 +3130,7 @@
   <!-- ========================================================
        MODAL: CENTRO DE COBROS, RECORDATORIOS Y RECIBOS (WHATSAPP)
        ======================================================== -->
-  <div id="billingNoticeModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="billingNoticeModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-xl w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 sm:p-7 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3228,7 +3228,7 @@
   <!-- ========================================================
        DRAWER LATERAL: MISSION CONTROL DEL CLIENTE (SLIDE-OVER)
        ======================================================== -->
-  <div id="clientDrawerModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden justify-end transition-opacity" onclick="handleDrawerBackdropClick(event)">
+  <div id="clientDrawerModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden justify-end transition-opacity" onclick="handleDrawerBackdropClick(event)">
     <div class="w-full max-w-2xl sm:max-w-3xl bg-[#090d16] border-l border-white/[0.08] h-full flex flex-col shadow-2xl overflow-hidden transform transition-transform duration-300 translate-x-full backdrop-blur-xl" id="clientDrawerPanel">
       
       <!-- Drawer Header -->
@@ -3305,7 +3305,7 @@
   <!-- ========================================================
        MODAL: GESTIÓN DE ROADMAP & VINCULACIÓN DE PROPUESTAS
        ======================================================== -->
-  <div id="roadmapManagementModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="roadmapManagementModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0c1322] border border-cyan-500/30 rounded-xl max-w-3xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
       
       <!-- Modal Header -->
@@ -3463,7 +3463,7 @@
   <!-- ========================================================
        MODAL: AUDITORÍA 360° DE TODOS LOS SERVICIOS ISAPROMORD
        ======================================================== -->
-  <div id="servicesAuditModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="servicesAuditModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0c1322] border border-slate-700/80 rounded-lg max-w-4xl w-full shadow-2xl overflow-hidden my-auto flex flex-col max-h-[92vh]">
       
       <!-- Header -->
@@ -3671,7 +3671,7 @@
   <!-- ========================================================
        MODAL: CATÁLOGO MAESTRO GLOBAL DE PRECIOS
        ======================================================== -->
-  <div id="masterCatalogModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+  <div id="masterCatalogModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-4xl w-full shadow-2xl border border-white/10 my-auto flex flex-col max-h-[92vh] overflow-hidden text-slate-200">
       
       <!-- Header -->
@@ -3716,7 +3716,7 @@
   <!-- ========================================================
        MODAL: BACKUP & CONFIGURACIÓN PIN
        ======================================================== -->
-  <div id="backupModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="backupModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-md w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 pb-4 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3776,7 +3776,7 @@
   <!-- ========================================================
        MODAL: PROPUESTA GENERADA EXITOSAMENTE
        ======================================================== -->
-  <div id="proposalResultModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="proposalResultModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 sm:p-7 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3853,7 +3853,7 @@
   <!-- ========================================================
        MODAL: SNIPPET DE FOOTER PARA CLIENTE
        ======================================================== -->
-  <div id="partnerSnippetModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="partnerSnippetModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-xl w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3910,7 +3910,7 @@
   <!-- ========================================================
        MODAL: GENERADOR DE ARCHIVOS SATÉLITE & PROTOCOLOS
        ======================================================== -->
-  <div id="satelliteGeneratorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="satelliteGeneratorModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-2xl w-full shadow-2xl border border-white/10 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200">
       <!-- HEADER (PINNED) -->
       <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -3986,7 +3986,7 @@
   <!-- ========================================================
        MODAL: REGISTRAR NUEVO PARTNER DE REFERIDOS
        ======================================================== -->
-  <div id="newPartnerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+  <div id="newPartnerModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-md w-full shadow-2xl border border-white/10 text-slate-200 my-auto max-h-[92vh] flex flex-col overflow-hidden">
       <!-- HEADER (PINNED) -->
       <div class="p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -4039,7 +4039,7 @@
   <!-- ========================================================
        MODAL: ESTRATEGIA COMERCIAL & PITCH ZOOM DE LOS 7 PILARES
        ======================================================== -->
-  <div id="pillarZoomPitchModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="pillarZoomPitchModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-2xl max-w-2xl w-full shadow-2xl border border-cyan-500/30 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200 relative animate-in fade-in duration-200">
       
       <!-- HEADER (PINNED) -->
@@ -4128,7 +4128,7 @@
   <!-- ========================================================
        MODAL: REGISTRAR COBRO / ENTRADA MANUAL (O EDITAR TRANSACCIÓN)
        ======================================================== -->
-  <div id="manualTransactionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="manualTransactionModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl max-w-lg w-full shadow-2xl border border-white/10 my-auto max-h-[92vh] flex flex-col overflow-hidden text-slate-200">
       <!-- HEADER (PINNED) -->
       <div class="p-5 sm:p-6 pb-3 border-b border-white/10 shrink-0 bg-[#0b0f17] flex items-center justify-between">
@@ -4233,7 +4233,7 @@
   <!-- ========================================================
        MODAL: EDITOR Y GENERADOR DE CONTRATO FORMAL (50/50)
        ======================================================== -->
-  <div id="contractEditorModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="contractEditorModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-[#0b0f17] rounded-xl p-5 sm:p-6 w-full max-w-6xl xl:max-w-7xl shadow-2xl border border-white/10 my-auto max-h-[96vh] flex flex-col space-y-3.5 text-slate-200">
       
       <!-- Encabezado del Modal -->
@@ -4378,7 +4378,7 @@
        MODAL GENERADOR DE PLACAS INTELIGENTES NFC & CÓDIGOS QR
        (Diseño Obsidian Cyber Luxe con previsualización en vivo)
        ======================================================== -->
-  <div id="nfcGeneratorModal" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
+  <div id="nfcGeneratorModal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 bg-[#0a0e17]/95 backdrop-blur-xl hidden items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="stitch-card bg-[#0f172a] rounded-xl max-w-2xl w-full border border-cyan-500/30 shadow-[0_20px_70px_-15px_rgba(0,210,255,0.25)] overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
       
       <!-- Modal Header (PINNED) -->

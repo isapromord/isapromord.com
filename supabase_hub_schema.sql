@@ -206,14 +206,16 @@ BEGIN
   v_matrix := jsonb_set(v_matrix, '{proposalPayloads}',
     coalesce(v_matrix -> 'proposalPayloads', '{}'::jsonb) || jsonb_build_object(p_id, p_payload));
 
+  -- Solo se aprueban propuestas que la agencia creó desde el panel
   v_props := coalesce(v_matrix -> 'proposals', '[]'::jsonb);
   SELECT i - 1 INTO v_idx FROM jsonb_array_elements(v_props) WITH ORDINALITY AS t(e, i)
   WHERE e ->> 'id' = p_id LIMIT 1;
-  IF v_idx IS NOT NULL THEN
-    v_props := jsonb_set(v_props, ARRAY[v_idx::text],
-      (v_props -> v_idx) || jsonb_build_object('status', 'approved', 'approvedAt', p_payload ->> 'approvedAt'));
-    v_matrix := jsonb_set(v_matrix, '{proposals}', v_props);
+  IF v_idx IS NULL THEN
+    RETURN FALSE;
   END IF;
+  v_props := jsonb_set(v_props, ARRAY[v_idx::text],
+    (v_props -> v_idx) || jsonb_build_object('status', 'approved', 'approvedAt', p_payload ->> 'approvedAt'));
+  v_matrix := jsonb_set(v_matrix, '{proposals}', v_props);
 
   v_contracts := coalesce(v_matrix -> 'contracts', '[]'::jsonb);
   IF p_contract ? 'id' AND NOT EXISTS (
@@ -230,14 +232,30 @@ BEGIN
 END;
 $$;
 
+-- 1.6 Propuesta pública: leer los textos de una propuesta creada en el panel (los mismos datos que lleva su enlace)
+CREATE OR REPLACE FUNCTION public.public_get_proposal(p_id TEXT)
+RETURNS JSONB
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public
+AS $$
+  SELECT v.optimization_matrix -> 'proposalPayloads' -> p_id
+  FROM public.agency_clients v
+  WHERE v.id = '__isapromo_system_vault__'
+    AND EXISTS (
+      SELECT 1 FROM jsonb_array_elements(coalesce(v.optimization_matrix -> 'proposals', '[]'::jsonb)) e
+      WHERE e ->> 'id' = p_id
+    );
+$$;
+
 REVOKE ALL ON FUNCTION public.public_submit_lead(TEXT, TEXT) FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.public_get_contract(TEXT) FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.public_sign_contract(TEXT, JSONB) FROM PUBLIC;
 REVOKE ALL ON FUNCTION public.public_approve_proposal(TEXT, JSONB, JSONB) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.public_get_proposal(TEXT) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.public_submit_lead(TEXT, TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.public_get_contract(TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.public_sign_contract(TEXT, JSONB) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.public_approve_proposal(TEXT, JSONB, JSONB) TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.public_get_proposal(TEXT) TO anon, authenticated;
 GRANT EXECUTE ON FUNCTION public.is_isapromo_admin() TO anon, authenticated;
 
 

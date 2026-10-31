@@ -1039,13 +1039,15 @@
     async function hydrateProposalFromCloud(propId) {
       if (!propId) return;
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/agency_proposals?id=eq.${encodeURIComponent(propId)}&select=payload`, {
-          headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/public_get_proposal`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+          body: JSON.stringify({ p_id: propId })
         });
         if (!res.ok) return;
-        const rows = await res.json();
-        if (rows && rows.length > 0 && rows[0].payload) {
-          proposal = { ...proposal, ...rows[0].payload };
+        const payload = await res.json();
+        if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+          proposal = { ...proposal, ...payload };
           try {
             localStorage.setItem(`proposal_${propId}`, JSON.stringify(proposal));
           } catch (e) {}

@@ -405,10 +405,14 @@ export async function syncAllClientsToCloud() {
   }
 }
 
+// La bóveda se reescribe completa: no se sube hasta haber leído la copia de la nube,
+// para que un navegador nuevo (vacío) no borre contratos y propuestas guardados.
+let vaultHydrated = false;
+
 // Sincronizar Bóveda del Sistema (Contratos 50/50, Propuestas, Libro Contable CFO y Partners) en Supabase
 export async function syncVaultToCloud() {
   const sb = getSupabaseClient();
-  if (!sb) return false;
+  if (!sb || !vaultHydrated) return false;
 
   try {
     const contracts = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTRACTS) || "[]");
@@ -441,12 +445,18 @@ export async function syncVaultToCloud() {
         proposals,
         proposalPayloads,
         accountingLedger,
-        referrals
+        referrals,
+        bankDetails: localStorage.getItem(STORAGE_KEYS.BANK) || null
       },
       updated_at: new Date().toISOString()
     };
 
-    await sb.from(SUPABASE_CONFIG.TABLE_CLIENTS).upsert(vaultRow, { onConflict: "id" });
+    const { error } = await sb.from(SUPABASE_CONFIG.TABLE_CLIENTS).upsert(vaultRow, { onConflict: "id" });
+    if (error) {
+      console.warn("[Sync] syncVaultToCloud error:", error);
+      updateCloudSyncBadge("error", "⚠️ Contratos/propuestas sin respaldar");
+      return false;
+    }
     return true;
   } catch (e) {
     console.warn("[Sync] syncVaultToCloud warning:", e);
@@ -531,7 +541,12 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
     hasChanges = true;
   }
 
-  // 4. Merge Referrals
+  // 4. Datos bancarios (la copia de la nube es la vigente)
+  if (typeof remoteVaultMatrix.bankDetails === "string" && remoteVaultMatrix.bankDetails.trim()) {
+    localStorage.setItem(STORAGE_KEYS.BANK, remoteVaultMatrix.bankDetails);
+  }
+
+  // 5. Merge Referrals
   if (Array.isArray(remoteVaultMatrix.referrals) && remoteVaultMatrix.referrals.length > 0) {
     const localRefs = JSON.parse(localStorage.getItem(STORAGE_KEYS.REFERRALS) || "[]");
     const refMap = new Map();
@@ -571,6 +586,7 @@ export async function initCloudSync(renderCallback) {
 
       // Extraer y sincronizar Bóveda del Sistema (Contratos, Propuestas, CFO, Referidos)
       const vaultRow = data.find(r => r.id === SYSTEM_VAULT_ID);
+      vaultHydrated = true;
       if (vaultRow && vaultRow.optimization_matrix) {
         mergeSystemVaultFromRemote(vaultRow.optimization_matrix);
         if (window.renderProposalsHistory) window.renderProposalsHistory();
@@ -656,33 +672,6 @@ export async function initCloudSync(renderCallback) {
         finalMerged.push(c);
       });
 
-      // Reconciliar con INITIAL_CLIENTS para asegurar que cualquier activo interno de la agencia nunca se descalifique por datos antiguos de Supabase,
-      // y que los clientes canónicos respeten la realidad financiera exacta
-      finalMerged.forEach(c => {
-        const initMatch = INITIAL_CLIENTS.find(initC => initC.id === c.id || (initC.liveUrl && c.liveUrl && normalizeUrlKey(initC.liveUrl) === normalizeUrlKey(c.liveUrl)));
-        if (initMatch) {
-          if (initMatch.isInternal) {
-            c.isInternal = true;
-            c.setupPrice = 0;
-            c.setupStatus = 'internal';
-            c.fee = 'RD$ 0 / mes';
-          } else if (initMatch.id === 'client-lacapra') {
-            c.setupPrice = 24000;
-            c.setupStatus = 'deposit_paid';
-            c.fee = 'RD$ 0 / mes';
-          } else if (initMatch.id === 'client-pasion-pecuaria') {
-            c.setupPrice = 30000;
-            c.setupStatus = 'pending';
-            c.fee = 'RD$ 0 / mes';
-          } else if (initMatch.id === 'client-kendysastre' || c.id === 'client-1791645823273') {
-            c.setupPrice = 30000;
-            c.setupStatus = 'pending';
-            c.fee = 'RD$ 0 / mes';
-            c.status = 'lead';
-          }
-        }
-      });
-
       // Consolidar estado unificado
       state.clients = finalMerged;
       saveClientsToStorage(false);
@@ -702,6 +691,7 @@ export async function initCloudSync(renderCallback) {
       updateCloudSyncBadge("synced", `☁️ ${state.clients.length} Clientes Sincronizados`);
     } else {
       // Supabase vacío: sembrar clientes iniciales
+      vaultHydrated = true;
       updateCloudSyncBadge("syncing", "☁️ Sembrando Nube...");
       await syncAllClientsToCloud();
       updateCloudSyncBadge("synced", `☁️ ${state.clients.length} Clientes en Nube`);

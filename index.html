@@ -518,7 +518,7 @@
       <!-- Desktop Nav Anchors -->
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300" data-purpose="desktop-nav">
         <a class="hover:text-[#00d2ff] transition-colors" href="#paquetes">Paquetes</a>
-        <a class="hover:text-[#00d2ff] transition-colors" href="#simulador">Simulador ROI</a>
+        <a class="hover:text-[#00d2ff] transition-colors" href="#simulador">Búsquedas en tu Zona</a>
         <a class="hover:text-[#00d2ff] transition-colors" href="#servicios">Pilares</a>
         <a class="hover:text-[#00d2ff] transition-colors" href="casos-de-exito/">Casos de éxito</a>
         <a class="hover:text-[#00d2ff] transition-colors" href="#precios">A la Carta</a>
@@ -555,7 +555,7 @@
           <span class="text-emerald-400">🏆</span> <span>Casos de éxito</span>
         </a>
         <a href="#simulador" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
-          <span class="text-amber-400">⚡</span> <span>Simulador ROI</span>
+          <span class="text-amber-400">⚡</span> <span>Búsquedas en tu Zona</span>
         </a>
         <a href="#servicios" onclick="closeMobileNav()" class="px-3.5 py-2.5 rounded-lg bg-[#121824] border border-[#222f46] hover:border-[#00d2ff]/50 flex items-center gap-2">
           <span class="text-cyan-400">🚀</span> <span>4 Pilares</span>
@@ -846,7 +846,7 @@
   </section>
 
   <!-- ========================================================
-       SIMULADOR ROI DE CLIENTES & ESCÁNER DNS EN VIVO
+       BÚSQUEDAS POR SECTOR Y ZONA & ESCÁNER DE VELOCIDAD
        ======================================================== -->
   <section class="py-24 relative border-y border-[#00d2ff]/20 overflow-hidden" 
            data-purpose="roi-simulator-section" 
@@ -858,10 +858,10 @@
       <!-- Section Header -->
       <div class="text-center max-w-3xl mx-auto mb-12">
         <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
-          Descubre Cuántos Clientes Estás Dejando Ir en Tu Zona
+          Descubre Qué Buscan Tus Clientes en Tu Zona
         </h2>
         <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-          Cada vez que alguien busca tus servicios en Google y no te ve primero, ese cliente le escribe a tu competidor. Calcula en 2 clics tu potencial mensual o audita tu web actual en vivo.
+          Cada vez que alguien busca tus servicios en Google y no te ve primero, ese cliente le escribe a tu competidor. Mira en 2 clics qué escriben tus clientes en Google o mide tu web actual en vivo.
         </p>
       </div>
 
@@ -914,19 +914,20 @@
         <!-- Proyección Reactiva del Sector -->
         <div class="p-6 rounded-lg bg-[#0a0e17] border border-[#222f46] flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
           <div class="text-left">
-            <span class="text-xs sm:text-sm font-mono text-cyan-400 font-bold block mb-1">PROYECCIÓN DE BÚSQUEDAS REALES EN REPÚBLICA DOMINICANA:</span>
+            <span class="text-xs sm:text-sm font-mono text-cyan-400 font-bold block mb-1">ASÍ TE BUSCAN TUS CLIENTES EN GOOGLE:</span>
             <p class="text-base sm:text-lg lg:text-xl font-bold text-slate-100">
-              Oportunidad activa en tu zona: <span id="simResultCalls" class="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(245,158,11,0.35)]">+45 a +85 llamadas directas por WhatsApp al mes</span> listas para ser captadas por tu negocio.
+              <span id="simResultCalls" class="font-black bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 bg-clip-text text-transparent">“clínica en Piantini” · “pediatra cerca de mí” · “laboratorio clínico Naco”</span>
             </p>
+            <p class="text-xs sm:text-sm text-slate-400 mt-2">Si no apareces en el mapa para estas búsquedas, ese cliente le escribe a tu competencia. En el diagnóstico gratis te mostramos cuántas búsquedas reales tiene tu sector según datos de Google.</p>
           </div>
           <a id="simResultWaBtn" 
              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg text-white font-bold text-sm sm:text-base transition-all hover:scale-[1.01] active:scale-[0.99] whitespace-nowrap shadow-md hover:shadow-emerald-500/20" 
-             href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20calcul%C3%A9%20el%20ROI%20para%20Cl%C3%ADnica%20en%20Piantini%20y%20quiero%20reclamar%20mi%20zona%20en%20Google%20Maps" 
+             href="https://wa.me/18294554783?text=Hola%20ISAPromoRD,%20quiero%20el%20diagn%C3%B3stico%20gratis%20de%20b%C3%BAsquedas%20para%20Cl%C3%ADnica%20%2F%20Salud%20en%20Piantini%20%2F%20Naco" 
              rel="noopener noreferrer" 
              target="_blank" 
              style="background: linear-gradient(135deg, rgb(37, 211, 102) 0%, rgb(18, 140, 126) 100%); border: 1px solid rgba(255, 255, 255, 0.2);">
             <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.053-1.637-.361-.914-.378-1.571-.977-2.146-1.554-.627-.63-1.144-1.39-1.288-1.944-.163-.628.093-1.042.277-1.233.111-.115.244-.265.367-.384.093-.09.13-.153.195-.286.065-.133.033-.247-.016-.347-.049-.1-.444-1.07-.608-1.465-.16-.385-.323-.332-.444-.338-.114-.006-.245-.008-.376-.008-.13 0-.342.049-.521.244-.179.195-.684.668-.684 1.629s.7 1.888.798 2.019c.098.131 1.378 2.104 3.339 2.951.466.201.83.322 1.114.412.468.149.894.128 1.231.078.375-.056 1.152-.471 1.315-.926.163-.455.163-.845.114-.926-.048-.082-.178-.132-.375-.231zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.39A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.2c-1.611 0-3.112-.47-4.38-1.281l-.314-.199-2.954.823.834-2.879-.208-.328A8.167 8.167 0 013.8 12c0-4.521 3.679-8.2 8.2-8.2 4.521 0 8.2 3.679 8.2 8.2 0 4.521-3.679 8.2-8.2 8.2z"/></svg>
-            <span>Reclamar mi Zona en WhatsApp →</span>
+            <span>Pedir Diagnóstico Gratis →</span>
           </a>
         </div>
 
@@ -1238,7 +1239,7 @@
               Aparece de primero cuando busquen lo que vendes.
             </h3>
             <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed">
-              Quien domina los primeros 3 lugares de Google Maps se queda con más del 75% de las llamadas. Optimizamos tu ficha de Google Business Profile, coordenadas GPS y microdatos locales para que los clientes de Santo Domingo, Santiago y todo el país te encuentren a ti antes que a tu competencia.
+              Los 3 primeros lugares de Google Maps se llevan la mayoría de las llamadas y visitas de quien busca cerca. Optimizamos tu ficha de Google Business Profile, coordenadas GPS y microdatos locales para que los clientes de Santo Domingo, Santiago y todo el país te encuentren a ti antes que a tu competencia.
             </p>
             <div class="space-y-3 pt-2">
               <div class="flex items-center gap-3 text-sm sm:text-base text-slate-200">
@@ -2380,30 +2381,31 @@
     let currentSimSector = 'clinica';
     let currentSimZone = 'piantini';
 
-    const SIM_ESTIMATES = {
+    // Ejemplos de búsquedas típicas por sector y zona (no son cifras de volumen)
+    const SIM_SEARCHES = {
       'clinica': {
-        'piantini': { calls: '+45 a +85 llamadas directas', label: 'Clínica / Salud en Piantini / Naco' },
-        'bellavista': { calls: '+35 a +70 llamadas de pacientes', label: 'Clínica / Salud en Bella Vista' },
-        'santiago': { calls: '+40 a +80 consultas médicas', label: 'Clínica / Salud en Santiago' },
-        'puntacana': { calls: '+50 a +90 consultas y emergencias', label: 'Clínica en Punta Cana' }
+        'piantini': { q: ['clínica en Piantini', 'pediatra cerca de mí', 'laboratorio clínico Naco'], label: 'Clínica / Salud en Piantini / Naco' },
+        'bellavista': { q: ['clínica en Bella Vista', 'ginecólogo cerca de mí', 'odontólogo Mirador Sur'], label: 'Clínica / Salud en Bella Vista' },
+        'santiago': { q: ['clínica en Santiago', 'dermatólogo Santiago RD', 'centro médico cerca de mí'], label: 'Clínica / Salud en Santiago' },
+        'puntacana': { q: ['clínica en Punta Cana', 'emergencias Bávaro', 'doctor near me Punta Cana'], label: 'Clínica en Punta Cana' }
       },
       'legal': {
-        'piantini': { calls: '+30 a +60 prospectos calificados', label: 'Firma Legal en Piantini / Naco' },
-        'bellavista': { calls: '+25 a +50 casos corporativos', label: 'Firma Legal en Bella Vista' },
-        'santiago': { calls: '+35 a +65 clientes jurídicos', label: 'Firma Legal en Santiago' },
-        'puntacana': { calls: '+30 a +55 asesorías inmobiliarias', label: 'Firma Legal en Punta Cana' }
+        'piantini': { q: ['abogado en Piantini', 'firma de abogados Santo Domingo', 'abogado corporativo cerca de mí'], label: 'Firma Legal en Piantini / Naco' },
+        'bellavista': { q: ['abogado en Bella Vista', 'abogado de familia Santo Domingo', 'notario cerca de mí'], label: 'Firma Legal en Bella Vista' },
+        'santiago': { q: ['abogado en Santiago RD', 'abogado laboral Santiago', 'notario público Santiago'], label: 'Firma Legal en Santiago' },
+        'puntacana': { q: ['abogado en Punta Cana', 'real estate lawyer Punta Cana', 'abogado inmobiliario Bávaro'], label: 'Firma Legal en Punta Cana' }
       },
       'inmobiliaria': {
-        'piantini': { calls: '+40 a +80 prospectos inversionistas', label: 'Inmobiliaria en Piantini / Naco' },
-        'bellavista': { calls: '+35 a +75 compradores de apartamentos', label: 'Inmobiliaria en Bella Vista' },
-        'santiago': { calls: '+45 a +90 familias y compradores', label: 'Inmobiliaria en Santiago' },
-        'puntacana': { calls: '+60 a +120 inversionistas extranjeros', label: 'Inmobiliaria en Punta Cana' }
+        'piantini': { q: ['apartamentos en venta Piantini', 'inmobiliaria en Naco', 'alquiler apartamento Piantini'], label: 'Inmobiliaria en Piantini / Naco' },
+        'bellavista': { q: ['apartamentos en venta Bella Vista', 'proyectos en planos Santo Domingo', 'inmobiliaria Mirador Sur'], label: 'Inmobiliaria en Bella Vista' },
+        'santiago': { q: ['apartamentos en venta Santiago', 'casas en venta Santiago RD', 'inmobiliaria en Santiago'], label: 'Inmobiliaria en Santiago' },
+        'puntacana': { q: ['apartamentos en venta Punta Cana', 'condos for sale Punta Cana', 'villas en Bávaro'], label: 'Inmobiliaria en Punta Cana' }
       },
       'comercio': {
-        'piantini': { calls: '+55 a +110 pedidos y visitas', label: 'Comercio / Servicios en Piantini / Naco' },
-        'bellavista': { calls: '+45 a +90 pedidos por WhatsApp', label: 'Comercio en Bella Vista' },
-        'santiago': { calls: '+50 a +100 clientes presenciales', label: 'Comercio en Santiago' },
-        'puntacana': { calls: '+70 a +140 reservas y clientes', label: 'Comercio en Punta Cana' }
+        'piantini': { q: ['tienda en Piantini', 'delivery cerca de mí', 'servicio a domicilio Naco'], label: 'Comercio / Servicios en Piantini / Naco' },
+        'bellavista': { q: ['tienda en Bella Vista', 'delivery Santo Domingo', 'servicio técnico cerca de mí'], label: 'Comercio en Bella Vista' },
+        'santiago': { q: ['tienda en Santiago RD', 'delivery Santiago', 'ferretería cerca de mí'], label: 'Comercio en Santiago' },
+        'puntacana': { q: ['restaurante en Punta Cana', 'tours Punta Cana', 'rent a car Bávaro'], label: 'Comercio en Punta Cana' }
       }
     };
 
@@ -2430,18 +2432,18 @@
     }
 
     function updateSimEstimate() {
-      const data = (SIM_ESTIMATES[currentSimSector] && SIM_ESTIMATES[currentSimSector][currentSimZone]) 
-        || { calls: '+45 a +85 llamadas directas', label: 'Negocio en Zona Clave' };
-      
+      const data = (SIM_SEARCHES[currentSimSector] && SIM_SEARCHES[currentSimSector][currentSimZone])
+        || SIM_SEARCHES.clinica.piantini;
+
       const callsElem = document.getElementById('simResultCalls');
       const waBtn = document.getElementById('simResultWaBtn');
-      
+
       if (callsElem) {
-        callsElem.textContent = `${data.calls} por WhatsApp al mes`;
+        callsElem.textContent = data.q.map(q => `“${q}”`).join(' · ');
       }
-      
+
       if (waBtn) {
-        const msg = encodeURIComponent(`Hola ISAPromoRD, calculé mi ROI para ${data.label} (${data.calls}) y deseo reclamar mi zona en Google Maps.`);
+        const msg = encodeURIComponent(`Hola ISAPromoRD, quiero el diagnóstico gratis de búsquedas para ${data.label}.`);
         waBtn.href = `https://wa.me/18294554783?text=${msg}`;
       }
     }

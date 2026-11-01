@@ -13,65 +13,32 @@ import { addAccountingTransaction } from './accounting.js';
 const pendingContractDeletions = new Map();
 let currentEditingContract = null;
 
+const CONTRACT_ID_PATTERN = /^[A-Za-z0-9_-]{1,64}$/;
+const CONTRACT_AMOUNT_FIELDS = ["totalSetup", "totalMonthly", "depositAmount", "completionAmount"];
+
+// Los contratos aprobados por clientes llegan desde la web pública: ids válidos e importes numéricos
+function normalizeContract(c) {
+  if (!c || typeof c !== "object" || !CONTRACT_ID_PATTERN.test(String(c.id || ""))) return null;
+  const clean = { ...c };
+  CONTRACT_AMOUNT_FIELDS.forEach(key => {
+    if (clean[key] !== undefined) clean[key] = Number(clean[key]) || 0;
+  });
+  if (!Array.isArray(clean.services)) clean.services = [];
+  return clean;
+}
+
 export function getStoredContracts() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEYS.CONTRACTS);
-    if (raw) return JSON.parse(raw);
-    
-    // Semilla inicial formal para Pasión Pecuaria RD
-    const initialContracts = [
-      {
-        id: "ctr-pasion-pecuaria-2026",
-        contractNumber: "CTR-2026-001",
-        clientId: "client-pasion-pecuaria",
-        clientName: "Pasión Pecuaria RD",
-        clientRnc: "1-32-98471-2",
-        clientRepresentative: "Dr. Veterinario / Dirección General",
-        clientPhone: "+1 (829) 396-1318",
-        clientEmail: "pasionpecuariard@gmail.com",
-        proposalId: "prop-pasion-pecuaria",
-        date: "8 de octubre de 2026",
-        deliveryDays: "10 a 15 días laborables",
-        status: "sent",
-        services: [
-          {
-            name: "🌐 Landing Page Transaccional de Alta Conversión (<1s)",
-            type: "onetime",
-            price: 28000,
-            deliverables: [
-              "Desarrollo frontend en React 18 + Vite con arquitectura de ultra-velocidad.",
-              "Catálogo interactivo con filtrado dinámico y carrito de cotización directo a WhatsApp.",
-              "SEO On-Page y Schemas Schema.org JSON-LD para Google Search y Maps.",
-              "Despliegue Anycast Global con certificado SSL de grado bancario."
-            ]
-          },
-          {
-            name: "🛡️ Mantenimiento Web, Hosting Anycast & Soporte Continuo",
-            type: "monthly",
-            price: 4500,
-            deliverables: [
-              "Alojamiento de alta velocidad Anycast CDN 24/7.",
-              "Monitoreo continuo de uptime y seguridad preventiva.",
-              "Actualizaciones mensuales de contenido y catálogo de productos."
-            ]
-          }
-        ],
-        totalSetup: 28000,
-        totalMonthly: 4500,
-        depositAmount: 14000,
-        completionAmount: 14000,
-        signedAt: null,
-        signedBy: null,
-        signerDocId: null,
-        signatureData: null,
-        signatureHash: null
-      }
-    ];
-    localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(initialContracts));
-    return initialContracts;
+    const list = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTRACTS) || "[]");
+    return Array.isArray(list) ? list.map(normalizeContract).filter(Boolean) : [];
   } catch (e) {
     return [];
   }
+}
+
+// Argumento seguro para atributos onclick="fn(...)"
+function jsArg(value) {
+  return escapeHtml(JSON.stringify(String(value ?? "")));
 }
 
 export function saveContractToStorage(contract) {
@@ -107,7 +74,7 @@ export function recordContractDepositInCfo(contractId) {
     type: "setup",
     amount: deposit,
     date: todayStr,
-    account: "Banco Popular Dominicano",
+    account: "Cuenta por confirmar",
     reference: contract.contractNumber || "CTR-50%",
     notes: `Registrado desde Contrato 50/50 (${contract.clientName})`
   });
@@ -161,7 +128,7 @@ export function renderRoadmapContractsTab(client) {
           Formaliza los acuerdos comerciales con el esquema 50/50, firma electrónica vinculante, 5 días de gracia y cláusula de suspensión por mora antes de iniciar el trabajo.
         </p>
         <div class="pt-2">
-          <button onclick="openNewContractForClient('${client.id}')" class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 text-slate-950 font-bold text-xs rounded-md shadow-md shadow-indigo-500/20 transition-all cursor-pointer">
+          <button onclick="openNewContractForClient(${jsArg(client.id)})" class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 text-slate-950 font-bold text-xs rounded-md shadow-md shadow-indigo-500/20 transition-all cursor-pointer">
             📜 Redactar Contrato Oficial Ahora
           </button>
         </div>
@@ -208,22 +175,22 @@ export function renderRoadmapContractsTab(client) {
           </div>
 
           <div class="flex items-center gap-2 self-end sm:self-auto shrink-0 flex-wrap">
-            <a href="${contractUrl}" target="_blank" class="px-3 py-1.5 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Abrir documento para firma interactiva">
+            <a href="${escapeHtml(contractUrl)}" target="_blank" class="px-3 py-1.5 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all shadow-sm flex items-center gap-1.5" title="Abrir documento para firma interactiva">
               <span>👁️ Ver / Firmar</span>
             </a>
-            <button onclick="navigator.clipboard.writeText('${fullShareUrl}'); showToast('Enlace público de firma copiado al portapapeles', 'success');" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Copiar enlace público de firma">
+            <button onclick="navigator.clipboard.writeText(${jsArg(fullShareUrl)}); showToast('Enlace público de firma copiado al portapapeles', 'success');" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Copiar enlace público de firma">
               📋 Link
             </button>
-            <a href="${waLink}" target="_blank" class="px-3 py-1.5 rounded bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-colors" title="Compartir vía WhatsApp">
+            <a href="${escapeHtml(waLink)}" target="_blank" class="px-3 py-1.5 rounded bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold transition-colors" title="Compartir vía WhatsApp">
               💬 WhatsApp
             </a>
-            <button onclick="recordContractDepositInCfo('${c.id}')" class="px-2.5 py-1.5 rounded ${c.depositRecordedInCfo ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border-amber-500/30'} border text-xs font-bold transition-colors cursor-pointer" title="Registrar anticipo del 50% en el Libro Diario Contable (CFO)">
+            <button onclick="recordContractDepositInCfo(${jsArg(c.id)})" class="px-2.5 py-1.5 rounded ${c.depositRecordedInCfo ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 'bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border-amber-500/30'} border text-xs font-bold transition-colors cursor-pointer" title="Registrar anticipo del 50% en el Libro Diario Contable (CFO)">
               ${c.depositRecordedInCfo ? '✓ 50% en CFO' : '💵 Asentar 50% CFO'}
             </button>
-            <button onclick="openContractEditorModal('${c.id}')" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Editar contrato">
+            <button onclick="openContractEditorModal(${jsArg(c.id)})" class="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-white/10 text-xs font-bold transition-colors cursor-pointer" title="Editar contrato">
               ✏️
             </button>
-            <button onclick="deleteContractWithUndo('${c.id}')" class="p-1.5 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer" title="Eliminar contrato">
+            <button onclick="deleteContractWithUndo(${jsArg(c.id)})" class="p-1.5 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer" title="Eliminar contrato">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             </button>
           </div>
@@ -657,7 +624,7 @@ export function deleteContractWithUndo(contractId) {
       <span class="text-rose-400">🗑️</span>
       <span>Contrato <strong class="text-white">${removed.contractNumber || removed.id}</strong> eliminado.</span>
     </div>
-    <button onclick="undoContractDelete('${contractId}')" class="px-2.5 py-1 rounded bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
+    <button onclick="undoContractDelete(${jsArg(contractId)})" class="px-2.5 py-1 rounded bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
       Deshacer (<span id="undoContractCount_${contractId}">${secondsLeft}</span>s)
     </button>
     <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white text-xs p-1 cursor-pointer transition-colors" title="Cerrar">✕</button>

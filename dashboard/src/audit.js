@@ -5,7 +5,7 @@
  */
 
 import { state, STORAGE_KEYS } from './state.js';
-import { saveClientsToStorage, syncClientToCloud } from './sync.js';
+import { saveClientsToStorage, syncClientToCloud, syncVaultToCloud } from './sync.js';
 import { openNewClientModal, openClientDrawer, renderClients, filterClients } from './directory.js';
 import { showToast, updateKpis } from './ui.js';
 
@@ -991,6 +991,7 @@ export function displayAuditResults(results) {
     const filtered = currentHist.filter(h => h.url !== results.url);
     filtered.unshift(histEntry);
     localStorage.setItem(STORAGE_KEYS.AUDIT_HISTORY, JSON.stringify(filtered.slice(0, 50)));
+    syncVaultToCloud();
   } catch(e){}
 
   // Renderizar tarjetas de servicios

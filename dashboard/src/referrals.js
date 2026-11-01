@@ -14,7 +14,7 @@ const DEFAULT_REFERRAL_PARTNERS = [
     id: "pasionpecuaria",
     client_slug: "pasionpecuaria",
     client_name: "Pasión Pecuaria RD",
-    website_url: "https://pasionpecuaria.vercel.app",
+    website_url: "https://pasion-pecuaria-rd.vercel.app",
     reward_description: "1 Mes de Mantenimiento Web Gratis",
     created_at: "2026-09-28"
   }
@@ -25,6 +25,23 @@ let referralClicks = [];
 let referralConversions = [];
 let currentSelectedSnippetPartner = null;
 let currentSnippetFormat = 'react';
+
+// Página pública donde caen los enlaces de referido (el sitio vive en /isapromord.com/ dentro de GitHub Pages)
+function referralLink(slug) {
+  const base = window.location.origin.includes('github.io')
+    ? 'https://isapromord.github.io/isapromord.com/'
+    : `${window.location.origin}/`;
+  return `${base}?ref=${encodeURIComponent(slug)}`;
+}
+
+async function cloudHeaders(extra = {}) {
+  return {
+    'apikey': SUPABASE_CONFIG.anonKey,
+    'Authorization': `Bearer ${await getAccessToken()}`,
+    'Content-Type': 'application/json',
+    ...extra
+  };
+}
 
 export function getStoredReferralPartners() {
   try {
@@ -57,7 +74,7 @@ export async function loadReferralsData(forceSync = false) {
       }
     }
 
-    const resClicks = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referral_clicks?select=*&order=created_at.desc&limit=50`, {
+    const resClicks = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referral_clicks?select=client_slug,referrer_url,created_at&order=created_at.desc&limit=2000`, {
       headers: {
         'apikey': SUPABASE_CONFIG.anonKey,
         'Authorization': `Bearer ${await getAccessToken()}`
@@ -103,25 +120,23 @@ export function renderReferralsView() {
   const tbody = document.getElementById("referralPartnersTableBody");
   if (!tbody) return;
 
-  const baseOrigin = window.location.origin.includes('github.io') ? 'https://isapromord.github.io' : window.location.origin;
-  
   tbody.innerHTML = referralPartners.map(p => {
     const partnerClicks = referralClicks.filter(c => c.client_slug === p.client_slug).length;
     const partnerLeads = referralConversions.filter(c => c.client_slug === p.client_slug).length;
-    const refUrl = `${baseOrigin}/?ref=${p.client_slug}`;
+    const refUrl = referralLink(p.client_slug);
 
     return `
       <tr class="hover:bg-slate-50/80 transition-colors">
         <td class="py-3.5 px-3">
           <div class="font-bold text-slate-900 text-sm">${escapeHtml(p.client_name)}</div>
-          <a href="${p.website_url || '#'}" target="_blank" class="text-[11px] font-mono text-slate-400 hover:text-brand-600 block truncate">
+          <a href="${escapeHtml(/^https?:\/\//i.test(p.website_url || '') ? p.website_url : '#')}" target="_blank" class="text-[11px] font-mono text-slate-400 hover:text-brand-600 block truncate">
             ${escapeHtml((p.website_url || '').replace('https://', ''))}
           </a>
         </td>
         <td class="py-3.5 px-3 font-mono">
           <div class="flex items-center gap-1.5">
-            <span class="text-brand-700 bg-brand-50 px-2 py-0.5 rounded text-[11px] truncate max-w-[180px]">${refUrl}</span>
-            <button onclick="navigator.clipboard.writeText('${refUrl}'); showToast('Enlace copiado al portapapeles', 'success');" class="p-1 hover:bg-slate-200 rounded text-slate-400" title="Copiar enlace">
+            <span class="text-brand-700 bg-brand-50 px-2 py-0.5 rounded text-[11px] truncate max-w-[180px]">${escapeHtml(refUrl)}</span>
+            <button onclick="navigator.clipboard.writeText(${escapeHtml(JSON.stringify(refUrl))}); showToast('Enlace copiado al portapapeles', 'success');" class="p-1 hover:bg-slate-200 rounded text-slate-400" title="Copiar enlace">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
             </button>
           </div>
@@ -140,20 +155,17 @@ export function renderReferralsView() {
           <div class="flex items-center gap-1.5">
             <span class="inline-flex items-center gap-1">
               <span>🎁</span>
-              <span id="partnerRewardText_${p.client_slug}">${escapeHtml(p.reward_description || '1 Mes Gratis')}</span>
+              <span id="partnerRewardText_${escapeHtml(p.client_slug)}">${escapeHtml(p.reward_description || '1 Mes Gratis')}</span>
             </span>
-            <button onclick="editPartnerReward('${p.client_slug}')" class="p-1 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded transition-colors" title="Editar recompensa">
+            <button onclick="editPartnerReward(${escapeHtml(JSON.stringify(p.client_slug))})" class="p-1 hover:bg-slate-200 text-slate-400 hover:text-slate-700 rounded transition-colors" title="Editar recompensa">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
             </button>
           </div>
         </td>
         <td class="py-3.5 px-3 text-right">
           <div class="flex items-center justify-end gap-1.5">
-            <button onclick="openPartnerSnippetModal('${p.client_slug}')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center gap-1">
+            <button onclick="openPartnerSnippetModal(${escapeHtml(JSON.stringify(p.client_slug))})" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center gap-1">
               <span>Badge Footer</span>
-            </button>
-            <button onclick="simulateReferralClick('${p.client_slug}')" class="px-2 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs" title="Simular Clic">
-              ⚡
             </button>
           </div>
         </td>
@@ -169,7 +181,7 @@ export function renderReferralsView() {
     if (referralClicks.length === 0) {
       feed.innerHTML = `
         <div class="text-center py-8 text-slate-400 text-xs">
-          Aún no hay clics registrados en vivo. Prueba abrir el enlace <code>https://isapromord.github.io/?ref=pasionpecuaria</code> en una ventana para ver el registro aquí.
+          Aún no hay clics registrados en vivo. Prueba abrir el enlace <code>https://isapromord.github.io/isapromord.com/?ref=pasionpecuariard</code> en una ventana para ver el registro aquí.
         </div>
       `;
     } else {
@@ -196,7 +208,21 @@ export function editPartnerReward(slug) {
     partner.reward_description = updated.trim();
     saveReferralPartnersToStorage(referralPartners);
     renderReferralsView();
-    showToast("Recompensa actualizada", "success");
+    updatePartnerInCloud(slug, { reward_description: partner.reward_description })
+      .then(ok => showToast(ok ? "Recompensa actualizada" : "Recompensa guardada solo en este equipo (falló la nube)", ok ? "success" : "warning"));
+  }
+}
+
+async function updatePartnerInCloud(slug, fields) {
+  try {
+    const resp = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referrals?client_slug=eq.${encodeURIComponent(slug)}`, {
+      method: 'PATCH',
+      headers: await cloudHeaders({ 'Prefer': 'return=minimal' }),
+      body: JSON.stringify(fields)
+    });
+    return resp.ok;
+  } catch (e) {
+    return false;
   }
 }
 
@@ -206,9 +232,8 @@ export function openPartnerSnippetModal(slug) {
   const titleEl = document.getElementById("snippetModalTitle");
   if (titleEl) titleEl.textContent = `Insignia para ${partner.client_name}`;
   
-  const baseOrigin = window.location.origin.includes('github.io') ? 'https://isapromord.github.io' : window.location.origin;
   const badgePreview = document.getElementById("snippetPreviewBadge");
-  if (badgePreview) badgePreview.href = `${baseOrigin}/?ref=${partner.client_slug}`;
+  if (badgePreview) badgePreview.href = referralLink(partner.client_slug);
 
   updateSnippetCode();
   const modal = document.getElementById("partnerSnippetModal");
@@ -244,8 +269,7 @@ export function switchSnippetFormat(fmt) {
 export function updateSnippetCode() {
   if (!currentSelectedSnippetPartner) return;
   const slug = currentSelectedSnippetPartner.client_slug;
-  const baseOrigin = window.location.origin.includes('github.io') ? 'https://isapromord.github.io' : window.location.origin;
-  const url = `${baseOrigin}/?ref=${slug}`;
+  const url = referralLink(slug);
   const codeArea = document.getElementById("snippetCodeArea");
   if (!codeArea) return;
 
@@ -314,35 +338,34 @@ export async function saveNewPartner(e) {
   }
 
   const newPartner = {
-    id: slug,
     client_slug: slug,
     client_name: name,
     website_url: url,
-    reward_description: reward,
-    created_at: new Date().toISOString()
+    reward_description: reward || "1 Mes de Mantenimiento Web Gratis"
   };
 
-  referralPartners.unshift(newPartner);
-  saveReferralPartnersToStorage(referralPartners);
-
+  let savedInCloud = false;
   try {
-    fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referrals`, {
+    // La tabla usa id UUID automático; el slug es la clave única
+    const resp = await fetch(`${SUPABASE_CONFIG.url}/rest/v1/isapromo_referrals?on_conflict=client_slug`, {
       method: 'POST',
-      headers: {
-        'apikey': SUPABASE_CONFIG.anonKey,
-        'Authorization': `Bearer ${await getAccessToken()}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates'
-      },
+      headers: await cloudHeaders({ 'Prefer': 'resolution=merge-duplicates,return=minimal' }),
       body: JSON.stringify(newPartner)
-    }).catch(() => {});
-  } catch (err) {}
+    });
+    savedInCloud = resp.ok;
+    if (!resp.ok) console.warn("[Referidos] La nube rechazó el socio:", resp.status, await resp.text());
+  } catch (err) {
+    console.warn("[Referidos] Error guardando socio:", err);
+  }
+
+  referralPartners = [{ ...newPartner, created_at: new Date().toISOString() }, ...referralPartners.filter(p => p.client_slug !== slug)];
+  saveReferralPartnersToStorage(referralPartners);
 
   closeNewPartnerModal();
   const form = document.getElementById("newPartnerForm");
   if (form) form.reset();
   renderReferralsView();
-  showToast(`✅ Partner "${name}" creado (?ref=${slug})`, 'success');
+  showToast(savedInCloud ? `✅ Socio "${name}" creado (?ref=${slug})` : `⚠️ Socio "${name}" guardado solo en este equipo: no se pudo subir a la nube`, savedInCloud ? 'success' : 'warning');
 }
 
 export function simulateReferralClick(slug) {

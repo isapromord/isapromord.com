@@ -16,6 +16,8 @@ export const STORAGE_KEYS = {
   THEME: "isapromo_theme",
   DELETED_CLIENT_IDS: "isapromo_deleted_client_ids_v1",
   MASTER_CATALOG: "isapromo_master_catalog_v1",
+  REFERRALS: "isapromo_agency_referral_partners_v1",
+  HQ_TASKS: "isapromo_hq_tasks_v2",
   // Lowercase aliases for robust cross-module imports
   clients: "isapromo_agency_clients_v2",
   pin: "isapromo_agency_pin_v1",
@@ -236,6 +238,11 @@ export const PROPOSAL_ADDONS = [
 export const FACTORY_BASE_PACKAGES = JSON.parse(JSON.stringify(PROPOSAL_BASE_PACKAGES));
 export const FACTORY_ADDONS = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
 
+// state.js no importa sync.js directamente (sync.js depende de este archivo)
+function syncVaultLater() {
+  import('./sync.js').then(m => m.syncVaultToCloud()).catch(() => {});
+}
+
 export function loadMasterCatalog() {
   if (typeof localStorage === "undefined") return;
   try {
@@ -276,6 +283,7 @@ export function saveMasterCatalog(packagesData, addonsData) {
     updatedAt: new Date().toISOString()
   };
   localStorage.setItem(STORAGE_KEYS.MASTER_CATALOG, JSON.stringify(payload));
+  syncVaultLater();
   if (packagesData) {
     Object.keys(packagesData).forEach(k => {
       if (PROPOSAL_BASE_PACKAGES[k]) {
@@ -299,6 +307,7 @@ export function saveMasterCatalog(packagesData, addonsData) {
 export function resetMasterCatalog() {
   if (typeof localStorage === "undefined") return;
   localStorage.removeItem(STORAGE_KEYS.MASTER_CATALOG);
+  syncVaultLater();
   Object.keys(FACTORY_BASE_PACKAGES).forEach(k => {
     if (PROPOSAL_BASE_PACKAGES[k]) {
       Object.assign(PROPOSAL_BASE_PACKAGES[k], FACTORY_BASE_PACKAGES[k]);

@@ -16,6 +16,11 @@ import {
 import { supabaseClient, syncVaultToCloud } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
+// Argumento seguro para atributos onclick="fn(...)"
+function jsArg(value) {
+  return escapeHtml(JSON.stringify(String(value ?? "")));
+}
+
 let currentProposalAddons = JSON.parse(JSON.stringify(PROPOSAL_ADDONS));
 let customPackageOverrides = {};
 let lastGeneratedProposalUrl = "";
@@ -973,16 +978,16 @@ export function renderProposalsHistory() {
           </p>
         </div>
         <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto flex-wrap">
-          <a href="${item.url}" target="_blank" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded border border-white/10 transition-colors shadow-sm" title="Ver propuesta interactiva">
+          <a href="${escapeHtml(item.url)}" target="_blank" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold rounded border border-white/10 transition-colors shadow-sm" title="Ver propuesta interactiva">
             Ver
           </a>
-          <button onclick="createContractFromProposal('${item.id}', '${item.clientId || ''}')" class="px-2.5 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 border border-indigo-500/30 font-bold rounded transition-colors cursor-pointer shadow-sm active:scale-95 text-xs flex items-center gap-1" title="Generar Contrato Legal 50/50">
+          <button onclick="createContractFromProposal(${jsArg(item.id)}, ${jsArg(item.clientId || '')})" class="px-2.5 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 border border-indigo-500/30 font-bold rounded transition-colors cursor-pointer shadow-sm active:scale-95 text-xs flex items-center gap-1" title="Generar Contrato Legal 50/50">
             📜 Contrato
           </button>
-          <button onclick="navigator.clipboard.writeText('${item.url}'); showToast('Enlace copiado al portapapeles', 'success');" class="px-3 py-1.5 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold rounded transition-colors cursor-pointer shadow-sm active:scale-95" title="Copiar enlace directo">
+          <button onclick="navigator.clipboard.writeText(${jsArg(item.url)}); showToast('Enlace copiado al portapapeles', 'success');" class="px-3 py-1.5 bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 font-bold rounded transition-colors cursor-pointer shadow-sm active:scale-95" title="Copiar enlace directo">
             Copiar Link
           </button>
-          <button onclick="deleteProposalWithUndo('${item.id}')" class="p-1.5 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer active:scale-95" title="Eliminar propuesta del historial">
+          <button onclick="deleteProposalWithUndo(${jsArg(item.id)})" class="p-1.5 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-all cursor-pointer active:scale-95" title="Eliminar propuesta del historial">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
           </button>
         </div>
@@ -1020,10 +1025,10 @@ export function deleteProposalWithUndo(propId) {
       <span class="text-rose-400">🗑️</span>
       <span>Propuesta de <strong class="text-white">${escapeHtml(removedProp.clientName)}</strong> eliminada.</span>
     </div>
-    <button onclick="undoProposalDelete('${propId}')" class="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
+    <button onclick="undoProposalDelete(${jsArg(propId)})" class="px-2.5 py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
       Deshacer (<span id="undoCount_${propId}">${secondsLeft}</span>s)
     </button>
-    <button onclick="finalizeProposalDelete('${propId}')" class="text-slate-400 hover:text-white text-xs p-1 cursor-pointer transition-colors" title="Confirmar eliminación permanente">✕</button>
+    <button onclick="finalizeProposalDelete(${jsArg(propId)})" class="text-slate-400 hover:text-white text-xs p-1 cursor-pointer transition-colors" title="Confirmar eliminación permanente">✕</button>
   `;
   document.body.appendChild(toastEl);
 

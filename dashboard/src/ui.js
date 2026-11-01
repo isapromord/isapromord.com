@@ -3,7 +3,7 @@
  * Toast notifications, theme toggler, Dominican Republic live clock,
  * KPIs, status badges, and tab navigation.
  */
-import { state, SUPABASE_CONFIG } from './state.js';
+import { state, SUPABASE_CONFIG, STORAGE_KEYS, DEFAULT_BANK_DETAILS } from './state.js';
 
 // ==========================================
 // 1. ESCAPE HTML & FORMATTERS
@@ -115,15 +115,12 @@ function fallbackCopy(text, successMsg) {
   document.body.removeChild(ta);
 }
 
-export function copyBankDetails(bank) {
-  let text = '';
-  if (bank === 'popular') {
-    text = 'ISAPromoRD - Banco Popular Dominicano\nCuenta Corriente: 829-148523-1\nTitular: Isaías Santana (ISAPromoRD)\nMoneda: RD$\nConcepto: Mensualidad Retainer / Web Omnicanal';
-  } else {
-    text = 'ISAPromoRD - Banreservas\nCuenta de Ahorros: 960-145283-1\nTitular: Isaías Santana (ISAPromoRD)\nMoneda: RD$\nConcepto: Mensualidad Retainer / Web Omnicanal';
-  }
-  copyToClipboard(text, `Datos de ${bank === 'popular' ? 'Banco Popular' : 'Banreservas'} copiados`);
+// Copia los datos bancarios configurados en el panel (Copias de seguridad → Datos bancarios)
+export function copyBankDetails() {
+  const text = localStorage.getItem(STORAGE_KEYS.BANK) || DEFAULT_BANK_DETAILS;
+  copyToClipboard(text, 'Datos bancarios copiados');
 }
+
 
 // ==========================================
 // 4. THEME SWITCHER (DARK / LIGHT)
@@ -384,13 +381,20 @@ export function updateKpis() {
   // Conciliación Bancaria real desde accountingLedger
   let popularSum = 0;
   let reservasSum = 0;
+  let unassignedCount = 0;
   (state.accountingLedger || []).forEach(tx => {
     const acc = (tx.account || '').toLowerCase();
-    const amt = Number(tx.amount) || 0;
+    const amt = (Number(tx.amount) || 0) * (tx.type === 'expense' ? -1 : 1);
     if (acc.includes('popular')) popularSum += amt;
     else if (acc.includes('reservas') || acc.includes('bhd')) reservasSum += amt;
-    else popularSum += amt;
+    else if (!acc.includes('efectivo') && !acc.includes('caja')) unassignedCount++;
   });
+  const bankStatusEl = document.getElementById('kpiBankStatus');
+  if (bankStatusEl) {
+    bankStatusEl.textContent = unassignedCount > 0
+      ? `${unassignedCount} movimiento${unassignedCount === 1 ? '' : 's'} sin cuenta asignada`
+      : (finances.totalSetupReceivable > 0 ? 'Hay cobros pendientes' : 'Sin pendientes');
+  }
   const bpEl = document.getElementById('kpiBankPopular');
   if (bpEl) bpEl.textContent = state.presentationMode ? 'RD$ •••••' : `RD$ ${popularSum.toLocaleString('es-DO')}`;
   const brEl = document.getElementById('kpiBankReservas');
@@ -441,11 +445,11 @@ export function renderViralFootersWidget() {
     } catch(e) {}
     return `
       <div class="px-2.5 py-1.5 rounded-lg hover:bg-white/[0.04] flex items-center justify-between gap-2 group transition-colors">
-        <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-300 group-hover:text-cyan-300 truncate transition-colors flex items-center gap-1.5 font-mono text-xs font-medium">
+        <a href="${escapeHtml(/^https?:\/\//i.test(c.liveUrl || '') ? c.liveUrl : '#')}" target="_blank" class="text-slate-300 group-hover:text-cyan-300 truncate transition-colors flex items-center gap-1.5 font-mono text-xs font-medium">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400/80"></span>
           <span class="truncate">${escapeHtml(hostname)}</span>
         </a>
-        <a href="${c.liveUrl || '#'}" target="_blank" class="text-slate-500 group-hover:text-cyan-400 text-xs shrink-0 transition-colors p-1" title="Abrir web oficial">
+        <a href="${escapeHtml(/^https?:\/\//i.test(c.liveUrl || '') ? c.liveUrl : '#')}" target="_blank" class="text-slate-500 group-hover:text-cyan-400 text-xs shrink-0 transition-colors p-1" title="Abrir web oficial">
           ↗
         </a>
       </div>
@@ -502,7 +506,8 @@ export function renderClientAvatarPills() {
   if (!clients || clients.length === 0) return;
 
   const subheadCountEl = document.getElementById('liveClientsCountSubhead');
-  if (subheadCountEl) subheadCountEl.textContent = clients.length;
+  // Solo cuentan los clientes activos (no prospectos, archivados ni proyectos internos)
+  if (subheadCountEl) subheadCountEl.textContent = clients.filter(c => c.status === 'active' && !c.isInternal && c.setupStatus !== 'internal').length;
 
   const palette = [
     'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',

@@ -4,8 +4,13 @@
  * and HQ Agency growth tasks.
  */
 import { state, STORAGE_KEYS, PROPOSAL_BASE_PACKAGES } from './state.js';
-import { saveClientsToStorage } from './sync.js';
+import { saveClientsToStorage, syncVaultToCloud } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
+
+// Argumento seguro para atributos onclick="fn(...)"
+function jsArg(value) {
+  return escapeHtml(JSON.stringify(String(value ?? "")));
+}
 
 export const OFFICIAL_CATALOG_SERVICES = [
   {
@@ -428,14 +433,14 @@ export function renderRoadmapProposalsTab(client) {
               ↗ Ver Propuesta
             </a>
             <button 
-              onclick="createContractFromProposal('${prop.id}', '${client.id}')" 
+              onclick="createContractFromProposal(${jsArg(prop.id)}, ${jsArg(client.id)})" 
               class="px-3 py-1.5 rounded bg-indigo-600/25 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/35 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
               title="Generar contrato vinculante formal 50/50"
             >
               <span>📜 Generar Contrato</span>
             </button>
             <button 
-              onclick="activateProposalInRoadmap('${client.id}', '${prop.id}')" 
+              onclick="activateProposalInRoadmap(${jsArg(client.id)}, ${jsArg(prop.id)})" 
               class="px-3.5 py-1.5 rounded ${allImported ? 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-600/50' : 'bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-md shadow-cyan-500/20'} text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
             >
               <span>${allImported ? '🔄 Re-sincronizar' : '🚀 Activar en Roadmap'}</span>
@@ -671,7 +676,7 @@ export function handleSaveCustomRoadmapTask(e) {
 // HQ TASKS (AGENCY SCALING ENGINE)
 // ==========================================
 export function loadHqTasks() {
-  const stored = localStorage.getItem("isapromo_hq_tasks_v2");
+  const stored = localStorage.getItem(STORAGE_KEYS.HQ_TASKS);
   if (stored) {
     try {
       hqTasks = JSON.parse(stored);
@@ -689,7 +694,8 @@ export function toggleHqTask(taskId) {
   const task = hqTasks.find(t => t.id === taskId);
   if (!task) return;
   task.done = !task.done;
-  localStorage.setItem("isapromo_hq_tasks_v2", JSON.stringify(hqTasks));
+  localStorage.setItem(STORAGE_KEYS.HQ_TASKS, JSON.stringify(hqTasks));
+  syncVaultToCloud();
   renderHqTasks();
   updateHqCardsState();
 }
@@ -729,7 +735,7 @@ export async function checkHqLiveStatus() {
   // 1. Probar archivo de verificación Google
   try {
     const start = performance.now();
-    const resp = await fetch("https://isapromord.github.io/google3f4f1a1b04896181.html", { cache: "no-store" });
+    const resp = await fetch("https://isapromord.github.io/isapromord.com/google3f4f1a1b04896181.html", { cache: "no-store" });
     const ms = Math.round(performance.now() - start);
     if (resp.ok) {
       if (searchEl) {
@@ -740,20 +746,22 @@ export async function checkHqLiveStatus() {
     } else {
       if (searchEl) {
         searchEl.textContent = `Error HTTP ${resp.status}`;
+        if (searchDetail) searchDetail.textContent = "El archivo no respondió correctamente";
         searchEl.className = "text-base sm:text-lg font-black text-rose-400 font-mono mt-1";
       }
     }
   } catch (e) {
     if (searchEl) {
-      searchEl.textContent = "Verificado en GSC";
-      searchEl.className = "text-base sm:text-lg font-black text-emerald-400 font-mono mt-1";
+      searchEl.textContent = "No se pudo comprobar";
+      if (searchDetail) searchDetail.textContent = "Sin conexión con el sitio";
+      searchEl.className = "text-base sm:text-lg font-black text-amber-400 font-mono mt-1";
     }
   }
 
   // 2. Probar sitemap.xml
   try {
     const start = performance.now();
-    const resp = await fetch("https://isapromord.github.io/sitemap.xml", { cache: "no-store" });
+    const resp = await fetch("https://isapromord.github.io/isapromord.com/sitemap.xml", { cache: "no-store" });
     const ms = Math.round(performance.now() - start);
     if (resp.ok) {
       if (sitemapEl) {
@@ -764,20 +772,22 @@ export async function checkHqLiveStatus() {
     } else {
       if (sitemapEl) {
         sitemapEl.textContent = `Error HTTP ${resp.status}`;
+        if (sitemapDetail) sitemapDetail.textContent = "El archivo no respondió correctamente";
         sitemapEl.className = "text-base sm:text-lg font-black text-rose-400 font-mono mt-1";
       }
     }
   } catch (e) {
     if (sitemapEl) {
-      sitemapEl.textContent = "Enviado a Googlebot";
-      sitemapEl.className = "text-base sm:text-lg font-black text-emerald-400 font-mono mt-1";
+      sitemapEl.textContent = "No se pudo comprobar";
+      if (sitemapDetail) sitemapDetail.textContent = "Sin conexión con el sitio";
+      sitemapEl.className = "text-base sm:text-lg font-black text-amber-400 font-mono mt-1";
     }
   }
 
   // 3. Probar llms.txt (GEO Engine)
   try {
     const start = performance.now();
-    const resp = await fetch("https://isapromord.github.io/llms.txt", { cache: "no-store" });
+    const resp = await fetch("https://isapromord.github.io/isapromord.com/llms.txt", { cache: "no-store" });
     const ms = Math.round(performance.now() - start);
     if (resp.ok) {
       if (aiEl) {
@@ -788,20 +798,22 @@ export async function checkHqLiveStatus() {
     } else {
       if (aiEl) {
         aiEl.textContent = `Error HTTP ${resp.status}`;
+        if (aiDetail) aiDetail.textContent = "El archivo no respondió correctamente";
         aiEl.className = "text-base sm:text-lg font-black text-rose-400 font-mono mt-1";
       }
     }
   } catch (e) {
     if (aiEl) {
-      aiEl.textContent = "100% Configurado";
-      aiEl.className = "text-base sm:text-lg font-black text-emerald-400 font-mono mt-1";
+      aiEl.textContent = "No se pudo comprobar";
+      if (aiDetail) aiDetail.textContent = "Sin conexión con el sitio";
+      aiEl.className = "text-base sm:text-lg font-black text-amber-400 font-mono mt-1";
     }
   }
 
   updateHqCardsState();
 
   if (probeBtn) {
-    probeBtn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> <span>✓ Servidor Verificado</span>`;
+    probeBtn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> <span>Revisión terminada</span>`;
     setTimeout(() => {
       probeBtn.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span>🔄 Probar Servidor en Vivo</span>`;
     }, 3500);

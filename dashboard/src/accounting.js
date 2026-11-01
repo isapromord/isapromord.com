@@ -206,9 +206,10 @@ export function renderAccountingBankBalances() {
       balancePopular += netAmt;
     } else if (acc.includes("bhd") || acc.includes("reservas")) {
       balanceBhd += netAmt;
-    } else {
+    } else if (acc.includes("efectivo") || acc.includes("caja")) {
       balanceCash += netAmt;
     }
+    // Movimientos con "Cuenta por confirmar" no se suman a ninguna cuenta hasta editarlos
   });
 
   const popEl = document.getElementById("bankBalancePopular");
@@ -736,7 +737,7 @@ export function registerClientPayment(id) {
     type: "retainer",
     amount: feeNum,
     date: todayStr,
-    account: "Banco Popular Dominicano",
+    account: "Cuenta por confirmar",
     reference: `REN-${Date.now().toString().slice(-6)}`,
     notes: `Ciclo extendido automáticamente hasta ${nextRenewalDate}`
   });

@@ -4,7 +4,7 @@
  * Zero-Data-Loss guarantee with retry logic.
  */
 
-import { state, STORAGE_KEYS, SUPABASE_CONFIG, INITIAL_CLIENTS } from './state.js';
+import { state, STORAGE_KEYS, SUPABASE_CONFIG, INITIAL_CLIENTS, loadMasterCatalog, resetMasterCatalog } from './state.js';
 
 export let supabaseClient = null;
 
@@ -405,6 +405,15 @@ export async function syncAllClientsToCloud() {
   }
 }
 
+function readJsonKey(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // La bóveda se reescribe completa: no se sube hasta haber leído la copia de la nube,
 // para que un navegador nuevo (vacío) no borre contratos y propuestas guardados.
 let vaultHydrated = false;
@@ -446,7 +455,11 @@ export async function syncVaultToCloud() {
         proposalPayloads,
         accountingLedger,
         referrals,
-        bankDetails: localStorage.getItem(STORAGE_KEYS.BANK) || null
+        bankDetails: localStorage.getItem(STORAGE_KEYS.BANK) || null,
+        // Catálogo de precios, tareas de la agencia e historial de auditorías: iguales en todos los equipos
+        masterCatalog: readJsonKey(STORAGE_KEYS.MASTER_CATALOG) || { reset: true },
+        hqTasks: readJsonKey(STORAGE_KEYS.HQ_TASKS),
+        auditHistory: readJsonKey(STORAGE_KEYS.AUDIT_HISTORY)
       },
       updated_at: new Date().toISOString()
     };
@@ -546,12 +559,29 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
     localStorage.setItem(STORAGE_KEYS.BANK, remoteVaultMatrix.bankDetails);
   }
 
-  // 5. Merge Referrals
+  // 5. Catálogo de precios, tareas de la agencia e historial de auditorías (la copia de la nube es la vigente)
+  const catalog = remoteVaultMatrix.masterCatalog;
+  if (catalog && catalog.reset) {
+    if (localStorage.getItem(STORAGE_KEYS.MASTER_CATALOG)) resetMasterCatalog();
+  } else if (catalog && (catalog.packages || catalog.addons)) {
+    localStorage.setItem(STORAGE_KEYS.MASTER_CATALOG, JSON.stringify(catalog));
+    loadMasterCatalog();
+  }
+  if (Array.isArray(remoteVaultMatrix.hqTasks)) {
+    localStorage.setItem(STORAGE_KEYS.HQ_TASKS, JSON.stringify(remoteVaultMatrix.hqTasks));
+    if (window.loadHqTasks) window.loadHqTasks();
+  }
+  if (Array.isArray(remoteVaultMatrix.auditHistory)) {
+    localStorage.setItem(STORAGE_KEYS.AUDIT_HISTORY, JSON.stringify(remoteVaultMatrix.auditHistory));
+  }
+
+  // 6. Merge Referrals
   if (Array.isArray(remoteVaultMatrix.referrals) && remoteVaultMatrix.referrals.length > 0) {
     const localRefs = JSON.parse(localStorage.getItem(STORAGE_KEYS.REFERRALS) || "[]");
     const refMap = new Map();
-    remoteVaultMatrix.referrals.forEach(rr => { if (rr && rr.id) refMap.set(rr.id, rr); });
-    localRefs.forEach(lr => { if (lr && lr.id) refMap.set(lr.id, lr); });
+    const refKey = r => r && (r.client_slug || r.id);
+    remoteVaultMatrix.referrals.forEach(rr => { if (refKey(rr)) refMap.set(refKey(rr), rr); });
+    localRefs.forEach(lr => { if (refKey(lr)) refMap.set(refKey(lr), lr); });
     localStorage.setItem(STORAGE_KEYS.REFERRALS, JSON.stringify(Array.from(refMap.values())));
     hasChanges = true;
   }

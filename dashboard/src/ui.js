@@ -506,8 +506,8 @@ export function renderClientAvatarPills() {
   if (!clients || clients.length === 0) return;
 
   const subheadCountEl = document.getElementById('liveClientsCountSubhead');
-  // Solo cuentan los clientes activos (no prospectos, archivados ni proyectos internos)
-  if (subheadCountEl) subheadCountEl.textContent = clients.filter(c => c.status === 'active' && !c.isInternal && c.setupStatus !== 'internal').length;
+  // Solo cuentan los clientes activos (no prospectos, archivados, proyectos internos ni la propia agencia)
+  if (subheadCountEl) subheadCountEl.textContent = clients.filter(c => c.status === 'active' && !c.isInternal && !c.isAgency && c.id !== 'agency-isapromord' && c.setupStatus !== 'internal').length;
 
   const palette = [
     'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',

@@ -11,8 +11,8 @@ const STORAGE_KEY_REFERRAL_PARTNERS = "isapromo_agency_referral_partners_v1";
 
 const DEFAULT_REFERRAL_PARTNERS = [
   {
-    id: "pasionpecuaria",
-    client_slug: "pasionpecuaria",
+    id: "pasionpecuariard",
+    client_slug: "pasionpecuariard",
     client_name: "Pasión Pecuaria RD",
     website_url: "https://pasion-pecuaria-rd.vercel.app",
     reward_description: "1 Mes de Mantenimiento Web Gratis",
@@ -23,6 +23,10 @@ const DEFAULT_REFERRAL_PARTNERS = [
 let referralPartners = [];
 let referralClicks = [];
 let referralConversions = [];
+
+// Slugs viejos que apuntan al mismo socio: sus clics se suman al slug actual
+const LEGACY_SLUG_ALIASES = { pasionpecuaria: "pasionpecuariard" };
+const canonicalSlug = slug => LEGACY_SLUG_ALIASES[slug] || slug;
 let currentSelectedSnippetPartner = null;
 let currentSnippetFormat = 'react';
 
@@ -96,6 +100,11 @@ export async function loadReferralsData(forceSync = false) {
   } catch (err) {
     console.debug("Operando con almacenamiento local de referidos.");
   }
+
+  const slugs = new Set(referralPartners.map(p => p.client_slug));
+  referralPartners = referralPartners.filter(p => !(LEGACY_SLUG_ALIASES[p.client_slug] && slugs.has(LEGACY_SLUG_ALIASES[p.client_slug])));
+  referralClicks = referralClicks.map(c => ({ ...c, client_slug: canonicalSlug(c.client_slug) }));
+  referralConversions = referralConversions.map(c => ({ ...c, client_slug: canonicalSlug(c.client_slug) }));
 
   renderReferralsView();
   if (forceSync) {

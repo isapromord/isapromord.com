@@ -2,7 +2,7 @@
  * ISAPromoRD - NFC & QR Code Review Generator for Physical Acrylic Plaques
  * Generates direct Google Review intent URLs and high-res QR codes for display stands.
  */
-import { state } from './state.js';
+import { state, AGENCY_REVIEW_URL } from './state.js';
 import { showToast, copyToClipboard } from './ui.js';
 
 export function openNfcGeneratorModal(client = null) {
@@ -31,13 +31,15 @@ export function openNfcGeneratorModal(client = null) {
   if (client) {
     if (select) select.value = client.id;
     if (nameInput) nameInput.value = client.name || "";
-    // If client has stored review URL or google maps link in notes
-    const reviewUrl = client.googleReviewUrl || "https://g.page/r/CeedDHM0DCsWEBI/review";
+    // Solo la agencia usa su propio enlace; un cliente necesita el suyo de Google Business
+    const isAgency = client.isAgency || client.id === "agency-isapromord";
+    const stored = client.googleReviewUrl && (isAgency || client.googleReviewUrl !== AGENCY_REVIEW_URL) ? client.googleReviewUrl : "";
+    const reviewUrl = stored || (isAgency ? AGENCY_REVIEW_URL : "");
     if (urlInput) urlInput.value = reviewUrl;
-    if (urlBox) urlBox.textContent = reviewUrl;
+    if (urlBox) urlBox.textContent = reviewUrl || "Pega el enlace de reseñas de Google de este cliente (g.page/r/...)";
   } else {
     if (nameInput && !nameInput.value) nameInput.value = "ISAPromoRD";
-    const defaultUrl = "https://g.page/r/CeedDHM0DCsWEBI/review";
+    const defaultUrl = AGENCY_REVIEW_URL;
     if (urlInput && !urlInput.value) urlInput.value = defaultUrl;
     if (urlBox) urlBox.textContent = defaultUrl;
   }
@@ -68,10 +70,10 @@ export function handleNfcClientSelectChange() {
     const nameInput = document.getElementById("nfcModalBusinessName");
     const urlInput = document.getElementById("nfcModalInputUrl");
     if (nameInput) nameInput.value = client.name || "";
-    if (urlInput && client.googleReviewUrl) {
-      urlInput.value = client.googleReviewUrl;
-      generateNfcAndQrCode();
-    }
+    const isAgency = client.isAgency || client.id === "agency-isapromord";
+    const stored = client.googleReviewUrl && (isAgency || client.googleReviewUrl !== AGENCY_REVIEW_URL) ? client.googleReviewUrl : "";
+    if (urlInput) urlInput.value = stored || (isAgency ? AGENCY_REVIEW_URL : "");
+    if (urlInput && urlInput.value) generateNfcAndQrCode();
   }
 }
 
@@ -106,10 +108,11 @@ export function generateNfcAndQrCode() {
     };
   }
 
-  // If a client is selected, persist their review url
+  // If a client is selected, persist their review url (never the agency's own link on a client)
   if (select && select.value) {
     const client = (state.clients || []).find(c => c.id === select.value);
-    if (client) {
+    const isAgency = client && (client.isAgency || client.id === "agency-isapromord");
+    if (client && (isAgency || rawUrl !== AGENCY_REVIEW_URL)) {
       client.googleReviewUrl = rawUrl;
       if (window.saveClientsToStorage) window.saveClientsToStorage(true);
     }

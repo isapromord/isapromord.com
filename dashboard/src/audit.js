@@ -192,6 +192,8 @@ export async function runServicesAudit(clientId, customUrl) {
   let meta = null;
   let latencyMs = 0;
   let rawHtml = "";
+  let realHtmlRead = false;
+  let bundleJs = "";
   let hasRobots = false;
   let hasSitemap = false;
   let hasLlms = false;
@@ -225,6 +227,7 @@ export async function runServicesAudit(clientId, customUrl) {
         ]);
         if (selfHtmlRes.status === 'fulfilled' && selfHtmlRes.value && selfHtmlRes.value.length > 100) {
           rawHtml = selfHtmlRes.value;
+          realHtmlRead = true;
         }
         if (selfRobotsRes.status === 'fulfilled' && selfRobotsRes.value) {
           hasRobots = true;
@@ -251,17 +254,26 @@ export async function runServicesAudit(clientId, customUrl) {
     }
 
     // 2 & 3. Ejecutar Cloudflare DoH y Captura de Metadatos en paralelo
-    const [dohSettled, microSettled, proxySettled] = await Promise.allSettled([
+    const [dohSettled, microSettled, proxySettled, directSettled] = await Promise.allSettled([
       safeFetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostName)}&type=A`, 3000, {
         headers: { 'accept': 'application/dns-json' }
       }).then(r => r.ok ? r.json() : null),
 
-      safeFetch(`https://api.microlink.io?url=${encodeURIComponent(state.currentAuditUrl)}`, 3500)
+      safeFetch(`https://api.microlink.io?url=${encodeURIComponent(state.currentAuditUrl)}`, 6000)
         .then(r => r.ok ? r.json() : null),
 
       safeFetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(state.currentAuditUrl)}`, 3500)
+        .then(r => r.ok ? r.text() : null),
+
+      // Lectura directa del código (funciona en hosts que la permiten: Vercel, GitHub Pages, Netlify)
+      safeFetch(state.currentAuditUrl, 3500)
         .then(r => r.ok ? r.text() : null)
     ]);
+
+    if (!rawHtml && directSettled.status === 'fulfilled' && directSettled.value && directSettled.value.length > 50) {
+      rawHtml = directSettled.value;
+      realHtmlRead = true;
+    }
 
     if (dohSettled.status === 'fulfilled' && dohSettled.value) {
       dohData = dohSettled.value;
@@ -270,11 +282,17 @@ export async function runServicesAudit(clientId, customUrl) {
     if (microSettled.status === 'fulfilled' && microSettled.value?.status === 'success' && microSettled.value?.data) {
       meta = microSettled.value.data;
       meta.responseHeaders = microSettled.value.headers || {};
-      if (meta.html && !rawHtml) rawHtml = meta.html;
+      if (meta.html && !rawHtml) {
+        rawHtml = meta.html;
+        realHtmlRead = true;
+      }
     }
 
     if (proxySettled.status === 'fulfilled' && proxySettled.value && proxySettled.value.length > 50) {
-      if (!rawHtml) rawHtml = proxySettled.value;
+      if (!rawHtml) {
+        rawHtml = proxySettled.value;
+        realHtmlRead = true;
+      }
     }
 
     latencyMs = directPingMs > 0 && directPingMs < 2500 ? directPingMs : Math.round(performance.now() - startTime);
@@ -310,6 +328,18 @@ export async function runServicesAudit(clientId, customUrl) {
       if ((r3.status === 'fulfilled' && r3.value?.ok) || (r6 && r6.status === 'fulfilled' && r6.value?.ok)) hasLlms = true;
     } catch(e) {}
 
+    // Sitios armados con JavaScript (React/Vite): el botón de WhatsApp vive en el código JS, no en el HTML inicial
+    if (realHtmlRead && rawHtml) {
+      try {
+        const scriptUrls = Array.from(rawHtml.matchAll(/<script[^>]+src=["']([^"']+\.js[^"']*)["']/gi))
+          .map(m => new URL(m[1], state.currentAuditUrl).href)
+          .filter(u => u.startsWith(originUrl))
+          .slice(0, 3);
+        const bundles = await Promise.allSettled(scriptUrls.map(u => safeFetch(u, 3500).then(r => r.ok ? r.text() : "")));
+        bundleJs = bundles.map(b => b.status === 'fulfilled' ? b.value : "").join("\n").slice(0, 3000000);
+      } catch(e) {}
+    }
+
     if (!hasRobots && rawHtml) hasRobots = rawHtml.includes('/robots.txt') || rawHtml.includes('robots.txt');
     if (!hasSitemap && rawHtml) hasSitemap = rawHtml.includes('sitemap.xml');
     if (!hasLlms && rawHtml) hasLlms = rawHtml.includes('llms.txt');
@@ -331,8 +361,9 @@ export async function runServicesAudit(clientId, customUrl) {
     clearTimeout(t3);
 
     try {
-      const htmlRead = !!(rawHtml || (meta && meta.title));
-      const signals = { rawHtml, hasRobots, hasSitemap, hasLlms, htmlRead };
+      // Solo cuenta como leído si se obtuvo el código real de la página (no solo el título)
+      const htmlRead = realHtmlRead;
+      const signals = { rawHtml, hasRobots, hasSitemap, hasLlms, htmlRead, bundleJs };
       state.currentAuditResults = evaluateServicesHealth(state.currentAuditUrl, meta, latencyMs, state.currentAuditClient, signals);
 
       if (state.currentAuditClient) {
@@ -367,7 +398,7 @@ export async function runServicesAudit(clientId, customUrl) {
       if (badgeEl) {
         badgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0";
         badgeEl.textContent = state.currentAuditResults.firewallProtected 
-          ? "Auditoría perimetral ✓ (Seguridad Activa)" 
+          ? "Auditoría parcial ✓ (no se pudo leer el código)" 
           : "Auditoría Completada ✓";
       }
     } catch (evalErr) {
@@ -449,7 +480,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
     detectedCms = "Cloudflare Edge";
   }
 
-  // Detección de firewall/bloqueo de scraper
+  // No se pudo leer el código de la página (el sitio bloquea lectores externos o el servicio de lectura no respondió)
   const firewallProtected = !htmlRead;
 
   // Detección de Schemas
@@ -490,9 +521,11 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
     ? (!!doc.querySelector('meta[name="geo.region"]') || !!doc.querySelector('meta[name="geo.position"]') || !!doc.querySelector('meta[name="ICBM"]'))
     : (rawHtml.includes('geo.region') || rawHtml.includes('geo.position') || rawHtml.includes('ICBM'));
 
-  const hasWaLink = doc
+  const bundleLower = (signals.bundleJs || "").toLowerCase();
+  const hasWaLink = (doc
     ? (!!doc.querySelector('a[href*="wa.me"]') || !!doc.querySelector('a[href*="whatsapp"]') || htmlLower.includes('wa.me'))
-    : (rawHtml.includes('wa.me') || rawHtml.includes('whatsapp') || htmlLower.includes('wa.me'));
+    : (rawHtml.includes('wa.me') || rawHtml.includes('whatsapp') || htmlLower.includes('wa.me')))
+    || bundleLower.includes('wa.me/') || bundleLower.includes('api.whatsapp.com');
 
   const hasCanonical = doc ? !!doc.querySelector('link[rel="canonical"]') : rawHtml.includes('rel="canonical"');
   const hasH1 = doc ? doc.querySelectorAll('h1').length > 0 : /<h1[^>]*>/i.test(rawHtml);
@@ -539,7 +572,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   if (firewallProtected) {
     s2_status = "warning";
     s2_score = 10;
-    s2_findings = "Seguridad de host activa (Firewall / Cloudflare). Verificación de Maps y Schema protegida ante rastreadores públicos.";
+    s2_findings = "No se pudo leer el código de la página, así que no se comprobó el Schema LocalBusiness ni las etiquetas de ubicación.";
     s2_needed = "Comprobar manualmente presencia en Google Business Profile y georreferenciación en Maps.";
   } else if (hasLocalSchema && hasGeoRegion) {
     if (isGbpVerified) {
@@ -571,7 +604,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   if (firewallProtected) {
     s3_status = "warning";
     s3_score = 10;
-    s3_findings = "Metadatos protegidos por seguridad del servidor. No se pudo leer tarjeta OpenGraph por proxy externo.";
+    s3_findings = "No se pudo leer el código de la página, así que no se comprobó la tarjeta OpenGraph.";
     s3_needed = "Comprobar vista previa compartiendo el enlace directamente en una conversación de WhatsApp.";
   } else if (ogImage && !isAbsoluteOgImage) {
     s3_status = "warning";
@@ -610,7 +643,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   } else if (firewallProtected) {
     s4_status = "warning";
     s4_score = 8;
-    s4_findings = "Rastreo de catálogo protegido por firewall. No se detectó /llms.txt público.";
+    s4_findings = "No se pudo leer el código de la página. No se detectó /llms.txt público.";
     s4_needed = "Implementar archivo /llms.txt público en la raíz del dominio para permitir citación en ChatGPT y Gemini.";
   } else {
     s4_status = "failed";
@@ -639,7 +672,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   } else if (firewallProtected) {
     s5_status = "warning";
     s5_score = 5;
-    s5_findings = "Protegido por firewall. No se pudo verificar botón de WhatsApp de forma automatizada.";
+    s5_findings = "No se pudo leer el código de la página, así que no se comprobó el botón de WhatsApp.";
     s5_needed = "Verificar si el sitio cuenta con botón flotante directo a WhatsApp con mensaje transaccional.";
   } else {
     s5_status = "failed";
@@ -668,7 +701,7 @@ export function evaluateServicesHealth(url, meta, latencyMs, client, signals = {
   } else if (firewallProtected) {
     s6_status = "warning";
     s6_score = 9;
-    s6_findings = "Etiquetas protegidas por servidor seguro. La arquitectura DNS y respuesta HTTP están activas.";
+    s6_findings = "No se pudo leer el código de la página para revisar Title y Description. El DNS y la respuesta HTTP sí están activos.";
     s6_needed = "Revisar Title y Description en Google Search Console.";
   } else {
     s6_status = "failed";
@@ -884,10 +917,10 @@ export function displayAuditResults(results) {
         scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-amber-400";
         if (scoreStatus) {
           scoreStatus.className = "mt-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-          scoreStatus.textContent = results.firewallProtected ? "Seguridad Perimetral Activa • Diagnóstico 360°" : "Nivel Medio • Brechas de Crecimiento Detectadas";
+          scoreStatus.textContent = results.firewallProtected ? "Diagnóstico parcial • Código no leído" : "Nivel Medio • Brechas de Crecimiento Detectadas";
         }
         if (scoreAdvice) scoreAdvice.textContent = results.firewallProtected 
-          ? "El sitio cuenta con cortafuegos perimetral. Métricas de DNS, latencia y SSL verificadas al 100%."
+          ? "No se pudo leer el código de la página. DNS, latencia y SSL sí se verificaron; revisa los demás puntos manualmente."
           : "Tiene presencia básica, pero pierde prospectos valiosos por falta de optimización en Maps, WhatsApp o IA.";
       } else {
         scoreVal.className = "text-4xl sm:text-5xl font-black font-mono tracking-tight text-rose-400";

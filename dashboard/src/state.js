@@ -3,6 +3,9 @@
  * Source of truth for constants, default data models, and reactive agency state.
  */
 
+// Enlace de reseñas de Google de la propia agencia (solo para ISAPromoRD, nunca para un cliente)
+export const AGENCY_REVIEW_URL = "https://g.page/r/CeedDHM0DCsWEBI/review";
+
 export const STORAGE_KEYS = {
   CLIENTS: "isapromo_agency_clients_v2",
   PIN: "isapromo_agency_pin_v1",

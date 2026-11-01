@@ -4,7 +4,7 @@
  * Zero-Data-Loss guarantee with retry logic.
  */
 
-import { state, STORAGE_KEYS, SUPABASE_CONFIG, INITIAL_CLIENTS, loadMasterCatalog, resetMasterCatalog } from './state.js';
+import { state, STORAGE_KEYS, SUPABASE_CONFIG, INITIAL_CLIENTS, AGENCY_REVIEW_URL, loadMasterCatalog, resetMasterCatalog } from './state.js';
 
 export let supabaseClient = null;
 
@@ -59,6 +59,13 @@ export function updateCloudSyncBadge(status, text) {
   }
 }
 
+// El enlace de reseñas de la agencia no puede quedar guardado en la ficha de un cliente
+function clientReviewUrl(client) {
+  const url = client.googleReviewUrl || "";
+  const isAgency = client.isAgency || client.id === "agency-isapromord";
+  return url && (isAgency || url !== AGENCY_REVIEW_URL) ? url : undefined;
+}
+
 export function clientToDbRow(client) {
   // Asegurar que fechas vacías sean null para respetar tipos Postgres DATE
   const cleanDate = (d) => (d && typeof d === 'string' && d.trim().length >= 8 ? d.trim() : null);
@@ -89,7 +96,8 @@ export function clientToDbRow(client) {
       setupStatus: isInternal ? 'internal' : (client.setupStatus || 'settled'),
       proposalUrl: client.proposalUrl,
       proposalId: client.proposalId,
-      proposalStatus: client.proposalStatus
+      proposalStatus: client.proposalStatus,
+      googleReviewUrl: clientReviewUrl(client)
     },
     tasks: Array.isArray(client.tasks) ? client.tasks : [],
     payment_history: Array.isArray(client.paymentHistory) ? client.paymentHistory : [],
@@ -136,6 +144,7 @@ export function dbRowToClient(row) {
     proposalUrl: row.optimization_matrix?.proposalUrl || row.proposal_url,
     proposalId: row.optimization_matrix?.proposalId || row.proposal_id,
     proposalStatus: row.optimization_matrix?.proposalStatus || row.proposal_status || 'approved',
+    googleReviewUrl: row.optimization_matrix?.googleReviewUrl,
     tasks: Array.isArray(row.tasks) ? row.tasks : [],
     paymentHistory: Array.isArray(row.payment_history) ? row.payment_history : [],
     uptimeStatus: (row.uptime_status === "checking" ? "online" : row.uptime_status) || "online",

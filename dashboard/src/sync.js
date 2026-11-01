@@ -166,6 +166,35 @@ export function recordDeletedClientId(id) {
   }
 }
 
+// Contratos, propuestas y movimientos borrados: se comparten en la bóveda para que
+// otra computadora con una copia vieja no los vuelva a subir
+const VAULT_DELETE_KINDS = ["contracts", "proposals", "ledger"];
+
+function getDeletedVaultIds() {
+  const ids = readJsonKey(STORAGE_KEYS.DELETED_VAULT_IDS) || {};
+  return Object.fromEntries(VAULT_DELETE_KINDS.map(k => [k, Array.isArray(ids[k]) ? ids[k] : []]));
+}
+
+function saveDeletedVaultIds(ids) {
+  localStorage.setItem(STORAGE_KEYS.DELETED_VAULT_IDS, JSON.stringify(
+    Object.fromEntries(VAULT_DELETE_KINDS.map(k => [k, ids[k].slice(-500)]))
+  ));
+}
+
+export function recordDeletedVaultItem(kind, id) {
+  if (!id || !VAULT_DELETE_KINDS.includes(kind)) return;
+  const ids = getDeletedVaultIds();
+  if (!ids[kind].includes(id)) ids[kind].push(id);
+  saveDeletedVaultIds(ids);
+}
+
+export function forgetDeletedVaultItem(kind, id) {
+  if (!id || !VAULT_DELETE_KINDS.includes(kind)) return;
+  const ids = getDeletedVaultIds();
+  ids[kind] = ids[kind].filter(x => x !== id);
+  saveDeletedVaultIds(ids);
+}
+
 function normalizeUrlKey(url) {
   if (!url) return "";
   try {
@@ -430,6 +459,7 @@ export async function syncVaultToCloud() {
       ? state.accountingLedger
       : JSON.parse(localStorage.getItem(STORAGE_KEYS.ACCOUNTING) || "[]");
     const referrals = JSON.parse(localStorage.getItem(STORAGE_KEYS.REFERRALS) || "[]");
+    const deletedIds = getDeletedVaultIds();
 
     const proposalPayloads = {};
     proposals.forEach(p => {
@@ -455,6 +485,7 @@ export async function syncVaultToCloud() {
         proposalPayloads,
         accountingLedger,
         referrals,
+        deletedIds,
         bankDetails: localStorage.getItem(STORAGE_KEYS.BANK) || null,
         // Catálogo de precios, tareas de la agencia e historial de auditorías: iguales en todos los equipos
         masterCatalog: readJsonKey(STORAGE_KEYS.MASTER_CATALOG) || { reset: true },
@@ -481,11 +512,30 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
   if (!remoteVaultMatrix || !remoteVaultMatrix.isSystemVault) return false;
   let hasChanges = false;
 
+  // 0. Unir la lista de borrados (local + nube) y descartar esos elementos de ambos lados
+  const deleted = getDeletedVaultIds();
+  const remoteDeleted = remoteVaultMatrix.deletedIds || {};
+  VAULT_DELETE_KINDS.forEach(k => {
+    if (Array.isArray(remoteDeleted[k])) deleted[k] = Array.from(new Set([...deleted[k], ...remoteDeleted[k]]));
+  });
+  saveDeletedVaultIds(deleted);
+  const notDeleted = kind => item => item && !deleted[kind].includes(item.id);
+  const dropDeleted = (key, kind) => {
+    const list = JSON.parse(localStorage.getItem(key) || "[]");
+    const kept = list.filter(notDeleted(kind));
+    if (kept.length !== list.length) localStorage.setItem(key, JSON.stringify(kept));
+  };
+  dropDeleted(STORAGE_KEYS.CONTRACTS, "contracts");
+  dropDeleted(STORAGE_KEYS.PROPOSALS, "proposals");
+  dropDeleted(STORAGE_KEYS.ACCOUNTING, "ledger");
+  if (Array.isArray(state.accountingLedger)) state.accountingLedger = state.accountingLedger.filter(notDeleted("ledger"));
+  deleted.proposals.forEach(id => localStorage.removeItem(`proposal_${id}`));
+
   // 1. Merge Contracts (prioritize signed status & signature data from remote client portal)
   if (Array.isArray(remoteVaultMatrix.contracts)) {
     const localContracts = JSON.parse(localStorage.getItem(STORAGE_KEYS.CONTRACTS) || "[]");
     const contractMap = new Map();
-    remoteVaultMatrix.contracts.forEach(rc => { if (rc && rc.id) contractMap.set(rc.id, rc); });
+    remoteVaultMatrix.contracts.filter(notDeleted("contracts")).forEach(rc => { if (rc && rc.id) contractMap.set(rc.id, rc); });
     localContracts.forEach(lc => {
       if (!lc || !lc.id) return;
       if (contractMap.has(lc.id)) {
@@ -510,7 +560,7 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
   // 2. Merge Proposals & Proposal Payloads (prioritize approved status from remote client portal)
   if (remoteVaultMatrix.proposalPayloads && typeof remoteVaultMatrix.proposalPayloads === 'object') {
     Object.entries(remoteVaultMatrix.proposalPayloads).forEach(([propId, payload]) => {
-      if (propId && payload) {
+      if (propId && payload && !deleted.proposals.includes(propId)) {
         localStorage.setItem(`proposal_${propId}`, JSON.stringify(payload));
       }
     });
@@ -519,7 +569,7 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
   if (Array.isArray(remoteVaultMatrix.proposals)) {
     const localProposals = JSON.parse(localStorage.getItem(STORAGE_KEYS.PROPOSALS) || "[]");
     const propMap = new Map();
-    remoteVaultMatrix.proposals.forEach(rp => { if (rp && rp.id) propMap.set(rp.id, rp); });
+    remoteVaultMatrix.proposals.filter(notDeleted("proposals")).forEach(rp => { if (rp && rp.id) propMap.set(rp.id, rp); });
     localProposals.forEach(lp => {
       if (!lp || !lp.id) return;
       if (propMap.has(lp.id)) {
@@ -546,7 +596,7 @@ function mergeSystemVaultFromRemote(remoteVaultMatrix) {
       ? state.accountingLedger
       : JSON.parse(localStorage.getItem(STORAGE_KEYS.ACCOUNTING) || "[]");
     const txMap = new Map();
-    remoteVaultMatrix.accountingLedger.forEach(rt => { if (rt && rt.id) txMap.set(rt.id, rt); });
+    remoteVaultMatrix.accountingLedger.filter(notDeleted("ledger")).forEach(rt => { if (rt && rt.id) txMap.set(rt.id, rt); });
     localLedger.forEach(lt => { if (lt && lt.id) txMap.set(lt.id, lt); });
     const mergedLedger = Array.from(txMap.values()).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
     state.accountingLedger = mergedLedger;

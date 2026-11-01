@@ -7,7 +7,7 @@
 
 import { state, STORAGE_KEYS } from './state.js';
 import { showToast, escapeHtml } from './ui.js';
-import { syncVaultToCloud } from './sync.js';
+import { syncVaultToCloud, recordDeletedVaultItem, forgetDeletedVaultItem } from './sync.js';
 import { addAccountingTransaction } from './accounting.js';
 
 const pendingContractDeletions = new Map();
@@ -604,6 +604,7 @@ export function deleteContractWithUndo(contractId) {
 
   const [removed] = list.splice(index, 1);
   localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(list));
+  recordDeletedVaultItem("contracts", contractId);
   syncVaultToCloud();
 
   if (state.currentDrilldownClientId) {
@@ -654,6 +655,7 @@ export function undoContractDelete(contractId) {
   const list = getStoredContracts();
   list.unshift(item);
   localStorage.setItem(STORAGE_KEYS.CONTRACTS, JSON.stringify(list));
+  forgetDeletedVaultItem("contracts", contractId);
   syncVaultToCloud();
 
   if (state.currentDrilldownClientId) {

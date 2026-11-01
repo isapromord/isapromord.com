@@ -4,7 +4,7 @@
  * (Banco Popular Dominicano & Banreservas / BHD), transaction exports, and revenue forecasting.
  */
 import { state, STORAGE_KEYS, INITIAL_ACCOUNTING_LEDGER, DEFAULT_BANK_DETAILS } from './state.js';
-import { saveClientsToStorage, syncVaultToCloud } from './sync.js';
+import { saveClientsToStorage, syncVaultToCloud, recordDeletedVaultItem } from './sync.js';
 import { showToast, escapeHtml, getBillingStatus, updateKpis, calculateFinancialSummary } from './ui.js';
 
 export const forecastState = {
@@ -627,6 +627,7 @@ export function deleteLedgerTransaction(txId) {
 
   if (confirm(`¿Eliminar la transacción "${tx.concept}" (RD$ ${Number(tx.amount).toLocaleString('es-DO')})?`)) {
     state.accountingLedger = state.accountingLedger.filter(t => t.id !== txId);
+    recordDeletedVaultItem("ledger", txId);
     saveAccountingLedger();
     updateAccountingKpis();
     renderAccountingBankBalances();

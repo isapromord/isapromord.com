@@ -15,6 +15,7 @@ export const STORAGE_KEYS = {
   VIEW_MODE: "isapromo_view_mode",
   THEME: "isapromo_theme",
   DELETED_CLIENT_IDS: "isapromo_deleted_client_ids_v1",
+  DELETED_VAULT_IDS: "isapromo_deleted_vault_ids_v1",
   MASTER_CATALOG: "isapromo_master_catalog_v1",
   REFERRALS: "isapromo_agency_referral_partners_v1",
   HQ_TASKS: "isapromo_hq_tasks_v2",

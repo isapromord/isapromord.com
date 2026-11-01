@@ -13,7 +13,7 @@ import {
   saveMasterCatalog,
   resetMasterCatalog
 } from './state.js';
-import { supabaseClient, syncVaultToCloud } from './sync.js';
+import { syncVaultToCloud, recordDeletedVaultItem, forgetDeletedVaultItem } from './sync.js';
 import { showToast, escapeHtml } from './ui.js';
 
 // Argumento seguro para atributos onclick="fn(...)"
@@ -746,17 +746,6 @@ export function handleGenerateProposal(e) {
     deliverablesCount: (isComparison ? basePkg.deliverables.length : 0) + selectedServices.length
   });
 
-  saveProposalToCloud({
-    id: proposalPayload.id,
-    clientName: clientName,
-    category: category,
-    onetime: isComparison ? pkgSetup : alacarteSetup,
-    monthly: isComparison ? pkgMonthly : alacarteMonthly,
-    url: fullUrl,
-    payload: proposalPayload,
-    createdAt: nowIso
-  });
-
   const genLinkInput = document.getElementById("generatedLinkInput");
   if (genLinkInput) genLinkInput.value = fullUrl;
   const resClient = document.getElementById("modalResClient");
@@ -1003,6 +992,7 @@ export function deleteProposalWithUndo(propId) {
 
   const [removedProp] = list.splice(index, 1);
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
+  recordDeletedVaultItem("proposals", propId);
   syncVaultToCloud();
   renderProposalsHistory();
 
@@ -1061,6 +1051,7 @@ export function undoProposalDelete(propId) {
   const list = getStoredProposals();
   list.splice(pending.index, 0, pending.item);
   localStorage.setItem(STORAGE_KEYS.proposals, JSON.stringify(list));
+  forgetDeletedVaultItem("proposals", propId);
   syncVaultToCloud();
 
   renderProposalsHistory();
@@ -1079,42 +1070,6 @@ export async function finalizeProposalDelete(propId) {
   pendingProposalDeletions.delete(propId);
 
   localStorage.removeItem(`proposal_${propId}`);
-  await deleteProposalFromCloud(propId);
-}
-
-async function deleteProposalFromCloud(propId) {
-  if (!supabaseClient) return;
-  try {
-    const { error } = await supabaseClient
-      .from("agency_proposals")
-      .delete()
-      .eq("id", propId);
-    if (error) console.warn("Supabase proposal delete notice:", error.message);
-  } catch (err) {
-    console.warn("deleteProposalFromCloud exception:", err);
-  }
-}
-
-async function saveProposalToCloud(prop) {
-  if (!supabaseClient) return;
-  try {
-    const row = {
-      id: prop.id,
-      client_name: prop.clientName,
-      category: prop.category,
-      onetime: prop.onetime,
-      monthly: prop.monthly,
-      url: prop.url,
-      payload: prop.payload,
-      created_at: prop.createdAt || new Date().toISOString()
-    };
-    const { error } = await supabaseClient
-      .from("agency_proposals")
-      .upsert(row, { onConflict: "id" });
-    if (error) console.warn("Supabase proposal save notice:", error.message);
-  } catch (err) {
-    console.warn("saveProposalToCloud exception:", err);
-  }
 }
 
 export function openProposalForClient(clientId, forceNew = false) {

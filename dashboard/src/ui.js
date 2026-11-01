@@ -461,8 +461,7 @@ export function renderViralFootersWidget() {
 
   const kpiTag = document.getElementById('kpiReferralActiveTag');
   if (kpiTag) {
-    const pct = clients.length > 0 ? Math.round((activeWithUrl.length / clients.length) * 100) : 100;
-    kpiTag.textContent = `${pct}% Con Web`;
+    kpiTag.textContent = `de ${clients.length} en cartera`;
   }
 }
 

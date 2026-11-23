@@ -24,3 +24,6 @@ Casos de éxito documentados, con velocidad medida antes y después (URL: https:
 - Esquema 50/50: 50% de anticipo para iniciar y 50% contra entrega en producción, con informe de velocidad de Google Lighthouse.
 - Facturación Formal con NCF (B01) para deducción fiscal ante la DGII.
 - Canales de pago locales: Banco Popular Dominicano, Banreservas, Banco BHD y tarjetas vía Stripe.
+
+## Guías Técnicas Citables
+- Cuánto cuesta una página web profesional en República Dominicana (2026), Google Maps y GEO para ChatGPT (por Howard Luna): https://isapromord.github.io/isapromord.com/guia-diseno-web-google-maps-rd/

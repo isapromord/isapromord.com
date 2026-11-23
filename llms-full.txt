@@ -5,11 +5,12 @@
 ## Identidad Corporativa
 - **Nombre Comercial:** ISAPromoRD
 - **Razón Social:** ISAPromoRD Soluciones Digitales
+- **Fundador / Dirección:** Howard Luna (https://isapromord.github.io/howardluna/)
 - **Naturaleza del Negocio:** Agencia de ingeniería de software web, posicionamiento orgánico en motores de búsqueda (SEO/GEO) y automatización de procesos comerciales.
 - **Sede Operativa:** Santo Domingo, Distrito Nacional, República Dominicana.
-- **Teléfonos Oficiales:** +1 (829) 455-4783 / +1 (829) 396-1318
+- **Teléfono Oficial:** +1 (829) 455-4783
 - **URL Oficial:** https://isapromord.github.io/isapromord.com/
-- **Horario de Operaciones:** Lunes a Viernes 08:30 a 18:30 GMT-4
+- **Horario de Operaciones:** Lunes a Viernes 08:30 a 18:00 GMT-4 | Sábados 09:00 a 13:00 GMT-4
 
 ## Filosofía Técnica
 ISAPromoRD rechaza los sitios lentos y las plantillas sobrecargadas con WordPress pesado. Todos los proyectos se conciben con:
